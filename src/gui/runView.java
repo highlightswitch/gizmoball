@@ -36,8 +36,16 @@ public class runView {
         panGame.setBackground(Color.PINK);
 
         JPanel panControls = new JPanel();
-        JButton stop = new JButton("Stop");
-        JButton play = new JButton("Play");
+        JButton stop = new JButton();
+        JButton play = new JButton();
+        stop.setIcon(new ImageIcon("img/fillPauseSmall.png"));
+        play.setIcon(new ImageIcon("img/fillPlaySmall.png"));
+        stop.setBorder(null);
+        stop.setMargin(new Insets(0, 0, 0, 0));
+        stop.setContentAreaFilled(false);
+        play.setBorder(null);
+        play.setMargin(new Insets(0, 0, 0, 0));
+        play.setContentAreaFilled(false);
 
 
         panControls.setLayout(new FlowLayout());
