@@ -6,14 +6,14 @@ import physics.LineSegment;
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
  */
 
-public class VerticalLine {
+public class HorizontalLine {
 
 	private int xpos;
 	private int ypos;
 	private int width;
 	private LineSegment ls;
 
-	public VerticalLine(int x, int y, int w) {
+	public HorizontalLine(int x, int y, int w) {
 		xpos = x;
 		ypos = y;
 		width = w;

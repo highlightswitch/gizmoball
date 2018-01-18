@@ -11,8 +11,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import model.Ball;
+import model.HorizontalLine;
 import model.Model;
-import model.VerticalLine;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
@@ -45,7 +45,7 @@ public  class Board extends JPanel implements Observer {
 		Graphics2D g2 = (Graphics2D) g;
 		
 		// Draw all the vertical lines
-		for (VerticalLine vl : gm.getLines()) {
+		for (HorizontalLine vl : gm.getLines()) {
 			g2.fillRect(vl.getX(), vl.getY(), vl.getWidth(), 1);
 		}
 		
