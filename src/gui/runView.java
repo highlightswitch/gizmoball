@@ -33,6 +33,24 @@ public class runView {
         top.add(mView);
 
         panGame = new JPanel();
+        panGame.setBackground(Color.PINK);
+
+        JPanel panControls = new JPanel();
+        JButton stop = new JButton("Stop");
+        JButton play = new JButton("Play");
+
+
+        panControls.setLayout(new FlowLayout());
+        panControls.add(stop);
+        panControls.add(play);
+        panControls.setOpaque(false);
+
+        JPanel panGrid = new JPanel();
+        panGrid.setOpaque(false);
+
+        panGame.setLayout(new BorderLayout());
+        panGame.add(panGrid, BorderLayout.CENTER);
+        panGame.add(panControls, BorderLayout.SOUTH);
 
         frMain.setContentPane(panGame);
         frMain.setJMenuBar(top);
