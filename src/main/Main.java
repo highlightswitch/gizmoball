@@ -2,6 +2,7 @@ package main;
 
 import javax.swing.UIManager;
 
+import model.Flipper;
 import model.HorizontalLine;
 import model.Model;
 import view.RunGui;
@@ -24,11 +25,13 @@ public class Main {
 
 		model.setBallSpeed(200, 200);
 
-		// Vertical line at (100,100), width 300
-		model.addLine(new HorizontalLine(100, 100, 300));
-		model.addLine(new HorizontalLine(100, 200, 300));
-		model.addLine(new HorizontalLine(100, 300, 300));
-		model.addLine(new HorizontalLine(100, 400, 300));
+//		// Vertical line at (100,100), width 300
+//		model.addLine(new HorizontalLine(100, 100, 300));
+//		model.addLine(new HorizontalLine(100, 200, 300));
+//		model.addLine(new HorizontalLine(100, 300, 300));
+//		model.addLine(new HorizontalLine(100, 400, 300));
+
+		model.addFlipper(new Flipper(200,200, true));
 
 		RunGui gui = new RunGui(model);
 		gui.createAndShowGUI();

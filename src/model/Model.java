@@ -18,6 +18,8 @@ public class Model extends Observable {
 	private Ball ball;
 	private Walls gws;
 
+	private ArrayList<Flipper> flippers;
+
 	public Model() {
 
 		// Ball position (25, 25) in pixels. Ball velocity (100, 100) pixels per tick
@@ -28,6 +30,24 @@ public class Model extends Observable {
 
 		// Lines added in Main
 		lines = new ArrayList<HorizontalLine>();
+
+		flippers = new ArrayList<>();
+	}
+
+	public void flipPressed(){
+        for (Flipper f: flippers) {
+            f.flipKeyPressed();
+        }
+    }
+
+	public void moveFlippers(){
+		for (Flipper f: flippers) {
+			f.moveFlipper();
+		}
+
+        // Notify observers ... redraw updated view
+        this.setChanged();
+        this.notifyObservers();
 	}
 
 	public void moveBall() {
@@ -111,6 +131,15 @@ public class Model extends Observable {
 
 	public void addLine(HorizontalLine l) {
 		lines.add(l);
+	}
+
+
+	public ArrayList<Flipper> getFlippers() {
+		return flippers;
+	}
+
+	public void addFlipper(Flipper f) {
+		flippers.add(f);
 	}
 
 	public void setBallSpeed(int x, int y) {

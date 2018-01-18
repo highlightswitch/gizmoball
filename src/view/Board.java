@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import model.Ball;
+import model.Flipper;
 import model.HorizontalLine;
 import model.Model;
 
@@ -44,10 +45,14 @@ public  class Board extends JPanel implements Observer {
 
 		Graphics2D g2 = (Graphics2D) g;
 		
-		// Draw all the vertical lines
-		for (HorizontalLine vl : gm.getLines()) {
-			g2.fillRect(vl.getX(), vl.getY(), vl.getWidth(), 1);
-		}
+//		// Draw all the vertical lines
+//		for (HorizontalLine vl : gm.getLines()) {
+//			g2.fillRect(vl.getX(), vl.getY(), vl.getWidth(), 1);
+//		}
+
+		for (Flipper f : gm.getFlippers()){
+		    g2.draw(f.getShape());
+        }
 		
 		Ball b = gm.getBall();
 		if (b != null) {
