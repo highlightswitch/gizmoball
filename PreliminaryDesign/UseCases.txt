@@ -29,6 +29,7 @@ Alternative Course of Events:
 Postconditions:
 	Ball is reset into original position.
 
+
 Name: 
 	Place a gizmo
 Preconditions: 
@@ -69,7 +70,7 @@ Triggers:
 	User clicks on edit button and the gizmo in either order OR User right clicks on gizmo.
 Basic Course of Events:
 	1. Menu pops up that allows user to edit the trigger, action, position (in coords) or colour of the gizmo.
-	2. User makes edits and clicks Ok.
+	2. User makes edits and clicks OK.
 	3. Menu closes and edits are made.
 Alternative Course of Events:
 	2. User clicks Cancel.
@@ -105,6 +106,21 @@ Postconditions:
 
 
 Name:
+	Rotate a gizmo
+Preconditions:
+	Build view is open
+	There exists one gizmo on the board.
+Triggers:
+	User clicks on rotate button and the gizmo in either order
+Basic Course of Events:
+	1. Selected gizmo rotates 90 degrees clock-wise.
+Alternative Course of Events:
+	-
+Postconditions:
+	Selected gizmo is rotated
+
+
+Name:
 	Set key for flipper trigger
 Preconditions:
 	Build view is open
@@ -116,7 +132,7 @@ Basic Course of Events:
 	2. User selects keyboard under the trigger field.
 	3. User is advised to press the key they wish to use as the trigger
 	4. User presses key.
-	5. User clicks Ok.
+	5. User clicks OK.
 	6. Menu closes and edits are made.
 Alternative Course of Events:
 	2. User clicks Cancel.
@@ -135,12 +151,12 @@ Preconditions:
 Triggers:
 	User clicks File > Save
 Basic Course of Events:
-	1. Save dialog is displayed.
+	1. Save dialogue is displayed.
 	2. User chooses where to save file and clicks Save
-	3. File is written to disk and save dialog closes.
+	3. File is written to disk and save dialogue closes.
 Alternative Course of Events:
 	2. User clicks cancel
-	3. Save dialog closes.
+	3. Save dialogue closes.
 Postconditions:
 	File is written to disk.
 
@@ -151,7 +167,7 @@ Preconditions:
 Triggers:
 	User clicks File > Load
 Basic Course of Events:
-	1. File chooser dialog is displayed.
+	1. File chooser dialogue is displayed.
 	2. User chooses which file to load and clicks Load.
 	3. File chooser is closed and file is loaded into application and tiles are generated.
 Alternative Course of Events:
@@ -164,3 +180,41 @@ Alternative Course of Events:
 Postconditions:
 	Tiles are generated on the board according to the save file.
 
+
+Name:
+	Reset board
+Preconditions:
+	Build view is open.
+Triggers:
+	User clicks File > 'Reset Board'
+Basic Course of Events:
+	1. If board is not saved
+	2. 		'Are you sure?' alert is shown.
+	3.		User clicks Yes.
+	4.		Alert closes.
+	5. All gizmos are removed from the board.
+Alternative Course of Events:
+	3. 		User clicks no
+	4. 		Alert closes.
+	5.		All remains how it was originally.
+Postconditions:
+	Board is cleared of all gizmos.
+
+
+Name:
+	Quit game
+Preconditions:
+	-
+Triggers:
+	User clicks File > Quit
+Basic Course of Events:
+	1. If board is not saved
+	2. 		'Are you sure?' alert is shown.
+	3.		User clicks Yes.
+	4.		Alert closes.
+	5. Application closes.
+Alternative Course of Events:
+	3. 		User clicks no.
+	4. 		Alert closes.
+	5. 		All remains how it was originally.
+Postconditions:
