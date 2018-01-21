@@ -1,8 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 
+import model.gizmo.*;
 import physics.Circle;
 import physics.Geometry;
 import physics.LineSegment;
@@ -14,13 +17,27 @@ import physics.Vect;
 
 public class Model extends Observable {
 
+    private final int width = 20;
+    private final int height = 20;
+
+    private Tile[][] tiles;
+
 	private ArrayList<HorizontalLine> lines;
 	private Ball ball;
 	private Walls gws;
 
-	private ArrayList<Flipper> flippers;
+	private Map<Integer, Tile> keyboardActionMap;
+	private ArrayList<Tickable> tickable;
 
-	public Model() {
+    public Model() {
+
+        tiles = new Tile[width][height];
+
+	    for(int x = 0; x < width; x++){
+            for(int y = 0; y < height; y++){
+                tiles[x][y] = new Tile(x,y);
+            }
+        }
 
 		// Ball position (25, 25) in pixels. Ball velocity (100, 100) pixels per tick
 		ball = new Ball(25, 25, 100, 100);
@@ -31,19 +48,65 @@ public class Model extends Observable {
 		// Lines added in Main
 		lines = new ArrayList<HorizontalLine>();
 
-		flippers = new ArrayList<>();
+		tickable = new ArrayList<>();
+
 	}
 
-	public void flipPressed(){
-        for (Flipper f: flippers) {
-            f.flipKeyPressed();
-        }
+    public void setUpActionMap() {
+        keyboardActionMap = new HashMap<>();
+        keyboardActionMap.put(-1, tiles[10][10]);
     }
 
-	public void moveFlippers(){
-		for (Flipper f: flippers) {
-			f.moveFlipper();
-		}
+    public Tile getTileAt(int x, int y){
+	    return tiles[x][y];
+    }
+
+    /**
+     * This returns the tile under the pixel coordinates. eg tile (3,5) is under the coords (3.25, 5.89).
+     * This can be used for learning where the mouse was clicked.
+     * @param xPos
+     * @param yPos
+     * @return
+     */
+    public Tile getTileAt(double xPos, double yPos){
+	    return getTileAt((int) xPos, (int) yPos);
+    }
+
+	public ArrayList<Drawable> getDrawableTiles(){
+        ArrayList<Drawable> list = new ArrayList<>();
+        for(int x = 0; x < width; x++)
+            for(int y = 0; y < height; y++)
+                list.add(tiles[x][y]);
+        return list;
+    }
+
+    public void placeGizmo(GizmoType gizmoType, Tile tile){
+	    switch(gizmoType){
+	        case FLIPPER:
+	            Flipper flipper = new Flipper(null, true);
+	            tile.placeGizmo(flipper);
+	            tickable.add(flipper);
+                break;
+            default:
+                System.out.println("Looking for gizmo that does not exist");
+                break;
+        }
+
+        // Notify observers ... redraw updated view
+        this.setChanged();
+        this.notifyObservers();
+
+    }
+
+	public void flipPressed(){
+        keyboardActionMap.get(-1).doAction();
+    }
+
+	public void tick(){
+
+	    for(Tickable t : tickable){
+	        t.tick();
+        }
 
         // Notify observers ... redraw updated view
         this.setChanged();
@@ -131,15 +194,6 @@ public class Model extends Observable {
 
 	public void addLine(HorizontalLine l) {
 		lines.add(l);
-	}
-
-
-	public ArrayList<Flipper> getFlippers() {
-		return flippers;
-	}
-
-	public void addFlipper(Flipper f) {
-		flippers.add(f);
 	}
 
 	public void setBallSpeed(int x, int y) {

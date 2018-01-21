@@ -1,4 +1,4 @@
-package model;
+package model.gizmo;
 
 import java.awt.Color;
 
