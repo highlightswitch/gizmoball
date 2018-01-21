@@ -12,7 +12,7 @@ public class run {
     public static void main(String[] args){
         //open running view by default then user can change to build view
         runView view = new runView();
-        buildView view2 = new buildView();
+        buildView view2 = new buildView(frMain);
 
         top = new JMenuBar();
         mFile = new JMenu("File");
