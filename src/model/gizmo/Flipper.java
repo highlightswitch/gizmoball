@@ -1,10 +1,7 @@
 package model.gizmo;
 
 import model.GameObject;
-import physics.Angle;
-import physics.Geometry;
-import physics.LineSegment;
-import physics.Vect;
+import physics.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -40,20 +37,20 @@ public class Flipper extends Gizmo implements Tickable {
 
     @Override
     public GameObject getPhysicsObject() {
-        LineSegment[] lines = {new LineSegment(0, 0, 0,  length), new LineSegment(width, 0, width, length)};
 
-        lines[0] = Geometry.rotateAround(lines[0], new Vect(0, 0), new Angle(Math.toRadians(-90 * flipPos)));
-        lines[1] = Geometry.rotateAround(lines[1], new Vect(0, 0), new Angle(Math.toRadians(-90 * flipPos)));
+        LineSegment[] lines = {
+                new LineSegment(0, 0, 0,  length),
+                new LineSegment(width, 0, width, length)
+        };
+        Circle[] circles = {
+                new Circle(width/2d,0,width/2d),
+                new Circle(width/2d, length, width/2d)
+        };
 
-        return new GameObject(lines, null);
-    }
+        GameObject gameObject = new GameObject(lines, circles);
+        gameObject.rotateAround(new Vect(width/2d, 0), new Angle(Math.toRadians(-90 * flipPos)));
 
-    public double getLength() {
-        return length;
-    }
-
-    public double getFlipPos() {
-        return flipPos;
+        return gameObject;
     }
 
     @Override

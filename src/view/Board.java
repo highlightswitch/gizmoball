@@ -1,7 +1,9 @@
 package view;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -10,6 +12,8 @@ import javax.swing.JPanel;
 
 import model.*;
 import model.gizmo.Ball;
+import org.w3c.dom.css.Rect;
+import physics.Circle;
 import physics.LineSegment;
 
 /**
@@ -50,6 +54,9 @@ public  class Board extends JPanel implements Observer {
                 for (LineSegment ls : obj.getLines()) {
                     g2.draw(toPixels(ls.toLine2D()));
                 }
+                for (Circle circle : obj.getCircles()) {
+                    g2.draw(toPixels(circle.toEllipse2D()));
+                }
             }
         }
 		
@@ -64,6 +71,7 @@ public  class Board extends JPanel implements Observer {
 	}
 
 
+
     public double toPixels(double coord){
 	    return coord * 20;
     }
@@ -75,6 +83,20 @@ public  class Board extends JPanel implements Observer {
                 toPixels(line.getX2()),
                 toPixels(line.getY2())
         );
+    }
+
+    private Ellipse2D toPixels(Ellipse2D ellipse) {
+
+        Rectangle2D originalBounds = ellipse.getBounds2D();
+        double newX = toPixels(originalBounds.getX());
+        double newY = toPixels(originalBounds.getY());
+        double newWidth = toPixels(originalBounds.getWidth());
+        double newHeight = toPixels(originalBounds.getHeight());
+
+//        System.out.println("original: " + originalBounds);
+//        System.out.println("new:      " + newX + " " + newY + " " + newWidth + " " + newHeight);
+
+        return new Ellipse2D.Double(newX, newY, newWidth, newHeight);
     }
 
     @Override
