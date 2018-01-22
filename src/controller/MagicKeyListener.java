@@ -1,5 +1,7 @@
 package controller;
 
+import model.gizmo.TriggerType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -72,13 +74,13 @@ public class MagicKeyListener
 
         @Override
         public void keyPressed(KeyEvent e) {
-            controller.keyEventTriggered(e.getKeyCode());
+            controller.keyEventTriggered(e.getKeyCode(), TriggerType.KEY_DOWN);
 //            System.out.println(e.getKeyCode() + " DOWN");
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            controller.keyEventTriggered(e.getKeyCode());
+            controller.keyEventTriggered(e.getKeyCode(), TriggerType.KEY_UP);
 //            System.out.println(e.getKeyCode() + " UP");
         }
 

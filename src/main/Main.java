@@ -3,6 +3,7 @@ package main;
 import javax.swing.UIManager;
 
 import model.*;
+import model.gizmo.Flipper;
 import model.gizmo.GizmoType;
 import view.RunGui;
 
@@ -24,8 +25,8 @@ public class Main {
 
 		model.setBallSpeed(200, 200);
 
-		model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(10,10));
-		model.setUpActionMap();
+		Flipper flipper =  (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(10,10));
+		model.setUpActionMap(flipper);
 
 		RunGui gui = new RunGui(model);
 		gui.createAndShowGUI();

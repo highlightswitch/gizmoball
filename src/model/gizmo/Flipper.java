@@ -7,6 +7,7 @@ import physics.LineSegment;
 import physics.Vect;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class Flipper extends Gizmo implements Tickable {
 
@@ -27,14 +28,7 @@ public class Flipper extends Gizmo implements Tickable {
         currentMovement = 0;
     }
 
-    public void flipKeyPressed(){
-        currentMovement = flipSpeed;
-    }
-
     public void moveFlipper(){
-        if(flipPos == 1)
-            currentMovement = -1 * currentMovement;
-
         flipPos = clamp(flipPos + currentMovement, 0, 1);
     }
 
@@ -54,11 +48,6 @@ public class Flipper extends Gizmo implements Tickable {
         return new GameObject(lines, null);
     }
 
-    @Override
-    public void doAction() {
-        flipKeyPressed();
-    }
-
     public double getLength() {
         return length;
     }
@@ -71,4 +60,20 @@ public class Flipper extends Gizmo implements Tickable {
     public void tick() {
         moveFlipper();
     }
+
+    @Override
+    public void keyDown() {
+        currentMovement = flipSpeed;
+    }
+
+    @Override
+    public void keyUp() {
+        currentMovement = -1 * flipSpeed;
+    }
+
+    @Override
+    public void genericTrigger() {
+        //Empty...
+    }
+
 }

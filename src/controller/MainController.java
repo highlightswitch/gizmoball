@@ -1,6 +1,7 @@
 package controller;
 
 import model.Model;
+import model.gizmo.TriggerType;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -42,8 +43,8 @@ public class MainController implements ActionListener {
         return keyListener;
     }
 
-    void keyEventTriggered(int keyCode) {
-        model.keyEventTriggered(keyCode);
+    void keyEventTriggered(int keyCode, TriggerType trigger) {
+        model.keyEventTriggered(keyCode, trigger);
     }
 
     public ActionListener getActionListener() {

@@ -1,5 +1,7 @@
 package controller;
 
+import model.gizmo.TriggerType;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,8 +30,11 @@ public class ButtonActionListener implements ActionListener {
             case "Tick":
                 controller.getModel().moveBall();
                 break;
-            case "Flip":
-                controller.getModel().keyEventTriggered(70);
+            case "Flip Down":
+                controller.getModel().keyEventTriggered(70, TriggerType.KEY_DOWN);
+                break;
+            case "Flip Up":
+                controller.getModel().keyEventTriggered(70, TriggerType.KEY_UP);
                 break;
             case "Quit":
                 System.exit(0);

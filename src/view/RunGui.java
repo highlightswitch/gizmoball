@@ -66,12 +66,19 @@ public class RunGui {
 		button4.setMaximumSize(new Dimension(100, 100));
 		buttons.add(button4);
 
-		JButton button5 = new JButton("Flip");
+		JButton button5 = new JButton("Flip Down");
         button5.setFont(gf);
         button5.addActionListener(controller.getActionListener());
         button5.setFocusable(false);
         button5.setMaximumSize(new Dimension(100, 100));
-		buttons.add(button5);
+        buttons.add(button5);
+
+        JButton button6 = new JButton("Flip Up");
+        button6.setFont(gf);
+        button6.addActionListener(controller.getActionListener());
+        button6.setFocusable(false);
+        button6.setMaximumSize(new Dimension(100, 100));
+        buttons.add(button6);
 
 		JButton button3 = new JButton("Quit");
 		button3.setFont(gf);

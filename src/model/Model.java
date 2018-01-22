@@ -26,7 +26,8 @@ public class Model extends Observable {
 	private Ball ball;
 	private Walls gws;
 
-	private Map<Integer, Tile> keyboardActionMap;
+    private Map<Integer, GizmoEventListener> keyEventTriggerMap;
+
 	private ArrayList<Tickable> tickable;
 
     public Model() {
@@ -52,9 +53,9 @@ public class Model extends Observable {
 
 	}
 
-    public void setUpActionMap() {
-        keyboardActionMap = new HashMap<>();
-        keyboardActionMap.put(70, tiles[10][10]); //Key code 70 = F
+    public void setUpActionMap(Flipper flipper) {
+        keyEventTriggerMap = new HashMap<>();
+        keyEventTriggerMap.put(70, flipper); //Key code 70 = F
     }
 
     public Tile getTileAt(int x, int y){
@@ -80,12 +81,14 @@ public class Model extends Observable {
         return list;
     }
 
-    public void placeGizmo(GizmoType gizmoType, Tile tile){
+    public Gizmo placeGizmo(GizmoType gizmoType, Tile tile){
+        Gizmo gizmo = null;
+
 	    switch(gizmoType){
 	        case FLIPPER:
-	            Flipper flipper = new Flipper(null, true);
-	            tile.placeGizmo(flipper);
-	            tickable.add(flipper);
+	            gizmo = new Flipper(null, true);
+	            tile.placeGizmo(gizmo);
+	            tickable.add((Flipper) gizmo);
                 break;
             default:
                 System.out.println("Looking for gizmo that does not exist");
@@ -96,12 +99,27 @@ public class Model extends Observable {
         this.setChanged();
         this.notifyObservers();
 
+        return gizmo;
+
     }
 
-    public void keyEventTriggered(int keyCode) {
-        if(keyboardActionMap.containsKey(keyCode)){
-            keyboardActionMap.get(keyCode).doAction();
+    public void keyEventTriggered(int keyCode, TriggerType trigger) {
+
+        if(keyEventTriggerMap.containsKey(keyCode)){
+            GizmoEventListener eventListener = keyEventTriggerMap.get(keyCode);
+            switch(trigger){
+                case KEY_DOWN:
+                    eventListener.keyDown();
+                    break;
+                case KEY_UP:
+                    eventListener.keyUp();
+                    break;
+                case GENERIC:
+                    eventListener.genericTrigger();
+                    break;
+            }
         }
+
     }
 
 	public void tick(){

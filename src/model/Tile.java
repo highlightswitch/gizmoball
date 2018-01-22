@@ -43,10 +43,4 @@ public class Tile implements Drawable {
         return null ;
     }
 
-    public void doAction(){
-        if(gizmo != null){
-            gizmo.doAction();
-        }
-    }
-
 }
