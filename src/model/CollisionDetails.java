@@ -8,19 +8,24 @@ import physics.Vect;
 
 public  class CollisionDetails {
 	private double tuc;
-	private Vect velo;
+	private Vect velocity;
 
 	public CollisionDetails(double t, Vect v) {
 		tuc = t;
-		velo = v;
+		velocity = v;
 	}
 
 	public double getTuc() {
 		return tuc;
 	}
 	
-	public Vect getVelo() {
-		return velo;
+	public Vect getVelocity() {
+		return velocity;
+	}
+
+	@Override
+	public String toString(){
+		return "CollisionDetails <" + tuc + "," + velocity + ">";
 	}
 
 }

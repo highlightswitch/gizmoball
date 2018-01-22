@@ -54,7 +54,6 @@ public class MainController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == timer) {
-            model.moveBall();
             model.tick();
         }
     }

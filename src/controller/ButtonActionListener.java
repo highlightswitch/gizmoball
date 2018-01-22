@@ -28,7 +28,7 @@ public class ButtonActionListener implements ActionListener {
                 controller.stopTimer();
                 break;
             case "Tick":
-                controller.getModel().moveBall();
+                controller.getModel().getBall().moveBall();
                 break;
             case "Flip Down":
                 controller.getModel().keyEventTriggered(70, TriggerType.KEY_DOWN);

@@ -25,7 +25,7 @@ public class Flipper extends Gizmo implements Tickable {
         currentMovement = 0;
     }
 
-    public void moveFlipper(){
+    private void moveFlipper(){
         flipPos = clamp(flipPos + currentMovement, 0, 1);
     }
 
@@ -36,7 +36,7 @@ public class Flipper extends Gizmo implements Tickable {
     }
 
     @Override
-    public GameObject getPhysicsObject() {
+    public GameObject getPrototypeGameObject() {
 
         LineSegment[] lines = {
                 new LineSegment(0, 0, 0,  length),

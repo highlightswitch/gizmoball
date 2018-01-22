@@ -1,82 +1,125 @@
 package model.gizmo;
 
-import java.awt.Color;
-
+import model.*;
 import physics.Circle;
 import physics.Vect;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
  */
 
-public class Ball {
+public class Ball extends Gizmo implements Drawable, Tickable {
 
+    private final double newRadius = 0.5;
+
+    private double xPos, yPos;
 	private Vect velocity;
-	private double radius;
-	private double xpos;
-	private double ypos;
-	private Color colour;
 
-	private boolean stopped;
+	private boolean isStopped;
+
+	private Model model;
 
 	// x, y coordinates and x,y velocity
-	public Ball(double x, double y, double xv, double yv) {
-		xpos = x; // Centre coordinates
-		ypos = y;
-		colour = Color.BLUE;
+	public Ball(Model model, Color colour, double xPos, double yPos, double xv, double yv) {
+        super(colour);
+        this.xPos = xPos;
+        this.yPos = yPos;
 		velocity = new Vect(xv, yv);
-		radius = 10;
-		stopped = false;
+		isStopped = false;
+
+		this.model = model;
 	}
 
-	public Vect getVelo() {
-		return velocity;
-	}
 
-	public void setVelo(Vect v) {
-		velocity = v;
-	}
 
-	public double getRadius() {
-		return radius;
-	}
+    public void moveBall() {
 
-	public Circle getCircle() {
-		return new Circle(xpos, ypos, radius);
+        double moveTime = 0.05; // 0.05 = 20 times per second as per Gizmoball
 
-	}
+        if (!isStopped) {
 
-	// Ball specific methods that deal with double precision.
-	public double getExactX() {
-		return xpos;
-	}
+            CollisionDetails cd = timeUntilCollision();
+            double tuc = cd.getTuc();
+            if (tuc > moveTime) {
+                // No collision ...
+                moveBallForTime(moveTime);
+            } else {
+                // We've got a collision in tuc
+                moveBallForTime(tuc);
+                System.out.println(xPos + "-" + yPos);
+                // Post collision velocity ...
+                velocity = cd.getVelocity();
+            }
 
-	public double getExactY() {
-		return ypos;
-	}
+        }
 
-	public void setExactX(double x) {
-		xpos = x;
-	}
+    }
 
-	public void setExactY(double y) {
-		ypos = y;
-	}
+    private void moveBallForTime(double time) {
+        double xVel = velocity.x();
+        double yVel = velocity.y();
+        xPos = xPos + (xVel * time);
+        yPos = yPos + (yVel * time);
+    }
 
-	public void stop() {
-		stopped = true;
-	}
+    private CollisionDetails timeUntilCollision() {
+        // Find Time Until Collision and also, if there is a collision, the new speed vector.
 
-	public void start() {
-		stopped = false;
-	}
+        //Create a list of all collidable game objects in the game.
+        ArrayList<Collidable> collidable = model.getCollidable();
+        ArrayList<GameObject> gameObjects = new ArrayList<>();
+        for(Collidable col : collidable){
+            gameObjects.addAll(col.getGameObjects());
+        }
 
-	public boolean stopped() {
-		return stopped;
-	}
+        // Create a new GameObject, move it to where the ball is, the get the physics.Circle component.
+        Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos }).getCircles()[0];
+        Vect ballVelocity = velocity;
 
-	public Color getColour() {
-		return colour;
-	}
+        //This collision will never happen.
+        CollisionDetails nextCollision = new CollisionDetails(Double.MAX_VALUE, new Vect(0,0));
 
+        for (GameObject go : gameObjects) {
+            CollisionDetails cd = go.timeUntilWallCollision(ballCircle, ballVelocity);
+            if (cd.getTuc() < nextCollision.getTuc()) {
+                nextCollision = cd;
+            }
+        }
+
+        return nextCollision;
+    }
+
+    @Override
+    public GameObject getPrototypeGameObject() {
+        Circle[] circles = { new Circle(0,0, newRadius) };
+        return new GameObject(null, circles);
+    }
+
+    @Override
+    public void keyDown() {
+
+    }
+
+    @Override
+    public void keyUp() {
+
+    }
+
+    @Override
+    public void genericTrigger() {
+
+    }
+
+    @Override
+    public void tick() {
+        moveBall();
+    }
+
+    @Override
+    public GameObject getShapeToDraw() {
+        return getPrototypeGameObject().translate(new double[]{ xPos, yPos });
+    }
 }

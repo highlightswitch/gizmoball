@@ -8,7 +8,7 @@ public abstract class Gizmo implements GizmoEventListener  {
 
     private Color colour;
 
-    public Gizmo(Color colour){
+    Gizmo(Color colour){
 
         this.colour = colour;
     }
@@ -17,6 +17,6 @@ public abstract class Gizmo implements GizmoEventListener  {
         return colour;
     }
 
-    public abstract GameObject getPhysicsObject();
+    public abstract GameObject getPrototypeGameObject();
 
 }

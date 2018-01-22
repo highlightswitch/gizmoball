@@ -23,8 +23,6 @@ public class Main {
 
 		Model model = new Model();
 
-		model.setBallSpeed(200, 200);
-
 		Flipper flipper =  (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(10,10));
 		model.setUpActionMap(flipper);
 
