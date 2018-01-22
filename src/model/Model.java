@@ -54,7 +54,7 @@ public class Model extends Observable {
 
     public void setUpActionMap() {
         keyboardActionMap = new HashMap<>();
-        keyboardActionMap.put(-1, tiles[10][10]);
+        keyboardActionMap.put(70, tiles[10][10]); //Key code 70 = F
     }
 
     public Tile getTileAt(int x, int y){
@@ -98,8 +98,10 @@ public class Model extends Observable {
 
     }
 
-	public void flipPressed(){
-        keyboardActionMap.get(-1).doAction();
+    public void keyEventTriggered(int keyCode) {
+        if(keyboardActionMap.containsKey(keyCode)){
+            keyboardActionMap.get(keyCode).doAction();
+        }
     }
 
 	public void tick(){
@@ -199,4 +201,5 @@ public class Model extends Observable {
 	public void setBallSpeed(int x, int y) {
 		ball.setVelo(new Vect(x, y));
 	}
+
 }
