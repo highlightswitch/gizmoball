@@ -64,7 +64,7 @@ public class GameObject {
 
     }
 
-    public CollisionDetails timeUntilWallCollision(Circle ballCircle, Vect ballVelocity) {
+    public CollisionDetails timeUntilGameObjectCollision(Circle ballCircle, Vect ballVelocity) {
 
         double shortestTime = Double.MAX_VALUE;
         double time;
@@ -78,7 +78,13 @@ public class GameObject {
             }
         }
 
-        //Do same with circles here.
+        for(Circle circle: circles){
+            time = Geometry.timeUntilCircleCollision(circle, ballCircle, ballVelocity);
+            if(time < shortestTime) {
+                shortestTime = time;
+                newVelocity = Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ballVelocity, 1.0);
+            }
+        }
 
         return new CollisionDetails(shortestTime, newVelocity);
 

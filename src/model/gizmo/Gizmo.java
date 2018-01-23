@@ -1,12 +1,14 @@
 package model.gizmo;
 
 import model.GameObject;
+import model.Tile;
 
 import java.awt.*;
 
 public abstract class Gizmo implements GizmoEventListener  {
 
     private Color colour;
+    protected Tile tile;
 
     Gizmo(Color colour){
 
@@ -19,4 +21,7 @@ public abstract class Gizmo implements GizmoEventListener  {
 
     public abstract GameObject getPrototypeGameObject();
 
+    public void setTile(Tile tile) {
+        this.tile = tile;
+    }
 }

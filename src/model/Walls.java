@@ -38,13 +38,9 @@ public class Walls implements Collidable {
 	}
 
 	@Override
-	public ArrayList<GameObject> getGameObjects() {
+	public GameObject getGameObject() {
 	    ArrayList<LineSegment> lineList = getLineSegments();
-	    ArrayList<GameObject> goList = new ArrayList<>();
-
         LineSegment[] lines = lineList.toArray(new LineSegment[lineList.size()]);
-        goList.add(new GameObject(lines, null));
-
-        return goList;
+        return new GameObject(lines, null);
 	}
 }

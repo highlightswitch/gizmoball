@@ -72,7 +72,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         ArrayList<Collidable> collidable = model.getCollidable();
         ArrayList<GameObject> gameObjects = new ArrayList<>();
         for(Collidable col : collidable){
-            gameObjects.addAll(col.getGameObjects());
+            gameObjects.add(col.getGameObject());
         }
 
         // Create a new GameObject, move it to where the ball is, the get the physics.Circle component.
@@ -83,7 +83,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         CollisionDetails nextCollision = new CollisionDetails(Double.MAX_VALUE, new Vect(0,0));
 
         for (GameObject go : gameObjects) {
-            CollisionDetails cd = go.timeUntilWallCollision(ballCircle, ballVelocity);
+            CollisionDetails cd = go.timeUntilGameObjectCollision(ballCircle, ballVelocity);
             if (cd.getTuc() < nextCollision.getTuc()) {
                 nextCollision = cd;
             }

@@ -1,12 +1,14 @@
 package model.gizmo;
 
+import model.Collidable;
 import model.GameObject;
 import physics.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
-public class Flipper extends Gizmo implements Tickable {
+public class Flipper extends Gizmo implements Tickable, Collidable {
 
     private final double flipSpeed = 0.1;
 
@@ -73,4 +75,8 @@ public class Flipper extends Gizmo implements Tickable {
         //Empty...
     }
 
+    @Override
+    public GameObject getGameObject() {
+        return getPrototypeGameObject().translate(tile.getPosition());
+    }
 }

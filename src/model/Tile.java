@@ -22,6 +22,7 @@ public class Tile implements Drawable {
 
     void placeGizmo(Gizmo gizmo){
         this.gizmo = gizmo;
+        this.gizmo.setTile(this);
     }
 
     Gizmo getGizmo() {

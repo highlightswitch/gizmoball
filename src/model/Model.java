@@ -58,6 +58,10 @@ public class Model extends Observable {
         keyEventTriggerMap.put(70, flipper); //Key code 70 = F
     }
 
+    public void addCollidable(Collidable col){
+        collidable.add(col);
+    }
+
     public Tile getTileAt(int x, int y){
 	    return tiles[x][y];
     }
@@ -91,6 +95,7 @@ public class Model extends Observable {
 	            gizmo = new Flipper(null, true);
 	            tile.placeGizmo(gizmo);
 	            tickable.add((Flipper) gizmo);
+                collidable.add((Flipper) gizmo);
                 break;
             default:
                 System.out.println("Looking for gizmo that does not exist");
