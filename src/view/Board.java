@@ -57,15 +57,7 @@ public  class Board extends JPanel implements Observer {
                 }
             }
         }
-		
-//		Ball b = gm.getBall();
-//		if (b != null) {
-//			g2.setColor(b.getColour());
-//			int x = (int) (b.getExactX() - b.getRadius());
-//			int y = (int) (b.getExactY() - b.getRadius());
-//			int width = (int) (2 * b.getRadius());
-//			g2.fillOval(x, y, width, width);
-//		}
+
 	}
 
 

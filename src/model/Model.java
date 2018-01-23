@@ -19,7 +19,6 @@ public class Model extends Observable {
 
     private Tile[][] tiles;
 
-	private ArrayList<HorizontalLine> lines;
 	private Ball ball;
 	private Walls walls;
 
@@ -39,9 +38,6 @@ public class Model extends Observable {
         }
 
 		walls = new Walls(0, 0, 20, 20);
-
-		// Lines added in Main
-		lines = new ArrayList<>();
 
 		tickable = new ArrayList<>();
 
@@ -141,14 +137,6 @@ public class Model extends Observable {
 
     public Ball getBall() {
 		return ball;
-	}
-
-	public ArrayList<HorizontalLine> getLines() {
-		return lines;
-	}
-
-	public void addLine(HorizontalLine l) {
-		lines.add(l);
 	}
 
 }
