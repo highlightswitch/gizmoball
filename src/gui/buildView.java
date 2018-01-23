@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class buildView {
+public class buildView extends gameView {
     JPanel panBuild;
 
      public buildView(JFrame frame) {
@@ -19,11 +19,13 @@ public class buildView {
          JButton rotate = new JButton();
          JButton delete = new JButton();
          JButton edit = new JButton();
+         JButton pointer = new JButton();
 
          add.setIcon(new ImageIcon("img/fillAddSmall.png"));
          rotate.setIcon(new ImageIcon("img/fillRotateSmall.png"));
          delete.setIcon(new ImageIcon("img/fillDeleteSmall.png"));
          edit.setIcon(new ImageIcon("img/fillEditSmall.png"));
+         pointer.setIcon(new ImageIcon("img/fillPointerSmall.png"));
 
          add.setBorder(null);
          add.setMargin(new Insets(0, 0, 0, 0));
@@ -43,10 +45,15 @@ public class buildView {
          edit.setMargin(new Insets(0, 0, 0, 0));
          edit.setContentAreaFilled(false);
 
+         pointer.setBorder(null);
+         pointer.setMargin(new Insets(0, 0, 0, 0));
+         pointer.setContentAreaFilled(false);
+
          panControls.add(add);
          panControls.add(rotate);
          panControls.add(delete);
          panControls.add(edit);
+         panControls.add(pointer);
          panControls.setOpaque(false);
          panControls.setLayout(new FlowLayout());
 
@@ -65,6 +72,8 @@ public class buildView {
          panBuild.add(panControls, BorderLayout.SOUTH);
     }
 
+
+    @Override
     public JPanel getPanel() {
         return panBuild;
     }

@@ -10,9 +10,6 @@ public class run {
     static JMenu mView;
 
     public static void main(String[] args){
-        //open running view by default then user can change to build view
-        runView view = new runView();
-        buildView view2 = new buildView(frMain);
 
         top = new JMenuBar();
         mFile = new JMenu("File");
@@ -34,13 +31,53 @@ public class run {
         top.add(mFile);
         top.add(mView);
 
+        gameView view = new runView();
 
+        drawFrame(view);
+
+    }
+
+    public static void drawFrame(gameView g){
+        //open running view by default then user can change to build view
         frMain = new JFrame("Gizmoball");
-        frMain.setContentPane(view2.getPanel());
+        frMain.setContentPane(g.getPanel());
         frMain.setJMenuBar(top);
         frMain.setVisible(true);
         frMain.setMinimumSize(new Dimension(400,400));
         frMain.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public void extendMenu(){
+        JMenu tools = new JMenu("tools");
+
+        JMenu add = new JMenu("add a gizmo");
+        JMenuItem shape = new JMenuItem("add a shape");
+        JMenuItem ball = new JMenuItem("add a ball");
+        JMenuItem absorber = new JMenuItem("add an absorber");
+
+        add.add(shape);
+        add.add(ball);
+        add.add(absorber);
+
+        JMenuItem rotate = new JMenuItem("rotate");
+        JMenuItem edit = new JMenuItem("edit");
+
+        JMenu settings = new JMenu("settings");
+        JMenuItem gravity = new JMenuItem("change gravity");
+        JMenuItem friction = new JMenuItem("change friction");
+        settings.add(gravity);
+        settings.add(friction);
+
+        JMenuItem delete = new JMenuItem("delete");
+
+        tools.add(add);
+        tools.add(rotate);
+        tools.add(edit);
+        tools.add(delete);
+        tools.addSeparator();
+        tools.add(settings);
+
+        top.add(tools);
 
     }
 }

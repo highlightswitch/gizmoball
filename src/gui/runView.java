@@ -3,7 +3,7 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class runView {
+public class runView extends gameView {
     JPanel panGame;
 
     public runView(){
