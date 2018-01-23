@@ -38,15 +38,12 @@ public class Model extends Observable {
             }
         }
 
-		ball = new Ball(this, Color.black, 5, 5, 10, 10);
-
 		walls = new Walls(0, 0, 20, 20);
 
 		// Lines added in Main
 		lines = new ArrayList<>();
 
 		tickable = new ArrayList<>();
-		tickable.add(ball);
 
 		collidable = new ArrayList<>();
 		collidable.add(walls);
@@ -56,10 +53,6 @@ public class Model extends Observable {
     public void setUpActionMap(Flipper flipper) {
         keyEventTriggerMap = new HashMap<>();
         keyEventTriggerMap.put(70, flipper); //Key code 70 = F
-    }
-
-    public void addCollidable(Collidable col){
-        collidable.add(col);
     }
 
     public Tile getTileAt(int x, int y){
@@ -97,8 +90,10 @@ public class Model extends Observable {
 	            tickable.add((Flipper) gizmo);
                 collidable.add((Flipper) gizmo);
                 break;
-            default:
-                System.out.println("Looking for gizmo that does not exist");
+            case BALL:
+                gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 10, 10);
+                ball = (Ball) gizmo;
+                tickable.add((Ball) gizmo);
                 break;
         }
 

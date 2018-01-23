@@ -23,6 +23,8 @@ public class Main {
 
 		Model model = new Model();
 
+		model.placeGizmo(GizmoType.BALL, model.getTileAt(5,5));
+
 		Flipper flipper =  (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(10,10));
 		model.setUpActionMap(flipper);
 
