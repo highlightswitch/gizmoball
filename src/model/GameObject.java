@@ -1,8 +1,5 @@
 package model;
 
-<<<<<<< HEAD
-public class GameObject {
-=======
 import physics.*;
 
 /**
@@ -92,5 +89,4 @@ public class GameObject {
         return new CollisionDetails(shortestTime, newVelocity);
 
     }
->>>>>>> origin/mergeModel
 }

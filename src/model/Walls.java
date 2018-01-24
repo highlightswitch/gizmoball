@@ -43,5 +43,4 @@ public class Walls implements Collidable {
         LineSegment[] lines = lineList.toArray(new LineSegment[lineList.size()]);
         return new GameObject(lines, null);
 	}
->>>>>>> origin/mergeModel
 }

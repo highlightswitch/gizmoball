@@ -1,6 +1,6 @@
 package model;
 
-public class CollisionDetails {
+import physics.Vect;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
