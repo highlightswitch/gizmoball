@@ -31,7 +31,8 @@ public  class Board extends JPanel implements Observer {
 		width = w;
 		height = h;
 		gm = m;
-		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		this.setOpaque(false);
+		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 	}
 
 	// Fix onscreen size

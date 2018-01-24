@@ -1,12 +1,14 @@
 package view;
 
+import controller.MainController;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class runView extends gameView {
     JPanel panGame;
 
-    public runView(){
+    public runView(MainController c, Board b){
 
         panGame = new JPanel();
         panGame.setBackground(Color.PINK);
@@ -18,10 +20,15 @@ public class runView extends gameView {
         play.setIcon(new ImageIcon("img/fillPlaySmall.png"));
         stop.setBorder(null);
         stop.setMargin(new Insets(0, 0, 0, 0));
+        stop.addActionListener(c.getActionListener());
         stop.setContentAreaFilled(false);
+        stop.setActionCommand("Stop");
+
         play.setBorder(null);
         play.setMargin(new Insets(0, 0, 0, 0));
         play.setContentAreaFilled(false);
+        play.setActionCommand("Start");
+        play.addActionListener(c.getActionListener());
 
 
         panControls.setLayout(new FlowLayout());
@@ -30,6 +37,7 @@ public class runView extends gameView {
         panControls.setOpaque(false);
 
         JPanel panGrid = new JPanel();
+        panGrid.add(b);
         panGrid.setOpaque(false);
 
         panGame.setLayout(new BorderLayout());

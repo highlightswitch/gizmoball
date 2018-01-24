@@ -1,19 +1,28 @@
 package view;
 
+import controller.MainController;
 import controller.buildViewListener;
 import controller.runViewListener;
+import model.Model;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class gizmoFrame {
-     JFrame frMain;
-     JMenuBar top;
-     JMenu mFile;
-     JMenu mView;
-    JMenu mTools;
+     private JFrame frMain;
+     private JMenuBar top;
+     private JMenu mFile;
+     private JMenu mView;
+     private JMenu mTools;
+     private Model model;
+     private MainController controller;
+     private Board board;
 
-    public gizmoFrame(){
+    public gizmoFrame(Model m){
+        model = m;
+        controller = new MainController(model);
+        board = new Board(500, 500, model);
+
         top = new JMenuBar();
         mFile = new JMenu("File");
         mView = new JMenu("View");
@@ -23,7 +32,7 @@ public class gizmoFrame {
         JMenuItem quit = new JMenuItem("Quit");
 
         JMenuItem run = new JMenuItem("Run View");
-        run.addActionListener(new runViewListener(this));
+        run.addActionListener(new runViewListener(this, board, controller));
 
         JMenuItem build = new JMenuItem("Build View");
         build.addActionListener(new buildViewListener(this));
@@ -38,7 +47,7 @@ public class gizmoFrame {
         top.add(mFile);
         top.add(mView);
 
-        gameView view = new runView();
+        gameView view = new runView(controller, board);
 
         drawFrame(view);
     }
@@ -50,7 +59,7 @@ public class gizmoFrame {
         frMain.setContentPane(g.getPanel());
         frMain.setJMenuBar(top);
         frMain.setVisible(true);
-        frMain.setMinimumSize(new Dimension(400,400));
+        frMain.setMinimumSize(new Dimension(550,600));
         frMain.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
