@@ -3,10 +3,10 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
-public class newShape {
+public class newShapeDialogue {
     JPanel panDI;
 
-    public newShape(JFrame fr){
+    public newShapeDialogue(JFrame fr){
         String[] actions = {"change colour", "rotate", "connect to other gizmo", "idk"};
         String[] triggers = {"key press", "connect to other gizmo", "connect to self", "idk"};
         JLabel label = new JLabel("shape icon");

@@ -1,6 +1,6 @@
 package controller;
 
-import view.newShape;
+import view.newShapeDialogue;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,6 +14,6 @@ public class newShapeDialogueListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        newShape shapeDi = new newShape(fr);
+        newShapeDialogue shapeDi = new newShapeDialogue(fr);
     }
 }
