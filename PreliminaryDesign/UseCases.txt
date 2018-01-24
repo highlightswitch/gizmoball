@@ -218,3 +218,30 @@ Alternative Course of Events:
 	4. 		Alert closes.
 	5. 		All remains how it was originally.
 Postconditions:
+	Application closes.
+
+Name:
+	Connect two gizmos
+Preconditions:
+	Build view is open.
+	There exists two gizmos.
+Triggers:
+	User clicks the connect button and then two gizmos.
+	User clicks on edit button and a gizmo in either order OR User right clicks on a gizmo. 
+Basic Course of Events:
+	1. User clicks the connect button.
+	2. User clicks the first gizmo
+	3. User moves mouse to next gizmo while connection graphic is displayed between the first gizmo and the mouse.
+	4. User clicks the second gizmo.
+	5. Gizmos highlight for a moment then connection graphic disappears. 
+Alternative Course of Events:
+	1. User clicks on edit button and then the first gizmo OR Use right clicks on the first gizmo.
+	2. Menu pops up that allows user to edit the trigger, action, position (in coords) or colour of the gizmo.
+	3. User selects 'Trigger Another Gizmo' in the action drop down list.
+	4. Menu closes, graphic displays 'Choose gizmo'.
+	5. Go to step 3 in main path.
+
+	4. User right clicks anywhere on the board.
+	5. Connection graphic disappears..
+Postconditions:
+	When the first gizmo is triggered, it triggers the second gizmo.
