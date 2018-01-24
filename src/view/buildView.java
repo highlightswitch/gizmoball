@@ -1,10 +1,9 @@
 package view;
 
 import controller.newShapeDialogueListener;
-import controller.popupListener;
+import controller.addPopupListener;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class buildView extends gameView {
@@ -35,7 +34,7 @@ public class buildView extends gameView {
          add.setContentAreaFilled(false);
 
          drawPopupMenu();
-         add.addMouseListener(new popupListener(allShapes));
+         add.addMouseListener(new addPopupListener(allShapes));
 
          rotate.setBorder(null);
          rotate.setMargin(new Insets(0, 0, 0, 0));

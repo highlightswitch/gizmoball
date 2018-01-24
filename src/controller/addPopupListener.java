@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class popupListener extends MouseAdapter {
+public class addPopupListener extends MouseAdapter {
     JPopupMenu popup;
 
-    public popupListener(JPopupMenu p){
+    public addPopupListener(JPopupMenu p){
         popup = p;
     }
     public void mousePressed(MouseEvent e) {
