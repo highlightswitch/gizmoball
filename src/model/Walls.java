@@ -8,7 +8,7 @@ import physics.LineSegment;
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
  */
 
-public class Walls {
+public class Walls implements Collidable {
 
 	private int xpos1;
 	private int ypos1;
@@ -17,14 +17,14 @@ public class Walls {
 
 	// Walls are the enclosing Rectangle - defined by top left corner and bottom
 	// right
-	public Walls(int x1, int y1, int x2, int y2) {
+    Walls(int x1, int y1, int x2, int y2) {
 		xpos1 = x1;
 		ypos1 = y1;
 		xpos2 = x2;
 		ypos2 = y2;
 	}
 
-	public ArrayList<LineSegment> getLineSegments() {
+	private ArrayList<LineSegment> getLineSegments() {
 		ArrayList<LineSegment> ls = new ArrayList<LineSegment>();
 		LineSegment l1 = new LineSegment(xpos1, ypos1, xpos2, ypos1);
 		LineSegment l2 = new LineSegment(xpos1, ypos1, xpos1, ypos2);
@@ -37,4 +37,10 @@ public class Walls {
 		return ls;
 	}
 
+	@Override
+	public GameObject getGameObject() {
+	    ArrayList<LineSegment> lineList = getLineSegments();
+        LineSegment[] lines = lineList.toArray(new LineSegment[lineList.size()]);
+        return new GameObject(lines, null);
+	}
 }

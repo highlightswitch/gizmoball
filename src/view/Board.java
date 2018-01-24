@@ -1,18 +1,18 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import model.Drawable;
+import model.GameObject;
+import model.Model;
+import physics.Circle;
+import physics.LineSegment;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-
-import model.Ball;
-import model.HorizontalLine;
-import model.Model;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
@@ -21,11 +21,11 @@ import model.Model;
 public  class Board extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
-	protected int width;
-	protected int height;
-	protected Model gm;
+	private int width;
+	private int height;
+	private Model gm;
 
-	public Board(int w, int h, Model m) {
+	Board(int w, int h, Model m) {
 		// Observe changes in Model
 		m.addObserver(this);
 		width = w;
@@ -43,23 +43,53 @@ public  class Board extends JPanel implements Observer {
 		super.paintComponent(g);
 
 		Graphics2D g2 = (Graphics2D) g;
-		
-		// Draw all the vertical lines
-		for (HorizontalLine vl : gm.getLines()) {
-			g2.fillRect(vl.getX(), vl.getY(), vl.getWidth(), 1);
-		}
-		
-		Ball b = gm.getBall();
-		if (b != null) {
-			g2.setColor(b.getColour());
-			int x = (int) (b.getExactX() - b.getRadius());
-			int y = (int) (b.getExactY() - b.getRadius());
-			int width = (int) (2 * b.getRadius());
-			g2.fillOval(x, y, width, width);
-		}
+
+        for(Drawable drawable : gm.getDrawables()){
+            //TODO: This will eventually paint a sprite in position instead of drawing a Shape.
+            GameObject obj = drawable.getShapeToDraw();
+            if(obj != null){
+                //If the object exists, draw it scaled up to pixel size.
+                for (LineSegment ls : obj.getLines()) {
+                    g2.draw(toPixels(ls.toLine2D()));
+                }
+                for (Circle circle : obj.getCircles()) {
+                    g2.draw(toPixels(circle.toEllipse2D()));
+                }
+            }
+        }
+
 	}
 
-	@Override
+
+
+    private double toPixels(double coord){
+	    return coord * 25;
+    }
+
+    private Line2D toPixels(Line2D line){
+        return new Line2D.Double(
+                toPixels(line.getX1()),
+                toPixels(line.getY1()),
+                toPixels(line.getX2()),
+                toPixels(line.getY2())
+        );
+    }
+
+    private Ellipse2D toPixels(Ellipse2D ellipse) {
+
+        Rectangle2D originalBounds = ellipse.getBounds2D();
+        double newX = toPixels(originalBounds.getX());
+        double newY = toPixels(originalBounds.getY());
+        double newWidth = toPixels(originalBounds.getWidth());
+        double newHeight = toPixels(originalBounds.getHeight());
+
+//        System.out.println("original: " + originalBounds);
+//        System.out.println("new:      " + newX + " " + newY + " " + newWidth + " " + newHeight);
+
+        return new Ellipse2D.Double(newX, newY, newWidth, newHeight);
+    }
+
+    @Override
 	public void update(Observable arg0, Object arg1) {
 			repaint();
 		}

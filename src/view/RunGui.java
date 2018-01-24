@@ -5,14 +5,13 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controller.MainController;
 import model.Model;
-import controller.RunListener;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
@@ -22,20 +21,19 @@ public class RunGui {
 
 	private Model model;
 	private JFrame frame;
-	private ActionListener listener;
+	private MainController controller;
 	private Board board;
 
 	public RunGui(Model m) {
 		model = m;
-
-		// RunListener catches all GUI events. In reality might have many listeners.
-		listener = new RunListener(m);
+		controller = new MainController(model);
 	}
 
 	public void createAndShowGUI() {
 
 		frame = new JFrame("Murray's MIT Ball and HorizontalLine Collision Demo");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.addKeyListener(controller.getKeyListener());
 
 		// Board is passed the Model so it can act as Observer
 		board = new Board(500, 500, model);
@@ -49,25 +47,43 @@ public class RunGui {
 
 		JButton button1 = new JButton("Start");
 		button1.setFont(gf);
-		button1.addActionListener(listener);
+		button1.addActionListener(controller.getActionListener());
+		button1.setFocusable(false);
 		button1.setMaximumSize(new Dimension(100, 100));
 		buttons.add(button1);
 
 		JButton button2 = new JButton("Stop");
 		button2.setFont(gf);
-		button2.addActionListener(listener);
+		button2.addActionListener(controller.getActionListener());
+        button2.setFocusable(false);
 		button2.setMaximumSize(new Dimension(100, 100));
 		buttons.add(button2);
 
 		JButton button4 = new JButton("Tick");
 		button4.setFont(gf);
-		button4.addActionListener(listener);
+		button4.addActionListener(controller.getActionListener());
+        button4.setFocusable(false);
 		button4.setMaximumSize(new Dimension(100, 100));
 		buttons.add(button4);
 
+		JButton button5 = new JButton("Flip Down");
+        button5.setFont(gf);
+        button5.addActionListener(controller.getActionListener());
+        button5.setFocusable(false);
+        button5.setMaximumSize(new Dimension(100, 100));
+        buttons.add(button5);
+
+        JButton button6 = new JButton("Flip Up");
+        button6.setFont(gf);
+        button6.addActionListener(controller.getActionListener());
+        button6.setFocusable(false);
+        button6.setMaximumSize(new Dimension(100, 100));
+        buttons.add(button6);
+
 		JButton button3 = new JButton("Quit");
 		button3.setFont(gf);
-		button3.addActionListener(listener);
+		button3.addActionListener(controller.getActionListener());
+        button3.setFocusable(false);
 		button3.setMaximumSize(new Dimension(100, 100));
 		buttons.add(button3);
 
