@@ -1,7 +1,6 @@
 package view;
 
-import controller.newShapeDialogueListener;
-import controller.addPopupListener;
+import controller.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,9 +85,9 @@ public class buildView extends gameView {
         JMenuItem flipperGizmo = new JMenuItem(new ImageIcon("img/fillFlipperSmall.png"));
         JMenuItem ballGizmo = new JMenuItem(new ImageIcon("img/borderBallSmall.png"));
 
-        circleGizmo.addActionListener(new newShapeDialogueListener(frame));
-        triangleGizmo.addActionListener(new newShapeDialogueListener(frame));
-        squareGizmo.addActionListener(new newShapeDialogueListener(frame));
+        circleGizmo.addActionListener(new addCircleListener());
+        triangleGizmo.addActionListener(new addTriangleListener());
+        squareGizmo.addActionListener(new addSquareListener());
 
         circleGizmo.setContentAreaFilled(false);
         triangleGizmo.setContentAreaFilled(false);

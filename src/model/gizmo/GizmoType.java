@@ -1,4 +1,5 @@
 package model.gizmo;
 
-public class GizmoType {
+public enum GizmoType {
+
 }

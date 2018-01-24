@@ -1,4 +1,5 @@
 package model.gizmo;
 
-public class TriggerType {
+public enum  TriggerType {
+    KEY_DOWN, KEY_UP, GENERIC;
 }

@@ -1,4 +1,4 @@
 package model.gizmo;
 
-public class Gizmo {
+public abstract class Gizmo implements GizmoEventListener {
 }

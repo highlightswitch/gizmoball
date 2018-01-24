@@ -1,4 +1,4 @@
 package model.gizmo;
 
-public class GizmoEventListener {
+public interface GizmoEventListener {
 }

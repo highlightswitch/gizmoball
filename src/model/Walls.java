@@ -1,4 +1,4 @@
 package model;
 
-public class Walls {
+public class Walls implements Collidable {
 }

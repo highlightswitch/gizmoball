@@ -1,14 +1,12 @@
 package controller;
 
-import view.newShapeDialogue;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class newShapeDialogueListener implements ActionListener {
+public class editShapeDialogueListener implements ActionListener {
     JFrame fr;
-    public newShapeDialogueListener(JFrame frame){
+    public editShapeDialogueListener(JFrame frame){
         fr = frame;
     }
 

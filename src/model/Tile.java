@@ -1,4 +1,4 @@
 package model;
 
-public class Tile {
+public class Tile implements Drawable{
 }

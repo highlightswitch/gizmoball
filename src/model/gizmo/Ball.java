@@ -1,4 +1,6 @@
 package model.gizmo;
 
-public class Ball {
+import model.Drawable;
+
+public class Ball extends Gizmo implements Drawable, Tickable {
 }

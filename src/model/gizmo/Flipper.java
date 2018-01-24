@@ -1,4 +1,6 @@
 package model.gizmo;
 
-public class Flipper {
+import model.Collidable;
+
+public class Flipper extends  Gizmo implements Tickable, Collidable {
 }

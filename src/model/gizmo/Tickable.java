@@ -1,4 +1,4 @@
 package model.gizmo;
 
-public class Tickable {
+public interface Tickable {
 }
