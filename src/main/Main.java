@@ -25,7 +25,7 @@ public class Main {
 
 		model.placeGizmo(GizmoType.BALL, model.getTileAt(5,5));
 
-		Flipper flipper =  (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(10,10));
+		Flipper flipper =  (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(9,10));
 		model.setUpActionMap(flipper);
 
 		RunGui gui = new RunGui(model);

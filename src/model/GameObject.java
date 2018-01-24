@@ -41,7 +41,7 @@ public class GameObject {
 
         for(int i = 0; i < circles.length; i++){
             double newX = circles[i].getCenter().x() + translation[0];
-            double newY = circles[i].getCenter().y() + translation[0];
+            double newY = circles[i].getCenter().y() + translation[1];
             circles[i] = new Circle(newX, newY, circles[i].getRadius());
         }
 
