@@ -30,6 +30,10 @@ public class runView extends gameView {
         play.setActionCommand("Start");
         play.addActionListener(c.getActionListener());
 
+        //Need to do this so that the key listener works properly.
+        play.setFocusable(false);
+        stop.setFocusable(false);
+
         panControls.setLayout(new FlowLayout());
         panControls.add(stop);
         panControls.add(play);
