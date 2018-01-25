@@ -46,9 +46,16 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
                 new LineSegment(0, 0, 0,  length),
                 new LineSegment(width, 0, width, length)
         };
+
+        // These are the circles at either end of the flipper, and also the circles with
+        // radius 0 to help with collisions at the ends of LineSegments.
         Circle[] circles = {
                 new Circle(width/2d,0,width/2d),
-                new Circle(width/2d, length, width/2d)
+                new Circle(width/2d, length, width/2d),
+                new Circle(0,0, 0),
+                new Circle(width, 0, 0),
+                new Circle(0, length, 0),
+                new Circle(width, length, 0)
         };
 
 
