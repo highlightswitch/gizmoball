@@ -10,7 +10,7 @@ public class buildView extends gameView {
     JPanel panBuild;
     JPopupMenu allShapes;
 
-     public buildView(JFrame fr) {
+     public buildView(JFrame fr, MainController c, Board b) {
          frame = fr;
          panBuild = new JPanel();
          panBuild.setBackground(Color.ORANGE);
@@ -61,13 +61,15 @@ public class buildView extends gameView {
 
          JPanel panGrid = new JPanel(new GridLayout(20,20));
          panGrid.setOpaque(false);
-         panGrid.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+         panGrid.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
 
          for (int i =0; i<(20*20); i++){
              final JLabel label = new JLabel();
              label.setBorder(BorderFactory.createLineBorder(Color.WHITE));
              panGrid.add(label);
          }
+
+         //panGrid.add(b);
 
          panBuild.setLayout(new BorderLayout());
          panBuild.add(panGrid, BorderLayout.CENTER);

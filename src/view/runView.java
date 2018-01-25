@@ -30,7 +30,6 @@ public class runView extends gameView {
         play.setActionCommand("Start");
         play.addActionListener(c.getActionListener());
 
-
         panControls.setLayout(new FlowLayout());
         panControls.add(stop);
         panControls.add(play);

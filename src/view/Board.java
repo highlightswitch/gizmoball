@@ -14,10 +14,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
- */
-
 public  class Board extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
