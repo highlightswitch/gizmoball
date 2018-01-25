@@ -49,7 +49,6 @@ public class Ball extends Gizmo implements Drawable, Tickable {
             } else {
                 // We've got a collision in tuc
                 moveBallForTime(tuc);
-                System.out.println(xPos + "-" + yPos);
                 // Post collision velocity ...
                 velocity = cd.getVelocity();
             }
@@ -95,7 +94,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
     @Override
     public GameObject getPrototypeGameObject() {
         Circle[] circles = { new Circle(0,0, newRadius) };
-        return new GameObject(null, circles);
+        return new MovingGameObject(null, circles, 1.0);
     }
 
     @Override

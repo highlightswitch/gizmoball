@@ -41,6 +41,6 @@ public class Walls implements Collidable {
 	public GameObject getGameObject() {
 	    ArrayList<LineSegment> lineList = getLineSegments();
         LineSegment[] lines = lineList.toArray(new LineSegment[lineList.size()]);
-        return new GameObject(lines, null);
+        return new StaticGameObject(lines, null, 1.0);
 	}
 }

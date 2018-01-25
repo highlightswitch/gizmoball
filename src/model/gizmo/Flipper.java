@@ -2,6 +2,8 @@ package model.gizmo;
 
 import model.Collidable;
 import model.GameObject;
+import model.RotatingGameObject;
+import model.StaticGameObject;
 import physics.*;
 
 import java.awt.*;
@@ -49,7 +51,15 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
                 new Circle(width/2d, length, width/2d)
         };
 
-        GameObject gameObject = new GameObject(lines, circles);
+
+        GameObject gameObject = new StaticGameObject(lines, circles, 0.95);
+
+        //TODO: Get Rotating Game Objects working with the ball.
+//        double angularVelocity = 0.0;
+//        if(flipPos > 0.0 && flipPos < 1.0)
+//            angularVelocity = currentMovement < 0 ? Math.toRadians(180) : -1 * Math.toRadians(180);
+//        GameObject gameObject = new RotatingGameObject(lines, circles, 0.95, new Vect(width/2d, 0), angularVelocity );
+
         gameObject.rotateAround(new Vect(width/2d, 0), new Angle(Math.toRadians(-90 * flipPos)));
 
         return gameObject;

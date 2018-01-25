@@ -6,14 +6,18 @@ import physics.*;
  * A GameObject is a collection of LineSegments and Circles that
  * represent the physical properties an object in the game.
  */
-public class GameObject {
+public abstract class GameObject {
 
     private LineSegment[] lines;
     private Circle[] circles;
 
-    public GameObject(LineSegment[] lines, Circle[] circles){
+    protected double reflectionCoefficient;
+
+    public GameObject(LineSegment[] lines, Circle[] circles, double reflectionCoefficient){
         this.lines = lines == null ? new LineSegment[0] : lines;
         this.circles = circles == null ? new Circle[0] : circles;
+
+        this.reflectionCoefficient = reflectionCoefficient;
     }
 
     public LineSegment[] getLines() {
@@ -71,22 +75,29 @@ public class GameObject {
         Vect newVelocity = new Vect(0, 0);
 
         for(LineSegment line : lines){
-            time = Geometry.timeUntilWallCollision(line, ballCircle, ballVelocity);
+            time = timeUntilLineCollision(line, ballCircle, ballVelocity);
             if(time < shortestTime) {
                 shortestTime = time;
-                newVelocity = Geometry.reflectWall(line, ballVelocity, 1.0);
+                newVelocity = velocityOfLineCollision(line, ballCircle, ballVelocity);
             }
         }
 
         for(Circle circle: circles){
-            time = Geometry.timeUntilCircleCollision(circle, ballCircle, ballVelocity);
+            time = timeUntilCircleCollision(circle, ballCircle, ballVelocity);
             if(time < shortestTime) {
                 shortestTime = time;
-                newVelocity = Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ballVelocity, 1.0);
+                newVelocity = velocityOfCircleCollision(circle, ballCircle, ballVelocity);
             }
         }
 
         return new CollisionDetails(shortestTime, newVelocity);
 
     }
+
+    protected abstract double timeUntilLineCollision(LineSegment line, Circle ballCircle, Vect ballVelocity);
+    protected abstract Vect velocityOfLineCollision(LineSegment line, Circle ballCircle, Vect ballVelocity);
+
+    protected abstract double timeUntilCircleCollision(Circle circle, Circle ballCircle, Vect ballVelocity);
+    protected abstract Vect velocityOfCircleCollision(Circle circle, Circle ballCircle, Vect ballVelocity);
+
 }
