@@ -30,6 +30,7 @@ public class gizmoFrame {
         JMenuItem load = new JMenuItem("Load");
         JMenuItem save = new JMenuItem("Save");
         JMenuItem quit = new JMenuItem("Quit");
+        quit.addActionListener(controller.getActionListener());
 
         JMenuItem run = new JMenuItem("Run View");
         run.addActionListener(new runViewListener(this, board, controller));
@@ -59,7 +60,7 @@ public class gizmoFrame {
         frMain.setContentPane(g.getPanel());
         frMain.setJMenuBar(top);
         frMain.setVisible(true);
-        frMain.setMinimumSize(new Dimension(550,600));
+        frMain.setMinimumSize(new Dimension(550,650));
         frMain.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
