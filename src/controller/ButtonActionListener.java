@@ -5,10 +5,6 @@ import model.gizmo.TriggerType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
- */
-
 public class ButtonActionListener implements ActionListener {
 
     private MainController controller;
@@ -30,14 +26,17 @@ public class ButtonActionListener implements ActionListener {
             case "Tick":
                 controller.getModel().getBall().moveBall();
                 break;
-            case "Flip Down":
-                controller.getModel().keyEventTriggered(70, TriggerType.KEY_DOWN);
+            case "Delete":
+                //
                 break;
-            case "Flip Up":
-                controller.getModel().keyEventTriggered(70, TriggerType.KEY_UP);
+            case "Rotate":
+                //
                 break;
-            case "Quit":
-                System.exit(0);
+            case "Edit":
+                //
+                break;
+            case "Move":
+                //
                 break;
         }
 

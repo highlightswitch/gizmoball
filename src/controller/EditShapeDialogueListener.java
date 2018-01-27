@@ -1,19 +1,19 @@
 package controller;
 
-import view.editShapeDialogue;
+import view.EditShapeDialogue;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class editShapeDialogueListener implements ActionListener {
+public class EditShapeDialogueListener implements ActionListener {
     JFrame fr;
-    public editShapeDialogueListener(JFrame frame){
+    public EditShapeDialogueListener(JFrame frame){
         fr = frame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        editShapeDialogue shapeDi = new editShapeDialogue(fr);
+        EditShapeDialogue shapeDi = new EditShapeDialogue(fr);
     }
 }
