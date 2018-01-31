@@ -5,12 +5,12 @@ import controller.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class buildView extends gameView {
+public class BuildView implements GameView {
     JFrame frame;
     JPanel panBuild;
     JPopupMenu allShapes;
 
-     public buildView(JFrame fr, MainController c, Board b) {
+     public BuildView(JFrame fr, MainController c, Board b) {
          frame = fr;
          panBuild = new JPanel();
          panBuild.setBackground(Color.ORANGE);
@@ -33,7 +33,7 @@ public class buildView extends gameView {
          add.setContentAreaFilled(false);
 
          drawPopupMenu();
-         add.addMouseListener(new addPopupListener(allShapes));
+         add.addMouseListener(new AddPopupListener(allShapes));
 
          rotate.setBorder(null);
          rotate.setMargin(new Insets(0, 0, 0, 0));
@@ -86,10 +86,6 @@ public class buildView extends gameView {
         JMenuItem absorberGizmo = new JMenuItem(new ImageIcon("img/fillRectangleSmall.png"));
         JMenuItem flipperGizmo = new JMenuItem(new ImageIcon("img/fillFlipperSmall.png"));
         JMenuItem ballGizmo = new JMenuItem(new ImageIcon("img/borderBallSmall.png"));
-
-        circleGizmo.addActionListener(new addCircleListener());
-        triangleGizmo.addActionListener(new addTriangleListener());
-        squareGizmo.addActionListener(new addSquareListener());
 
         circleGizmo.setContentAreaFilled(false);
         triangleGizmo.setContentAreaFilled(false);

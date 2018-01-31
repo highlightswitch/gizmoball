@@ -5,10 +5,10 @@ import controller.MainController;
 import javax.swing.*;
 import java.awt.*;
 
-public class runView extends gameView {
+public class RunView implements GameView {
     JPanel panGame;
 
-    public runView(MainController c, Board b){
+    public RunView(MainController c, Board b){
 
         panGame = new JPanel();
         panGame.setBackground(Color.PINK);
@@ -20,7 +20,7 @@ public class runView extends gameView {
         play.setIcon(new ImageIcon("img/fillPlaySmall.png"));
         stop.setBorder(null);
         stop.setMargin(new Insets(0, 0, 0, 0));
-        stop.addActionListener(c.getActionListener());
+        stop.addActionListener(c.getActionListener("Button"));
         stop.setContentAreaFilled(false);
         stop.setActionCommand("Stop");
 
@@ -28,7 +28,11 @@ public class runView extends gameView {
         play.setMargin(new Insets(0, 0, 0, 0));
         play.setContentAreaFilled(false);
         play.setActionCommand("Start");
-        play.addActionListener(c.getActionListener());
+        play.addActionListener(c.getActionListener("Button"));
+
+        //Need to do this so that the key listener works properly.
+        play.setFocusable(false);
+        stop.setFocusable(false);
 
         panControls.setLayout(new FlowLayout());
         panControls.add(stop);

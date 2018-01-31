@@ -1,14 +1,12 @@
 package view;
 
 import controller.MainController;
-import controller.buildViewListener;
-import controller.runViewListener;
 import model.Model;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class gizmoFrame {
+public class GameFrame {
      private JFrame frMain;
      private JMenuBar top;
      private JMenu mTools;
@@ -16,29 +14,35 @@ public class gizmoFrame {
      private MainController controller;
      private Board board;
 
-    public gizmoFrame(Model m){
-        JMenu mFile;
-        JMenu mView;
-        
+    public GameFrame(Model m){
         model = m;
-        controller = new MainController(model);
+        controller = new MainController(model, this, board);
         board = new Board(500, 500, model);
-
+        frMain = new JFrame("Gizmoball");
         top = new JMenuBar();
-        mFile = new JMenu("File");
-        mView = new JMenu("View");
+
+        JMenu mFile = new JMenu("File");
+        JMenu mView = new JMenu("View");
 
         JMenuItem load = new JMenuItem("Load");
+        load.setActionCommand("Load");
+        load.addActionListener(controller.getActionListener("Menu"));
+
         JMenuItem save = new JMenuItem("Save");
+        save.setActionCommand("Save");
+        save.addActionListener(controller.getActionListener("Menu"));
 
         JMenuItem quit = new JMenuItem("Quit");
-        quit.addActionListener(controller.getActionListener());
+        quit.setActionCommand("Quit");
+        quit.addActionListener(controller.getActionListener("Menu"));
 
         JMenuItem run = new JMenuItem("Run View");
-        run.addActionListener(new runViewListener(this, board, controller));
+        run.setActionCommand("Run");
+        run.addActionListener(controller.getActionListener("Menu"));
 
         JMenuItem build = new JMenuItem("Build View");
-        build.addActionListener(new buildViewListener(this, board, controller));
+        build.setActionCommand("Build");
+        build.addActionListener(controller.getActionListener("Menu"));
 
         mFile.add(load);
         mFile.add(save);
@@ -50,15 +54,14 @@ public class gizmoFrame {
         top.add(mFile);
         top.add(mView);
 
-        gameView view = new runView(controller, board);
+        GameView view = new RunView(controller, board);
 
         drawFrame(view);
     }
 
 
-    public void drawFrame(gameView g){
+    public void drawFrame(GameView g){
         //open running view by default then user can change to build view
-        frMain = new JFrame("Gizmoball");
         frMain.setContentPane(g.getPanel());
         frMain.setJMenuBar(top);
         frMain.setVisible(true);
