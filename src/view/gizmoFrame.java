@@ -19,6 +19,7 @@ public class gizmoFrame {
     public gizmoFrame(Model m){
         JMenu mFile;
         JMenu mView;
+        
         model = m;
         controller = new MainController(model);
         board = new Board(500, 500, model);
