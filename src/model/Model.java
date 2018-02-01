@@ -84,13 +84,17 @@ public class Model extends Observable {
 	            gizmo = new Flipper(null, true);
 	            tile.placeGizmo(gizmo);
 	            tickable.add((Flipper) gizmo);
-                collidable.add((Flipper) gizmo);
+                collidable.add(gizmo);
                 break;
             case BALL:
                 gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 3, 4);
                 ball = (Ball) gizmo;
                 tickable.add((Ball) gizmo);
                 break;
+            case BUMPER:
+                Bumper bumper = new Bumper(Color.black, BumperType.Triangle);
+                collidable.add(bumper);
+                tile.placeGizmo(bumper);
         }
 
         // Notify observers ... redraw updated view

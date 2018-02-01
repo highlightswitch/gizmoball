@@ -20,6 +20,12 @@ public class Main {
 		Model model = new Model();
 		model.placeGizmo(GizmoType.BALL, model.getTileAt(5,5));
 		Flipper flipper =  (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(9,10));
+
+		model.placeGizmo(GizmoType.BUMPER, model.getTileAt(5, 18));
+		model.placeGizmo(GizmoType.BUMPER, model.getTileAt(5, 2));
+		model.placeGizmo(GizmoType.BUMPER, model.getTileAt(8, 12));
+		model.placeGizmo(GizmoType.BUMPER, model.getTileAt(12, 18));
+
 		model.setUpActionMap(flipper);
 		GameFrame fr = new GameFrame(model);
 	}
