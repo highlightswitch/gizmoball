@@ -5,7 +5,7 @@ import javax.swing.UIManager;
 import model.*;
 import model.gizmo.Flipper;
 import model.gizmo.GizmoType;
-import view.gizmoFrame;
+import view.GameFrame;
 
 public class Main {
 
@@ -21,6 +21,6 @@ public class Main {
 		model.placeGizmo(GizmoType.BALL, model.getTileAt(5,5));
 		Flipper flipper =  (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(9,10));
 		model.setUpActionMap(flipper);
-		gizmoFrame fr = new gizmoFrame(model);
+		GameFrame fr = new GameFrame(model);
 	}
 }

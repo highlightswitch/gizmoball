@@ -3,10 +3,10 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
-public class editShapeDialogue {
+public class EditShapeDialogue {
     JPanel panDI;
 
-    public editShapeDialogue(JFrame fr){
+    public EditShapeDialogue(JFrame fr){
         String[] actions = {"change colour", "rotate", "connect to other gizmo", "idk"};
         String[] triggers = {"key press", "connect to other gizmo", "connect to self", "idk"};
         JLabel label = new JLabel("shape icon");
@@ -44,7 +44,7 @@ public class editShapeDialogue {
         panDI.setBackground(Color.ORANGE);
         panDI.setLayout(new BoxLayout(panDI, BoxLayout.Y_AXIS));
 
-        JDialog shape =  new JDialog(fr, "Add a Gizmo", true);
+        JDialog shape =  new JDialog(fr, "Edit a Gizmo", true);
         shape.setContentPane(panDI);
         shape.setMinimumSize(new Dimension(400,200));
         shape.setVisible(true);

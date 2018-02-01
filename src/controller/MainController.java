@@ -2,6 +2,10 @@ package controller;
 
 import model.Model;
 import model.gizmo.TriggerType;
+import view.Board;
+import view.BuildView;
+import view.GameFrame;
+import view.RunView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,19 +13,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 
 public class MainController implements ActionListener {
-
+    private GameFrame fr;
+    private Board board;
     private Timer timer;
     private Model model;
-
-    private ActionListener actionListener;
     private KeyListener keyListener;
 
-    public MainController(Model model){
+    public MainController(Model model, GameFrame frame, Board b){
+        fr = frame;
+        board = b;
         this.model = model;
-
-        actionListener = new ButtonActionListener(this);
         keyListener = new MagicKeyListener(this);
-
         this.timer = new Timer(50, this);
     }
 
@@ -39,6 +41,24 @@ public class MainController implements ActionListener {
         timer.stop();
     }
 
+    void switchToRunView(){
+        fr.drawFrame(new RunView( this, board));
+        fr.getFrame().getContentPane().revalidate();
+        fr.getFrame().getContentPane().repaint();
+        fr.compressMenu();
+        fr.getFrame().getJMenuBar().revalidate();
+        fr.getFrame().getJMenuBar().repaint();
+    }
+
+    void switchToBuildView(){
+        fr.drawFrame(new BuildView(fr.getFrame(), this, board));
+        fr.extendMenu();
+        fr.getFrame().getContentPane().revalidate();
+        fr.getFrame().getContentPane().repaint();
+        fr.getFrame().getJMenuBar().revalidate();
+        fr.getFrame().getJMenuBar().repaint();
+    }
+
     public KeyListener getKeyListener() {
         return keyListener;
     }
@@ -47,8 +67,21 @@ public class MainController implements ActionListener {
         model.keyEventTriggered(keyCode, trigger);
     }
 
-    public ActionListener getActionListener() {
-        return actionListener;
+    public ActionListener getActionListener(String type) {
+
+        if(type.equals("Button")){
+            return new ButtonActionListener(this);
+        }
+        else if(type.equals("Menu")){
+            return new MenuActionListener(this);
+        }
+
+        return new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               //
+           }
+        };
     }
 
     @Override
