@@ -56,7 +56,7 @@ public abstract class GameObject {
         return translate(new double[]{translation[0], translation[1]});
     }
 
-    public void rotateAround(Vect vect, Angle angle) {
+    public GameObject rotateAround(Vect vect, Angle angle) {
 
         for(int i = 0; i < lines.length; i++){
             lines[i] = Geometry.rotateAround(lines[i], vect, angle);
@@ -65,6 +65,8 @@ public abstract class GameObject {
         for(int i = 0; i < circles.length; i++){
             circles[i] = Geometry.rotateAround(circles[i], vect, angle);
         }
+
+        return this;
 
     }
 

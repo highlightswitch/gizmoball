@@ -36,8 +36,7 @@ public class Tile implements Drawable {
     @Override
     public GameObject getShapeToDraw() {
         if(gizmo != null) {
-            GameObject obj = gizmo.getPrototypeGameObject();
-            obj.translate(getPosition());
+            GameObject obj = gizmo.getGameObject();
             return obj;
         }
 

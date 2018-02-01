@@ -98,6 +98,11 @@ public class Ball extends Gizmo implements Drawable, Tickable {
     }
 
     @Override
+    public GameObject getGameObject() {
+        return null;
+    }
+
+    @Override
     public void keyDown() {
 
     }
