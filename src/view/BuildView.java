@@ -5,7 +5,7 @@ import controller.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class BuildView implements GameView {
+public class BuildView extends GameView {
     JFrame frame;
     JPanel panBuild;
     JPopupMenu allShapes;
@@ -86,6 +86,10 @@ public class BuildView implements GameView {
         JMenuItem absorberGizmo = new JMenuItem(new ImageIcon("img/fillRectangleSmall.png"));
         JMenuItem flipperGizmo = new JMenuItem(new ImageIcon("img/fillFlipperSmall.png"));
         JMenuItem ballGizmo = new JMenuItem(new ImageIcon("img/borderBallSmall.png"));
+
+//        circleGizmo.addActionListener(new AddCircleListener());
+//        triangleGizmo.addActionListener(new AddTriangleListener());
+//        squareGizmo.addActionListener(new addSquareListener());
 
         circleGizmo.setContentAreaFilled(false);
         triangleGizmo.setContentAreaFilled(false);
