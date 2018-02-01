@@ -16,8 +16,8 @@ public class GameFrame {
 
     public GameFrame(Model m){
         model = m;
-        controller = new MainController(model, this, board);
         board = new Board(500, 500, model);
+        controller = new MainController(model, this, board);
         frMain = new JFrame("Gizmoball");
         top = new JMenuBar();
 
