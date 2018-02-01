@@ -1,6 +1,7 @@
 package model.gizmo;
 
 import model.Collidable;
+
 import model.GameObject;
 import model.RotatingGameObject;
 import model.StaticGameObject;

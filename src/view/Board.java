@@ -14,10 +14,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
- */
-
 public  class Board extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
@@ -31,7 +27,8 @@ public  class Board extends JPanel implements Observer {
 		width = w;
 		height = h;
 		gm = m;
-		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		this.setOpaque(false);
+		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 	}
 
 	// Fix onscreen size
@@ -93,5 +90,4 @@ public  class Board extends JPanel implements Observer {
 	public void update(Observable arg0, Object arg1) {
 			repaint();
 		}
-	
 }

@@ -138,5 +138,4 @@ public class Model extends Observable {
     public Ball getBall() {
 		return ball;
 	}
-
 }

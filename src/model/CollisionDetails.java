@@ -6,7 +6,7 @@ import physics.Vect;
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
  */
 
-public  class CollisionDetails {
+public class CollisionDetails {
 	private double tuc;
 	private Vect velocity;
 
@@ -27,5 +27,4 @@ public  class CollisionDetails {
 	public String toString(){
 		return "CollisionDetails <" + tuc + "," + velocity + ">";
 	}
-
 }
