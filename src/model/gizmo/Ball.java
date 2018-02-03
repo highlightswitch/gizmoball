@@ -17,7 +17,8 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
     private double xPos, yPos;
 	private Vect velocity;
-
+	private double gravity;
+	private double friction;
 	private boolean isStopped;
 
 	private Model model;
@@ -29,11 +30,9 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         this.yPos = yPos;
 		velocity = new Vect(xv, yv);
 		isStopped = false;
-
+        gravity = 9.81;
 		this.model = model;
 	}
-
-
 
     public void moveBall() {
 
@@ -60,8 +59,8 @@ public class Ball extends Gizmo implements Drawable, Tickable {
     private void moveBallForTime(double time) {
         double xVel = velocity.x();
         double yVel = velocity.y();
-        xPos = xPos + (xVel * time);
-        yPos = yPos + (yVel * time);
+        xPos = xPos + (xVel * time) + (0.5 * gravity * time);
+        yPos = yPos + (yVel * time) + (0.5 * gravity * time);
     }
 
     private CollisionDetails timeUntilCollision() {
@@ -74,8 +73,8 @@ public class Ball extends Gizmo implements Drawable, Tickable {
             gameObjects.add(col.getGameObject());
         }
 
-        // Create a new GameObject, move it to where the ball is, the get the physics.Circle component.
-        Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos }).getCircles()[0];
+        // Create a new GameObject, move it to where the ball is the get the physics.Circle component.
+        Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos}).getCircles()[0];
         Vect ballVelocity = velocity;
 
         //This collision will never happen.
@@ -87,6 +86,8 @@ public class Ball extends Gizmo implements Drawable, Tickable {
                 nextCollision = cd;
             }
         }
+
+        // Check again but move GameObject to where the ball will be under the effect of gravity
 
         return nextCollision;
     }
