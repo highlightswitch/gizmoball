@@ -5,7 +5,7 @@ import controller.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class BuildView extends GameView {
+public class BuildView implements GameView {
     JFrame frame;
     JPanel panBuild;
     JPopupMenu allShapes;
