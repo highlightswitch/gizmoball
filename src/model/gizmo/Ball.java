@@ -1,6 +1,7 @@
 package model.gizmo;
 
 import model.*;
+import physics.Angle;
 import physics.Circle;
 import physics.Vect;
 
@@ -17,20 +18,20 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
     private double xPos, yPos;
 	private Vect velocity;
-	private double gravity;
-	private double friction;
+	private Vect gravity;
+	private Vect friction;
 	private boolean isStopped;
 
 	private Model model;
 
 	// x, y coordinates and x,y velocity
-	public Ball(Model model, Color colour, double xPos, double yPos, double xv, double yv) {
+	public Ball(Model model, Color colour, double xPos, double yPos, double xv, double yv, double g) {
         super(colour);
         this.xPos = xPos;
         this.yPos = yPos;
 		velocity = new Vect(xv, yv);
 		isStopped = false;
-        gravity = 9.81;
+        gravity = new Vect(Angle.DEG_90, g);
 		this.model = model;
 	}
 
@@ -59,8 +60,8 @@ public class Ball extends Gizmo implements Drawable, Tickable {
     private void moveBallForTime(double time) {
         double xVel = velocity.x();
         double yVel = velocity.y();
-        xPos = xPos + (xVel * time) + (0.5 * gravity * time);
-        yPos = yPos + (yVel * time) + (0.5 * gravity * time);
+        xPos = xPos + (xVel * time);
+        yPos = yPos + (yVel * time);
     }
 
     private CollisionDetails timeUntilCollision() {
@@ -75,7 +76,8 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
         // Create a new GameObject, move it to where the ball is the get the physics.Circle component.
         Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos}).getCircles()[0];
-        Vect ballVelocity = velocity;
+
+        Vect ballVelocity = velocity.plus(gravity);
 
         //This collision will never happen.
         CollisionDetails nextCollision = new CollisionDetails(Double.MAX_VALUE, new Vect(0,0));
