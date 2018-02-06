@@ -25,13 +25,14 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 	private Model model;
 
 	// x, y coordinates and x,y velocity
-	public Ball(Model model, Color colour, double xPos, double yPos, double xv, double yv, double g) {
+	public Ball(Model model, Color colour, double xPos, double yPos, double xv, double yv, double g, double f) {
         super(colour);
         this.xPos = xPos;
         this.yPos = yPos;
 		velocity = new Vect(xv, yv);
 		isStopped = false;
-        gravity = new Vect(Angle.DEG_90, g);
+        gravity = new Vect(Angle.ZERO, g);
+        friction = new Vect(Angle.ZERO, f);
 		this.model = model;
 	}
 
@@ -77,7 +78,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         // Create a new GameObject, move it to where the ball is the get the physics.Circle component.
         Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos}).getCircles()[0];
 
-        Vect ballVelocity = velocity.plus(gravity);
+        Vect ballVelocity = velocity.plus(gravity).plus(friction);
 
         //This collision will never happen.
         CollisionDetails nextCollision = new CollisionDetails(Double.MAX_VALUE, new Vect(0,0));
