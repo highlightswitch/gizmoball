@@ -31,8 +31,8 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         this.yPos = yPos;
 		velocity = new Vect(xv, yv);
 		isStopped = false;
-        gravity = new Vect(Angle.ZERO, g);
-        friction = new Vect(Angle.ZERO, f);
+        gravity = new Vect(Angle.DEG_90, g);
+        friction = new Vect(Angle.DEG_90, f);
 		this.model = model;
 	}
 
@@ -59,8 +59,8 @@ public class Ball extends Gizmo implements Drawable, Tickable {
     }
 
     private void moveBallForTime(double time) {
-        double xVel = velocity.x();
-        double yVel = velocity.y();
+        double xVel = velocity.x() + gravity.x() + friction.x();
+        double yVel = velocity.y() + gravity.y() + friction.y();
         xPos = xPos + (xVel * time);
         yPos = yPos + (yVel * time);
     }
@@ -77,6 +77,10 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
         // Create a new GameObject, move it to where the ball is the get the physics.Circle component.
         Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos}).getCircles()[0];
+
+        if(velocity.y() < 0){
+            friction.rotateBy(Angle.DEG_180);
+        }
 
         Vect ballVelocity = velocity.plus(gravity).plus(friction);
 
