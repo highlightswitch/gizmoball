@@ -91,6 +91,11 @@ public class Model extends Observable {
                 ball = (Ball) gizmo;
                 tickable.add((Ball) gizmo);
                 break;
+            case ABSORBER:
+                gizmo = new Absorber(null);
+                tile.placeGizmo(gizmo);
+                collidable.add((Absorber) gizmo);
+                break;
         }
 
         // Notify observers ... redraw updated view

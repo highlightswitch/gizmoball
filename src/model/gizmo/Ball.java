@@ -57,6 +57,10 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
         }
 
+        else {
+            moveBallToAbsorber();
+        }
+
     }
 
     private void moveBallForTime(double time) {
@@ -64,6 +68,11 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         double yVel = velocity.y();
         xPos = xPos + (xVel * time);
         yPos = yPos + (yVel * time);
+    }
+
+    private void moveBallToAbsorber() {
+	    xPos = 18;
+	    yPos = 18;
     }
 
     private CollisionDetails timeUntilCollision() {
