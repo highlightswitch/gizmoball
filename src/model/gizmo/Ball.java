@@ -46,6 +46,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
             double tuc = cd.getTuc();
             if (tuc > moveTime) {
                 // No collision ...
+                velocity =  velocity.plus(gravity).plus(friction);
                 moveBallForTime(moveTime);
             } else {
                 // We've got a collision in tuc
@@ -59,8 +60,8 @@ public class Ball extends Gizmo implements Drawable, Tickable {
     }
 
     private void moveBallForTime(double time) {
-        double xVel = velocity.x() + gravity.x() + friction.x();
-        double yVel = velocity.y() + gravity.y() + friction.y();
+        double xVel = velocity.x();
+        double yVel = velocity.y();
         xPos = xPos + (xVel * time);
         yPos = yPos + (yVel * time);
     }
