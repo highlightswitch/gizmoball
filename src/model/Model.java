@@ -46,9 +46,12 @@ public class Model extends Observable {
 
 	}
 
-    public void setUpActionMap(Flipper flipper) {
+    public void setUpActionMap(Flipper flipper, Absorber absorber) {
         keyEventTriggerMap = new HashMap<>();
         keyEventTriggerMap.put(70, flipper); //Key code 70 = F
+
+        keyEventTriggerMap = new HashMap<>();
+        keyEventTriggerMap.put(32, absorber); //Key code 70 = F
     }
 
     public Tile getTileAt(int x, int y){
@@ -87,7 +90,7 @@ public class Model extends Observable {
                 collidable.add((Flipper) gizmo);
                 break;
             case BALL:
-                gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 0, 0, 9.81, 1.5);
+                gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 0, 10, 9.81, 1.5);
                 ball = (Ball) gizmo;
                 tickable.add((Ball) gizmo);
                 break;

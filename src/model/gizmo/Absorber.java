@@ -12,8 +12,9 @@ import java.awt.*;
 
 public class Absorber extends Gizmo implements Collidable {
 
-    private final double length = 18;
+    private final double length = 20;
     private final double width = 1;
+    private Ball absorbedBall;
 
     public Absorber(Color colour) {
         super(colour);
@@ -37,10 +38,14 @@ public class Absorber extends Gizmo implements Collidable {
                 new Circle(length, width, 0)
         };
 
-        GameObject gameObject = new StaticGameObject(lines, circles, 0);
+        GameObject gameObject = new StaticGameObject(lines, circles, 0.95);
 
 
         return gameObject;
+    }
+
+    public void setAbsorbedBall (Ball ball) {
+        absorbedBall = ball;
     }
 
     @Override
@@ -50,7 +55,8 @@ public class Absorber extends Gizmo implements Collidable {
 
     @Override
     public void keyDown() {
-        //Empty...
+        absorbedBall.fire(this);
+        absorbedBall = null;
     }
 
     @Override
@@ -59,4 +65,6 @@ public class Absorber extends Gizmo implements Collidable {
     }
 
     public GameObject getGameObject(){return getPrototypeGameObject().translate(tile.getPosition());}
+
+   public boolean isAbsorber() {return true;}
 }

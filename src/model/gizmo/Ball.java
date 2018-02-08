@@ -21,6 +21,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 	private Vect gravity;
 	private Vect friction;
 	private boolean isStopped;
+	private boolean isAbsorbed;
 
 	private Model model;
 
@@ -36,7 +37,12 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 		this.model = model;
 	}
 
-    public void moveBall() {
+	public void fire (Absorber firedFrom) {
+	    moveBall(firedFrom);
+	    isAbsorbed = false;
+    }
+
+    public void moveBall(Absorber absorber) {
 
         double moveTime = 0.05; // 0.05 = 20 times per second as per Gizmoball
 
@@ -50,7 +56,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
             }
 
 
-            CollisionDetails cd = timeUntilCollision();
+            CollisionDetails cd = timeUntilCollision(absorber);
             double tuc = cd.getTuc();
             if (tuc > moveTime) {
                 // No collision ...
@@ -59,6 +65,13 @@ public class Ball extends Gizmo implements Drawable, Tickable {
             } else {
                 // We've got a collision in tuc
                 moveBallForTime(tuc);
+                if (cd.getAbsorber()!=null) {
+                    isAbsorbed = true;
+                    cd.getAbsorber().setAbsorbedBall(this);
+                    velocity = new Vect (0, -50);
+                    xPos = 19.5;
+                    yPos = 19.5;
+                }
                 // Post collision velocity ...
                 velocity = cd.getVelocity();
             }
@@ -83,7 +96,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 	    yPos = 18;
     }
 
-    private CollisionDetails timeUntilCollision() {
+    private CollisionDetails timeUntilCollision( Absorber absorber) {
         // Find Time Until Collision and also, if there is a collision, the new speed vector.
 
         //Create a list of all collidable game objects in the game.
@@ -101,8 +114,16 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         //This collision will never happen.
         CollisionDetails nextCollision = new CollisionDetails(Double.MAX_VALUE, new Vect(0,0));
 
-        for (GameObject go : gameObjects) {
-            CollisionDetails cd = go.timeUntilGameObjectCollision(ballCircle, ballVelocity);
+        for (Collidable co : collidable) {
+            if (co.equals((Collidable) absorber)) {
+                continue;
+            }
+            CollisionDetails cd = co.getGameObject().timeUntilGameObjectCollision(ballCircle, ballVelocity);
+            if (co.isAbsorber())
+            {
+                System.out.println("HGFHGCH");
+                cd.setAbsorber((Absorber) co);
+            }
             if (cd.getTuc() < nextCollision.getTuc()) {
                 nextCollision = cd;
             }
@@ -141,11 +162,16 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
     @Override
     public void tick() {
-        moveBall();
+        if (!isAbsorbed) {
+            moveBall(null);
+        }
+
     }
 
     @Override
     public GameObject getShapeToDraw() {
         return getPrototypeGameObject().translate(new double[]{ xPos, yPos });
     }
+
+    public boolean isAbsorber() {return false;}
 }
