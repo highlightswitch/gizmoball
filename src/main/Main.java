@@ -19,7 +19,7 @@ public class Main {
 
 		Model model = new Model();
 		model.placeGizmo(GizmoType.BALL, model.getTileAt(5,5));
-		model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(1, 18));
+		//model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(1, 18));
 		Flipper flipper =  (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(9,10));
 		model.setUpActionMap(flipper);
 		GameFrame fr = new GameFrame(model);

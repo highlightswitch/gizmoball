@@ -41,6 +41,14 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         double moveTime = 0.05; // 0.05 = 20 times per second as per Gizmoball
 
         if (!isStopped) {
+            //set friction direction based on ball direction
+            if(velocity.y() < 0){
+                friction.setAngle(Angle.DEG_180);
+            }
+            else{
+                friction.setAngle(Angle.DEG_90);
+            }
+
 
             CollisionDetails cd = timeUntilCollision();
             double tuc = cd.getTuc();
@@ -87,10 +95,6 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
         // Create a new GameObject, move it to where the ball is the get the physics.Circle component.
         Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos}).getCircles()[0];
-
-        if(velocity.y() < 0){
-            friction.rotateBy(Angle.DEG_180);
-        }
 
         Vect ballVelocity = velocity.plus(gravity).plus(friction);
 
