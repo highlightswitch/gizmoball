@@ -19,7 +19,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
     private double xPos, yPos;
 	private Vect velocity;
 	private Vect gravity;
-	private Vect friction;
+	private double friction;
 	private boolean isStopped;
 	private boolean isAbsorbed;
 
@@ -33,7 +33,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 		velocity = new Vect(xv, yv);
 		isStopped = false;
         gravity = new Vect(Angle.DEG_90, g);
-        friction = new Vect(Angle.DEG_90, f);
+        friction = f;
 		this.model = model;
 	}
 
@@ -47,20 +47,19 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         double moveTime = 0.05; // 0.05 = 20 times per second as per Gizmoball
 
         if (!isStopped) {
-            //set friction direction based on ball direction
-            if(velocity.y() < 0){
-                friction.setAngle(Angle.DEG_180);
-            }
-            else{
-                friction.setAngle(Angle.DEG_90);
-            }
+            double newVX = ((1 * 0.025 * friction) - (0.025* velocity.x() * friction));
+            double newVY = ((1 * 0.025 * friction) - (0.025* velocity.y() * friction));
+            velocity = new Vect(newVX, newVY);
+            velocity = velocity.plus(gravity);
 
+            if(velocity.x() < 0.1 && velocity.y() < 0.1){
+                velocity = Vect.ZERO;
+            }
 
             CollisionDetails cd = timeUntilCollision(absorber);
             double tuc = cd.getTuc();
             if (tuc > moveTime) {
                 // No collision ...
-                velocity =  velocity.plus(gravity).plus(friction);
                 moveBallForTime(moveTime);
             } else {
                 // We've got a collision in tuc
@@ -109,7 +108,11 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         // Create a new GameObject, move it to where the ball is the get the physics.Circle component.
         Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos}).getCircles()[0];
 
-        Vect ballVelocity = velocity.plus(gravity).plus(friction);
+        Vect ballVelocity;
+        double newVX = ((1 * 0.025 * friction) - (0.025* velocity.x() * friction));
+        double newVY = ((1 * 0.025 * friction) - (0.025* velocity.y() * friction));
+        ballVelocity = new Vect(newVX, newVY);
+        ballVelocity = ballVelocity.plus(gravity);
 
         //This collision will never happen.
         CollisionDetails nextCollision = new CollisionDetails(Double.MAX_VALUE, new Vect(0,0));

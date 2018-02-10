@@ -90,7 +90,7 @@ public class Model extends Observable {
                 collidable.add((Flipper) gizmo);
                 break;
             case BALL:
-                gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 0, 10, 9.81, 1.5);
+                gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 0, 0, 25, 0.5);
                 ball = (Ball) gizmo;
                 tickable.add((Ball) gizmo);
                 break;
