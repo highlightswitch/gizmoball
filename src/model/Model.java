@@ -76,7 +76,7 @@ public class Model extends Observable {
         return list;
     }
 
-    public Gizmo placeGizmo(GizmoType gizmoType, Tile tile){
+    public Gizmo placeGizmo(GizmoType gizmoType, String name, Tile tile){
         Gizmo gizmo = null;
 
 	    switch(gizmoType){
@@ -87,7 +87,7 @@ public class Model extends Observable {
                 collidable.add((Flipper) gizmo);
                 break;
             case BALL:
-                gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 3, 4);
+                gizmo = new Ball(this, Color.black, name, tile.getX(), tile.getY(), 3, 4);
                 ball = (Ball) gizmo;
                 tickable.add((Ball) gizmo);
                 break;
@@ -99,6 +99,17 @@ public class Model extends Observable {
 
         return gizmo;
 
+    }
+
+    public void addBall(String name, float xc, float yc, float xv, float yv){
+        Ball ball = new Ball(this, Color.black, name, xc, yc, xv, yv);
+        this.ball = (Ball) ball;
+        tickable.add((Ball) ball);
+    }
+
+    public void addSquare(String name, float xc, float yc){
+        Square square = new Square(this, Color.black, name, xc, yc);
+        tickable.add(square);
     }
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {

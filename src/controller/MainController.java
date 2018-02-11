@@ -33,6 +33,10 @@ public class MainController implements ActionListener {
         return model;
     }
 
+    public void setModel(Model newModel) { model = newModel; }
+
+    public GameFrame getGameFrame() { return fr;}
+
     void startTimer() {
         timer.start();
     }

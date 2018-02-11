@@ -5,6 +5,7 @@ import javax.swing.UIManager;
 import model.*;
 import model.gizmo.Flipper;
 import model.gizmo.GizmoType;
+import model.gizmo.Square;
 import view.GameFrame;
 
 public class Main {
@@ -18,9 +19,9 @@ public class Main {
 		}
 
 		Model model = new Model();
-		model.placeGizmo(GizmoType.BALL, model.getTileAt(5,5));
-		Flipper flipper =  (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(9,10));
-		model.setUpActionMap(flipper);
+		model.addBall("sphere", 12, 12, 0, 0);
+	//	model.placeGizmo(GizmoType.BALL, "ball", model.getTileAt(5,5));
+		model.addSquare("square", 9,10);
 		GameFrame fr = new GameFrame(model);
 	}
 }

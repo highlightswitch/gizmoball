@@ -17,18 +17,20 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
     private double xPos, yPos;
 	private Vect velocity;
+	private String name;
 
 	private boolean isStopped;
 
 	private Model model;
 
 	// x, y coordinates and x,y velocity
-	public Ball(Model model, Color colour, double xPos, double yPos, double xv, double yv) {
+	public Ball(Model model, Color colour, String name, float xPos, float yPos, float xv, float yv) {
         super(colour);
         this.xPos = xPos;
         this.yPos = yPos;
 		velocity = new Vect(xv, yv);
 		isStopped = false;
+		this.name = name;
 
 		this.model = model;
 	}
@@ -56,6 +58,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         }
 
     }
+
 
     private void moveBallForTime(double time) {
         double xVel = velocity.x();
