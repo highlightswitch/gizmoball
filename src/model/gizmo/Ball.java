@@ -43,24 +43,25 @@ public class Ball extends Gizmo implements Drawable, Tickable {
     }
 
     public void moveBall(Absorber absorber) {
-
+        System.out.println("Current Velocity: " + velocity.toString());
         double moveTime = 0.05; // 0.05 = 20 times per second as per Gizmoball
 
         if (!isStopped) {
-            double newVX = ((1 * 0.025 * friction) - (0.025* velocity.x() * friction));
-            double newVY = ((1 * 0.025 * friction) - (0.025* velocity.y() * friction));
-            velocity = new Vect(newVX, newVY);
-            velocity = velocity.plus(gravity);
-
-            if(velocity.x() < 0.1 && velocity.y() < 0.1){
+           /* if(velocity.x() < 0.1 && velocity.y() < 0.1){
                 velocity = Vect.ZERO;
-            }
+            }*/
 
             CollisionDetails cd = timeUntilCollision(absorber);
             double tuc = cd.getTuc();
+
             if (tuc > moveTime) {
                 // No collision ...
+                double newVX = velocity.x() * ((1 * 0.025 * friction) - (0.025* velocity.x() * friction));
+                double newVY = velocity.y() * ((1 * 0.025 * friction) - (0.025* velocity.y() * friction));
+                velocity = new Vect(newVX, newVY);
+                velocity = velocity.plus(gravity);
                 moveBallForTime(moveTime);
+
             } else {
                 // We've got a collision in tuc
                 moveBallForTime(tuc);
@@ -109,8 +110,8 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos}).getCircles()[0];
 
         Vect ballVelocity;
-        double newVX = ((1 * 0.025 * friction) - (0.025* velocity.x() * friction));
-        double newVY = ((1 * 0.025 * friction) - (0.025* velocity.y() * friction));
+        double newVX = velocity.x() * ((1 * 0.025 * friction) - (0.025* velocity.x() * friction));
+        double newVY = velocity.y() * ((1 * 0.025 * friction) - (0.025* velocity.y() * friction));
         ballVelocity = new Vect(newVX, newVY);
         ballVelocity = ballVelocity.plus(gravity);
 
@@ -124,7 +125,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
             CollisionDetails cd = co.getGameObject().timeUntilGameObjectCollision(ballCircle, ballVelocity);
             if (co.isAbsorber())
             {
-                System.out.println("HGFHGCH");
+                //System.out.println("HGFHGCH");
                 cd.setAbsorber((Absorber) co);
             }
             if (cd.getTuc() < nextCollision.getTuc()) {
