@@ -1,5 +1,6 @@
 package model.gizmo;
 
+import main.Main;
 import model.*;
 import physics.Angle;
 import physics.Circle;
@@ -57,18 +58,26 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
             if (tuc > moveTime) {
                 // No collision ...
-                double newVX = velocity.x() * ((1 * friction * moveTime) - (friction* velocity.x() * moveTime));
-                double newVY = velocity.y() * ((1 * friction * moveTime) - (friction* velocity.y() * moveTime));
+                double newVX = velocity.x() * ((1 * friction * moveTime) - (friction* Math.abs(velocity.x()) * moveTime));
+                double newVY = velocity.y() * ((1 * friction * moveTime) - (friction* Math.abs(velocity.y()) * moveTime));
                 newVY = newVY + (gravity * moveTime);
                 velocity = new Vect(newVX, newVY);
+                //double f1 = friction * moveTime;
+                //double f2 = friction * Math.abs(velocity.length()) * moveTime;
+                //velocity = new Vect(velocity.angle(), (velocity.length() * (1 - f1 - f2)));
+                //velocity.plus(new Vect(Angle.ZERO, (gravity*moveTime)));
                 moveBallForTime(moveTime);
 
             } else {
                 // We've got a collision in tuc
-                double newVX = velocity.x() * ((1 * friction * tuc) - (friction * velocity.x() * tuc));
-                double newVY = velocity.y() * ((1 * friction * tuc) - (friction * velocity.y() * tuc));
-                newVY = newVY + (gravity * tuc);
-                velocity = new Vect(newVX, newVY);
+                  double newVX = velocity.x() * ((1 * friction * tuc) - (friction * velocity.x() * tuc));
+                  double newVY = velocity.y() * ((1 * friction * tuc) - (friction * velocity.y() * tuc));
+                  newVY = newVY + (gravity * tuc);
+                  velocity = new Vect(newVX, newVY);
+              //  double f1 = friction * tuc;
+               // double f2 = friction * Math.abs(velocity.length()) * tuc;
+               // velocity = new Vect(velocity.angle(), (velocity.length() * (1 - f1 - f2)));
+               // velocity.plus(new Vect(Angle.ZERO, (gravity * tuc)));
                 moveBallForTime(tuc);
 
                 if (cd.getAbsorber()!=null) {
