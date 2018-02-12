@@ -18,7 +18,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
     private double xPos, yPos;
 	private Vect velocity;
-	private Vect gravity;
+	private double gravity;
 	private double friction;
 	private boolean isStopped;
 	private boolean isAbsorbed;
@@ -32,7 +32,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         this.yPos = yPos;
 		velocity = new Vect(xv, yv);
 		isStopped = false;
-        gravity = new Vect(Angle.DEG_90, g);
+        gravity = g;
         friction = f;
 		this.model = model;
 	}
@@ -45,26 +45,32 @@ public class Ball extends Gizmo implements Drawable, Tickable {
     public void moveBall(Absorber absorber) {
         System.out.println("Current Velocity: " + velocity.toString());
         double moveTime = 0.05; // 0.05 = 20 times per second as per Gizmoball
-
         if (!isStopped) {
-           /* if(velocity.x() < 0.1 && velocity.y() < 0.1){
+
+          /* if(velocity.x() < 0.1 && velocity.y() < 0.1){
                 velocity = Vect.ZERO;
-            }*/
+                isStopped = true;
+           }*/
 
             CollisionDetails cd = timeUntilCollision(absorber);
             double tuc = cd.getTuc();
 
             if (tuc > moveTime) {
                 // No collision ...
-                double newVX = velocity.x() * ((1 * 0.025 * friction) - (0.025* velocity.x() * friction));
-                double newVY = velocity.y() * ((1 * 0.025 * friction) - (0.025* velocity.y() * friction));
+                double newVX = velocity.x() * ((1 * friction * moveTime) - (friction* velocity.x() * moveTime));
+                double newVY = velocity.y() * ((1 * friction * moveTime) - (friction* velocity.y() * moveTime));
+                newVY = newVY + (gravity * moveTime);
                 velocity = new Vect(newVX, newVY);
-                velocity = velocity.plus(gravity);
                 moveBallForTime(moveTime);
 
             } else {
                 // We've got a collision in tuc
+                double newVX = velocity.x() * ((1 * friction * tuc) - (friction * velocity.x() * tuc));
+                double newVY = velocity.y() * ((1 * friction * tuc) - (friction * velocity.y() * tuc));
+                newVY = newVY + (gravity * tuc);
+                velocity = new Vect(newVX, newVY);
                 moveBallForTime(tuc);
+
                 if (cd.getAbsorber()!=null) {
                     isAbsorbed = true;
                     cd.getAbsorber().setAbsorbedBall(this);
@@ -108,12 +114,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
         // Create a new GameObject, move it to where the ball is the get the physics.Circle component.
         Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos}).getCircles()[0];
-
-        Vect ballVelocity;
-        double newVX = velocity.x() * ((1 * 0.025 * friction) - (0.025* velocity.x() * friction));
-        double newVY = velocity.y() * ((1 * 0.025 * friction) - (0.025* velocity.y() * friction));
-        ballVelocity = new Vect(newVX, newVY);
-        ballVelocity = ballVelocity.plus(gravity);
+        Vect ballVelocity = velocity;
 
         //This collision will never happen.
         CollisionDetails nextCollision = new CollisionDetails(Double.MAX_VALUE, new Vect(0,0));
