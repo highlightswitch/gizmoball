@@ -28,8 +28,9 @@ public class MenuActionListener implements ActionListener {
                         GizmoballFileReader fileReader = new GizmoballFileReader(selectedFile);
                         controller.setModel(fileReader.getModel());
                         controller.getGameFrame().setModel(fileReader.getModel());
-                        controller.switchToBuildView();
-                        controller.switchToRunView();
+                        controller.getBoard().setModel(fileReader.getModel());
+                       controller.switchToRunView();
+                     //   controller.refreshView();
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
