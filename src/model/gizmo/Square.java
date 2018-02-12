@@ -6,15 +6,15 @@ import physics.LineSegment;
 
 import java.awt.*;
 
-public class Square extends Gizmo implements Drawable, Tickable  {
+public class Square extends Gizmo implements Tickable, Collidable  {
     private Model model;
     private String name;
 
     private float xPos;
     private float yPos;
 
-    private final double length = 2;
-    private final double width = 2;
+    private final double length = 1;
+    private final double width = 1;
 
     public Square(Model model, Color colour, String name, float xPos, float yPos){
         super(colour);
@@ -28,20 +28,20 @@ public class Square extends Gizmo implements Drawable, Tickable  {
     public  GameObject getPrototypeGameObject(){
 
         LineSegment[] lines = {
+                new LineSegment(0, 0, width,  0),
                 new LineSegment(0, 0, 0,  length),
-                new LineSegment(width, 0, width, length),
-                new LineSegment(0, 0, 0,  length),
-                new LineSegment(width, 0, width, length)
+                new LineSegment(width, length, width, 0),
+                new LineSegment(width, length, 0, length)
         };
 
         Circle[] circles = {
-                new Circle(width/2d,0,width/2d),
-                new Circle(width/2d, length, width/2d),
-                new Circle(0,0, 0),
-                new Circle(width, 0, 0),
-                new Circle(0, length, 0),
+                new Circle(0,width,0),
+                new Circle(0, width, 0),
+                new Circle(length,0, 0),
+                new Circle(length, 0, 0),
+                new Circle(0, 0, 0),
+                new Circle(0, 0, 0),
                 new Circle(width, length, 0),
-                new Circle(0, length, 0),
                 new Circle(width, length, 0)
         };
 
@@ -71,12 +71,7 @@ public class Square extends Gizmo implements Drawable, Tickable  {
 
     }
 
-    @Override
-    public GameObject getShapeToDraw() {
-        return getPrototypeGameObject().translate(new double[]{ xPos, yPos });
-    }
-
     public GameObject getGameObject() {
-        return null;
+        return getPrototypeGameObject().translate(tile.getPosition());
     }
 }

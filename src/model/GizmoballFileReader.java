@@ -41,7 +41,7 @@ public class GizmoballFileReader {
 
     private void command(ArrayList<String> command) {
         switch (command.get(0)) {
-            case "Square": //
+            case "Square": model.addSquare(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
                 break;
             case "Circle": //
                 break;

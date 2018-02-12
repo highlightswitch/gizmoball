@@ -109,7 +109,10 @@ public class Model extends Observable {
 
     public void addSquare(String name, float xc, float yc){
         Square square = new Square(this, Color.black, name, xc, yc);
+        Tile tile = getTileAt(xc, yc);
+                tile.placeGizmo(square);
         tickable.add(square);
+        collidable.add(square);
     }
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {

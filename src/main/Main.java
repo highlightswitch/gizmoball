@@ -20,7 +20,6 @@ public class Main {
 
 		Model model = new Model();
 		model.addBall("sphere", 12, 12, 0, 0);
-	//	model.placeGizmo(GizmoType.BALL, "ball", model.getTileAt(5,5));
 		model.addSquare("square", 9,10);
 		GameFrame fr = new GameFrame(model);
 	}
