@@ -43,13 +43,13 @@ public class GizmoballFileReader {
         switch (command.get(0)) {
             case "Square": model.addSquare(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
                 break;
-            case "Circle": //
+            case "Circle": model.addCircle(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
                 break;
-            case "Triangle": //
+            case "Triangle": model.addTriangle(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
                 break;
-            case "RightFlipper": //
+            case "RightFlipper": model.placeGizmo(GizmoType.FLIPPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
                 break;
-            case "LeftFlipper": //
+            case "LeftFlipper": model.placeGizmo(GizmoType.FLIPPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
                 break;
             case "Absorber": //
                 break;

@@ -3,13 +3,10 @@ package model.gizmo;
 import model.Collidable;
 
 import model.GameObject;
-import model.RotatingGameObject;
 import model.StaticGameObject;
 import physics.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 
 public class Flipper extends Gizmo implements Tickable, Collidable {
 

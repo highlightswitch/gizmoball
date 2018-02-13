@@ -77,7 +77,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
             gameObjects.add(col.getGameObject());
         }
 
-        // Create a new GameObject, move it to where the ball is, the get the physics.Circle component.
+        // Create a new GameObject, move it to where the ball is, the get the physics.CircleGizmo component.
         Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos }).getCircles()[0];
         Vect ballVelocity = velocity;
 

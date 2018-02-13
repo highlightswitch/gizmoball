@@ -115,6 +115,22 @@ public class Model extends Observable {
         collidable.add(square);
     }
 
+    public void addTriangle(String name, float xc, float yc){
+        Triangle triangle = new Triangle(this, Color.black, name, xc, yc);
+        Tile tile = getTileAt(xc, yc);
+        tile.placeGizmo(triangle);
+        tickable.add(triangle);
+        collidable.add(triangle);
+    }
+
+    public void addCircle(String name, float xc, float yc){
+        CircleGizmo circle = new CircleGizmo(this, Color.black, name, xc, yc);
+        Tile tile = getTileAt(xc, yc);
+        tile.placeGizmo(circle);
+        tickable.add(circle);
+        collidable.add(circle);
+    }
+
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 
         if(keyEventTriggerMap.containsKey(keyCode)){
