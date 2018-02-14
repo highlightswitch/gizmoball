@@ -1,5 +1,5 @@
 package model.gizmo;
 
 public enum GizmoType {
-    FLIPPER, BALL, BUMPER;
+    LEFT_FLIPPER, RIGHT_FLIPPER, BALL, BUMPER;
 }
