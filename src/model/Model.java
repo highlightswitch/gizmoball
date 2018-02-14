@@ -79,23 +79,29 @@ public class Model extends Observable {
     public Gizmo placeGizmo(GizmoType gizmoType, Tile tile){
         Gizmo gizmo = null;
 
-	    switch(gizmoType){
-	        case FLIPPER:
-	            gizmo = new Flipper(null, true);
-	            tile.placeGizmo(gizmo);
-	            tickable.add((Flipper) gizmo);
-                collidable.add(gizmo);
-                break;
-            case BALL:
-                gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 3, 4);
-                ball = (Ball) gizmo;
-                tickable.add((Ball) gizmo);
-                break;
-            case BUMPER:
-                Bumper bumper = new Bumper(Color.black, BumperType.Triangle);
-                collidable.add(bumper);
-                tile.placeGizmo(bumper);
-        }
+		switch(gizmoType){
+			case FLIPPER:
+				gizmo = new Flipper(null, true);
+				tile.placeGizmo(gizmo);
+				tickable.add((Flipper) gizmo);
+				collidable.add(gizmo);
+				break;
+			case BALL:
+				gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 3, 4);
+				ball = (Ball) gizmo;
+				tickable.add((Ball) gizmo);
+				break;
+			case CIRCLE_BUMPER:
+				gizmo = addBumper(GizmoType.CIRCLE_BUMPER,tile);
+				break;
+			case SQUARE_BUMPER:
+				gizmo = addBumper(GizmoType.SQUARE_BUMPER,tile);
+				break;
+			case TRIANGLE_BUMPER:
+				gizmo = addBumper(GizmoType.TRIANGLE_BUMPER,tile);
+				break;
+
+		}
 
         // Notify observers ... redraw updated view
         this.setChanged();
@@ -104,6 +110,13 @@ public class Model extends Observable {
         return gizmo;
 
     }
+
+	private Gizmo addBumper(GizmoType gt,Tile t) {
+		Bumper bumper = new Bumper(Color.black, gt);
+		collidable.add(bumper);
+		t.placeGizmo(bumper);
+		return bumper;
+	}
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 

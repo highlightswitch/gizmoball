@@ -12,33 +12,27 @@ import java.awt.*;
 
 public class Bumper extends Gizmo implements Collidable{
 
-    private BumperType type;
+    private GizmoType type;
+    Angle rotation = Angle.RAD_PI_OVER_TWO;
 
-    Angle angle = Angle.RAD_PI_OVER_TWO;
-
-    private int rotate = 90;
-
-    public Bumper(Color colour, BumperType type){
+    public Bumper(Color colour, GizmoType type){
         super(colour);
-
         this.type = type;
-
     }
 
     @Override
     public GameObject getGameObject() {
-
-        return getPrototypeGameObject().rotateAround(new Vect(0,0),angle).translate(tile.getPosition());
+        return getPrototypeGameObject().rotateAround( new Vect(0,0), rotation ).translate( tile.getPosition() );
     }
 
     @Override
     public GameObject getPrototypeGameObject() {
-        switch (type){
-            case Square:
+        switch (type) {
+            case SQUARE_BUMPER:
                 return getSquareGameObject();
-            case Triangle:
+            case TRIANGLE_BUMPER:
                 return getTriangleGameObject();
-            case Circle:
+            case CIRCLE_BUMPER:
                 return getCircleGameObject();
             default:
                 return null;
@@ -47,7 +41,7 @@ public class Bumper extends Gizmo implements Collidable{
 
 
 
-    public GameObject getSquareGameObject(){
+    private GameObject getSquareGameObject(){
         LineSegment[] lines = {
                 new LineSegment(0, 0, 0, 1), //East
                 new LineSegment(0, 0, 1, 0), //North
@@ -55,8 +49,7 @@ public class Bumper extends Gizmo implements Collidable{
                 new LineSegment(1, 0, 1, 1) //West
         };
 
-        // These are the circles at either end of the flipper, and also the circles with
-        // radius 0 to help with collisions at the ends of LineSegments.
+        // These are the circles with radius 0 to help with collisions at the ends of LineSegments.
         Circle[] circles = {
                 new Circle(0, 0, 0), //NE corner
                 new Circle(1, 0, 0), //NW corner
@@ -74,8 +67,7 @@ public class Bumper extends Gizmo implements Collidable{
                 new LineSegment(0, 0, 1, 1) //Diagonal
         };
 
-        // These are the circles at either end of the flipper, and also the circles with
-        // radius 0 to help with collisions at the ends of LineSegments.
+        // These are the circles with radius 0 to help with collisions at the ends of LineSegments.
         Circle[] circles = {
                 new Circle(0, 0, 0), //NE corner
                 new Circle(0, 1, 0), //SE corner
@@ -86,7 +78,10 @@ public class Bumper extends Gizmo implements Collidable{
     }
 
     private GameObject getCircleGameObject() {
-        return null;
+        Circle[] circles = {
+                new Circle(0, 0, 0.5)
+        };
+        return new StaticGameObject(null, circles,1.0);
     }
 
     @Override
