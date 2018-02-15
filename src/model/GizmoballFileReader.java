@@ -41,20 +41,26 @@ public class GizmoballFileReader {
 
     private void command(ArrayList<String> command) {
         switch (command.get(0)) {
-            case "Square": model.addSquare(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+            case "Square":
+                model.placeGizmo(GizmoType.SQUARE_BUMPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
                 break;
-            case "Circle": model.addCircle(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+            case "Circle":
+                model.placeGizmo(GizmoType.CIRCLE_BUMPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
                 break;
-            case "Triangle": model.addTriangle(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+            case "Triangle":
+                model.placeGizmo(GizmoType.TRIANGLE_BUMPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
                 break;
-            case "RightFlipper": model.placeGizmo(GizmoType.FLIPPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+            case "RightFlipper":
+                model.placeGizmo(GizmoType.RIGHT_FLIPPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
                 break;
-            case "LeftFlipper": model.placeGizmo(GizmoType.FLIPPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+            case "LeftFlipper":
+                model.placeGizmo(GizmoType.LEFT_FLIPPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
                 break;
             case "Absorber": //
                 break;
             case "Ball":
-                model.addBall(command.get(1), Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)), Float.parseFloat(command.get(4)), Float.parseFloat(command.get(5)));
+                model.placeGizmo(GizmoType.BALL, command.get(1), model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3))));
+                model.getBall().setVelocity(Float.parseFloat(command.get(4)), Float.parseFloat(command.get(5)));
                 break;
             case "Rotate": //
                 break;

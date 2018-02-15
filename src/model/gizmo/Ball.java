@@ -24,7 +24,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 	private Model model;
 
 	// x, y coordinates and x,y velocity
-	public Ball(Model model, Color colour, String name, float xPos, float yPos, float xv, float yv) {
+	public Ball(Model model, Color colour, float xPos, float yPos, float xv, float yv) {
         super(colour);
         this.xPos = xPos;
         this.yPos = yPos;
@@ -92,6 +92,10 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         }
 
         return nextCollision;
+    }
+
+    public void setVelocity(float vx, float vy){
+	    velocity = new Vect(vx, vy);
     }
 
     @Override

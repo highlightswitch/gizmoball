@@ -46,9 +46,10 @@ public class Model extends Observable {
 
 	}
 
-    public void setUpActionMap(Flipper flipper) {
+    public void setUpActionMap(Flipper l, Flipper r) {
         keyEventTriggerMap = new HashMap<>();
-        keyEventTriggerMap.put(70, flipper); //Key code 70 = F
+        keyEventTriggerMap.put(70, l); //Key code 70 = F
+        keyEventTriggerMap.put(71, r); //Key code 71 = G
     }
 
     public Tile getTileAt(int x, int y){
@@ -79,19 +80,35 @@ public class Model extends Observable {
     public Gizmo placeGizmo(GizmoType gizmoType, String name, Tile tile){
         Gizmo gizmo = null;
 
-	    switch(gizmoType){
-	        case FLIPPER:
-	            gizmo = new Flipper(null, true);
-	            tile.placeGizmo(gizmo);
-	            tickable.add((Flipper) gizmo);
-                collidable.add((Flipper) gizmo);
-                break;
-            case BALL:
-                gizmo = new Ball(this, Color.black, name, tile.getX(), tile.getY(), 3, 4);
-                ball = (Ball) gizmo;
-                tickable.add((Ball) gizmo);
-                break;
-        }
+		switch(gizmoType){
+			case LEFT_FLIPPER:
+				gizmo = new Flipper(null, true);
+				tile.placeGizmo(gizmo);
+				tickable.add((Flipper) gizmo);
+				collidable.add(gizmo);
+				break;
+			case RIGHT_FLIPPER:
+				gizmo = new Flipper(null, false);
+				tile.placeGizmo(gizmo);
+				tickable.add((Flipper) gizmo);
+				collidable.add(gizmo);
+				break;
+			case BALL:
+				gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 3, 4);
+				ball = (Ball) gizmo;
+				tickable.add((Ball) gizmo);
+				break;
+			case CIRCLE_BUMPER:
+				gizmo = addBumper(GizmoType.CIRCLE_BUMPER,tile);
+				break;
+			case SQUARE_BUMPER:
+				gizmo = addBumper(GizmoType.SQUARE_BUMPER,tile);
+				break;
+			case TRIANGLE_BUMPER:
+				gizmo = addBumper(GizmoType.TRIANGLE_BUMPER,tile);
+				break;
+
+		}
 
         // Notify observers ... redraw updated view
         this.setChanged();
@@ -101,35 +118,12 @@ public class Model extends Observable {
 
     }
 
-    public void addBall(String name, float xc, float yc, float xv, float yv){
-        Ball ball = new Ball(this, Color.black, name, xc, yc, xv, yv);
-        this.ball = (Ball) ball;
-        tickable.add((Ball) ball);
-    }
-
-    public void addSquare(String name, float xc, float yc){
-        Square square = new Square(this, Color.black, name, xc, yc);
-        Tile tile = getTileAt(xc, yc);
-                tile.placeGizmo(square);
-        tickable.add(square);
-        collidable.add(square);
-    }
-
-    public void addTriangle(String name, float xc, float yc){
-        Triangle triangle = new Triangle(this, Color.black, name, xc, yc);
-        Tile tile = getTileAt(xc, yc);
-        tile.placeGizmo(triangle);
-        tickable.add(triangle);
-        collidable.add(triangle);
-    }
-
-    public void addCircle(String name, float xc, float yc){
-        CircleGizmo circle = new CircleGizmo(this, Color.black, name, xc, yc);
-        Tile tile = getTileAt(xc, yc);
-        tile.placeGizmo(circle);
-        tickable.add(circle);
-        collidable.add(circle);
-    }
+	private Gizmo addBumper(GizmoType gt,Tile t) {
+		Bumper bumper = new Bumper(Color.black, gt);
+		collidable.add(bumper);
+		t.placeGizmo(bumper);
+		return bumper;
+	}
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 
