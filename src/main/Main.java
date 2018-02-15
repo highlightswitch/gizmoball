@@ -23,6 +23,7 @@ public class Main {
 		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19));
 		Flipper flipper =  (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(9,10));
 		model.setUpActionMap(flipper, absorber);
+		model.placeGizmo(GizmoType.BALL, model.getTileAt(5,5));
 		GameFrame fr = new GameFrame(model);
 	}
 }
