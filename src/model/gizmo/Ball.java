@@ -62,51 +62,51 @@ public class Ball extends Gizmo implements Drawable, Tickable {
             double newVX;
             double newVY;
 
-            if (tuc > moveTime) {
-                // No collision ...
+            if (tuc != 0) {
+                if (tuc > moveTime) {
+                    // No collision ...
 
-                if (isFired) {
-                     newVX = 0;
-                     newVY = (-50) * (1 - friction * moveTime - friction * Math.abs((-50) * moveTime));
-                     isFired = false;
-                }
-                else {
-                    newVX = velocity.x() * (1 - friction * moveTime - friction * Math.abs(velocity.x() * moveTime));
-                    newVY = velocity.y() * (1 - friction * moveTime - friction * Math.abs(velocity.y() * moveTime));
-                }
+                    if (isFired) {
+                        newVX = 0;
+                        newVY = (-50) * (1 - friction * moveTime - friction * Math.abs((-50) * moveTime));
+                        isFired = false;
+                    } else {
+                        newVX = velocity.x() * (1 - friction * moveTime - friction * Math.abs(velocity.x() * moveTime));
+                        newVY = velocity.y() * (1 - friction * moveTime - friction * Math.abs(velocity.y() * moveTime));
+                    }
 
-                velocity = new Vect(newVX, newVY);
-                newVY = velocity.y() + gravity * moveTime;
-                velocity = new Vect(newVX, newVY);
-                moveBallForTime(moveTime);
-            } else {
-                // We've got a collision in tuc
-                if (isFired) {
-                    newVX = 0;
-                    newVY = (-50) * (1 - friction * tuc - friction * Math.abs((-50) * tuc));
-                    isFired = false;
-                }
-                else {
-                    newVX = velocity.x() * (1 - friction * tuc - friction * Math.abs(velocity.x() * tuc));
-                    newVY = velocity.y() * (1 - friction * tuc - friction * Math.abs(velocity.y() * tuc));
-                }
+                    velocity = new Vect(newVX, newVY);
+                    newVY = velocity.y() + gravity * moveTime;
+                    velocity = new Vect(newVX, newVY);
+                    moveBallForTime(moveTime);
+                } else {
+                    // We've got a collision in tuc
+                    if (isFired) {
+                        newVX = 0;
+                        newVY = (-50) * (1 - friction * tuc - friction * Math.abs((-50) * tuc));
+                        isFired = false;
+                    } else {
+                        newVX = velocity.x() * (1 - friction * tuc - friction * Math.abs(velocity.x() * tuc));
+                        newVY = velocity.y() * (1 - friction * tuc - friction * Math.abs(velocity.y() * tuc));
+                    }
 
-                velocity = new Vect(newVX, newVY);
-                newVY = velocity.y() + gravity * tuc;
-                velocity = new Vect(newVX, newVY);
-                moveBallForTime(tuc);
+                    velocity = new Vect(newVX, newVY);
+                    newVY = velocity.y() + gravity * tuc;
+                    velocity = new Vect(newVX, newVY);
+                    moveBallForTime(tuc);
 
-                if (cd.getAbsorber()!=null) {
-                    isAbsorbed = true;
-                    cd.getAbsorber().setAbsorbedBall(this);
+                    if (cd.getAbsorber() != null) {
+                        isAbsorbed = true;
+                        cd.getAbsorber().setAbsorbedBall(this);
 //                    velocity = new Vect (0, -50);
-                    xPos = 19.5;
-                    yPos = 19.5;
+                        xPos = 19.5;
+                        yPos = 19.5;
+                    }
+                    // Post collision velocity ...
+                    velocity = cd.getVelocity();
                 }
-                // Post collision velocity ...
-                velocity = cd.getVelocity();
-            }
 
+            }
         }
 
         else {
