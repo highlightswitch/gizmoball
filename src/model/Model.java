@@ -46,10 +46,15 @@ public class Model extends Observable {
 
 	}
 
-    public void setUpActionMap(Flipper flipper, Absorber absorber) {
-        keyEventTriggerMap = new HashMap<>();
-        keyEventTriggerMap.put(70, flipper); //Key code 70 = F
+//    public void setUpActionMap(Flipper flipper, Absorber absorber) {
+//        keyEventTriggerMap = new HashMap<>();
+//        keyEventTriggerMap.put(70, flipper); //Key code 70 = F
+//
+//        keyEventTriggerMap = new HashMap<>();
+//        keyEventTriggerMap.put(32, absorber); //Key code 70 = F
+//    }
 
+    public void setUpActionMap(Absorber absorber) {
         keyEventTriggerMap = new HashMap<>();
         keyEventTriggerMap.put(32, absorber); //Key code 70 = F
     }
