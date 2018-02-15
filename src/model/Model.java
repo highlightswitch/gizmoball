@@ -53,6 +53,12 @@ public class Model extends Observable {
         keyEventTriggerMap = new HashMap<>();
         keyEventTriggerMap.put(32, absorber); //Key code 70 = F
     }
+    public void setUpActionMap(Absorber absorber) {
+//        keyEventTriggerMap = new HashMap<>();
+//        keyEventTriggerMap.put(70, flipper); //Key code 70 = F
+        keyEventTriggerMap = new HashMap<>();
+        keyEventTriggerMap.put(32, absorber); //Key code 70 = F
+    }
 
     public Tile getTileAt(int x, int y){
 	    return tiles[x][y];
