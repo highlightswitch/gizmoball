@@ -1,8 +1,6 @@
 package model.gizmo;
 
-import main.Main;
 import model.*;
-import physics.Angle;
 import physics.Circle;
 import physics.Vect;
 
@@ -21,9 +19,8 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 	private Vect velocity;
 	private double gravity;
 	private double friction;
-	private boolean isStopped;
 	private boolean isAbsorbed;
-	private boolean isFired;
+	private boolean justFired;
 
 	private Model model;
 
@@ -33,8 +30,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         this.xPos = xPos;
         this.yPos = yPos;
 		velocity = new Vect(xv, yv);
-		isStopped = false;
-		isFired = false;
+		justFired = false;
         gravity = g;
         friction = f;
 		this.model = model;
@@ -42,77 +38,82 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
 	public void fire (Absorber firedFrom) {
 	    moveBall(firedFrom);
-	    isFired = true;
+	    justFired = true;
 	    isAbsorbed = false;
     }
 
     public void moveBall(Absorber absorber) {
-        System.out.println("Current Velocity: " + velocity.toString());
-        double moveTime = 0.05; // 0.05 = 20 times per second as per Gizmoball
-        if (!isStopped) {
 
-//          if(velocity.x() < 0.1 && velocity.y() < 0.1) {
-//              velocity = Vect.ZERO;
-//              isStopped = true;
-//          }
+	    //A lot of definitions
+        double lengthOfTick = 0.05; // 0.05 = 20 times per second as per Gizmoball
+        CollisionDetails cd = timeUntilCollision(absorber);
+        double tuc = cd.getTuc(); //ie Time Until Collision
+        Vect velAfterCollision = cd.getVelocity();
+        boolean isCollidingWithAbsorberNext = cd.getAbsorber() != null; // True if next thing ball is colliding with is an absorber
+        Absorber collidedAbsorber = cd.getAbsorber(); //Usually null unless ball is colliding with absorber.
 
-            CollisionDetails cd = timeUntilCollision(absorber);
-            double tuc = cd.getTuc();
 
-            double newVX;
-            double newVY;
+        // If the ball has not collided with something or if it has, but it is an absorber
+        if(tuc != 0 || isCollidingWithAbsorberNext) {
 
-            if (tuc != 0) {
-                if (tuc > moveTime) {
-                    // No collision ...
+            boolean isCollidingThisTick = tuc < lengthOfTick;
+            double timeMoving = isCollidingThisTick ? tuc : lengthOfTick;
 
-                    if (isFired) {
-                        newVX = 0;
-                        newVY = (-50) * (1 - friction * moveTime - friction * Math.abs((-50) * moveTime));
-                        isFired = false;
-                    } else {
-                        newVX = velocity.x() * (1 - friction * moveTime - friction * Math.abs(velocity.x() * moveTime));
-                        newVY = velocity.y() * (1 - friction * moveTime - friction * Math.abs(velocity.y() * moveTime));
-                    }
+            //Get the new XY velocities of the ball during
+            double[] newVel = getNewVelocities(justFired, timeMoving);
 
-                    velocity = new Vect(newVX, newVY);
-                    newVY = velocity.y() + gravity * moveTime;
-                    velocity = new Vect(newVX, newVY);
-                    moveBallForTime(moveTime);
-                } else {
-                    // We've got a collision in tuc
-                    if (isFired) {
-                        newVX = 0;
-                        newVY = (-50) * (1 - friction * tuc - friction * Math.abs((-50) * tuc));
-                        isFired = false;
-                    } else {
-                        newVX = velocity.x() * (1 - friction * tuc - friction * Math.abs(velocity.x() * tuc));
-                        newVY = velocity.y() * (1 - friction * tuc - friction * Math.abs(velocity.y() * tuc));
-                    }
+            //If the ball has just been fired, one tick later, it has not just been fired
+            if(justFired) justFired = false;
 
-                    velocity = new Vect(newVX, newVY);
-                    newVY = velocity.y() + gravity * tuc;
-                    velocity = new Vect(newVX, newVY);
-                    moveBallForTime(tuc);
+            //Set the balls new velocity and move the ball for the correct amount of time
+            velocity = new Vect(newVel[0], newVel[1]);
+            moveBallForTime(timeMoving);
 
-                    if (cd.getAbsorber() != null) {
-                        isAbsorbed = true;
-                        cd.getAbsorber().setAbsorbedBall(this);
-//                    velocity = new Vect (0, -50);
-                        xPos = 19.5;
-                        yPos = 19.5;
-                    }
-                    // Post collision velocity ...
-                    velocity = cd.getVelocity();
+            if(isCollidingThisTick){
+                //At this point the ball has collided with something
+
+                //If the collision is with an absorber, absorb the ball.
+                if (isCollidingWithAbsorberNext) {
+                    isAbsorbed = true;
+                    collidedAbsorber.setAbsorbedBall(this);
+                    xPos = 19.5;
+                    yPos = 19.5;
                 }
+
+                // Set the velocity of the ball to its new post-collision velocity
+                velocity = velAfterCollision;
 
             }
         }
+    }
 
-        else {
-            moveBallToAbsorber();
-        }
+    private double[] getNewVelocities(boolean justFired, double timeMoving){
 
+        //Set the initial new XY velocities
+        //If the ball is just fired, it has a new velocity being fired upwards.
+        //If not, then the initial velocity is it's velocity in the last tick (ie its current velocity)
+        double[] velXY = justFired ? new double[]{0,-50} : new double[]{velocity.x(),velocity.y()};
+
+        //Apply friction and gravity to the velocities
+        velXY = applyFrictionToVelocities(velXY, timeMoving);
+        velXY = applyGravityToVelocities(velXY, timeMoving);
+
+        //This is the new velocity of the ball (before a collision if there is one).
+        return velXY;
+    }
+
+    private double[] applyFrictionToVelocities(double[] velXY, double timeMoving){
+        return new double[]{
+                velXY[0] * (1 - friction * timeMoving - friction * Math.abs(velXY[0] * timeMoving)),
+                velXY[1] * (1 - friction * timeMoving - friction * Math.abs(velXY[1] * timeMoving))
+        };
+    }
+
+    private double[] applyGravityToVelocities(double[] velXY, double timeMoving){
+        return new double[]{
+                velXY[0],
+                velXY[1] + (gravity * timeMoving)
+        };
     }
 
     private void moveBallForTime(double time) {
@@ -122,27 +123,18 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         yPos = yPos + (yVel * time);
     }
 
-    private void moveBallToAbsorber() {
-	    xPos = 18;
-	    yPos = 18;
-    }
-
     private CollisionDetails timeUntilCollision( Absorber absorber) {
         // Find Time Until Collision and also, if there is a collision, the new speed vector.
 
-        //Create a list of all collidable game objects in the game.
+        //Create a list of all collidable objects in the game.
         ArrayList<Collidable> collidable = model.getCollidable();
-        ArrayList<GameObject> gameObjects = new ArrayList<>();
-        for(Collidable col : collidable){
-            gameObjects.add(col.getGameObject());
-        }
 
         // Create a new GameObject, move it to where the ball is the get the physics.Circle component.
         Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos}).getCircles()[0];
 
-//        if (isFired) {
+//        if (justFired) {
 //            velocity = new Vect(0, -50);
-//            isFired = false;
+//            justFired = false;
 //        }
         Vect ballVelocity = velocity;
 
@@ -150,13 +142,11 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         CollisionDetails nextCollision = new CollisionDetails(Double.MAX_VALUE, new Vect(0,0));
 
         for (Collidable co : collidable) {
-            if (co.equals((Collidable) absorber)) {
+            if (co.equals(absorber)) {
                 continue;
             }
             CollisionDetails cd = co.getGameObject().timeUntilGameObjectCollision(ballCircle, ballVelocity);
-            if (co.isAbsorber())
-            {
-                //System.out.println("HGFHGCH");
+            if (co.isAbsorber()) {
                 cd.setAbsorber((Absorber) co);
             }
             if (cd.getTuc() < nextCollision.getTuc()) {
