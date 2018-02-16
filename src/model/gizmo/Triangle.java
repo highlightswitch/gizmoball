@@ -28,6 +28,10 @@ public class Triangle extends Gizmo implements Tickable, Collidable {
         this.model = model;
     }
 
+    public void rotate(){
+
+    }
+
     @Override
     public GameObject getPrototypeGameObject(){
 

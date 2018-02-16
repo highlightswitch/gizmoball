@@ -26,6 +26,9 @@ public class CircleGizmo extends Gizmo implements Tickable, Collidable {
         this.name = name;
         this.model = model;
     }
+    public void rotate(){
+
+    }
 
     @Override
     public GameObject getPrototypeGameObject(){

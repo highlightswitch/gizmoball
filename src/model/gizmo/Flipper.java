@@ -18,14 +18,21 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     private boolean isLeftFlipper;
     private double currentMovement;
     private double flipPos;
+    private String name;
+    Angle rotation = Angle.RAD_PI_OVER_TWO;
 
-    public Flipper(Color colour, boolean isLeft){
+    public Flipper(Color colour, String name, boolean isLeft){
         super(colour);
 
         flipPos = 0;
         currentMovement = 0;
+        this.name = name;
 
         setIsLeft(isLeft);
+    }
+
+    public String getName(){
+        return name;
     }
 
     private void moveFlipper(){
@@ -99,8 +106,12 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
         //Empty...
     }
 
+    public void rotate() {
+        rotation = rotation.plus(Angle.DEG_90);
+    }
+
     @Override
     public GameObject getGameObject() {
-        return getPrototypeGameObject().translate(tile.getPosition());
+        return getPrototypeGameObject().rotateAround( new Vect(0,0), rotation ).translate( tile.getPosition());
     }
 }

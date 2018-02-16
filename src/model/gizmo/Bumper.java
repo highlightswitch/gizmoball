@@ -14,10 +14,20 @@ public class Bumper extends Gizmo implements Collidable{
 
     private GizmoType type;
     Angle rotation = Angle.RAD_PI_OVER_TWO;
+    private String name;
 
-    public Bumper(Color colour, GizmoType type){
+    public Bumper(Color colour, String name, GizmoType type){
         super(colour);
         this.type = type;
+        this.name = name;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public void rotate() {
+        rotation = rotation.plus(Angle.DEG_90);
     }
 
     @Override
@@ -38,8 +48,6 @@ public class Bumper extends Gizmo implements Collidable{
                 return null;
         }
     }
-
-
 
     private GameObject getSquareGameObject(){
         LineSegment[] lines = {

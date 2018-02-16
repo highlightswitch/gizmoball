@@ -10,6 +10,7 @@ public abstract class Gizmo implements GizmoEventListener, Collidable {
 
     private Color colour;
     protected Tile tile;
+    private String name;
 
     Gizmo(Color colour){
 
@@ -27,4 +28,8 @@ public abstract class Gizmo implements GizmoEventListener, Collidable {
     }
 
     public abstract GameObject getGameObject();
+
+    public String getName(){ return name;}
+
+    public abstract void rotate();
 }
