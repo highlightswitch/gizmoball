@@ -31,6 +31,7 @@ public class GizmoballFileReader {
                 while(st.hasMoreTokens()){
                     tokens.add(st.nextToken());
                 }
+              //  System.out.println(tokens);
                 if(checkLine(tokens))
                 command(tokens);
             }
@@ -47,21 +48,25 @@ public class GizmoballFileReader {
             case "Triangle":
             case "RightFlipper":
             case "LeftFlipper":
+                System.out.println("bumper check");
                 if(!model.checkName(command.get(1)) && checkInt(command.get(2)) && checkInt(command.get(3)) && command.size() == 4){
                     return true;
                 } else {
                     return false;
                 }
-            case "Absorber": //
-
-                break;
+            case "Absorber":
+                if(!model.checkName(command.get(1)) && checkInt(command.get(2)) && checkInt(command.get(3)) && checkInt(command.get(4)) && checkInt(command.get(5)) && command.size() == 6){
+                    return true;
+                } else {
+                    return false;
+                }
             case "Ball":
                 if(!model.checkName(command.get(1)) && checkFloat(command.get(2)) && checkFloat(command.get(3)) && checkFloat(command.get(4)) && checkFloat(command.get(5)) && command.size() == 6){
                     return true;
                 } else {
                     return false;
                 }
-            case "rotate":
+            case "Rotate":
                 if(model.checkName(command.get(1)) && command.size() == 2){
                     return true;
                 } else {
@@ -69,7 +74,6 @@ public class GizmoballFileReader {
                 }
                 default: return false;
         }
-        return false;
     }
 
     private boolean checkInt(String string){
@@ -109,13 +113,16 @@ public class GizmoballFileReader {
                 model.placeGizmo(GizmoType.LEFT_FLIPPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
                 break;
             case "Absorber":
+                System.out.println("absorbing");
                 model.addAbsorber(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)), Integer.parseInt(command.get(4)), Integer.parseInt(command.get(5)));
                 break;
             case "Ball":
                 model.placeGizmo(GizmoType.BALL, command.get(1), model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3))));
                 model.getBall().setVelocity(Float.parseFloat(command.get(4)), Float.parseFloat(command.get(5)));
                 break;
-            case "Rotate": model.rotateGizmo(command.get(1));
+            case "Rotate":
+                System.out.println("rotating");
+                model.rotateGizmo(command.get(1));
                 break;
             case "Delete": //
                 break;

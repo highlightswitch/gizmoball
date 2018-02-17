@@ -63,6 +63,7 @@ public class Model extends Observable {
 
     public boolean checkName(String name){
         for(int i = 0; i < gizmos.size(); i++){
+          //  System.out.println(gizmos.size());
             if(gizmos.get(i).getName().equals(name)){
                 return true;
             }

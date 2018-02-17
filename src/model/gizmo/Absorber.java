@@ -28,14 +28,18 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
 
     }
 
+    public String getName(){
+        return name;
+    }
+
     @Override
     public GameObject getPrototypeGameObject() {
 
         LineSegment[] lines = {
-                new LineSegment(0, 0, width,  0),
-                new LineSegment(0, 0, 0,  length),
-                new LineSegment(width, length, width, 0),
-                new LineSegment(width, length, 0, length)
+                new LineSegment(0, 0, 0,  width), //Top left to bottom left
+                new LineSegment(0, 0, length,  0), //Top left to top right
+                new LineSegment(length, width, 0, width), //bottom right to bottom left
+                new LineSegment(length, width, length, 0) //bottom right to top right
         };
 
         Circle[] circles = {
@@ -45,8 +49,8 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
                 new Circle(length, 0, 0),
                 new Circle(0, 0, 0),
                 new Circle(0, 0, 0),
-                new Circle(width, length, 0),
-                new Circle(width, length, 0)
+                new Circle(length, width, 0),
+                new Circle(length, width, 0)
         };
 
         GameObject gameObject = new StaticGameObject(lines, circles, 0.95);
