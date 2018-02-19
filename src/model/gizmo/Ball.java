@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Ball extends Gizmo implements Drawable, Tickable {
 
-    private final double newRadius = 0.5;
+    private final double newRadius = 0.25;
 
     private double xPos, yPos;
 	private Vect velocity;
