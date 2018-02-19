@@ -55,8 +55,10 @@ public class Absorber extends Gizmo implements Collidable {
 
     @Override
     public void keyDown() {
-        absorbedBall.fire(this);
-        absorbedBall = null;
+    	if(absorbedBall != null) {
+			absorbedBall.fire(this);
+			absorbedBall = null;
+		}
     }
 
     @Override
