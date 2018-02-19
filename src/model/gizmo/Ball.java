@@ -72,16 +72,21 @@ public class Ball extends Gizmo implements Drawable, Tickable {
             if(isCollidingThisTick){
                 //At this point the ball has collided with something
 
+				// Set the velocity of the ball to its new post-collision velocity
+                velocity = velAfterCollision;
+
                 //If the collision is with an absorber, absorb the ball.
                 if (isCollidingWithAbsorberNext) {
                     isAbsorbed = true;
                     collidedAbsorber.setAbsorbedBall(this);
                     xPos = 19.5;
                     yPos = 19.5;
-                }
+                } else {
+                	//If we get to here, the ball is colliding this tick, and it is not with an absorber
+					//So we move the ball for the remaining time with its new velocity
+                	moveBallForTime(lengthOfTick - tuc);
+				}
 
-                // Set the velocity of the ball to its new post-collision velocity
-                velocity = velAfterCollision;
 
             }
         }
