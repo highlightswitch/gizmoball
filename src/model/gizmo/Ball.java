@@ -51,6 +51,8 @@ public class Ball extends Gizmo implements Drawable, Tickable {
                 moveBallForTime(tuc);
                 // Post collision velocity ...
                 velocity = cd.getVelocity();
+				//Now we move the ball for the remaining amount of time.
+                moveBallForTime(moveTime - tuc);
             }
 
         }
