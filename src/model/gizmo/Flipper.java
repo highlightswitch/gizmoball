@@ -106,8 +106,6 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
         }
 
-
-
         GameObject gameObject = new StaticGameObject(lines, circles, 0.95);
 
         //TODO: Get Rotating Game Objects working with the ball.

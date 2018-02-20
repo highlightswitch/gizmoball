@@ -31,7 +31,6 @@ public class Main {
 //		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, "", model.getTileAt(14,10));
 //		model.setUpActionMap(leftFlipper, rightFlipper);
 
-
 		GameFrame fr = new GameFrame(model);
 	}
 }

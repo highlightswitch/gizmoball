@@ -102,7 +102,8 @@ public class Model extends Observable {
             for(int y = 0; y < height; y++)
                 list.add(tiles[x][y]);
 
-        //        list.add(ball);
+//        list.add(ball);
+
         return list;
     }
 
