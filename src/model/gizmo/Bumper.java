@@ -13,7 +13,7 @@ import java.awt.*;
 public class Bumper extends Gizmo implements Collidable{
 
     private GizmoType type;
-    Angle rotation = Angle.RAD_PI_OVER_TWO;
+    public Angle rotation = Angle.DEG_270; //TODO change to private
     private String name;
 
     public Bumper(Color colour, String name, GizmoType type){

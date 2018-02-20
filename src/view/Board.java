@@ -5,6 +5,8 @@ import model.GameObject;
 import model.Model;
 import model.Tile;
 import model.gizmo.Absorber;
+import model.gizmo.Bumper;
+import model.gizmo.Gizmo;
 import physics.Circle;
 import physics.LineSegment;
 
@@ -93,9 +95,29 @@ public  class Board extends JPanel implements Observer {
                             break;
                         case TRIANGLE_BUMPER:
                             gg.setColor(Color.BLACK);
-                            Polygon triangle = new Polygon(new int[] {tiles[x][y].getX(), tiles[x][y].getX() + 1, tiles[x][y].getX() + 1}, new int[] {tiles[x][y].getY(), tiles[x][y].getY(), tiles[x][y].getY() + 1}, 3);
-                            Polygon newTriangle = toPixels(triangle);
-                            gg.fill(newTriangle);
+							Bumper bumper = (Bumper) tiles[x][y].getGizmo();
+//							int[] xpoints = new int[] {tiles[x][y].getX(), tiles[x][y].getX() + 1, tiles[x][y].getX() + 1};
+//							int[] ypoints = new int[] {tiles[x][y].getY(), tiles[x][y].getY(), tiles[x][y].getY() + 1};
+//
+//							Point2D[] points = {new Point(xpoints[0], ypoints[0]), new Point(xpoints[1], ypoints[1]), new Point(xpoints[2], ypoints[2])};
+//                         	Point2D[] rotatedPoints = new Point2D[3];
+							Polygon triangle = new Polygon(new int[] {tiles[x][y].getX(), tiles[x][y].getX() + 1, tiles[x][y].getX() + 1}, new int[] {tiles[x][y].getY(), tiles[x][y].getY(), tiles[x][y].getY() + 1}, 3);
+							Shape shape = AffineTransform.getRotateInstance(bumper.rotation.radians(), toPixels(tiles[x][y].getX()) + toPixels(0.5), toPixels(tiles[x][y].getY()) + toPixels(0.5)).createTransformedShape(toPixels(triangle));
+
+//                            Polygon newTriangle = toPixels(new Polygon(
+//                            		new int[] {
+//											(int) rotatedPoints[0].getX(),
+//											(int) rotatedPoints[1].getX(),
+//											(int) rotatedPoints[2].getX()
+//									},
+//									new int[]{
+//											(int) rotatedPoints[0].getX(),
+//											(int) rotatedPoints[1].getY(),
+//											(int) rotatedPoints[2].getY(),
+//									},
+//									3
+//							));
+                            gg.fill(shape);
                             break;
                         case ABSORBER:
                             g.setColor(Color.BLACK);
@@ -110,6 +132,22 @@ public  class Board extends JPanel implements Observer {
     }
 
     }
+
+
+	public Point rotatePoint(Point pt, Point center, double angleDeg) {
+		// http://en.wikipedia.org/wiki/Rotation_matrix
+
+		double angleRad = Math.toRadians(angleDeg);
+		double cosThetha = Math.cos(angleRad); //The angle COS
+		double sinThetha = Math.sin(angleRad); //The angle SIN
+		double dx = (pt.x - center.x); //Difference (Point in transformed to origo)
+		double dy = (pt.y - center.y); //Difference -- || --
+
+		int ptX = center.x + (int) (dx * cosThetha - dy * sinThetha);
+		int ptY = center.y + (int) (dx * sinThetha + dy * cosThetha);
+
+		return new Point(ptX, ptY);
+	}
 
     public class TriangleShape extends Path2D.Double {
 
