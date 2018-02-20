@@ -51,6 +51,11 @@ public class Model extends Observable {
         keyEventTriggerMap.put(70, l); //Key code 70 = F
         keyEventTriggerMap.put(71, r); //Key code 71 = G
     }
+    
+    public void setUpActionMap(Absorber absorber) {
+        keyEventTriggerMap = new HashMap<>();
+        keyEventTriggerMap.put(32, absorber); //Key code 70 = F
+    }
 
     public Tile getTileAt(int x, int y){
 	    return tiles[x][y];
@@ -80,6 +85,7 @@ public class Model extends Observable {
     public Gizmo placeGizmo(GizmoType gizmoType, Tile tile){
         Gizmo gizmo = null;
 
+<<<<<<< src/model/Model.java
 		switch(gizmoType){
 			case LEFT_FLIPPER:
 				gizmo = new Flipper(null, true);
@@ -109,6 +115,26 @@ public class Model extends Observable {
 				break;
 
 		}
+=======
+	    switch(gizmoType){
+	        case FLIPPER:
+	            gizmo = new Flipper(null, true);
+	            tile.placeGizmo(gizmo);
+	            tickable.add((Flipper) gizmo);
+                collidable.add((Flipper) gizmo);
+                break;
+            case BALL:
+                gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 0, 0, 25, 0.025);
+                ball = (Ball) gizmo;
+                tickable.add((Ball) gizmo);
+                break;
+            case ABSORBER:
+                gizmo = new Absorber(null);
+                tile.placeGizmo(gizmo);
+                collidable.add((Absorber) gizmo);
+                break;
+        }
+>>>>>>> src/model/Model.java
 
         // Notify observers ... redraw updated view
         this.setChanged();

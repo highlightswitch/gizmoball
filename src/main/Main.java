@@ -3,6 +3,7 @@ package main;
 import javax.swing.UIManager;
 
 import model.*;
+import model.gizmo.Absorber;
 import model.gizmo.Flipper;
 import model.gizmo.GizmoType;
 import view.GameFrame;
@@ -18,6 +19,7 @@ public class Main {
 		}
 
 		Model model = new Model();
+
 		model.placeGizmo(GizmoType.BALL, model.getTileAt(5,5));
 		Flipper leftFlipper =  (Flipper) model.placeGizmo(GizmoType.LEFT_FLIPPER, model.getTileAt(9,10));
 		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, model.getTileAt(14,10));
@@ -28,6 +30,8 @@ public class Main {
 		model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(12, 18));
 
 		model.setUpActionMap(leftFlipper, rightFlipper);
+		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19));
+		model.setUpActionMap(absorber);
 		GameFrame fr = new GameFrame(model);
 	}
 }

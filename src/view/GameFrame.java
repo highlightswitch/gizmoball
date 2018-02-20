@@ -19,6 +19,7 @@ public class GameFrame {
         board = new Board(500, 500, model);
         controller = new MainController(model, this, board);
         frMain = new JFrame("Gizmoball");
+        mTools = new JMenu("Tools");
         top = new JMenuBar();
 
         JMenu mFile = new JMenu("File");
@@ -71,7 +72,6 @@ public class GameFrame {
     }
 
     public void extendMenu(){
-        mTools = new JMenu("Tools");
         JMenu add = new JMenu("add a gizmo");
         JMenu shape = new JMenu("add a shape");
         JMenuItem circle = new JMenuItem("circle");
