@@ -32,7 +32,7 @@ public class Bumper extends Gizmo implements Collidable{
 
     @Override
     public GameObject getGameObject() {
-        return getPrototypeGameObject().rotateAround( new Vect(0,0), rotation ).translate( tile.getPosition() );
+        return getPrototypeGameObject().rotateAround( new Vect(0.5,0.5), rotation ).translate( tile.getPosition() );
     }
 
     @Override
@@ -87,7 +87,7 @@ public class Bumper extends Gizmo implements Collidable{
 
     private GameObject getCircleGameObject() {
         Circle[] circles = {
-                new Circle(0, 0, 0.5)
+                new Circle(0.5, 0.5, 0.5)
         };
         return new StaticGameObject(null, circles,1.0);
     }
