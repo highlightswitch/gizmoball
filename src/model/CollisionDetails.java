@@ -1,5 +1,6 @@
 package model;
 
+import model.gizmo.Absorber;
 import physics.Vect;
 
 /**
@@ -9,6 +10,7 @@ import physics.Vect;
 public class CollisionDetails {
 	private double tuc;
 	private Vect velocity;
+	private Absorber absorber;
 
 	public CollisionDetails(double t, Vect v) {
 		tuc = t;
@@ -21,6 +23,15 @@ public class CollisionDetails {
 	
 	public Vect getVelocity() {
 		return velocity;
+	}
+
+	public Absorber getAbsorber (){
+		return absorber;
+	}
+
+	public void setAbsorber (Absorber a)
+	{
+		absorber = a;
 	}
 
 	@Override
