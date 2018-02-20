@@ -46,14 +46,12 @@ public class Model extends Observable {
 
 	}
 
-//    public void setUpActionMap(Flipper flipper, Absorber absorber) {
-//        keyEventTriggerMap = new HashMap<>();
-//        keyEventTriggerMap.put(70, flipper); //Key code 70 = F
-//
-//        keyEventTriggerMap = new HashMap<>();
-//        keyEventTriggerMap.put(32, absorber); //Key code 70 = F
-//    }
-
+    public void setUpActionMap(Flipper l, Flipper r) {
+        keyEventTriggerMap = new HashMap<>();
+        keyEventTriggerMap.put(70, l); //Key code 70 = F
+        keyEventTriggerMap.put(71, r); //Key code 71 = G
+    }
+    
     public void setUpActionMap(Absorber absorber) {
         keyEventTriggerMap = new HashMap<>();
         keyEventTriggerMap.put(32, absorber); //Key code 70 = F
@@ -87,6 +85,37 @@ public class Model extends Observable {
     public Gizmo placeGizmo(GizmoType gizmoType, Tile tile){
         Gizmo gizmo = null;
 
+<<<<<<< src/model/Model.java
+		switch(gizmoType){
+			case LEFT_FLIPPER:
+				gizmo = new Flipper(null, true);
+				tile.placeGizmo(gizmo);
+				tickable.add((Flipper) gizmo);
+				collidable.add(gizmo);
+				break;
+			case RIGHT_FLIPPER:
+				gizmo = new Flipper(null, false);
+				tile.placeGizmo(gizmo);
+				tickable.add((Flipper) gizmo);
+				collidable.add(gizmo);
+				break;
+			case BALL:
+				gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 3, 4);
+				ball = (Ball) gizmo;
+				tickable.add((Ball) gizmo);
+				break;
+			case CIRCLE_BUMPER:
+				gizmo = addBumper(GizmoType.CIRCLE_BUMPER,tile);
+				break;
+			case SQUARE_BUMPER:
+				gizmo = addBumper(GizmoType.SQUARE_BUMPER,tile);
+				break;
+			case TRIANGLE_BUMPER:
+				gizmo = addBumper(GizmoType.TRIANGLE_BUMPER,tile);
+				break;
+
+		}
+=======
 	    switch(gizmoType){
 	        case FLIPPER:
 	            gizmo = new Flipper(null, true);
@@ -105,6 +134,7 @@ public class Model extends Observable {
                 collidable.add((Absorber) gizmo);
                 break;
         }
+>>>>>>> src/model/Model.java
 
         // Notify observers ... redraw updated view
         this.setChanged();
@@ -113,6 +143,13 @@ public class Model extends Observable {
         return gizmo;
 
     }
+
+	private Gizmo addBumper(GizmoType gt,Tile t) {
+		Bumper bumper = new Bumper(Color.black, gt);
+		collidable.add(bumper);
+		t.placeGizmo(bumper);
+		return bumper;
+	}
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 

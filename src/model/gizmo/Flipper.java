@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Flipper extends Gizmo implements Tickable, Collidable {
 
-    private final double flipSpeed = 0.1;
+    private double flipSpeed;
 
     private final double length = 2;
     private final double width = 0.5;
@@ -25,13 +25,22 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     public Flipper(Color colour, boolean isLeft){
         super(colour);
 
-        isLeftFlipper = isLeft;
         flipPos = 0;
         currentMovement = 0;
+
+        setIsLeft(isLeft);
     }
 
     private void moveFlipper(){
-        flipPos = clamp(flipPos + currentMovement, 0, 1);
+        flipPos = isLeftFlipper ?
+                clamp(flipPos + currentMovement, isLeftFlipper ? 0 : -1, isLeftFlipper ? 1 : 0)
+                :
+                clamp(flipPos + currentMovement, -1, 0);
+    }
+
+    public void setIsLeft(boolean isLeft){
+        isLeftFlipper = isLeft;
+        flipSpeed = isLeftFlipper ? 0.1 : -0.1;
     }
 
     private double clamp(double val, double min, double max){
