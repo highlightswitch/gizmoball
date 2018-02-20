@@ -15,17 +15,29 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
     private double length;
     private double width;
     private String name;
+    private GizmoType type;
 
     public Absorber(Color colour, String name, double x1, double y1, double x2, double y2){
         super(colour);
         this.name = name;
         length = x2 - x1;
         width = y2 - y1;
+        type = GizmoType.ABSORBER;
     }
+
+    public GizmoType getGizmoType(){return type;}
 
     @Override
     public void tick(){
 
+    }
+
+    public double getlength(){
+        return length;
+    }
+
+    public double getWidth(){
+        return width;
     }
 
     public String getName(){

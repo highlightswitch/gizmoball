@@ -19,17 +19,24 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     private double currentMovement;
     private double flipPos;
     private String name;
+    private GizmoType type;
     Angle rotation = Angle.RAD_PI_OVER_TWO;
 
     public Flipper(Color colour, String name, boolean isLeft){
         super(colour);
-
+        if(isLeft) {
+            type = GizmoType.LEFT_FLIPPER;
+        } else {
+            type = GizmoType.RIGHT_FLIPPER;
+        }
         flipPos = 0;
         currentMovement = 0;
         this.name = name;
 
         setIsLeft(isLeft);
     }
+
+    public GizmoType getGizmoType(){return type;}
 
     public String getName(){
         return name;
@@ -56,21 +63,49 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     @Override
     public GameObject getPrototypeGameObject() {
 
-        LineSegment[] lines = {
-                new LineSegment(0, 0, 0,  length),
-                new LineSegment(width, 0, width, length)
-        };
+        GameObject testCircle = new StaticGameObject(null, new Circle[]{new Circle(10, 10, 0)}, 1.0).translate( tile.getPosition());
+        System.out.println(testCircle.getCircles()[0].getCenter() + " - " + testCircle.getCircles()[0].getRadius());
 
-        // These are the circles at either end of the flipper, and also the circles with
-        // radius 0 to help with collisions at the ends of LineSegments.
-        Circle[] circles = {
-                new Circle(width/2d,0,width/2d),
-                new Circle(width/2d, length, width/2d),
-                new Circle(0,0, 0),
-                new Circle(width, 0, 0),
-                new Circle(0, length, 0),
-                new Circle(width, length, 0)
-        };
+        LineSegment[] lines;
+        Circle[] circles;
+
+        if(isLeftFlipper) {
+
+            lines = new LineSegment[] {
+                    new LineSegment(0, width / 2, 0, length - width / 2),
+                    new LineSegment(width, width / 2, width, length - width / 2)
+            };
+
+            // These are the circles at either end of the flipper, and also the circles with
+            // radius 0 to help with collisions at the ends of LineSegments.
+            circles = new Circle[] {
+//                    new Circle(width / 2, width / 2, width / 2),
+//                    new Circle(width / 2, length - width / 2, width / 2),
+                    new Circle(0, width/2, 0),
+                    new Circle(0, length - width/2, 0),
+                    new Circle(width, width/2, 0),
+                    new Circle(width, length - width/2, 0)
+            };
+        } else{
+
+            lines = new LineSegment[] {
+                    new LineSegment(2 - width, width / 2, 2 - width, length - width / 2),
+                    new LineSegment(2, width / 2, 2, length - width / 2)
+            };
+
+            // These are the circles at either end of the flipper, and also the circles with
+            // radius 0 to help with collisions at the ends of LineSegments.
+            circles = new Circle[] {
+//                    new Circle(2 - width / 2, width / 2, width / 2),
+//                    new Circle( 2 - width / 2, length - width / 2, width / 2),
+                    new Circle(2 - width, width/2, 0),
+                    new Circle(2 - width, length - width/2, 0),
+                    new Circle(2, width/2, 0),
+                    new Circle(2, length - width/2, 0)
+            };
+
+        }
+
 
 
         GameObject gameObject = new StaticGameObject(lines, circles, 0.95);
@@ -79,9 +114,9 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 //        double angularVelocity = 0.0;
 //        if(flipPos > 0.0 && flipPos < 1.0)
 //            angularVelocity = currentMovement < 0 ? Math.toRadians(180) : -1 * Math.toRadians(180);
-//        GameObject gameObject = new RotatingGameObject(lines, circles, 0.95, new Vect(width/2d, 0), angularVelocity );
+//        GameObject gameObject = new RotatingGameObject(lines, circles, 0.95, new Vect(width/2, 0), angularVelocity );
 
-        gameObject.rotateAround(new Vect(width/2d, 0), new Angle(Math.toRadians(-90 * flipPos)));
+        gameObject.rotateAround(new Vect(width/2, 0), new Angle(Math.toRadians(-90 * flipPos)));
 
         return gameObject;
     }
@@ -112,6 +147,6 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
     @Override
     public GameObject getGameObject() {
-        return getPrototypeGameObject().rotateAround( new Vect(0,0), rotation ).translate( tile.getPosition());
+        return getPrototypeGameObject(). /* rotateAround( new Vect(0,0), rotation ) . */ translate( tile.getPosition());
     }
 }

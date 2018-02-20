@@ -13,11 +13,12 @@ import java.util.ArrayList;
 
 public class Ball extends Gizmo implements Drawable, Tickable {
 
-    private final double newRadius = 0.5;
+    private final double newRadius = 0.25;
 
     private double xPos, yPos;
 	private Vect velocity;
 	private String name;
+	private GizmoType type;
 
 	private boolean isStopped;
 
@@ -31,9 +32,12 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 		velocity = new Vect(xv, yv);
 		isStopped = false;
 		this.name = name;
+		type = GizmoType.BALL;
 
 		this.model = model;
 	}
+
+    public GizmoType getGizmoType(){return type;}
 
 	public void rotate(){
 
@@ -106,7 +110,7 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
     @Override
     public GameObject getPrototypeGameObject() {
-        Circle[] circles = { new Circle(0,0, newRadius) };
+        Circle[] circles = { new Circle(newRadius,newRadius, newRadius) };
         return new MovingGameObject(null, circles, 1.0);
     }
 

@@ -1,6 +1,7 @@
 package model;
 
 import model.gizmo.Gizmo;
+import model.gizmo.GizmoType;
 
 public class Tile implements Drawable {
 
@@ -25,7 +26,7 @@ public class Tile implements Drawable {
         this.gizmo.setTile(this);
     }
 
-    Gizmo getGizmo() {
+    public Gizmo getGizmo() {
         return gizmo;
     }
 
@@ -38,6 +39,15 @@ public class Tile implements Drawable {
         if(gizmo != null) {
             GameObject obj = gizmo.getGameObject();
             return obj;
+        }
+
+        return null ;
+    }
+
+    public GizmoType getTypeOfGizmo() {
+        if(gizmo != null) {
+            GizmoType type = gizmo.getGizmoType();
+            return type;
         }
 
         return null ;
