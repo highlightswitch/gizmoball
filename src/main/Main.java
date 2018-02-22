@@ -31,6 +31,7 @@ public class Main {
 		model.setUpActionMap(leftFlipper, rightFlipper);
 		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, "absorber", model.getTileAt(0, 19));
 		model.setUpActionMap(absorber);
+
 		GameFrame fr = new GameFrame(model);
 	}
 }

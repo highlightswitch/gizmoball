@@ -22,7 +22,7 @@ public class Model extends Observable {
 	private Ball ball;
 	private Walls walls;
 
-    private Map<Integer, GizmoEventListener> keyEventTriggerMap;
+    private Map<Integer, GizmoEventListener> keyEventTriggerMap =  new HashMap<>();
 
 	private ArrayList<Tickable> tickable;
     private ArrayList<Collidable> collidable;
@@ -76,14 +76,12 @@ public class Model extends Observable {
     }
 
     public void setUpActionMap(Flipper l, Flipper r) {
-        keyEventTriggerMap = new HashMap<>();
         keyEventTriggerMap.put(70, l); //Key code 70 = F
         keyEventTriggerMap.put(71, r); //Key code 71 = G
     }
     
     public void setUpActionMap(Absorber absorber) {
-        keyEventTriggerMap = new HashMap<>();
-        keyEventTriggerMap.put(32, absorber); //Key code 70 = F
+        keyEventTriggerMap.put(32, absorber); //Key code 32 = space
     }
 
     public Tile getTileAt(int x, int y){
