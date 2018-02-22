@@ -11,6 +11,8 @@ import view.GameFrame;
 
 public class Main {
 
+	public static final boolean debugMode = false;
+
 	public static void main(String[] args) {
 		try {
 			// Use the platform look and feel
@@ -23,14 +25,14 @@ public class Main {
 		model.placeGizmo(GizmoType.BALL, "ball", model.getTileAt(5,5));
 		Flipper leftFlipper =  (Flipper) model.placeGizmo(GizmoType.LEFT_FLIPPER, "leftFlipper", model.getTileAt(9,10));
 		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, "rightFlipper", model.getTileAt(14,10));
-		model.placeGizmo(GizmoType.CIRCLE_BUMPER, "circle",model.getTileAt(5, 18));
-		//model.placeGizmo(GizmoType.SQUARE_BUMPER, "square", model.getTileAt(5, 2));
-		//model.placeGizmo(GizmoType.TRIANGLE_BUMPER,"triangle", model.getTileAt(8, 12));
+		model.placeGizmo(GizmoType.CIRCLE_BUMPER, "circle",model.getTileAt(5, 6));
+		model.placeGizmo(GizmoType.SQUARE_BUMPER, "square", model.getTileAt(5, 2));
+		model.placeGizmo(GizmoType.TRIANGLE_BUMPER,"triangle", model.getTileAt(8, 12));
 		model.placeGizmo(GizmoType.TRIANGLE_BUMPER, "triangle", model.getTileAt(12, 18));
 
-		model.setUpActionMap(leftFlipper, rightFlipper);
-		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, "absorber", model.getTileAt(0, 19));
-		model.setUpActionMap(absorber);
+//		model.setUpActionMap(leftFlipper, rightFlipper);
+//		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, "absorber", model.getTileAt(0, 19));
+//		model.setUpActionMap(absorber);
 
 		GameFrame fr = new GameFrame(model);
 	}

@@ -26,6 +26,7 @@ public class Model extends Observable {
 
 	private ArrayList<Tickable> tickable;
     private ArrayList<Collidable> collidable;
+    private ArrayList<Drawable> drawables;
     private ArrayList<Gizmo> gizmos;
 
     public Model() {
@@ -44,6 +45,8 @@ public class Model extends Observable {
         gizmos = new ArrayList<>();
 		collidable = new ArrayList<>();
 		collidable.add(walls);
+
+		drawables = new ArrayList<>();
 
 	}
 
@@ -99,15 +102,8 @@ public class Model extends Observable {
 	    return getTileAt((int) xPos, (int) yPos);
     }
 
-	public ArrayList<Drawable> getDrawables(){
-        ArrayList<Drawable> list = new ArrayList<>();
-        for(int x = 0; x < width; x++)
-            for(int y = 0; y < height; y++)
-                list.add(tiles[x][y]);
-
-//        list.add(ball);
-
-        return list;
+	public ArrayList<Drawable> getDrawables() {
+        return drawables;
     }
 
     public Gizmo placeGizmo(GizmoType gizmoType, String name, Tile tile){
@@ -146,6 +142,8 @@ public class Model extends Observable {
                 gizmos.add(gizmo);
 				break;
 		}
+
+		drawables.add(gizmo);
 
         // Notify observers ... redraw updated view
         this.setChanged();

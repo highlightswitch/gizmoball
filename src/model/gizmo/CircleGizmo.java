@@ -1,9 +1,6 @@
 package model.gizmo;
 
-import model.Collidable;
-import model.GameObject;
-import model.Model;
-import model.StaticGameObject;
+import model.*;
 import physics.LineSegment;
 
 import java.awt.*;
@@ -28,6 +25,11 @@ public class CircleGizmo extends Gizmo implements Tickable, Collidable {
     }
     public void rotate(){
 
+    }
+
+    @Override
+    protected DrawingData getGizmoDrawingData() {
+        return null;
     }
 
     @Override

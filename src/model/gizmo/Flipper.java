@@ -1,12 +1,16 @@
 package model.gizmo;
 
 import model.Collidable;
-
+import model.DrawingData;
 import model.GameObject;
 import model.StaticGameObject;
-import physics.*;
+import physics.Angle;
+import physics.Circle;
+import physics.LineSegment;
+import physics.Vect;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Flipper extends Gizmo implements Tickable, Collidable {
 
@@ -37,6 +41,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     }
 
     public GizmoType getGizmoType(){return type;}
+
 
     public String getName(){
         return name;
@@ -114,7 +119,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 //            angularVelocity = currentMovement < 0 ? Math.toRadians(180) : -1 * Math.toRadians(180);
 //        GameObject gameObject = new RotatingGameObject(lines, circles, 0.95, new Vect(width/2, 0), angularVelocity );
 
-        gameObject.rotateAround(new Vect(width/2, 0), new Angle(Math.toRadians(-90 * flipPos)));
+        gameObject.rotateAroundPointByAngle(new Vect(width/2, 0), new Angle(Math.toRadians(-90 * flipPos)));
 
         return gameObject;
     }
@@ -145,7 +150,29 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
     @Override
     public GameObject getGameObject() {
-        return getPrototypeGameObject(). /* rotateAround( new Vect(0,0), rotation ) . */ translate( tile.getPosition());
+        return getPrototypeGameObject(). /* rotateAroundPointByAngle( new Vect(0,0), rotation ) . */ translate( tile.getPosition());
+    }
+
+    @Override
+    public DrawingData getGizmoDrawingData() {
+        DrawingData data = new DrawingData();
+
+        //TODO: implement rightflipper drawing
+
+        ArrayList<Double[]> poly = new ArrayList<>();
+        poly.add(new Double[]{0.0, width/2}); // NW
+        poly.add(new Double[]{0.0, length - width/2}); // SW
+        poly.add(new Double[]{width, length - width/2}); // SE
+        poly.add(new Double[]{width, width/2}); // NE
+        data.addPolygon(poly);
+
+        data.addCircle(new Double[]{width/2, width/2, width/2});
+        data.addCircle(new Double[]{width/2, length - width/2, width/2});
+
+
+        data.translate( tile.getPosition() );
+
+        return data;
     }
 
     @Override

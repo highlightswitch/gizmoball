@@ -1,17 +1,10 @@
 package view;
 
 import model.*;
-import model.gizmo.Absorber;
-import model.gizmo.Bumper;
-import model.gizmo.Gizmo;
-import physics.Circle;
-import physics.LineSegment;
-import sun.security.util.PolicyUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -47,30 +40,32 @@ public  class Board extends JPanel implements Observer {
 
 		ArrayList<Drawable> drawableObjects = gm.getDrawables();
         for(Drawable drawable : drawableObjects){
-			DrawableData data = drawable.getDrawableData();
+			DrawingData data = drawable.getDrawingData();
             if(data != null){
             	//If the data exists, loop through and draw the polygons and circles of this shape
 
                 for(ArrayList<Double[]> polyData : data.getPolygonsData()){
-					//Create the path of the polygon
-                	Path2D path = new Path2D.Double();
-					//Set the starting point to the first point of the shape
-					path.moveTo(polyData.get(0)[0], polyData.get(0)[1]);
-					//For each point after the starting point, draw a line to it.
-					for(int i = 1; i < polyData.size(); i++){
-						path.lineTo(polyData.get(i)[0], polyData.get(i)[1]);
+                	if(polyData.size() > 0) {
+						//Create the path of the polygon
+						Path2D path = new Path2D.Double();
+						//Set the starting point to the first point of the shape
+						path.moveTo(polyData.get(0)[0], polyData.get(0)[1]);
+						//For each point after the starting point, draw a line to it.
+						for (int i = 1; i < polyData.size(); i++) {
+							path.lineTo(polyData.get(i)[0], polyData.get(i)[1]);
+						}
+						//Draw a line back to the starting point
+						path.closePath();
+						//Draw the scaled up shape
+						g2.fill(toPixels(path));
 					}
-					//Draw a line back to the starting point
-					path.closePath();
-					//Draw the scaled up shape
-					g2.draw(toPixels(path));
 				}
 
 				for (Double[] circleData : data.getCirclesData()) {
                 	//Create an ellipse using its rectangular bounds
-                	Ellipse2D circle = new Ellipse2D.Double(circleData[0] - circleData[2], circleData[1] - circleData[2], circleData[0] + circleData[2], circleData[1] + circleData[2]);
-                    //Draw the scaled up shape
-                	g2.draw(toPixels(circle));
+                	Ellipse2D circle = new Ellipse2D.Double(circleData[0] - circleData[2], circleData[1] - circleData[2], 2 * circleData[2], 2 * circleData[2]);
+                	//Draw the scaled up shape
+                	g2.fill(toPixels(circle));
                 }
             }
         }
@@ -178,8 +173,9 @@ public  class Board extends JPanel implements Observer {
 //
 
     private Shape toPixels(Shape shape){
-//		assert shape != null;
-		return AffineTransform.getScaleInstance(25, 25).createTransformedShape(shape);
+		Shape newShape = AffineTransform.getScaleInstance(25, 25).createTransformedShape(shape);
+		System.out.println(newShape.getBounds2D());
+		return newShape;
 	}
 
 //    private double toPixels(double coord){

@@ -1,12 +1,11 @@
 package model.gizmo;
 
 import model.Collidable;
+import model.DrawingData;
 import model.GameObject;
 import model.StaticGameObject;
-import physics.Angle;
 import physics.Circle;
 import physics.LineSegment;
-import physics.Vect;
 
 import java.awt.*;
 
@@ -27,6 +26,7 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
     }
 
     public GizmoType getGizmoType(){return type;}
+
 
     @Override
     public void tick(){
@@ -97,6 +97,11 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
     }
 
     public GameObject getGameObject(){return getPrototypeGameObject().translate(tile.getPosition());}
+
+    @Override
+    public DrawingData getGizmoDrawingData() {
+        return null;
+    }
 
    public boolean isAbsorber() {return true;}
 }

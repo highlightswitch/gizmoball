@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
  */
 
-public class Ball extends Gizmo implements Drawable, Tickable {
+public class Ball extends Gizmo implements Tickable {
 
     private final double newRadius = 0.25;
 
@@ -182,9 +182,22 @@ public class Ball extends Gizmo implements Drawable, Tickable {
     }
 
     @Override
+    protected DrawingData getGizmoDrawingData() {
+        DrawingData data = new DrawingData();
+        data.addCircle(new Double[]{0.5, 0.5, 0.25});
+        return data;
+    }
+
+    @Override
     public void rotate() {
 
     }
+
+    @Override
+    public double[] getPosition() {
+        return new double[] {xPos, yPos};
+    }
+
 
     @Override
     public void keyDown() {
@@ -209,10 +222,6 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 
     }
 
-    @Override
-    public GameObject getShapeToDraw() {
-        return getPrototypeGameObject().translate(new double[]{ xPos, yPos });
-    }
 
     public boolean isAbsorber() {return false;}
 }

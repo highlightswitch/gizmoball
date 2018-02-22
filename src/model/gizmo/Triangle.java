@@ -1,9 +1,6 @@
 package model.gizmo;
 
-import model.Collidable;
-import model.GameObject;
-import model.Model;
-import model.StaticGameObject;
+import model.*;
 import physics.Circle;
 import physics.LineSegment;
 
@@ -31,6 +28,12 @@ public class Triangle extends Gizmo implements Tickable, Collidable {
     public void rotate(){
 
     }
+
+    @Override
+    protected DrawingData getGizmoDrawingData() {
+        return null;
+    }
+
 
     @Override
     public GameObject getPrototypeGameObject(){

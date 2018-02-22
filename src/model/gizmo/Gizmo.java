@@ -1,13 +1,11 @@
 package model.gizmo;
 
-import model.Collidable;
-import model.DrawableData;
-import model.GameObject;
-import model.Tile;
+import main.Main;
+import model.*;
 
 import java.awt.*;
 
-public abstract class Gizmo implements GizmoEventListener, Collidable {
+public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable {
 
     private Color colour;
     protected Tile tile;
@@ -37,5 +35,19 @@ public abstract class Gizmo implements GizmoEventListener, Collidable {
 
     public GizmoType getGizmoType(){return type;}
 
-    public abstract DrawableData getDrawableData();
+    public double[] getPosition(){
+        if(tile != null)
+            return new double[] {tile.getPosition()[0], tile.getPosition()[1]};
+        else
+            return null;
+    }
+
+    public DrawingData getDrawingData(){
+        if(Main.debugMode)
+            return this.getGameObject().getDrawingData();
+        else
+            return this.getGizmoDrawingData().translate(getPosition());
+    }
+
+    protected abstract DrawingData getGizmoDrawingData();
 }

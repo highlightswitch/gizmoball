@@ -3,9 +3,7 @@ package model;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoType;
 
-import java.util.ArrayList;
-
-public class Tile implements Drawable {
+public class Tile {
 
     private int x, y;
     private Gizmo gizmo;
@@ -34,13 +32,6 @@ public class Tile implements Drawable {
 
     public int[] getPosition() {
         return new int[]{x, y};
-    }
-
-    public DrawableData getDrawableData(){
-        if(gizmo != null) {
-            return gizmo.getDrawableData();
-        }
-        return null;
     }
 
     public GizmoType getTypeOfGizmo() {

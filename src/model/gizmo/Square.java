@@ -27,6 +27,13 @@ public class Square extends Gizmo implements Tickable, Collidable  {
     public void rotate(){
 
     }
+
+    @Override
+    protected DrawingData getGizmoDrawingData() {
+        return null;
+    }
+
+
     @Override
     public  GameObject getPrototypeGameObject(){
 
