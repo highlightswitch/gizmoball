@@ -24,8 +24,8 @@ public class Main {
 		Flipper leftFlipper =  (Flipper) model.placeGizmo(GizmoType.LEFT_FLIPPER, "leftFlipper", model.getTileAt(9,10));
 		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, "rightFlipper", model.getTileAt(14,10));
 		model.placeGizmo(GizmoType.CIRCLE_BUMPER, "circle",model.getTileAt(5, 18));
-		model.placeGizmo(GizmoType.SQUARE_BUMPER, "square", model.getTileAt(5, 2));
-		model.placeGizmo(GizmoType.TRIANGLE_BUMPER,"triangle", model.getTileAt(8, 12));
+		//model.placeGizmo(GizmoType.SQUARE_BUMPER, "square", model.getTileAt(5, 2));
+		//model.placeGizmo(GizmoType.TRIANGLE_BUMPER,"triangle", model.getTileAt(8, 12));
 		model.placeGizmo(GizmoType.TRIANGLE_BUMPER, "triangle", model.getTileAt(12, 18));
 
 		model.setUpActionMap(leftFlipper, rightFlipper);
