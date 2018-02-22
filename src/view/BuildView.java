@@ -22,11 +22,11 @@ public class BuildView implements GameView {
          JButton edit = new JButton();
          JButton pointer = new JButton();
 
-         add.setIcon(new ImageIcon("img/fillAddSmall.png"));
-         rotate.setIcon(new ImageIcon("img/fillRotateSmall.png"));
-         delete.setIcon(new ImageIcon("img/fillDeleteSmall.png"));
-         edit.setIcon(new ImageIcon("img/fillEditSmall.png"));
-         pointer.setIcon(new ImageIcon("img/fillPointerSmall.png"));
+         add.setIcon(new ImageIcon(getClass().getResource("img/fillAddSmall.png")));
+         rotate.setIcon(new ImageIcon(getClass().getResource("img/fillRotateSmall.png")));
+         delete.setIcon(new ImageIcon(getClass().getResource("img/fillDeleteSmall.png")));
+         edit.setIcon(new ImageIcon(getClass().getResource("img/fillEditSmall.png")));
+         pointer.setIcon(new ImageIcon(getClass().getResource("img/fillPointerSmall.png")));
 
          add.setBorder(null);
          add.setMargin(new Insets(0, 0, 0, 0));
@@ -80,12 +80,12 @@ public class BuildView implements GameView {
     public void drawPopupMenu(){
         allShapes = new JPopupMenu();
 
-        JMenuItem circleGizmo = new JMenuItem(new ImageIcon("img/fillCircleSmall.png"));
-        JMenuItem triangleGizmo = new JMenuItem(new ImageIcon("img/fillTriangleSmall.png"));
-        JMenuItem squareGizmo = new JMenuItem(new ImageIcon("img/fillSquareSmall.png"));
-        JMenuItem absorberGizmo = new JMenuItem(new ImageIcon("img/fillRectangleSmall.png"));
-        JMenuItem flipperGizmo = new JMenuItem(new ImageIcon("img/fillFlipperSmall.png"));
-        JMenuItem ballGizmo = new JMenuItem(new ImageIcon("img/borderBallSmall.png"));
+        JMenuItem circleGizmo = new JMenuItem(new ImageIcon(getClass().getResource("img/fillCircleSmall.png")));
+        JMenuItem triangleGizmo = new JMenuItem(new ImageIcon(getClass().getResource("img/fillTriangleSmall.png")));
+        JMenuItem squareGizmo = new JMenuItem(new ImageIcon(getClass().getResource("img/fillSquareSmall.png")));
+        JMenuItem absorberGizmo = new JMenuItem(new ImageIcon(getClass().getResource("img/fillRectangleSmall.png")));
+        JMenuItem flipperGizmo = new JMenuItem(new ImageIcon(getClass().getResource("img/fillFlipperSmall.png")));
+        JMenuItem ballGizmo = new JMenuItem(new ImageIcon(getClass().getResource("img/borderBallSmall.png")));
 
 //        circleGizmo.addActionListener(new AddCircleListener());
 //        triangleGizmo.addActionListener(new AddTriangleListener());

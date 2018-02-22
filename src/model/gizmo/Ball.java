@@ -21,11 +21,12 @@ public class Ball extends Gizmo implements Drawable, Tickable {
 	private double friction;
 	private boolean isAbsorbed;
 	private boolean justFired;
+	private String tag;
 
 	private Model model;
 
 	// x, y coordinates and x,y velocity
-	public Ball(Model model, Color colour, double xPos, double yPos, double xv, double yv, double g, double f) {
+	public Ball(Model model, Color colour, String name,  double xPos, double yPos, double xv, double yv, double g, double f) {
         super(colour);
         this.xPos = xPos;
         this.yPos = yPos;
@@ -34,9 +35,14 @@ public class Ball extends Gizmo implements Drawable, Tickable {
         gravity = g;
         friction = f;
 		this.model = model;
+		tag = name;
 	}
 
-	public void fire (Absorber firedFrom) {
+    public void setVelocity(double xv, double xy){
+	    velocity = new Vect(xv, xy);
+    }
+
+	public void fire(Absorber firedFrom) {
 	    moveBall(firedFrom);
 	    justFired = true;
 	    isAbsorbed = false;
@@ -173,6 +179,11 @@ public class Ball extends Gizmo implements Drawable, Tickable {
     @Override
     public GameObject getGameObject() {
         return null;
+    }
+
+    @Override
+    public void rotate() {
+
     }
 
     @Override

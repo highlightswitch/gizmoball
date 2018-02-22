@@ -79,4 +79,9 @@ public class Triangle extends Gizmo implements Tickable, Collidable {
     public GameObject getGameObject() {
         return getPrototypeGameObject().translate(tile.getPosition());
     }
+
+    @Override
+    public boolean isAbsorber() {
+        return false;
+    }
 }

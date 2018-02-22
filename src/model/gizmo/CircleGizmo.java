@@ -69,4 +69,9 @@ public class CircleGizmo extends Gizmo implements Tickable, Collidable {
     public GameObject getGameObject() {
         return getPrototypeGameObject().translate(tile.getPosition());
     }
+
+    @Override
+    public boolean isAbsorber() {
+        return false;
+    }
 }

@@ -118,7 +118,7 @@ public class GizmoballFileReader {
                 break;
             case "Ball":
                 model.placeGizmo(GizmoType.BALL, command.get(1), model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3))));
-                model.getBall().setVelocity(Float.parseFloat(command.get(4)), Float.parseFloat(command.get(5)));
+                model.getBall().setVelocity(Double.parseDouble(command.get(4)), Double.parseDouble(command.get(5)));
                 break;
             case "Rotate":
                 System.out.println("rotating");

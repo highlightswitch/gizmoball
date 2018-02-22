@@ -22,7 +22,7 @@ public class Model extends Observable {
 	private Ball ball;
 	private Walls walls;
 
-    private Map<Integer, GizmoEventListener> keyEventTriggerMap;
+    private Map<Integer, GizmoEventListener> keyEventTriggerMap =  new HashMap<>();
 
 	private ArrayList<Tickable> tickable;
     private ArrayList<Collidable> collidable;
@@ -76,14 +76,12 @@ public class Model extends Observable {
     }
 
     public void setUpActionMap(Flipper l, Flipper r) {
-        keyEventTriggerMap = new HashMap<>();
         keyEventTriggerMap.put(70, l); //Key code 70 = F
         keyEventTriggerMap.put(71, r); //Key code 71 = G
     }
     
     public void setUpActionMap(Absorber absorber) {
-        keyEventTriggerMap = new HashMap<>();
-        keyEventTriggerMap.put(32, absorber); //Key code 70 = F
+        keyEventTriggerMap.put(32, absorber); //Key code 32 = space
     }
 
     public Tile getTileAt(int x, int y){
@@ -114,8 +112,6 @@ public class Model extends Observable {
 
     public Gizmo placeGizmo(GizmoType gizmoType, String name, Tile tile){
         Gizmo gizmo = null;
-
-<<<<<<< src/model/Model.java
 		switch(gizmoType){
 			case LEFT_FLIPPER:
 				gizmo = new Flipper(null, name, true);
@@ -132,7 +128,7 @@ public class Model extends Observable {
                 gizmos.add(gizmo);
 				break;
 			case BALL:
-				gizmo = new Ball(this, Color.black, name, tile.getX(), tile.getY(), 3, 4);
+				gizmo = new Ball(this, Color.black, name, tile.getX(), tile.getY(), 3, 4, 25, 0.25);
 				ball = (Ball) gizmo;
 				tickable.add((Ball) gizmo);
                 gizmos.add(gizmo);
@@ -150,26 +146,6 @@ public class Model extends Observable {
                 gizmos.add(gizmo);
 				break;
 		}
-=======
-	    switch(gizmoType){
-	        case FLIPPER:
-	            gizmo = new Flipper(null, true);
-	            tile.placeGizmo(gizmo);
-	            tickable.add((Flipper) gizmo);
-                collidable.add((Flipper) gizmo);
-                break;
-            case BALL:
-                gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 0, 0, 25, 0.025);
-                ball = (Ball) gizmo;
-                tickable.add((Ball) gizmo);
-                break;
-            case ABSORBER:
-                gizmo = new Absorber(null);
-                tile.placeGizmo(gizmo);
-                collidable.add((Absorber) gizmo);
-                break;
-        }
->>>>>>> src/model/Model.java
 
         // Notify observers ... redraw updated view
         this.setChanged();

@@ -20,19 +20,18 @@ public class Main {
 		}
 
 		Model model = new Model();
-
-		model.placeGizmo(GizmoType.BALL, model.getTileAt(5,5));
-		Flipper leftFlipper =  (Flipper) model.placeGizmo(GizmoType.LEFT_FLIPPER, model.getTileAt(9,10));
-		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, model.getTileAt(14,10));
-
-		model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 18));
-		model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(5, 2));
-		model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(8, 12));
-		model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(12, 18));
+		model.placeGizmo(GizmoType.BALL, "ball", model.getTileAt(5,5));
+		Flipper leftFlipper =  (Flipper) model.placeGizmo(GizmoType.LEFT_FLIPPER, "leftFlipper", model.getTileAt(9,10));
+		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, "rightFlipper", model.getTileAt(14,10));
+		model.placeGizmo(GizmoType.CIRCLE_BUMPER, "circle",model.getTileAt(5, 18));
+		//model.placeGizmo(GizmoType.SQUARE_BUMPER, "square", model.getTileAt(5, 2));
+		//model.placeGizmo(GizmoType.TRIANGLE_BUMPER,"triangle", model.getTileAt(8, 12));
+		model.placeGizmo(GizmoType.TRIANGLE_BUMPER, "triangle", model.getTileAt(12, 18));
 
 		model.setUpActionMap(leftFlipper, rightFlipper);
-		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19));
+		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, "absorber", model.getTileAt(0, 19));
 		model.setUpActionMap(absorber);
+
 		GameFrame fr = new GameFrame(model);
 	}
 }
