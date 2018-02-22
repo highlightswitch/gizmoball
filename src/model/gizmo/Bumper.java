@@ -38,6 +38,11 @@ public class Bumper extends Gizmo implements Collidable{
     public GizmoType getGizmoType(){return type;}
 
     @Override
+    public boolean isAbsorber() {
+        return false;
+    }
+
+    @Override
     public GameObject getPrototypeGameObject() {
         switch (type) {
             case SQUARE_BUMPER:

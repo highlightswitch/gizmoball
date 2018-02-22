@@ -16,6 +16,7 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
     private double width;
     private String name;
     private GizmoType type;
+    private Ball absorbedBall;
 
     public Absorber(Color colour, String name, double x1, double y1, double x2, double y2){
         super(colour);
@@ -42,6 +43,11 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
 
     public String getName(){
         return name;
+    }
+
+    @Override
+    public void rotate() {
+
     }
 
     @Override
