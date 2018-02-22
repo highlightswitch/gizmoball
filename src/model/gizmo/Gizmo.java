@@ -1,6 +1,7 @@
 package model.gizmo;
 
 import model.Collidable;
+import model.DrawableData;
 import model.GameObject;
 import model.Tile;
 
@@ -34,5 +35,7 @@ public abstract class Gizmo implements GizmoEventListener, Collidable {
 
     public abstract void rotate();
 
-    public GizmoType getGizmoType(){return type;};
+    public GizmoType getGizmoType(){return type;}
+
+    public abstract DrawableData getDrawableData();
 }
