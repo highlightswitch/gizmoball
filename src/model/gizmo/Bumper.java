@@ -13,17 +13,29 @@ import java.awt.*;
 public class Bumper extends Gizmo implements Collidable{
 
     private GizmoType type;
-    Angle rotation = Angle.RAD_PI_OVER_TWO;
+    public Angle rotation = Angle.DEG_270; //TODO change to private
+    private String name;
 
-    public Bumper(Color colour, GizmoType type){
+    public Bumper(Color colour, String name, GizmoType type){
         super(colour);
         this.type = type;
+        this.name = name;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public void rotate() {
+        rotation = rotation.plus(Angle.DEG_90);
     }
 
     @Override
     public GameObject getGameObject() {
-        return getPrototypeGameObject().rotateAround( new Vect(0,0), rotation ).translate( tile.getPosition() );
+        return getPrototypeGameObject().rotateAround( new Vect(0.5,0.5), rotation ).translate( tile.getPosition() );
     }
+
+    public GizmoType getGizmoType(){return type;}
 
     @Override
     public GameObject getPrototypeGameObject() {
@@ -38,8 +50,6 @@ public class Bumper extends Gizmo implements Collidable{
                 return null;
         }
     }
-
-
 
     private GameObject getSquareGameObject(){
         LineSegment[] lines = {
@@ -79,7 +89,7 @@ public class Bumper extends Gizmo implements Collidable{
 
     private GameObject getCircleGameObject() {
         Circle[] circles = {
-                new Circle(0, 0, 0.5)
+                new Circle(0.5, 0.5, 0.5)
         };
         return new StaticGameObject(null, circles,1.0);
     }

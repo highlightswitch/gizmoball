@@ -16,8 +16,8 @@ public class RunView implements GameView {
         JPanel panControls = new JPanel();
         JButton stop = new JButton();
         JButton play = new JButton();
-        stop.setIcon(new ImageIcon(getClass().getResource("img/fillPauseSmall.png")));
-        play.setIcon(new ImageIcon(getClass().getResource("img/fillPlaySmall.png")));
+        stop.setIcon(new ImageIcon("img/fillPauseSmall.png"));
+        play.setIcon(new ImageIcon("img/fillPlaySmall.png"));
         stop.setBorder(null);
         stop.setMargin(new Insets(0, 0, 0, 0));
         stop.addActionListener(c.getActionListener("Button"));

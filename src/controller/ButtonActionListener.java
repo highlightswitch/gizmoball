@@ -24,7 +24,7 @@ public class ButtonActionListener implements ActionListener {
                 controller.stopTimer();
                 break;
             case "Tick":
-                controller.getModel().getBall().moveBall(null);
+                controller.getModel().getBall().moveBall();
                 break;
             case "Delete":
                 //

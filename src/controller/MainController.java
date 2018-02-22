@@ -33,12 +33,22 @@ public class MainController implements ActionListener {
         return model;
     }
 
+    public Board getBoard(){ return board; }
+
+    public void setModel(Model newModel) { model = newModel; }
+
+    public GameFrame getGameFrame() { return fr;}
+
     void startTimer() {
         timer.start();
     }
 
     void stopTimer() {
         timer.stop();
+    }
+
+    void refreshView(){
+
     }
 
     void switchToRunView(){

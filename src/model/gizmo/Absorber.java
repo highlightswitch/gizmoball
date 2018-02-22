@@ -10,14 +10,38 @@ import physics.Vect;
 
 import java.awt.*;
 
-public class Absorber extends Gizmo implements Collidable {
+public class Absorber extends Gizmo implements Tickable, Collidable {
 
-    private final double length = 20;
-    private final double width = 1;
-    private Ball absorbedBall;
+    private double length;
+    private double width;
+    private String name;
+    private GizmoType type;
 
-    public Absorber(Color colour) {
+    public Absorber(Color colour, String name, double x1, double y1, double x2, double y2){
         super(colour);
+        this.name = name;
+        length = x2 - x1;
+        width = y2 - y1;
+        type = GizmoType.ABSORBER;
+    }
+
+    public GizmoType getGizmoType(){return type;}
+
+    @Override
+    public void tick(){
+
+    }
+
+    public double getlength(){
+        return length;
+    }
+
+    public double getWidth(){
+        return width;
+    }
+
+    public String getName(){
+        return name;
     }
 
     @Override

@@ -60,6 +60,10 @@ public class GameFrame {
         drawFrame(view);
     }
 
+    public void setModel(Model model){
+        this.model = model;
+    }
+
 
     public void drawFrame(GameView g){
         //open running view by default then user can change to build view
