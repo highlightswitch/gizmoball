@@ -43,4 +43,9 @@ public class Walls implements Collidable {
         LineSegment[] lines = lineList.toArray(new LineSegment[lineList.size()]);
         return new StaticGameObject(lines, null, 1.0);
 	}
+
+	@Override
+	public boolean isAbsorber() {
+		return false;
+	}
 }

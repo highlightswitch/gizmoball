@@ -46,53 +46,51 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
 
     @Override
     public GameObject getPrototypeGameObject() {
-
         LineSegment[] lines = {
-                new LineSegment(0, 0, 0,  width), //Top left to bottom left
-                new LineSegment(0, 0, length,  0), //Top left to top right
-                new LineSegment(length, width, 0, width), //bottom right to bottom left
-                new LineSegment(length, width, length, 0) //bottom right to top right
+                new LineSegment(0, 0, 0,  width),
+                new LineSegment(0, width, length, width),
+                new LineSegment(length, width, length, 0),
+                new LineSegment(0, 0, length, 0)
         };
 
+        // These are the circles at either end of the flipper, and also the circles with
+        // radius 0 to help with collisions at the ends of LineSegments.
         Circle[] circles = {
-                new Circle(0,width,0),
+                new Circle(0,0, 0),
                 new Circle(0, width, 0),
-                new Circle(length,0, 0),
                 new Circle(length, 0, 0),
-                new Circle(0, 0, 0),
-                new Circle(0, 0, 0),
-                new Circle(length, width, 0),
                 new Circle(length, width, 0)
         };
 
-        GameObject gameObject = new StaticGameObject(lines, circles, 0.95);
+        GameObject gameObject = new StaticGameObject(lines, circles, 1);
+
 
         return gameObject;
-
     }
 
-    @Override
-    public void keyDown() {
-
-    }
-
-    @Override
-    public void keyUp() {
-
+    public void setAbsorbedBall (Ball ball) {
+        absorbedBall = ball;
     }
 
     @Override
     public void genericTrigger() {
-
+        //Empty...
     }
 
     @Override
-    public void rotate() {
-
+    public void keyDown() {
+    	if(absorbedBall != null) {
+			absorbedBall.fire(this);
+			absorbedBall = null;
+		}
     }
 
     @Override
-    public GameObject getGameObject() {
-        return getPrototypeGameObject().translate(tile.getPosition());
+    public void keyUp() {
+        //Empty...
     }
+
+    public GameObject getGameObject(){return getPrototypeGameObject().translate(tile.getPosition());}
+
+   public boolean isAbsorber() {return true;}
 }

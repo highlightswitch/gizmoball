@@ -147,4 +147,9 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     public GameObject getGameObject() {
         return getPrototypeGameObject(). /* rotateAround( new Vect(0,0), rotation ) . */ translate( tile.getPosition());
     }
+
+    @Override
+    public boolean isAbsorber() {
+        return false;
+    }
 }
