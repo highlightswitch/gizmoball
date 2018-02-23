@@ -119,7 +119,10 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 //            angularVelocity = currentMovement < 0 ? Math.toRadians(180) : -1 * Math.toRadians(180);
 //        GameObject gameObject = new RotatingGameObject(lines, circles, 0.95, new Vect(width/2, 0), angularVelocity );
 
-        gameObject.rotateAroundPointByAngle(new Vect(width/2, 0), new Angle(Math.toRadians(-90 * flipPos)));
+        gameObject.rotateAroundPointByAngle(
+                isLeftFlipper ? new Vect(width/2, width/2) : new Vect(2 - width/2, width/2),
+                new Angle(Math.toRadians(-90 * flipPos))
+        );
 
         return gameObject;
     }
@@ -159,17 +162,32 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
         //TODO: implement rightflipper drawing
 
-        ArrayList<Double[]> poly = new ArrayList<>();
-        poly.add(new Double[]{0.0, width/2}); // NW
-        poly.add(new Double[]{0.0, length - width/2}); // SW
-        poly.add(new Double[]{width, length - width/2}); // SE
-        poly.add(new Double[]{width, width/2}); // NE
-        data.addPolygon(poly);
+        if(isLeftFlipper) {
+            ArrayList<Double[]> poly = new ArrayList<>();
+            poly.add(new Double[]{0.0, width / 2}); // NW
+            poly.add(new Double[]{0.0, length - width / 2}); // SW
+            poly.add(new Double[]{width, length - width / 2}); // SE
+            poly.add(new Double[]{width, width / 2}); // NE
+            data.addPolygon(poly);
 
-        data.addCircle(new Double[]{width/2, width/2, width/2});
-        data.addCircle(new Double[]{width/2, length - width/2, width/2});
+            data.addCircle(new Double[]{width / 2, width / 2, width / 2});
+            data.addCircle(new Double[]{width / 2, length - width / 2, width / 2});
 
-        System.out.println(getPosition()[0] + " - " + getPosition()[1]);
+            data.rotateAroundPivotByRadians(new double[]{width/2, width/2}, Math.toRadians(-90 * flipPos));
+        } else {
+            ArrayList<Double[]> poly = new ArrayList<>();
+            poly.add(new Double[]{2.0, width / 2}); // NW
+            poly.add(new Double[]{2.0, length - width / 2}); // SW
+            poly.add(new Double[]{2 - width, length - width / 2}); // SE
+            poly.add(new Double[]{2 - width, width / 2}); // NE
+            data.addPolygon(poly);
+
+            data.addCircle(new Double[]{2 - width / 2, width / 2, width / 2});
+            data.addCircle(new Double[]{2 - width / 2, length - width / 2, width / 2});
+
+            data.rotateAroundPivotByRadians(new double[]{2 - width/2, width/2}, Math.toRadians(-90 * flipPos));
+        }
+
 
         return data;
     }
