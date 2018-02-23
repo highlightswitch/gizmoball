@@ -68,9 +68,6 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     @Override
     public GameObject getPrototypeGameObject() {
 
-        GameObject testCircle = new StaticGameObject(null, new Circle[]{new Circle(10, 10, 0)}, 1.0).translate( tile.getPosition());
-        System.out.println(testCircle.getCircles()[0].getCenter() + " - " + testCircle.getCircles()[0].getRadius());
-
         LineSegment[] lines;
         Circle[] circles;
 
@@ -160,8 +157,6 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     public DrawingData getGizmoDrawingData() {
         DrawingData data = new DrawingData();
 
-        //TODO: implement rightflipper drawing
-
         if(isLeftFlipper) {
             ArrayList<Double[]> poly = new ArrayList<>();
             poly.add(new Double[]{0.0, width / 2}); // NW
@@ -187,7 +182,6 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
             data.rotateAroundPivotByRadians(new double[]{2 - width/2, width/2}, Math.toRadians(-90 * flipPos));
         }
-
 
         return data;
     }

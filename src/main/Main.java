@@ -29,9 +29,9 @@ public class Main {
 		model.placeGizmo(GizmoType.SQUARE_BUMPER, "square", model.getTileAt(6, 10));
 		model.placeGizmo(GizmoType.TRIANGLE_BUMPER,"triangle", model.getTileAt(8, 12));
 
-//		model.setUpActionMap(leftFlipper, rightFlipper);
+		model.setUpActionMap(leftFlipper, rightFlipper);
 		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, "absorber", model.getTileAt(0, 19));
-//		model.setUpActionMap(absorber);
+		model.setUpActionMap(absorber);
 
 		GameFrame fr = new GameFrame(model);
 	}

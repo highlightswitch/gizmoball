@@ -44,7 +44,6 @@ public  class Board extends JPanel implements Observer {
 		ArrayList<Drawable> drawableObjects = gm.getDrawables();
 		for(Drawable drawable : drawableObjects) {
 			DrawingData data = drawable.getDrawingData();
-			System.out.println(data);
 			draw(data, g2, true);
 		}
 

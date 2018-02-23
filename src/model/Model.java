@@ -124,7 +124,7 @@ public class Model extends Observable {
                 gizmos.add(gizmo);
 				break;
 			case BALL:
-				gizmo = new Ball(this, Color.black, name, tile.getX(), tile.getY(), 0, 0, 25, 0.25);
+				gizmo = new Ball(this, Color.black, name, tile.getX(), tile.getY(), 0, 0, 25, 0.025);
 				ball = (Ball) gizmo;
 				tickable.add((Ball) gizmo);
                 gizmos.add(gizmo);
