@@ -1,15 +1,13 @@
 package model.gizmo;
 
-import model.Collidable;
-import model.DrawingData;
-import model.GameObject;
-import model.StaticGameObject;
+import model.*;
 import physics.Circle;
 import physics.LineSegment;
 
 import java.awt.*;
+import java.util.ArrayList;
 
-public class Absorber extends Gizmo implements Tickable, Collidable {
+public class Absorber extends Gizmo implements Collidable {
 
     private double length;
     private double width;
@@ -17,21 +15,15 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
     private GizmoType type;
     private Ball absorbedBall;
 
-    public Absorber(Color colour, String name, double x1, double y1, double x2, double y2){
+    public Absorber(Color colour, String name){
         super(colour);
         this.name = name;
-        length = x2 - x1;
-        width = y2 - y1;
+        length = 20;
+        width = 1;
         type = GizmoType.ABSORBER;
     }
 
     public GizmoType getGizmoType(){return type;}
-
-
-    @Override
-    public void tick(){
-
-    }
 
     public double getlength(){
         return length;
@@ -78,6 +70,23 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
         absorbedBall = ball;
     }
 
+    public GameObject getGameObject(){return getPrototypeGameObject().translate(getPosition());}
+
+    @Override
+    public DrawingData getGizmoDrawingData() {
+        DrawingData data = new DrawingData();
+        ArrayList<Double[]> squarePoly = new ArrayList<>();
+        squarePoly.add(new Double[]{0.0, 0.0}); //NE
+        squarePoly.add(new Double[]{length, 0.0}); //NW
+        squarePoly.add(new Double[]{length ,width}); //SW
+        squarePoly.add(new Double[]{0.0 ,width}); //SE
+        data.addPolygon(squarePoly);
+
+        return data;
+    }
+
+    public boolean isAbsorber() {return true;}
+
     @Override
     public void genericTrigger() {
         //Empty...
@@ -96,12 +105,4 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
         //Empty...
     }
 
-    public GameObject getGameObject(){return getPrototypeGameObject().translate(getPosition());}
-
-    @Override
-    public DrawingData getGizmoDrawingData() {
-        return null;
-    }
-
-   public boolean isAbsorber() {return true;}
 }

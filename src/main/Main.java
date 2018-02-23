@@ -11,7 +11,7 @@ import view.GameFrame;
 
 public class Main {
 
-	public static boolean debugMode = false;
+	public static boolean debugMode = true;
 
 	public static void main(String[] args) {
 		try {
@@ -26,12 +26,12 @@ public class Main {
 //		Flipper leftFlipper =  (Flipper) model.placeGizmo(GizmoType.LEFT_FLIPPER, "leftFlipper", model.getTileAt(9,10));
 //		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, "rightFlipper", model.getTileAt(14,10));
 		model.placeGizmo(GizmoType.CIRCLE_BUMPER, "circle",model.getTileAt(5, 6));
-		model.placeGizmo(GizmoType.SQUARE_BUMPER, "square", model.getTileAt(6, 10));
+//		model.placeGizmo(GizmoType.SQUARE_BUMPER, "square", model.getTileAt(6, 10));
 		model.placeGizmo(GizmoType.TRIANGLE_BUMPER,"triangle", model.getTileAt(8, 12));
 
 //		model.setUpActionMap(leftFlipper, rightFlipper);
-//		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, "absorber", model.getTileAt(0, 19));
-//		model.setUpActionMap(absorber);
+		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, "absorber", model.getTileAt(0, 19));
+		model.setUpActionMap(absorber);
 
 		GameFrame fr = new GameFrame(model);
 	}

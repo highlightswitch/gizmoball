@@ -43,9 +43,9 @@ public class Ball extends Gizmo implements Tickable {
     }
 
 	public void fire(Absorber firedFrom) {
-	    moveBall(firedFrom);
 	    justFired = true;
 	    isAbsorbed = false;
+	    moveBall(firedFrom);
     }
 
     public void moveBall(Absorber absorber) {

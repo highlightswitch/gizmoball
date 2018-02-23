@@ -114,7 +114,8 @@ public class GizmoballFileReader {
                 break;
             case "Absorber":
                 System.out.println("absorbing");
-                model.addAbsorber(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)), Integer.parseInt(command.get(4)), Integer.parseInt(command.get(5)));
+                //TODO: Fix Absorber loading
+//                model.addAbsorber(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)), Integer.parseInt(command.get(4)), Integer.parseInt(command.get(5)));
                 break;
             case "Ball":
                 model.placeGizmo(GizmoType.BALL, command.get(1), model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3))));

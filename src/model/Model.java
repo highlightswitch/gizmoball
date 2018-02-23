@@ -129,6 +129,12 @@ public class Model extends Observable {
 				tickable.add((Ball) gizmo);
                 gizmos.add(gizmo);
 				break;
+			case ABSORBER:
+				gizmo = new Absorber(Color.BLACK, name);
+				collidable.add(gizmo);
+				gizmos.add(gizmo);
+				tile.placeGizmo(gizmo);
+				break;
 			case CIRCLE_BUMPER:
 				gizmo = addBumper(GizmoType.CIRCLE_BUMPER, name, tile);
                 gizmos.add(gizmo);
@@ -151,16 +157,6 @@ public class Model extends Observable {
 
         return gizmo;
 
-    }
-
-    public Gizmo addAbsorber(String name, double x1, double y1, double x2, double y2){
-        Absorber absorber = new Absorber(Color.BLACK, name, x1, y1, x2, y2);
-        tickable.add(absorber);
-        collidable.add(absorber);
-        gizmos.add(absorber);
-        Tile t = getTileAt(x1, y1);
-        t.placeGizmo(absorber);
-        return absorber;
     }
 
 	private Gizmo addBumper(GizmoType gt, String name, Tile t) {
