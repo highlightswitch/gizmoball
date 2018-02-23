@@ -2,6 +2,7 @@ package view;
 
 import main.Main;
 import model.*;
+import model.gizmo.Gizmo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,10 +39,12 @@ public  class Board extends JPanel implements Observer {
 		super.paintComponent(g);
 
 		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(Color.WHITE);
 
 		ArrayList<Drawable> drawableObjects = gm.getDrawables();
 		for(Drawable drawable : drawableObjects) {
 			DrawingData data = drawable.getDrawingData();
+			System.out.println(data);
 			draw(data, g2, true);
 		}
 
@@ -53,7 +56,7 @@ public  class Board extends JPanel implements Observer {
 				draw(data, g2, false);
 			}
 			draw(gm.getBall().getGameObject().getDrawingData(), g2, false);
-			g2.setColor(Color.BLACK);
+			g2.setColor(Color.WHITE);
 		}
 
 	}
@@ -86,7 +89,7 @@ public  class Board extends JPanel implements Observer {
 				//Create an ellipse using its rectangular bounds
 				Ellipse2D circle = new Ellipse2D.Double(circleData[0] - circleData[2], circleData[1] - circleData[2], 2 * circleData[2], 2 * circleData[2]);
 				//Draw the scaled up shape
-				System.out.println(circle.getBounds2D());
+//				System.out.println(circle.getBounds2D());
 				if(fill)
 					g2.fill(toPixels(circle));
 				else

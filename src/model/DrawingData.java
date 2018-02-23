@@ -115,4 +115,25 @@ public class DrawingData {
 		return primitives;
 	}
 
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("Circles \n");
+		for (Double[] doubles : circlesData){
+			sb.append("    ");
+			sb.append(doubles[0] + " " + doubles[1] + " " + doubles[2] + "\n");
+		}
+		sb.append("\n");
+		sb.append("Polygons \n");
+		for (ArrayList<Double[]> poly : polygonsData){
+			sb.append("    Poly \n");
+			for (Double[] doubles : poly){
+				sb.append("        ");
+				sb.append(doubles[0] + " " + doubles[1] + "\n");
+			}
+		}
+
+		return sb.toString();
+	}
+
 }

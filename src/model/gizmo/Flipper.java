@@ -84,8 +84,8 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
             // These are the circles at either end of the flipper, and also the circles with
             // radius 0 to help with collisions at the ends of LineSegments.
             circles = new Circle[] {
-//                    new Circle(width / 2, width / 2, width / 2),
-//                    new Circle(width / 2, length - width / 2, width / 2),
+                    new Circle(width / 2, width / 2, width / 2),
+                    new Circle(width / 2, length - width / 2, width / 2),
                     new Circle(0, width/2, 0),
                     new Circle(0, length - width/2, 0),
                     new Circle(width, width/2, 0),
@@ -101,8 +101,8 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
             // These are the circles at either end of the flipper, and also the circles with
             // radius 0 to help with collisions at the ends of LineSegments.
             circles = new Circle[] {
-//                    new Circle(2 - width / 2, width / 2, width / 2),
-//                    new Circle( 2 - width / 2, length - width / 2, width / 2),
+                    new Circle(2 - width / 2, width / 2, width / 2),
+                    new Circle( 2 - width / 2, length - width / 2, width / 2),
                     new Circle(2 - width, width/2, 0),
                     new Circle(2 - width, length - width/2, 0),
                     new Circle(2, width/2, 0),
@@ -169,8 +169,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
         data.addCircle(new Double[]{width/2, width/2, width/2});
         data.addCircle(new Double[]{width/2, length - width/2, width/2});
 
-
-        data.translate( tile.getPosition() );
+        System.out.println(getPosition()[0] + " - " + getPosition()[1]);
 
         return data;
     }
