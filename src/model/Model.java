@@ -136,6 +136,7 @@ public class Model extends Observable {
 				break;
 			case ABSORBER:
 				gizmo = new Absorber(Color.BLACK, name);
+				collidable.add(gizmo);
 				tile.placeGizmo(gizmo);
 				break;
 			case CIRCLE_BUMPER:
