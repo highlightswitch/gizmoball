@@ -43,10 +43,7 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
     }
 
     public DrawingData getDrawingData(){
-        if(Main.debugMode)
-            return this.getGameObject().getDrawingData();
-        else
-            return this.getGizmoDrawingData().translate(getPosition());
+        return this.getGizmoDrawingData().translate(getPosition());
     }
 
     protected abstract DrawingData getGizmoDrawingData();

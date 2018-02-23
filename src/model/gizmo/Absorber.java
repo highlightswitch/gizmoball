@@ -96,7 +96,7 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
         //Empty...
     }
 
-    public GameObject getGameObject(){return getPrototypeGameObject().translate(tile.getPosition());}
+    public GameObject getGameObject(){return getPrototypeGameObject().translate(getPosition());}
 
     @Override
     public DrawingData getGizmoDrawingData() {

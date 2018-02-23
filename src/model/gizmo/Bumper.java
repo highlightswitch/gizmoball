@@ -34,7 +34,7 @@ public class Bumper extends Gizmo implements Collidable{
 
     @Override
     public GameObject getGameObject() {
-        return getPrototypeGameObject().rotateAroundPointByAngle( new Vect(0.5,0.5), rotation ).translate( tile.getPosition() );
+        return getPrototypeGameObject().rotateAroundPointByAngle( new Vect(0.5,0.5), rotation ).translate(getPosition());
     }
 
     public GizmoType getGizmoType(){return type;}

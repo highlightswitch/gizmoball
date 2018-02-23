@@ -1,5 +1,6 @@
 package view;
 
+import main.Main;
 import model.*;
 
 import javax.swing.*;
@@ -39,37 +40,59 @@ public  class Board extends JPanel implements Observer {
 		Graphics2D g2 = (Graphics2D) g;
 
 		ArrayList<Drawable> drawableObjects = gm.getDrawables();
-        for(Drawable drawable : drawableObjects){
+		for(Drawable drawable : drawableObjects) {
 			DrawingData data = drawable.getDrawingData();
-            if(data != null){
-            	//If the data exists, loop through and draw the polygons and circles of this shape
+			draw(data, g2, true);
+		}
 
-                for(ArrayList<Double[]> polyData : data.getPolygonsData()){
-                	if(polyData.size() > 0) {
-						//Create the path of the polygon
-						Path2D path = new Path2D.Double();
-						//Set the starting point to the first point of the shape
-						path.moveTo(polyData.get(0)[0], polyData.get(0)[1]);
-						//For each point after the starting point, draw a line to it.
-						for (int i = 1; i < polyData.size(); i++) {
-							path.lineTo(polyData.get(i)[0], polyData.get(i)[1]);
-						}
-						//Draw a line back to the starting point
-						path.closePath();
-						//Draw the scaled up shape
-						g2.fill(toPixels(path));
+		if(Main.debugMode){
+			g2.setColor(Color.CYAN);
+			ArrayList<Collidable> collidables = gm.getCollidable();
+			for(Collidable col : collidables) {
+				DrawingData data = col.getGameObject().getDrawingData();
+				draw(data, g2, false);
+			}
+			draw(gm.getBall().getGameObject().getDrawingData(), g2, false);
+			g2.setColor(Color.BLACK);
+		}
+
+	}
+
+	private void draw(DrawingData data, Graphics2D g2, boolean fill){
+		if(data != null){
+			//If the data exists, loop through and draw the polygons and circles of this shape
+
+			for(ArrayList<Double[]> polyData : data.getPolygonsData()){
+				if(polyData.size() > 0) {
+					//Create the path of the polygon
+					Path2D path = new Path2D.Double();
+					//Set the starting point to the first point of the shape
+					path.moveTo(polyData.get(0)[0], polyData.get(0)[1]);
+					//For each point after the starting point, draw a line to it.
+					for (int i = 1; i < polyData.size(); i++) {
+						path.lineTo(polyData.get(i)[0], polyData.get(i)[1]);
 					}
+					//Draw a line back to the starting point
+					path.closePath();
+					//Draw the scaled up shape
+					if(fill)
+						g2.fill(toPixels(path));
+					else
+						g2.draw(toPixels(path));
 				}
+			}
 
-				for (Double[] circleData : data.getCirclesData()) {
-                	//Create an ellipse using its rectangular bounds
-                	Ellipse2D circle = new Ellipse2D.Double(circleData[0] - circleData[2], circleData[1] - circleData[2], 2 * circleData[2], 2 * circleData[2]);
-                	//Draw the scaled up shape
-                	g2.fill(toPixels(circle));
-                }
-            }
-        }
-
+			for (Double[] circleData : data.getCirclesData()) {
+				//Create an ellipse using its rectangular bounds
+				Ellipse2D circle = new Ellipse2D.Double(circleData[0] - circleData[2], circleData[1] - circleData[2], 2 * circleData[2], 2 * circleData[2]);
+				//Draw the scaled up shape
+				System.out.println(circle.getBounds2D());
+				if(fill)
+					g2.fill(toPixels(circle));
+				else
+					g2.draw(toPixels(circle));
+			}
+		}
 	}
 
 //    public void paintComponent(Graphics g) {
@@ -174,7 +197,7 @@ public  class Board extends JPanel implements Observer {
 
     private Shape toPixels(Shape shape){
 		Shape newShape = AffineTransform.getScaleInstance(25, 25).createTransformedShape(shape);
-		System.out.println(newShape.getBounds2D());
+//		System.out.println(newShape.getBounds2D());
 		return newShape;
 	}
 

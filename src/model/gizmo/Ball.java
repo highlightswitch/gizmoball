@@ -15,7 +15,7 @@ public class Ball extends Gizmo implements Tickable {
 
     private final double newRadius = 0.25;
 
-    private double xPos, yPos;
+    private double cx, cy;
 	private Vect velocity;
 	private double gravity;
 	private double friction;
@@ -26,10 +26,10 @@ public class Ball extends Gizmo implements Tickable {
 	private Model model;
 
 	// x, y coordinates and x,y velocity
-	public Ball(Model model, Color colour, String name,  double xPos, double yPos, double xv, double yv, double g, double f) {
+	public Ball(Model model, Color colour, String name, double xTile, double yTile, double xv, double yv, double g, double f) {
         super(colour);
-        this.xPos = xPos;
-        this.yPos = yPos;
+        this.cx = xTile + 0.5;
+        this.cy = yTile + 0.5;
 		velocity = new Vect(xv, yv);
 		justFired = false;
         gravity = g;
@@ -85,8 +85,8 @@ public class Ball extends Gizmo implements Tickable {
                 if (isCollidingWithAbsorberNext) {
                     isAbsorbed = true;
                     collidedAbsorber.setAbsorbedBall(this);
-                    xPos = 19.5;
-                    yPos = 19.5;
+                    cx = 19.5;
+                    cy = 19.5;
                 } else {
                 	//If we get to here, the ball is colliding this tick, and it is not with an absorber
 					//So we move the ball for the remaining time with its new velocity
@@ -130,8 +130,8 @@ public class Ball extends Gizmo implements Tickable {
     private void moveBallForTime(double time) {
         double xVel = velocity.x();
         double yVel = velocity.y();
-        xPos = xPos + (xVel * time);
-        yPos = yPos + (yVel * time);
+        cx = cx + (xVel * time);
+        cy = cy + (yVel * time);
     }
 
     private CollisionDetails timeUntilCollision( Absorber absorber) {
@@ -141,7 +141,7 @@ public class Ball extends Gizmo implements Tickable {
         ArrayList<Collidable> collidable = model.getCollidable();
 
         // Create a new GameObject, move it to where the ball is the get the physics.Circle component.
-        Circle ballCircle = getPrototypeGameObject().translate(new double[]{ xPos, yPos}).getCircles()[0];
+        Circle ballCircle = getGameObject().getCircles()[0];
 
 //        if (justFired) {
 //            velocity = new Vect(0, -50);
@@ -172,13 +172,13 @@ public class Ball extends Gizmo implements Tickable {
 
     @Override
     public GameObject getPrototypeGameObject() {
-        Circle[] circles = { new Circle(0,0, newRadius) };
+        Circle[] circles = { new Circle(0.5,0.5, newRadius) };
         return new MovingGameObject(null, circles, 1.0);
     }
 
     @Override
     public GameObject getGameObject() {
-        return null;
+        return getPrototypeGameObject().translate(getPosition());
     }
 
     @Override
@@ -195,9 +195,8 @@ public class Ball extends Gizmo implements Tickable {
 
     @Override
     public double[] getPosition() {
-        return new double[] {xPos, yPos};
+        return new double[] { cx - 0.5, cy - 0.5 };
     }
-
 
     @Override
     public void keyDown() {
