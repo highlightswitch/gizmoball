@@ -18,7 +18,6 @@ public class Ball extends Gizmo implements Tickable {
 	private Model model;
 
     private double cx, cy;
-	private Vect velocity;
 	private double gravity;
 	private double friction;
 
@@ -33,7 +32,9 @@ public class Ball extends Gizmo implements Tickable {
 
         this.cx = xTile + 0.5;
         this.cy = yTile + 0.5;
-		velocity = new Vect(xv, yv);
+
+        setVelocity(xv, yv);
+
         gravity = g;
         friction = f;
 
@@ -42,8 +43,17 @@ public class Ball extends Gizmo implements Tickable {
 
 	}
 
-    public void setVelocity(double xv, double xy){
-	    velocity = new Vect(xv, xy);
+	private Vect getVelocity(){
+	    return new Vect(Double.valueOf(getProperty(GizmoPropertyType.VEL_X)), Double.valueOf(getProperty(GizmoPropertyType.VEL_Y)));
+    }
+
+    private void setVelocity(double xv, double yv){
+        properties.put(GizmoPropertyType.VEL_X, String.valueOf(xv));
+        properties.put(GizmoPropertyType.VEL_Y, String.valueOf(yv));
+    }
+
+    private void setVelocity(Vect velocity){
+        setVelocity(velocity.x(), velocity.y());
     }
 
     @Override
@@ -81,14 +91,14 @@ public class Ball extends Gizmo implements Tickable {
             if(justFired) justFired = false;
 
             //Set the balls new velocity and move the ball for the correct amount of time
-            velocity = new Vect(newVel[0], newVel[1]);
+            setVelocity(newVel[0], newVel[1]);
             moveBallForTime(timeMoving);
 
             if(isCollidingThisTick){
                 //At this point the ball has collided with something
 
 				// Set the velocity of the ball to its new post-collision velocity
-                velocity = velAfterCollision;
+                setVelocity(velAfterCollision);
 
                 //If the collision is with an absorber, absorb the ball.
                 if (isCollidingWithAbsorberNext) {
@@ -112,7 +122,7 @@ public class Ball extends Gizmo implements Tickable {
         //Set the initial new XY velocities
         //If the ball is just fired, it has a new velocity being fired upwards.
         //If not, then the initial velocity is it's velocity in the last tick (ie its current velocity)
-        double[] velXY = justFired ? new double[]{0,-50} : new double[]{velocity.x(),velocity.y()};
+        double[] velXY = justFired ? new double[]{0,-50} : new double[]{getVelocity().x(), getVelocity().y()};
 
         //Apply friction and gravity to the velocities
         velXY = applyFrictionToVelocities(velXY, timeMoving);
@@ -144,7 +154,7 @@ public class Ball extends Gizmo implements Tickable {
 
         // Create a new GameObject, move it to where the ball is the get the physics.Circle component.
         Circle ballCircle = getGameObject().getCircles()[0];
-        Vect ballVelocity = velocity;
+        Vect ballVelocity = getVelocity();
 
         //This collision will never happen.
         CollisionDetails nextCollision = new CollisionDetails(Double.MAX_VALUE, new Vect(0,0));
@@ -166,8 +176,8 @@ public class Ball extends Gizmo implements Tickable {
     }
 
     private void moveBallForTime(double time) {
-        double xVel = velocity.x();
-        double yVel = velocity.y();
+        double xVel = getVelocity().x();
+        double yVel = getVelocity().y();
         cx = cx + (xVel * time);
         cy = cy + (yVel * time);
     }

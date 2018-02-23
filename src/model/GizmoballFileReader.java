@@ -98,6 +98,7 @@ public class GizmoballFileReader {
 
 
     private void command(ArrayList<String> command) {
+        Gizmo gizmo;
         switch (command.get(0)) {
             case "Square":
                 model.placeGizmo(GizmoType.SQUARE_BUMPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
@@ -124,13 +125,14 @@ public class GizmoballFileReader {
                 double w = x2 - x1;
                 double h = y2 - y1;
 
-                Gizmo gizmo = model.placeGizmo(GizmoType.ABSORBER, command.get(1), model.getTileAt(x1,y1));
+                gizmo = model.placeGizmo(GizmoType.ABSORBER, command.get(1), model.getTileAt(x1,y1));
                 model.setPropertyOfGizmo(gizmo, GizmoPropertyType.WIDTH, String.valueOf(w));
                 model.setPropertyOfGizmo(gizmo, GizmoPropertyType.HEIGHT, String.valueOf(h));
                 break;
             case "Ball":
-                model.placeGizmo(GizmoType.BALL, command.get(1), model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3))));
-                model.getBall().setVelocity(Double.parseDouble(command.get(4)), Double.parseDouble(command.get(5)));
+                gizmo = model.placeGizmo(GizmoType.BALL, command.get(1), model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3))));
+                model.setPropertyOfGizmo(gizmo, GizmoPropertyType.VEL_X, command.get(4));
+                model.setPropertyOfGizmo(gizmo, GizmoPropertyType.VEL_Y, command.get(5));
                 break;
             case "Rotate":
                 System.out.println("rotating");

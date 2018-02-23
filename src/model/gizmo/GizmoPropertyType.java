@@ -3,5 +3,7 @@ package model.gizmo;
 public enum GizmoPropertyType {
 	NAME,
 	WIDTH,
-	HEIGHT
+	HEIGHT,
+	VEL_X,
+	VEL_Y
 }
