@@ -1,5 +1,7 @@
 package model;
 
+import model.gizmo.Gizmo;
+import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
 
 import java.io.*;
@@ -114,8 +116,17 @@ public class GizmoballFileReader {
                 break;
             case "Absorber":
                 System.out.println("absorbing");
-                //TODO: Fix Absorber loading
-//                model.addAbsorber(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)), Integer.parseInt(command.get(4)), Integer.parseInt(command.get(5)));
+
+                double x1 = Integer.parseInt(command.get(2));
+                double y1 = Integer.parseInt(command.get(3));
+                double x2 = Integer.parseInt(command.get(4));
+                double y2 = Integer.parseInt(command.get(5));
+                double w = x2 - x1;
+                double h = y2 - y1;
+
+                Gizmo gizmo = model.placeGizmo(GizmoType.ABSORBER, command.get(1), model.getTileAt(x1,y1));
+                model.setPropertyOfGizmo(gizmo, GizmoPropertyType.WIDTH, String.valueOf(w));
+                model.setPropertyOfGizmo(gizmo, GizmoPropertyType.HEIGHT, String.valueOf(h));
                 break;
             case "Ball":
                 model.placeGizmo(GizmoType.BALL, command.get(1), model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3))));

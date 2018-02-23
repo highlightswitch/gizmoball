@@ -9,23 +9,12 @@ import java.util.ArrayList;
 
 public class Absorber extends Gizmo implements Collidable {
 
-    private double width;
-    private double height;
-
     private Ball absorbedBall;
 
     public Absorber(Color colour, String name){
         super(name, colour);
-        width = 20;
-        height = 1;
-    }
-
-    public double getWidth(){
-        return width;
-    }
-
-    public double getHeight(){
-        return height;
+        properties.put(GizmoPropertyType.WIDTH, "20");
+        properties.put(GizmoPropertyType.HEIGHT, "1");
     }
 
     void setAbsorbedBall (Ball ball) {
@@ -34,6 +23,10 @@ public class Absorber extends Gizmo implements Collidable {
 
     @Override
     public GameObject getPrototypeGameObject() {
+        
+        double width = Double.valueOf(properties.get(GizmoPropertyType.WIDTH));
+        double height = Double.valueOf(properties.get(GizmoPropertyType.HEIGHT));
+
         LineSegment[] lines = {
                 new LineSegment(0, 0, 0, height),
                 new LineSegment(0, height, width, height),
@@ -66,6 +59,10 @@ public class Absorber extends Gizmo implements Collidable {
 
     @Override
     public DrawingData getGizmoDrawingData() {
+
+        double width = Double.valueOf(properties.get(GizmoPropertyType.WIDTH));
+        double height = Double.valueOf(properties.get(GizmoPropertyType.HEIGHT));
+
         DrawingData data = new DrawingData();
         ArrayList<Double[]> squarePoly = new ArrayList<>();
         squarePoly.add(new Double[]{0.0, 0.0}); //NE

@@ -168,6 +168,14 @@ public class Model extends Observable {
 		return bumper;
 	}
 
+	void setPropertyOfGizmo(Gizmo gizmo, GizmoPropertyType prop, String val){
+		try {
+			gizmo.setProperty(prop, val);
+		} catch (GizmoPropertyException e) {
+			e.printStackTrace();
+		}
+	}
+
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 
         if(keyEventTriggerMap.containsKey(keyCode)){

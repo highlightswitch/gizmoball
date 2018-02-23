@@ -29,6 +29,16 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
         return properties.getOrDefault(prop, null);
     }
 
+    public void setProperty(GizmoPropertyType prop, String val) throws GizmoPropertyException {
+        if(properties.containsKey(prop)){
+            properties.put(prop, val);
+        } else {
+            throw new GizmoPropertyException("Attempted to set property that has not previously been set at compile time" +
+                    "\n Property: " + prop +
+                    "\n Value: " + val);
+        }
+    }
+
     public void setTile(Tile tile) {
         this.tile = tile;
     }
