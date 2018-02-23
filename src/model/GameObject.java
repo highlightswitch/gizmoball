@@ -13,7 +13,7 @@ public abstract class GameObject implements Drawable {
     private LineSegment[] lines;
     private Circle[] circles;
 
-    protected double reflectionCoefficient;
+    double reflectionCoefficient;
 
     public GameObject(LineSegment[] lines, Circle[] circles, double reflectionCoefficient){
         this.lines = lines == null ? new LineSegment[0] : lines;
@@ -72,6 +72,29 @@ public abstract class GameObject implements Drawable {
 
     }
 
+    @Override
+    public DrawingData getDrawingData() {
+
+        DrawingData data = new DrawingData();
+
+        for(LineSegment line : lines){
+            ArrayList<Double[]> poly = new ArrayList<>();
+            poly.add(new Double[]{line.p1().x(), line.p1().y()});
+            poly.add(new Double[]{line.p2().x(), line.p2().y()});
+            data.addPolygon(poly);
+        }
+
+        for(Circle circle : circles){
+            data.addCircle(new Double[]{
+                    circle.getCenter().x(),
+                    circle.getCenter().y(),
+                    circle.getRadius()
+            });
+        }
+
+        return data;
+    }
+
     public CollisionDetails timeUntilGameObjectCollision(Circle ballCircle, Vect ballVelocity) {
 
         double shortestTime = Double.MAX_VALUE;
@@ -96,29 +119,6 @@ public abstract class GameObject implements Drawable {
 
         return new CollisionDetails(shortestTime, newVelocity);
 
-    }
-
-    @Override
-    public DrawingData getDrawingData() {
-
-        DrawingData data = new DrawingData();
-
-        for(LineSegment line : lines){
-            ArrayList<Double[]> poly = new ArrayList<>();
-            poly.add(new Double[]{line.p1().x(), line.p1().y()});
-            poly.add(new Double[]{line.p2().x(), line.p2().y()});
-            data.addPolygon(poly);
-        }
-
-        for(Circle circle : circles){
-            data.addCircle(new Double[]{
-                    circle.getCenter().x(),
-                    circle.getCenter().y(),
-                    circle.getRadius()
-            });
-        }
-
-        return data;
     }
 
     protected abstract double timeUntilLineCollision(LineSegment line, Circle ballCircle, Vect ballVelocity);

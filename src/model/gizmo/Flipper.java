@@ -23,28 +23,22 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     private double currentMovement;
     private double flipPos;
     private String name;
-    private GizmoType type;
     Angle rotation = Angle.RAD_PI_OVER_TWO;
 
     public Flipper(Color colour, String name, boolean isLeft){
         super(colour);
-        if(isLeft) {
-            type = GizmoType.LEFT_FLIPPER;
-        } else {
-            type = GizmoType.RIGHT_FLIPPER;
-        }
+
+        this.name = name;
+        setIsLeft(isLeft);
+
         flipPos = 0;
         currentMovement = 0;
-        this.name = name;
 
-        setIsLeft(isLeft);
     }
 
-    public GizmoType getGizmoType(){return type;}
-
-
-    public String getName(){
-        return name;
+    private void setIsLeft(boolean isLeft){
+        isLeftFlipper = isLeft;
+        flipSpeed = isLeftFlipper ? 0.1 : -0.1;
     }
 
     private void moveFlipper(){
@@ -54,10 +48,6 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
                 clamp(flipPos + currentMovement, -1, 0);
     }
 
-    public void setIsLeft(boolean isLeft){
-        isLeftFlipper = isLeft;
-        flipSpeed = isLeftFlipper ? 0.1 : -0.1;
-    }
 
     private double clamp(double val, double min, double max){
         if(val < min) return min;
@@ -125,32 +115,17 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     }
 
     @Override
-    public void tick() {
-        moveFlipper();
+    public GameObject getGameObject() {
+        return getPrototypeGameObject(). /* rotateAroundPointByAngle( new Vect(0,0), rotation ) . */ translate(getPosition());
     }
 
     @Override
-    public void keyDown() {
-        currentMovement = flipSpeed;
-    }
-
-    @Override
-    public void keyUp() {
-        currentMovement = -1 * flipSpeed;
-    }
-
-    @Override
-    public void genericTrigger() {
-        //Empty...
+    public boolean isAbsorber() {
+        return false;
     }
 
     public void rotate() {
         rotation = rotation.plus(Angle.DEG_90);
-    }
-
-    @Override
-    public GameObject getGameObject() {
-        return getPrototypeGameObject(). /* rotateAroundPointByAngle( new Vect(0,0), rotation ) . */ translate(getPosition());
     }
 
     @Override
@@ -187,7 +162,22 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     }
 
     @Override
-    public boolean isAbsorber() {
-        return false;
+    public void tick() {
+        moveFlipper();
+    }
+
+    @Override
+    public void keyDown() {
+        currentMovement = flipSpeed;
+    }
+
+    @Override
+    public void keyUp() {
+        currentMovement = -1 * flipSpeed;
+    }
+
+    @Override
+    public void genericTrigger() {
+        //Empty...
     }
 }

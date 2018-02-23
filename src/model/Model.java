@@ -42,39 +42,51 @@ public class Model extends Observable {
 		walls = new Walls(0, 0, 20, 20);
 
 		tickable = new ArrayList<>();
+		drawables = new ArrayList<>();
         gizmos = new ArrayList<>();
+
 		collidable = new ArrayList<>();
 		collidable.add(walls);
 
-		drawables = new ArrayList<>();
+	}
 
+	public ArrayList<Drawable> getDrawables() {
+        return drawables;
+    }
+
+	public ArrayList<Collidable> getCollidable() {
+		return collidable;
+	}
+
+	public Ball getBall() {
+		return ball;
 	}
 
 	public Tile[][] getTiles(){
         return tiles;
     }
 
-	public void rotateGizmo(String name){
+	void rotateGizmo(String name){
         Gizmo gizmo = searchForGizmo(name);
-        gizmo.rotate();
+        if(gizmo != null)
+			gizmo.rotate();
     }
 
-	public Gizmo searchForGizmo(String name){
-        for(int i = 0; i < gizmos.size(); i++){
-            if(gizmos.get(i).getName().equals(name)){
-                return gizmos.get(i);
-            }
-        }
+	private Gizmo searchForGizmo(String name){
+		for (Gizmo gizmo : gizmos) {
+			if (gizmo.getName().equals(name)) {
+				return gizmo;
+			}
+		}
         return null;
     }
 
-    public boolean checkName(String name){
-        for(int i = 0; i < gizmos.size(); i++){
-          //  System.out.println(gizmos.size());
-            if(gizmos.get(i).getName().equals(name)){
-                return true;
-            }
-        }
+	boolean checkName(String name){
+		for (Gizmo gizmo : gizmos) {
+			if (gizmo.getName().equals(name)) {
+				return true;
+			}
+		}
         return false;
     }
 
@@ -82,7 +94,7 @@ public class Model extends Observable {
         keyEventTriggerMap.put(70, l); //Key code 70 = F
         keyEventTriggerMap.put(71, r); //Key code 71 = G
     }
-    
+
     public void setUpActionMap(Absorber absorber) {
         keyEventTriggerMap.put(32, absorber); //Key code 32 = space
     }
@@ -94,16 +106,12 @@ public class Model extends Observable {
     /**
      * This returns the tile under the pixel coordinates. eg tile (3,5) is under the coords (3.25, 5.89).
      * This can be used for learning where the mouse was clicked.
-     * @param xPos
-     * @param yPos
-     * @return
+     * @param xPos The x coordinate
+     * @param yPos The y coordinate
+     * @return The tile at coordinates (x,y)
      */
-    public Tile getTileAt(double xPos, double yPos){
+    Tile getTileAt(double xPos, double yPos){
 	    return getTileAt((int) xPos, (int) yPos);
-    }
-
-	public ArrayList<Drawable> getDrawables() {
-        return drawables;
     }
 
     public Gizmo placeGizmo(GizmoType gizmoType, String name, Tile tile){
@@ -114,41 +122,34 @@ public class Model extends Observable {
 				tile.placeGizmo(gizmo);
 				tickable.add((Flipper) gizmo);
 				collidable.add(gizmo);
-				gizmos.add(gizmo);
 				break;
 			case RIGHT_FLIPPER:
 				gizmo = new Flipper(null, name, false);
 				tile.placeGizmo(gizmo);
 				tickable.add((Flipper) gizmo);
 				collidable.add(gizmo);
-                gizmos.add(gizmo);
 				break;
 			case BALL:
 				gizmo = new Ball(this, Color.black, name, tile.getX(), tile.getY(), 0, 0, 25, 0.025);
 				ball = (Ball) gizmo;
 				tickable.add((Ball) gizmo);
-                gizmos.add(gizmo);
 				break;
 			case ABSORBER:
 				gizmo = new Absorber(Color.BLACK, name);
-				collidable.add(gizmo);
-				gizmos.add(gizmo);
 				tile.placeGizmo(gizmo);
 				break;
 			case CIRCLE_BUMPER:
 				gizmo = addBumper(GizmoType.CIRCLE_BUMPER, name, tile);
-                gizmos.add(gizmo);
 				break;
 			case SQUARE_BUMPER:
 				gizmo = addBumper(GizmoType.SQUARE_BUMPER,name, tile);
-                gizmos.add(gizmo);
 				break;
 			case TRIANGLE_BUMPER:
 				gizmo = addBumper(GizmoType.TRIANGLE_BUMPER,name, tile);
-                gizmos.add(gizmo);
 				break;
 		}
 
+		gizmos.add(gizmo);
 		drawables.add(gizmo);
 
         // Notify observers ... redraw updated view
@@ -194,13 +195,7 @@ public class Model extends Observable {
         // Notify observers ... redraw updated view
         this.setChanged();
         this.notifyObservers();
+
 	}
 
-    public ArrayList<Collidable> getCollidable() {
-        return collidable;
-    }
-
-    public Ball getBall() {
-		return ball;
-	}
 }

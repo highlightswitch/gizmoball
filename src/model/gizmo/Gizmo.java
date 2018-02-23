@@ -8,12 +8,12 @@ import java.awt.*;
 public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable {
 
     private Color colour;
-    protected Tile tile;
+    private Tile tile;
     private String name;
-    private GizmoType type;
+
+    protected GizmoType type;
 
     Gizmo(Color colour){
-
         this.colour = colour;
     }
 
@@ -21,19 +21,9 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
         return colour;
     }
 
-    public abstract GameObject getPrototypeGameObject();
-
     public void setTile(Tile tile) {
         this.tile = tile;
     }
-
-    public abstract GameObject getGameObject();
-
-    public String getName(){ return name;}
-
-    public abstract void rotate();
-
-    public GizmoType getGizmoType(){return type;}
 
     public double[] getPosition(){
         if(tile != null)
@@ -42,9 +32,16 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
             return null;
     }
 
+    public String getName(){ return name;}
+
     public DrawingData getDrawingData(){
         return this.getGizmoDrawingData().translate(getPosition());
     }
+
+    public abstract void rotate();
+
+    public abstract GameObject getPrototypeGameObject();
+    public abstract GameObject getGameObject();
 
     protected abstract DrawingData getGizmoDrawingData();
 }

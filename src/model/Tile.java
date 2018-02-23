@@ -21,6 +21,10 @@ public class Tile {
         return y;
     }
 
+    public int[] getPosition() {
+        return new int[]{x, y};
+    }
+
     void placeGizmo(Gizmo gizmo){
         this.gizmo = gizmo;
         this.gizmo.setTile(this);
@@ -30,16 +34,4 @@ public class Tile {
         return gizmo;
     }
 
-    public int[] getPosition() {
-        return new int[]{x, y};
-    }
-
-    public GizmoType getTypeOfGizmo() {
-        if(gizmo != null) {
-            GizmoType type = gizmo.getGizmoType();
-            return type;
-        }
-
-        return null ;
-    }
 }

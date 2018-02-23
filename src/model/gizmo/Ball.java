@@ -15,34 +15,45 @@ public class Ball extends Gizmo implements Tickable {
 
     private final double newRadius = 0.25;
 
+	private Model model;
+    private String name;
+
     private double cx, cy;
 	private Vect velocity;
 	private double gravity;
 	private double friction;
+
 	private boolean isAbsorbed;
 	private boolean justFired;
-	private String tag;
 
-	private Model model;
 
 	// x, y coordinates and x,y velocity
 	public Ball(Model model, Color colour, String name, double xTile, double yTile, double xv, double yv, double g, double f) {
         super(colour);
+		this.model = model;
+		this.name = name;
+
         this.cx = xTile + 0.5;
         this.cy = yTile + 0.5;
 		velocity = new Vect(xv, yv);
-		justFired = false;
         gravity = g;
         friction = f;
-		this.model = model;
-		tag = name;
+
+		justFired = false;
+		isAbsorbed = false;
+
 	}
 
     public void setVelocity(double xv, double xy){
 	    velocity = new Vect(xv, xy);
     }
 
-	public void fire(Absorber firedFrom) {
+    @Override
+    public double[] getPosition() {
+        return new double[] { cx - 0.5, cy - 0.5 };
+    }
+
+    void fire(Absorber firedFrom) {
 	    justFired = true;
 	    isAbsorbed = false;
 	    moveBall(firedFrom);
@@ -127,13 +138,6 @@ public class Ball extends Gizmo implements Tickable {
         };
     }
 
-    private void moveBallForTime(double time) {
-        double xVel = velocity.x();
-        double yVel = velocity.y();
-        cx = cx + (xVel * time);
-        cy = cy + (yVel * time);
-    }
-
     private CollisionDetails timeUntilCollision( Absorber absorber) {
         // Find Time Until Collision and also, if there is a collision, the new speed vector.
 
@@ -142,11 +146,6 @@ public class Ball extends Gizmo implements Tickable {
 
         // Create a new GameObject, move it to where the ball is the get the physics.Circle component.
         Circle ballCircle = getGameObject().getCircles()[0];
-
-//        if (justFired) {
-//            velocity = new Vect(0, -50);
-//            justFired = false;
-//        }
         Vect ballVelocity = velocity;
 
         //This collision will never happen.
@@ -165,9 +164,14 @@ public class Ball extends Gizmo implements Tickable {
             }
         }
 
-        // Check again but move GameObject to where the ball will be under the effect of gravity
-
         return nextCollision;
+    }
+
+    private void moveBallForTime(double time) {
+        double xVel = velocity.x();
+        double yVel = velocity.y();
+        cx = cx + (xVel * time);
+        cy = cy + (yVel * time);
     }
 
     @Override
@@ -181,6 +185,13 @@ public class Ball extends Gizmo implements Tickable {
         return getPrototypeGameObject().translate(getPosition());
     }
 
+    public boolean isAbsorber() {return false;}
+
+    @Override
+    public void rotate() {
+
+    }
+
     @Override
     protected DrawingData getGizmoDrawingData() {
         DrawingData data = new DrawingData();
@@ -189,13 +200,11 @@ public class Ball extends Gizmo implements Tickable {
     }
 
     @Override
-    public void rotate() {
+    public void tick() {
+        if (!isAbsorbed) {
+            moveBall(null);
+        }
 
-    }
-
-    @Override
-    public double[] getPosition() {
-        return new double[] { cx - 0.5, cy - 0.5 };
     }
 
     @Override
@@ -213,14 +222,4 @@ public class Ball extends Gizmo implements Tickable {
 
     }
 
-    @Override
-    public void tick() {
-        if (!isAbsorbed) {
-            moveBall(null);
-        }
-
-    }
-
-
-    public boolean isAbsorber() {return false;}
 }

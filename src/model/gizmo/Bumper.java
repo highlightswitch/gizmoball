@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 public class Bumper extends Gizmo implements Collidable{
 
-    private GizmoType type;
     public Angle rotation = Angle.ZERO; //TODO change to private
     private String name;
 

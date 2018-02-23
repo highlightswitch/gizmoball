@@ -6,7 +6,6 @@ import model.*;
 import model.gizmo.Absorber;
 import model.gizmo.Flipper;
 import model.gizmo.GizmoType;
-import model.gizmo.Square;
 import view.GameFrame;
 
 public class Main {
