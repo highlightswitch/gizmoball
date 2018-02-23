@@ -66,19 +66,13 @@ public class Model extends Observable {
         return tiles;
     }
 
-	void rotateGizmo(String name){
-        Gizmo gizmo = searchForGizmo(name);
-        if(gizmo != null)
-			gizmo.rotate();
-    }
-
-	private Gizmo searchForGizmo(String name){
+	Gizmo getGizmoByName(String name) throws GizmoNotFoundException {
 		for (Gizmo gizmo : gizmos) {
 			if (gizmo.getProperty(GizmoPropertyType.NAME).equals(name)) {
 				return gizmo;
 			}
 		}
-        return null;
+		throw new GizmoNotFoundException("Cannot find gizmo with name: " + name);
     }
 
 	boolean checkName(String name){

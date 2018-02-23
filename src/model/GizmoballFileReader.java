@@ -1,6 +1,7 @@
 package model;
 
 import model.gizmo.Gizmo;
+import model.gizmo.GizmoPropertyException;
 import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
 
@@ -116,8 +117,6 @@ public class GizmoballFileReader {
                 model.placeGizmo(GizmoType.LEFT_FLIPPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
                 break;
             case "Absorber":
-                System.out.println("absorbing");
-
                 double x1 = Integer.parseInt(command.get(2));
                 double y1 = Integer.parseInt(command.get(3));
                 double x2 = Integer.parseInt(command.get(4));
@@ -135,8 +134,14 @@ public class GizmoballFileReader {
                 model.setPropertyOfGizmo(gizmo, GizmoPropertyType.VEL_Y, command.get(5));
                 break;
             case "Rotate":
-                System.out.println("rotating");
-                model.rotateGizmo(command.get(1));
+                try {
+                    gizmo = model.getGizmoByName(command.get(0));
+                    gizmo.rotate();
+                } catch (GizmoNotFoundException e) {
+                    e.printStackTrace();
+                } catch (GizmoPropertyException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "Delete": //
                 break;

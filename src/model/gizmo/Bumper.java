@@ -14,20 +14,20 @@ import java.util.ArrayList;
 
 public class Bumper extends Gizmo implements Collidable{
 
-    public Angle rotation = Angle.ZERO; //TODO change to private
-
     public Bumper(Color colour, String name, GizmoType type){
         super(name, colour);
         this.type = type;
     }
 
-    public void rotate() {
-        rotation = rotation.plus(Angle.DEG_90);
+    private double rotationInRadians(){
+        return Math.toRadians(Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG)));
     }
 
     @Override
     public GameObject getGameObject() {
-        return getPrototypeGameObject().rotateAroundPointByAngle( new Vect(0.5,0.5), rotation ).translate(getPosition());
+        return getPrototypeGameObject()
+                .rotateAroundPointByAngle( new Vect(0.5,0.5), new Angle(rotationInRadians()) )
+                .translate(getPosition());
     }
 
     public GizmoType getGizmoType(){return type;}
@@ -121,7 +121,7 @@ public class Bumper extends Gizmo implements Collidable{
                 break;
         }
 
-        data.rotateAroundPivotByRadians(new double[]{0.5, 0.5}, rotation.radians());
+        data.rotateAroundPivotByRadians(new double[]{0.5, 0.5}, rotationInRadians());
 
         return data;
     }

@@ -3,9 +3,7 @@ package main;
 import javax.swing.UIManager;
 
 import model.*;
-import model.gizmo.Absorber;
-import model.gizmo.Flipper;
-import model.gizmo.GizmoType;
+import model.gizmo.*;
 import view.GameFrame;
 
 public class Main {
@@ -26,7 +24,14 @@ public class Main {
 		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, "rightFlipper", model.getTileAt(14,10));
 		model.placeGizmo(GizmoType.CIRCLE_BUMPER, "circle",model.getTileAt(5, 6));
 		model.placeGizmo(GizmoType.SQUARE_BUMPER, "square", model.getTileAt(6, 10));
-		model.placeGizmo(GizmoType.TRIANGLE_BUMPER,"triangle", model.getTileAt(8, 12));
+
+		Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER,"triangle", model.getTileAt(19, 0));
+		try {
+			triangle.rotate();
+			triangle.rotate();
+		} catch (GizmoPropertyException e) {
+			e.printStackTrace();
+		}
 
 		model.setUpActionMap(leftFlipper, rightFlipper);
 		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, "absorber", model.getTileAt(0, 19));

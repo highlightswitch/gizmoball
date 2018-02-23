@@ -18,6 +18,7 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
     Gizmo(String name, Color colour){
         properties = new HashMap<>();
         properties.put(GizmoPropertyType.NAME, name);
+        properties.put(GizmoPropertyType.ROTATION_DEG, "0");
         this.colour = colour;
     }
 
@@ -50,11 +51,20 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
             return null;
     }
 
+    public void rotate() throws GizmoPropertyException {
+        double rotation = Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG));
+        rotation = (rotation + 90) % 360;
+        rotateByDeg(rotation);
+    }
+
+    private void rotateByDeg(double val) throws GizmoPropertyException {
+        setProperty(GizmoPropertyType.ROTATION_DEG, String.valueOf(val));
+    }
+
     public DrawingData getDrawingData(){
         return this.getGizmoDrawingData().translate(getPosition());
     }
 
-    public abstract void rotate();
 
     public abstract GameObject getPrototypeGameObject();
     public abstract GameObject getGameObject();

@@ -4,6 +4,7 @@ public enum GizmoPropertyType {
 	NAME,
 	WIDTH,
 	HEIGHT,
+	ROTATION_DEG,
 	VEL_X,
 	VEL_Y
 }
