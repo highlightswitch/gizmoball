@@ -16,7 +16,6 @@ public class Ball extends Gizmo implements Tickable {
     private final double newRadius = 0.25;
 
 	private Model model;
-    private String name;
 
     private double cx, cy;
 	private Vect velocity;
@@ -29,9 +28,8 @@ public class Ball extends Gizmo implements Tickable {
 
 	// x, y coordinates and x,y velocity
 	public Ball(Model model, Color colour, String name, double xTile, double yTile, double xv, double yv, double g, double f) {
-        super(colour);
+        super(name, colour);
 		this.model = model;
-		this.name = name;
 
         this.cx = xTile + 0.5;
         this.cy = yTile + 0.5;

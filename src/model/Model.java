@@ -74,7 +74,7 @@ public class Model extends Observable {
 
 	private Gizmo searchForGizmo(String name){
 		for (Gizmo gizmo : gizmos) {
-			if (gizmo.getName().equals(name)) {
+			if (gizmo.getProperty(GizmoPropertyType.NAME).equals(name)) {
 				return gizmo;
 			}
 		}
@@ -83,7 +83,7 @@ public class Model extends Observable {
 
 	boolean checkName(String name){
 		for (Gizmo gizmo : gizmos) {
-			if (gizmo.getName().equals(name)) {
+			if (gizmo.getProperty(GizmoPropertyType.NAME).equals(name)) {
 				return true;
 			}
 		}

@@ -4,21 +4,29 @@ import main.Main;
 import model.*;
 
 import java.awt.*;
+import java.util.HashMap;
 
 public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable {
 
     private Color colour;
     private Tile tile;
-    private String name;
 
     protected GizmoType type;
 
-    Gizmo(Color colour){
+    protected HashMap<GizmoPropertyType, String> properties;
+
+    Gizmo(String name, Color colour){
+        properties = new HashMap<>();
+        properties.put(GizmoPropertyType.NAME, name);
         this.colour = colour;
     }
 
     public Color getColour() {
         return colour;
+    }
+
+    public String getProperty(GizmoPropertyType prop){
+        return properties.getOrDefault(prop, null);
     }
 
     public void setTile(Tile tile) {
@@ -31,8 +39,6 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
         else
             return null;
     }
-
-    public String getName(){ return name;}
 
     public DrawingData getDrawingData(){
         return this.getGizmoDrawingData().translate(getPosition());

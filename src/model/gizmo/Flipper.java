@@ -22,13 +22,11 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     private boolean isLeftFlipper;
     private double currentMovement;
     private double flipPos;
-    private String name;
     Angle rotation = Angle.RAD_PI_OVER_TWO;
 
     public Flipper(Color colour, String name, boolean isLeft){
-        super(colour);
+        super(name, colour);
 
-        this.name = name;
         setIsLeft(isLeft);
 
         flipPos = 0;

@@ -9,15 +9,13 @@ import java.util.ArrayList;
 
 public class Absorber extends Gizmo implements Collidable {
 
-    private String name;
     private double width;
     private double height;
 
     private Ball absorbedBall;
 
     public Absorber(Color colour, String name){
-        super(colour);
-        this.name = name;
+        super(name, colour);
         width = 20;
         height = 1;
     }
@@ -28,10 +26,6 @@ public class Absorber extends Gizmo implements Collidable {
 
     public double getHeight(){
         return height;
-    }
-
-    public String getName(){
-        return name;
     }
 
     void setAbsorbedBall (Ball ball) {

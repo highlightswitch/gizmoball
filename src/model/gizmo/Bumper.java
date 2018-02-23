@@ -15,16 +15,10 @@ import java.util.ArrayList;
 public class Bumper extends Gizmo implements Collidable{
 
     public Angle rotation = Angle.ZERO; //TODO change to private
-    private String name;
 
     public Bumper(Color colour, String name, GizmoType type){
-        super(colour);
+        super(name, colour);
         this.type = type;
-        this.name = name;
-    }
-
-    public String getName(){
-        return name;
     }
 
     public void rotate() {
