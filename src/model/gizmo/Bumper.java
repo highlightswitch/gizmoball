@@ -73,15 +73,15 @@ public class Bumper extends Gizmo implements Collidable{
     private GameObject getTriangleGameObject() {
         LineSegment[] lines = {
                 new LineSegment(0, 0, 0, 1), //East
-                new LineSegment(0, 1, 1, 1), //South
-                new LineSegment(0, 0, 1, 1) //Diagonal
+                new LineSegment(0, 0, 1, 0), //North
+                new LineSegment(0, 1, 1, 0) //Diagonal
         };
 
         // These are the circles with radius 0 to help with collisions at the ends of LineSegments.
         Circle[] circles = {
                 new Circle(0, 0, 0), //NE corner
                 new Circle(0, 1, 0), //SE corner
-                new Circle(1, 1, 0) // SW corner
+                new Circle(1, 0, 0) // NW corner
         };
 
         return new StaticGameObject(lines, circles, 1.0);
@@ -113,8 +113,8 @@ public class Bumper extends Gizmo implements Collidable{
             case TRIANGLE_BUMPER:
                 ArrayList<Double[]> trianglePoly = new ArrayList<>();
                 trianglePoly.add(new Double[]{0.0,0.0}); //NE
+                trianglePoly.add(new Double[]{1.0,0.0}); //SW
                 trianglePoly.add(new Double[]{0.0,1.0}); //SE
-                trianglePoly.add(new Double[]{1.0,1.0}); //SW
                 data.addPolygon(trianglePoly);
                 break;
             default:

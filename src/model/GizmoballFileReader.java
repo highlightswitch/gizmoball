@@ -135,7 +135,7 @@ public class GizmoballFileReader {
                 break;
             case "Rotate":
                 try {
-                    gizmo = model.getGizmoByName(command.get(0));
+                    gizmo = model.getGizmoByName(command.get(1));
                     gizmo.rotate();
                 } catch (GizmoNotFoundException e) {
                     e.printStackTrace();
