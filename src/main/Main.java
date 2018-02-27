@@ -19,7 +19,7 @@ public class Main {
 		}
 
 		Model model = new Model();
-		model.placeGizmo(GizmoType.BALL, "ball", model.getTileAt(14,1));
+		model.placeGizmo(GizmoType.BALL, "ball", model.getTileAt(2,1));
 		Flipper leftFlipper =  (Flipper) model.placeGizmo(GizmoType.LEFT_FLIPPER, "leftFlipper", model.getTileAt(9,10));
 		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, "rightFlipper", model.getTileAt(14,10));
 		model.placeGizmo(GizmoType.CIRCLE_BUMPER, "circle",model.getTileAt(5, 6));

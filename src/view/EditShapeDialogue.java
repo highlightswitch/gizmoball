@@ -12,7 +12,7 @@ public class EditShapeDialogue {
         JLabel label = new JLabel("shape icon");
         JComboBox actionList = new JComboBox(actions);
         JComboBox triggerList = new JComboBox(triggers);
-        JTextField position = new JTextField();
+        JTextField position = new JTextField("(0,0)");
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;

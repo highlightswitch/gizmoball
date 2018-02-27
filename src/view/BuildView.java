@@ -87,10 +87,6 @@ public class BuildView implements GameView {
         JMenuItem flipperGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillFlipperSmall.png")));
         JMenuItem ballGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/borderBallSmall.png")));
 
-//        circleGizmo.addActionListener(new AddCircleListener());
-//        triangleGizmo.addActionListener(new AddTriangleListener());
-//        squareGizmo.addActionListener(new addSquareListener());
-
         circleGizmo.setContentAreaFilled(false);
         triangleGizmo.setContentAreaFilled(false);
         squareGizmo.setContentAreaFilled(false);
@@ -98,7 +94,7 @@ public class BuildView implements GameView {
         flipperGizmo.setContentAreaFilled(false);
         ballGizmo.setContentAreaFilled(false);
 
-        DragDropListener li = new DragDropListener();
+        /*DragDropListener li = new DragDropListener();
         circleGizmo.addMouseListener(li);
         circleGizmo.setTransferHandler(new TransferHandler("icon"));
         triangleGizmo.addMouseListener(li);
@@ -110,7 +106,7 @@ public class BuildView implements GameView {
         ballGizmo.addMouseListener(li);
         ballGizmo.setTransferHandler(new TransferHandler("icon"));
         flipperGizmo.addMouseListener(li);
-        flipperGizmo.setTransferHandler(new TransferHandler("icon"));
+        flipperGizmo.setTransferHandler(new TransferHandler("icon"));*/
 
         allShapes.add(circleGizmo);
         allShapes.add(triangleGizmo);
@@ -122,43 +118,9 @@ public class BuildView implements GameView {
         allShapes.setLayout(new FlowLayout());
     }
 
-     /*   MouseListener ml = new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            }
-
-
-           @Override
-            public void mousePressed(MouseEvent e) {
-                JComponent jc = (JComponent) e.getSource();
-                TransferHandler th = jc.getTransferHandler();
-                th.exportAsDrag(jc, e, TransferHandler.COPY);
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        };*/
-
-
-
-
-
-          //  @Override
-            public JPanel getPanel() {
-                return panBuild;
-            }
-
-        }
+    @Override
+    public JPanel getPanel() {
+        return panBuild;
+    }
+}
 
