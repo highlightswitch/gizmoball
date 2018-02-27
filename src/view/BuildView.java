@@ -98,7 +98,7 @@ public class BuildView implements GameView {
         flipperGizmo.setContentAreaFilled(false);
         ballGizmo.setContentAreaFilled(false);
 
-        DragDropListener li = new DragDropListener();
+        /*DragDropListener li = new DragDropListener();
         circleGizmo.addMouseListener(li);
         circleGizmo.setTransferHandler(new TransferHandler("icon"));
         triangleGizmo.addMouseListener(li);
@@ -110,7 +110,7 @@ public class BuildView implements GameView {
         ballGizmo.addMouseListener(li);
         ballGizmo.setTransferHandler(new TransferHandler("icon"));
         flipperGizmo.addMouseListener(li);
-        flipperGizmo.setTransferHandler(new TransferHandler("icon"));
+        flipperGizmo.setTransferHandler(new TransferHandler("icon"));*/
 
         allShapes.add(circleGizmo);
         allShapes.add(triangleGizmo);

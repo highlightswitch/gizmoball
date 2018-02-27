@@ -75,6 +75,25 @@ public class Model extends Observable {
 		throw new GizmoNotFoundException("Cannot find gizmo with name: " + name);
     }
 
+    public void deleteGizmo(String name) throws GizmoNotFoundException {
+    	Gizmo gizmo = getGizmoByName(name);
+        Tile tile = getTileAt(gizmo.getPosition()[0], gizmo.getPosition()[1]);
+        tile.removeGizmo();
+    	tickable.remove(gizmo);
+    	collidable.remove(gizmo);
+    	drawables.remove(gizmo);
+    	gizmos.remove(gizmo);
+	}
+
+	public void moveGizmo(String name, int x, int y) throws GizmoNotFoundException {
+		Gizmo gizmo = getGizmoByName(name);
+		Tile tile = getTileAt(x, y);
+		Tile oldTile = getTileAt(gizmo.getPosition()[0], gizmo.getPosition()[1]);
+		oldTile.removeGizmo();
+		tile.placeGizmo(gizmo);
+		gizmo.setTile(tile);
+	}
+
 	boolean checkName(String name){
 		for (Gizmo gizmo : gizmos) {
 			if (gizmo.getProperty(GizmoPropertyType.NAME).equals(name)) {
