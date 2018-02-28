@@ -19,13 +19,13 @@ public class Main {
 		}
 
 		Model model = new Model();
-		model.placeGizmo(GizmoType.BALL, "ball", model.getTileAt(14,1));
-		Flipper leftFlipper =  (Flipper) model.placeGizmo(GizmoType.LEFT_FLIPPER, "leftFlipper", model.getTileAt(9,10));
-		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, "rightFlipper", model.getTileAt(14,10));
-		model.placeGizmo(GizmoType.CIRCLE_BUMPER, "circle",model.getTileAt(5, 6));
-		model.placeGizmo(GizmoType.SQUARE_BUMPER, "square", model.getTileAt(6, 10));
+		model.placeGizmo(GizmoType.BALL, model.getTileAt(14,1), Gizmo.getPropertyDefaults(GizmoType.BALL));
+		Flipper leftFlipper =  (Flipper) model.placeGizmo(GizmoType.LEFT_FLIPPER, model.getTileAt(9,10), Gizmo.getPropertyDefaults(GizmoType.LEFT_FLIPPER));
+		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, model.getTileAt(14,10), Gizmo.getPropertyDefaults(GizmoType.RIGHT_FLIPPER));
+		model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 6), Gizmo.getPropertyDefaults(GizmoType.CIRCLE_BUMPER));
+		model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 10), Gizmo.getPropertyDefaults(GizmoType.SQUARE_BUMPER));
 
-		Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER,"triangle", model.getTileAt(19, 0));
+		Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(19, 0), Gizmo.getPropertyDefaults(GizmoType.TRIANGLE_BUMPER));
 		try {
 			triangle.rotate();
 			triangle.rotate();
@@ -34,7 +34,7 @@ public class Main {
 		}
 
 		model.setUpActionMap(leftFlipper, rightFlipper);
-		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, "absorber", model.getTileAt(0, 19));
+		Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19), Gizmo.getPropertyDefaults(GizmoType.ABSORBER));
 		model.setUpActionMap(absorber);
 
 		GameFrame fr = new GameFrame(model);

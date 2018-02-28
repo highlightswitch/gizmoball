@@ -102,19 +102,19 @@ public class GizmoballFileReader {
         Gizmo gizmo;
         switch (command.get(0)) {
             case "Square":
-                model.placeGizmo(GizmoType.SQUARE_BUMPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+                model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))), new String[]{command.get(1), "0"});
                 break;
             case "Circle":
-                model.placeGizmo(GizmoType.CIRCLE_BUMPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+                model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))), new String[]{command.get(1), "0"});
                 break;
             case "Triangle":
-                model.placeGizmo(GizmoType.TRIANGLE_BUMPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+                model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))), new String[]{command.get(1), "0"});
                 break;
             case "RightFlipper":
-                model.placeGizmo(GizmoType.RIGHT_FLIPPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+                model.placeGizmo(GizmoType.RIGHT_FLIPPER, model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))), new String[]{command.get(1), "0"});
                 break;
             case "LeftFlipper":
-                model.placeGizmo(GizmoType.LEFT_FLIPPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+                model.placeGizmo(GizmoType.LEFT_FLIPPER, model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))), new String[]{command.get(1), "0"});
                 break;
             case "Absorber":
                 double x1 = Integer.parseInt(command.get(2));
@@ -124,14 +124,10 @@ public class GizmoballFileReader {
                 double w = x2 - x1;
                 double h = y2 - y1;
 
-                gizmo = model.placeGizmo(GizmoType.ABSORBER, command.get(1), model.getTileAt(x1,y1));
-                model.setPropertyOfGizmo(gizmo, GizmoPropertyType.WIDTH, String.valueOf(w));
-                model.setPropertyOfGizmo(gizmo, GizmoPropertyType.HEIGHT, String.valueOf(h));
+                model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(x1,y1), new String[]{command.get(1), String.valueOf(w), String.valueOf(h)});
                 break;
             case "Ball":
-                gizmo = model.placeGizmo(GizmoType.BALL, command.get(1), model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3))));
-                model.setPropertyOfGizmo(gizmo, GizmoPropertyType.VEL_X, command.get(4));
-                model.setPropertyOfGizmo(gizmo, GizmoPropertyType.VEL_Y, command.get(5));
+                model.placeGizmo(GizmoType.BALL, model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3))), new String[]{command.get(1), command.get(4), command.get(5)});
                 break;
             case "Rotate":
                 try {

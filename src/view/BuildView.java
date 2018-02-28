@@ -98,19 +98,19 @@ public class BuildView implements GameView {
         flipperGizmo.setContentAreaFilled(false);
         ballGizmo.setContentAreaFilled(false);
 
-        DragDropListener li = new DragDropListener();
-        circleGizmo.addMouseListener(li);
-        circleGizmo.setTransferHandler(new TransferHandler("icon"));
-        triangleGizmo.addMouseListener(li);
-        triangleGizmo.setTransferHandler(new TransferHandler("icon"));
-        squareGizmo.addMouseListener(li);
-        squareGizmo.setTransferHandler(new TransferHandler("icon"));
-        absorberGizmo.addMouseListener(li);
-        absorberGizmo.setTransferHandler(new TransferHandler("icon"));
-        ballGizmo.addMouseListener(li);
-        ballGizmo.setTransferHandler(new TransferHandler("icon"));
-        flipperGizmo.addMouseListener(li);
-        flipperGizmo.setTransferHandler(new TransferHandler("icon"));
+//        DragDropListener li = new DragDropListener();
+//        circleGizmo.addMouseListener(li);
+//        circleGizmo.setTransferHandler(new TransferHandler("icon"));
+//        triangleGizmo.addMouseListener(li);
+//        triangleGizmo.setTransferHandler(new TransferHandler("icon"));
+//        squareGizmo.addMouseListener(li);
+//        squareGizmo.setTransferHandler(new TransferHandler("icon"));
+//        absorberGizmo.addMouseListener(li);
+//        absorberGizmo.setTransferHandler(new TransferHandler("icon"));
+//        ballGizmo.addMouseListener(li);
+//        ballGizmo.setTransferHandler(new TransferHandler("icon"));
+//        flipperGizmo.addMouseListener(li);
+//        flipperGizmo.setTransferHandler(new TransferHandler("icon"));
 
         allShapes.add(circleGizmo);
         allShapes.add(triangleGizmo);

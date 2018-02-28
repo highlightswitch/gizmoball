@@ -11,6 +11,7 @@ import physics.Vect;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Flipper extends Gizmo implements Tickable, Collidable {
 
@@ -24,8 +25,8 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     private double flipPos;
     Angle rotation = Angle.RAD_PI_OVER_TWO;
 
-    public Flipper(Color colour, String name, boolean isLeft){
-        super(name, colour);
+    public Flipper(Color colour, boolean isLeft, Map<GizmoPropertyType, String> properties){
+        super(colour, properties);
 
         setIsLeft(isLeft);
 
