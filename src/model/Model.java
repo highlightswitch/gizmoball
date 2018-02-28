@@ -132,12 +132,18 @@ public class Model extends Observable {
 
     public Gizmo placeGizmo(GizmoType gizmoType, Tile tile, String[] propertyValues){
 
+    	//If propertyValues is null, set them to the default values
+    	if(propertyValues == null){
+    		propertyValues = Gizmo.getPropertyDefaults(gizmoType);
+		}
+
     	//Ensure propertyValues's size matches the number of properties this gizmo has.
         ArrayList<GizmoPropertyType> propertyTypes = gizmoType.getPropertyTypes();
         assert propertyTypes.size() == propertyValues.length :
 				"Length of propertyValues array (" + propertyValues.length + ") " +
 						"does not equal the number of " + gizmoType + "'s properties (" + propertyTypes.size() + ").";
 
+        //Create a property to value map
         Map<GizmoPropertyType, String> properties = new HashMap<>();
         for(int i = 0; i < propertyTypes.size(); i++){
         	properties.put(propertyTypes.get(i), propertyValues[i]);
@@ -188,14 +194,6 @@ public class Model extends Observable {
 		collidable.add(bumper);
 		t.placeGizmo(bumper);
 		return bumper;
-	}
-
-	void setPropertyOfGizmo(Gizmo gizmo, GizmoPropertyType prop, String val){
-		try {
-			gizmo.setProperty(prop, val);
-		} catch (GizmoPropertyException e) {
-			e.printStackTrace();
-		}
 	}
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
