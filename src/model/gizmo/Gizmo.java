@@ -76,12 +76,9 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
 
     public static String[] getPropertyDefaults(GizmoType type){
         switch (type){
-            case LEFT_FLIPPER:
+            case FLIPPER:
                 //Name, Rotation_Deg
-                return new String[]{ "leftFlipper0", "0" };
-            case RIGHT_FLIPPER:
-                //Name, Rotation_Deg
-                return new String[]{ "rightFlipper0", "0" };
+                return new String[]{ "leftFlipper0", "0", "true" };
             case BALL:
                 //Name, Vel_X, Vel_Y
                 return new String[]{ "ball0", "0", "0" };

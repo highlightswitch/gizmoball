@@ -20,27 +20,25 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     private final double length = 2;
     private final double width = 0.5;
 
-    private boolean isLeftFlipper;
     private double currentMovement;
     private double flipPos;
-    Angle rotation = Angle.RAD_PI_OVER_TWO;
 
-    public Flipper(Color colour, boolean isLeft, Map<GizmoPropertyType, String> properties){
+    public Flipper(Color colour, Map<GizmoPropertyType, String> properties){
         super(colour, properties);
 
-        setIsLeft(isLeft);
+        flipSpeed = isLeftFlipper() ? 0.1 : -0.1;
 
         flipPos = 0;
         currentMovement = 0;
 
     }
 
-    private void setIsLeft(boolean isLeft){
-        isLeftFlipper = isLeft;
-        flipSpeed = isLeftFlipper ? 0.1 : -0.1;
+    private boolean isLeftFlipper(){
+        return Boolean.valueOf(getProperty(GizmoPropertyType.IS_LEFT_ORIENTATED));
     }
 
     private void moveFlipper(){
+        boolean isLeftFlipper = isLeftFlipper();
         flipPos = isLeftFlipper ?
                 clamp(flipPos + currentMovement, isLeftFlipper ? 0 : -1, isLeftFlipper ? 1 : 0)
                 :
@@ -60,7 +58,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
         LineSegment[] lines;
         Circle[] circles;
 
-        if(isLeftFlipper) {
+        if(isLeftFlipper()) {
 
             lines = new LineSegment[] {
                     new LineSegment(0, width / 2, 0, length - width / 2),
@@ -106,7 +104,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 //        GameObject gameObject = new RotatingGameObject(lines, circles, 0.95, new Vect(width/2, 0), angularVelocity );
 
         gameObject.rotateAroundPointByAngle(
-                isLeftFlipper ? new Vect(width/2, width/2) : new Vect(2 - width/2, width/2),
+                isLeftFlipper() ? new Vect(width/2, width/2) : new Vect(2 - width/2, width/2),
                 new Angle(Math.toRadians(-90 * flipPos))
         );
 
@@ -127,7 +125,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     public DrawingData getGizmoDrawingData() {
         DrawingData data = new DrawingData();
 
-        if(isLeftFlipper) {
+        if(isLeftFlipper()) {
             ArrayList<Double[]> poly = new ArrayList<>();
             poly.add(new Double[]{0.0, width / 2}); // NW
             poly.add(new Double[]{0.0, length - width / 2}); // SW

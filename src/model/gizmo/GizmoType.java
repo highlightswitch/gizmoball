@@ -5,13 +5,10 @@ import java.util.Collections;
 
 public enum GizmoType {
 
-    LEFT_FLIPPER(new GizmoPropertyType[]{
+    FLIPPER(new GizmoPropertyType[]{
             GizmoPropertyType.NAME,
-            GizmoPropertyType.ROTATION_DEG
-    }),
-    RIGHT_FLIPPER(new GizmoPropertyType[]{
-            GizmoPropertyType.NAME,
-            GizmoPropertyType.ROTATION_DEG
+            GizmoPropertyType.ROTATION_DEG,
+            GizmoPropertyType.IS_LEFT_ORIENTATED
     }),
     BALL(new GizmoPropertyType[]{
             GizmoPropertyType.NAME,

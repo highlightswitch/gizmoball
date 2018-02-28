@@ -126,16 +126,16 @@ public class GizmoballFileReader {
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "RightFlipper":
-                type = GizmoType.RIGHT_FLIPPER;
+                type = GizmoType.FLIPPER;
                 tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
-                propertyValues = new String[]{command.get(1), "0"};
+                propertyValues = new String[]{command.get(1), "0", "false"};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "LeftFlipper":
-                type = GizmoType.LEFT_FLIPPER;
+                type = GizmoType.FLIPPER;
                 tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
-                propertyValues = new String[]{command.get(1), "0"};
+                propertyValues = new String[]{command.get(1), "0", "true"};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;

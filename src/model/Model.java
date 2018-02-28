@@ -126,14 +126,8 @@ public class Model extends Observable {
 
         Gizmo gizmo = null;
 		switch(gizmoType){
-			case LEFT_FLIPPER:
-				gizmo = new Flipper(null, true, properties);
-				tile.placeGizmo(gizmo);
-				tickable.add((Flipper) gizmo);
-				collidable.add(gizmo);
-				break;
-			case RIGHT_FLIPPER:
-				gizmo = new Flipper(null, false, properties);
+			case FLIPPER:
+				gizmo = new Flipper(null, properties);
 				tile.placeGizmo(gizmo);
 				tickable.add((Flipper) gizmo);
 				collidable.add(gizmo);

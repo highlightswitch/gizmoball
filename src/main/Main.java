@@ -20,8 +20,10 @@ public class Main {
 
 		Model model = new Model();
 		model.placeGizmo(GizmoType.BALL, model.getTileAt(14,1), Gizmo.getPropertyDefaults(GizmoType.BALL));
-		Flipper leftFlipper =  (Flipper) model.placeGizmo(GizmoType.LEFT_FLIPPER, model.getTileAt(9,10), Gizmo.getPropertyDefaults(GizmoType.LEFT_FLIPPER));
-		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, model.getTileAt(14,10), Gizmo.getPropertyDefaults(GizmoType.RIGHT_FLIPPER));
+		Flipper leftFlipper =  (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(9,10), Gizmo.getPropertyDefaults(GizmoType.FLIPPER));
+		String[] rFProp = Gizmo.getPropertyDefaults(GizmoType.FLIPPER);
+		rFProp[2] = "false";
+		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(14,10), rFProp);
 		model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 6), Gizmo.getPropertyDefaults(GizmoType.CIRCLE_BUMPER));
 		model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 10), Gizmo.getPropertyDefaults(GizmoType.SQUARE_BUMPER));
 		model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), Gizmo.getPropertyDefaults(GizmoType.TRIANGLE_BUMPER));
