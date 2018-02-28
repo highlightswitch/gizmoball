@@ -1,81 +1,87 @@
 package model.gizmo;
 
-import model.Collidable;
-import model.GameObject;
-import model.StaticGameObject;
-import physics.Angle;
+import model.*;
 import physics.Circle;
 import physics.LineSegment;
-import physics.Vect;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Map;
 
-public class Absorber extends Gizmo implements Tickable, Collidable {
+public class Absorber extends Gizmo implements Collidable {
 
-    private double length;
-    private double width;
-    private String name;
-    private GizmoType type;
     private Ball absorbedBall;
 
-    public Absorber(Color colour, String name, double x1, double y1, double x2, double y2){
-        super(colour);
-        this.name = name;
-        length = x2 - x1;
-        width = y2 - y1;
-        type = GizmoType.ABSORBER;
+    public Absorber(Color colour, Map<GizmoPropertyType, String> properties){
+        super(colour, properties);
     }
 
-    public GizmoType getGizmoType(){return type;}
-
-    @Override
-    public void tick(){
-
-    }
-
-    public double getlength(){
-        return length;
-    }
-
-    public double getWidth(){
-        return width;
-    }
-
-    public String getName(){
-        return name;
+    void setAbsorbedBall (Ball ball) {
+        absorbedBall = ball;
     }
 
     @Override
-    public void rotate() {
+    public Tile[] findAnnexedTiles(Tile anchorTile) {
+
+        double width = Double.valueOf(this.getProperty(GizmoPropertyType.WIDTH));
+        double height = Double.valueOf(this.getProperty(GizmoPropertyType.HEIGHT));
+        ArrayList<Tile> tiles = new ArrayList<>();
+
+        for(int xOff = 1; xOff < width; xOff++)
+            for (int yOff = 1; yOff < height; yOff++)
+                tiles.add(anchorTile.getNeighbour(xOff, yOff));
+
+        Tile[] arr = new Tile[tiles.size()];
+        return tiles.toArray(arr);
 
     }
 
     @Override
     public GameObject getPrototypeGameObject() {
+
+        double width = Double.valueOf(this.getProperty(GizmoPropertyType.WIDTH));
+        double height = Double.valueOf(this.getProperty(GizmoPropertyType.HEIGHT));
+
         LineSegment[] lines = {
-                new LineSegment(0, 0, 0,  width),
-                new LineSegment(0, width, length, width),
-                new LineSegment(length, width, length, 0),
-                new LineSegment(0, 0, length, 0)
+                new LineSegment(0, 0, 0, height),
+                new LineSegment(0, height, width, height),
+                new LineSegment(width, height, width, 0),
+                new LineSegment(0, 0, width, 0)
         };
 
         // These are the circles at either end of the flipper, and also the circles with
         // radius 0 to help with collisions at the ends of LineSegments.
         Circle[] circles = {
                 new Circle(0,0, 0),
-                new Circle(0, width, 0),
-                new Circle(length, 0, 0),
-                new Circle(length, width, 0)
+                new Circle(0, height, 0),
+                new Circle(width, 0, 0),
+                new Circle(width, height, 0)
         };
 
         GameObject gameObject = new StaticGameObject(lines, circles, 1);
 
-
         return gameObject;
     }
 
-    public void setAbsorbedBall (Ball ball) {
-        absorbedBall = ball;
+    public GameObject getGameObject(){return getPrototypeGameObject().translate(getPosition());}
+
+    public boolean isAbsorber() {return true;}
+
+    @Override
+    public DrawingData getGizmoDrawingData() {
+
+        double width = Double.valueOf(getProperty(GizmoPropertyType.WIDTH));
+        double height = Double.valueOf(getProperty(GizmoPropertyType.HEIGHT));
+
+        DrawingData data = new DrawingData();
+        ArrayList<Double[]> squarePoly = new ArrayList<>();
+        squarePoly.add(new Double[]{0.0, 0.0}); //NE
+        squarePoly.add(new Double[]{width, 0.0}); //NW
+        squarePoly.add(new Double[]{width, height}); //SW
+        squarePoly.add(new Double[]{0.0 , height}); //SE
+        data.addPolygon(squarePoly);
+
+        return data;
     }
 
     @Override
@@ -96,7 +102,4 @@ public class Absorber extends Gizmo implements Tickable, Collidable {
         //Empty...
     }
 
-    public GameObject getGameObject(){return getPrototypeGameObject().translate(tile.getPosition());}
-
-   public boolean isAbsorber() {return true;}
 }

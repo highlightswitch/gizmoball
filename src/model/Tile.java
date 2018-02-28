@@ -1,14 +1,16 @@
 package model;
 
 import model.gizmo.Gizmo;
-import model.gizmo.GizmoType;
 
-public class Tile implements Drawable {
+public class Tile {
 
+    private Model model;
     private int x, y;
     private Gizmo gizmo;
+    private boolean occupied;
 
-    Tile(int x, int y){
+    Tile(Model model, int x, int y){
+        this.model = model;
         this.x = x;
         this.y = y;
     }
@@ -21,35 +23,41 @@ public class Tile implements Drawable {
         return y;
     }
 
+    public int[] getPosition() {
+        return new int[]{x, y};
+    }
+
+    public Tile getNeighbour(int xOff, int yOff){
+        return model.getTileAt(x+xOff, y+yOff);
+    }
+
+    public boolean isOccupied(){
+        return occupied;
+    }
+
+    public void setOccupied(boolean bool){
+        occupied = bool;
+    }
+
     void placeGizmo(Gizmo gizmo){
         this.gizmo = gizmo;
-        this.gizmo.setTile(this);
+        this.gizmo.setAnchorTile(this);
+        occupied = true;
+    }
+
+    public void removeGizmo(){
+        gizmo.removeTile();
+        this.gizmo = null;
+        occupied = false;
     }
 
     public Gizmo getGizmo() {
         return gizmo;
     }
 
-    public int[] getPosition() {
-        return new int[]{x, y};
-    }
-
     @Override
-    public GameObject getShapeToDraw() {
-        if(gizmo != null) {
-            GameObject obj = gizmo.getGameObject();
-            return obj;
-        }
-
-        return null ;
+    public String toString(){
+        return "<Tile(" + x + "," + y + ")>";
     }
 
-    public GizmoType getTypeOfGizmo() {
-        if(gizmo != null) {
-            GizmoType type = gizmo.getGizmoType();
-            return type;
-        }
-
-        return null ;
-    }
 }

@@ -1,12 +1,15 @@
 package model;
 
+import model.gizmo.Gizmo;
+import model.gizmo.GizmoPropertyException;
 import model.gizmo.GizmoType;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
-import static java.lang.Integer.parseInt;
 
 public class GizmoballFileReader {
 
@@ -32,8 +35,13 @@ public class GizmoballFileReader {
                     tokens.add(st.nextToken());
                 }
               //  System.out.println(tokens);
-                if(checkLine(tokens))
-                command(tokens);
+                if(checkLine(tokens)) {
+                    try{
+                        command(tokens);
+                    }catch (GizmoPlacementNotValidException e){
+                        e.printStackTrace();
+                    }
+                }
             }
             fileReader.close();
         } catch (IOException e) {
@@ -72,7 +80,19 @@ public class GizmoballFileReader {
                 } else {
                     return false;
                 }
-                default: return false;
+            case "Delete":
+                if(model.checkName(command.get(1)) && command.size() == 2){
+                    return true;
+                } else {
+                    return false;
+                }
+            case "Move":
+                if(model.checkName(command.get(1)) && checkInt(command.get(2)) && checkInt(command.get(3)) && command.size() == 4){
+                    return true;
+                } else {
+                    return false;
+                }
+            default: return false;
         }
     }
 
@@ -95,38 +115,90 @@ public class GizmoballFileReader {
     }
 
 
-    private void command(ArrayList<String> command) {
+    private void command(ArrayList<String> command) throws GizmoPlacementNotValidException{
+        Gizmo gizmo;
+        GizmoType type;
+        Tile tile;
+        String[] propertyValues;
         switch (command.get(0)) {
             case "Square":
-                model.placeGizmo(GizmoType.SQUARE_BUMPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+                type = GizmoType.SQUARE_BUMPER;
+                tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+                propertyValues = new String[]{command.get(1), "0"};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Circle":
-                model.placeGizmo(GizmoType.CIRCLE_BUMPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+                type = GizmoType.CIRCLE_BUMPER;
+                tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+                propertyValues = new String[]{command.get(1), "0"};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Triangle":
-                model.placeGizmo(GizmoType.TRIANGLE_BUMPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+                type = GizmoType.TRIANGLE_BUMPER;
+                tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+                propertyValues = new String[]{command.get(1), "0"};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "RightFlipper":
-                model.placeGizmo(GizmoType.RIGHT_FLIPPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+                type = GizmoType.FLIPPER;
+                tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+                propertyValues = new String[]{command.get(1), "0", "false"};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "LeftFlipper":
-                model.placeGizmo(GizmoType.LEFT_FLIPPER, command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+                type = GizmoType.FLIPPER;
+                tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+                propertyValues = new String[]{command.get(1), "0", "true"};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Absorber":
-                System.out.println("absorbing");
-                model.addAbsorber(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)), Integer.parseInt(command.get(4)), Integer.parseInt(command.get(5)));
+                double x1 = Integer.parseInt(command.get(2));
+                double y1 = Integer.parseInt(command.get(3));
+                double x2 = Integer.parseInt(command.get(4));
+                double y2 = Integer.parseInt(command.get(5));
+                double w = x2 - x1;
+                double h = y2 - y1;
+
+                type = GizmoType.ABSORBER;
+                tile = model.getTileAt(x1, y1);
+                propertyValues = new String[]{command.get(1), String.valueOf(w), String.valueOf(h)};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Ball":
-                model.placeGizmo(GizmoType.BALL, command.get(1), model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3))));
-                model.getBall().setVelocity(Double.parseDouble(command.get(4)), Double.parseDouble(command.get(5)));
+                type = GizmoType.BALL;
+                tile = model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)));
+                propertyValues = new String[]{command.get(1), command.get(4), command.get(5)};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Rotate":
-                System.out.println("rotating");
-                model.rotateGizmo(command.get(1));
+                try {
+                    gizmo = model.getGizmoByName(command.get(1));
+                    gizmo.rotateBy_Deg(90);
+                } catch (GizmoNotFoundException e) {
+                    e.printStackTrace();
+                } catch (GizmoPropertyException e) {
+                    e.printStackTrace();
+                }
                 break;
-            case "Delete": //
+            case "Delete": try {
+                model.deleteGizmo(command.get(1));
+            } catch (GizmoNotFoundException e) {
+                e.printStackTrace();
+            }
                 break;
-            case "Move": //
+            case "Move":  try {
+                System.out.println("moving");
+                model.moveGizmo(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+            } catch (GizmoNotFoundException e) {
+                e.printStackTrace();
+            }
                 break;
             case "Connect": //
                 break;

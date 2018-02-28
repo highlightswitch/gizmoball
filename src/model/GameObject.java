@@ -2,16 +2,18 @@ package model;
 
 import physics.*;
 
+import java.util.ArrayList;
+
 /**
  * A GameObject is a collection of LineSegments and Circles that
  * represent the physical properties an object in the game.
  */
-public abstract class GameObject {
+public abstract class GameObject implements Drawable {
 
     private LineSegment[] lines;
     private Circle[] circles;
 
-    protected double reflectionCoefficient;
+    double reflectionCoefficient;
 
     public GameObject(LineSegment[] lines, Circle[] circles, double reflectionCoefficient){
         this.lines = lines == null ? new LineSegment[0] : lines;
@@ -56,7 +58,7 @@ public abstract class GameObject {
         return translate(new double[]{translation[0], translation[1]});
     }
 
-    public GameObject rotateAround(Vect vect, Angle angle) {
+    public GameObject rotateAroundPointByAngle(Vect vect, Angle angle) {
 
         for(int i = 0; i < lines.length; i++){
             lines[i] = Geometry.rotateAround(lines[i], vect, angle);
@@ -68,6 +70,29 @@ public abstract class GameObject {
 
         return this;
 
+    }
+
+    @Override
+    public DrawingData getDrawingData() {
+
+        DrawingData data = new DrawingData();
+
+        for(LineSegment line : lines){
+            ArrayList<Double[]> poly = new ArrayList<>();
+            poly.add(new Double[]{line.p1().x(), line.p1().y()});
+            poly.add(new Double[]{line.p2().x(), line.p2().y()});
+            data.addPolygon(poly);
+        }
+
+        for(Circle circle : circles){
+            data.addCircle(new Double[]{
+                    circle.getCenter().x(),
+                    circle.getCenter().y(),
+                    circle.getRadius()
+            });
+        }
+
+        return data;
     }
 
     public CollisionDetails timeUntilGameObjectCollision(Circle ballCircle, Vect ballVelocity) {

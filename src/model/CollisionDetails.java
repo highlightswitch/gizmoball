@@ -8,6 +8,7 @@ import physics.Vect;
  */
 
 public class CollisionDetails {
+
 	private double tuc;
 	private Vect velocity;
 	private Absorber absorber;
