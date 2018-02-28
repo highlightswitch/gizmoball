@@ -2,14 +2,14 @@ package model;
 
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyException;
-import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
-import static java.lang.Integer.parseInt;
 
 public class GizmoballFileReader {
 
