@@ -100,21 +100,44 @@ public class GizmoballFileReader {
 
     private void command(ArrayList<String> command) {
         Gizmo gizmo;
+        GizmoType type;
+        Tile tile;
+        String[] propertyValues;
         switch (command.get(0)) {
             case "Square":
-                model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))), new String[]{command.get(1), "0"});
+                type = GizmoType.SQUARE_BUMPER;
+                tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+                propertyValues = new String[]{command.get(1), "0"};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Circle":
-                model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))), new String[]{command.get(1), "0"});
+                type = GizmoType.CIRCLE_BUMPER;
+                tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+                propertyValues = new String[]{command.get(1), "0"};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Triangle":
-                model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))), new String[]{command.get(1), "0"});
+                type = GizmoType.TRIANGLE_BUMPER;
+                tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+                propertyValues = new String[]{command.get(1), "0"};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "RightFlipper":
-                model.placeGizmo(GizmoType.RIGHT_FLIPPER, model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))), new String[]{command.get(1), "0"});
+                type = GizmoType.RIGHT_FLIPPER;
+                tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+                propertyValues = new String[]{command.get(1), "0"};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "LeftFlipper":
-                model.placeGizmo(GizmoType.LEFT_FLIPPER, model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))), new String[]{command.get(1), "0"});
+                type = GizmoType.LEFT_FLIPPER;
+                tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+                propertyValues = new String[]{command.get(1), "0"};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Absorber":
                 double x1 = Integer.parseInt(command.get(2));
@@ -124,10 +147,18 @@ public class GizmoballFileReader {
                 double w = x2 - x1;
                 double h = y2 - y1;
 
-                model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(x1,y1), new String[]{command.get(1), String.valueOf(w), String.valueOf(h)});
+                type = GizmoType.ABSORBER;
+                tile = model.getTileAt(x1, y1);
+                propertyValues = new String[]{command.get(1), String.valueOf(w), String.valueOf(h)};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Ball":
-                model.placeGizmo(GizmoType.BALL, model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3))), new String[]{command.get(1), command.get(4), command.get(5)});
+                type = GizmoType.BALL;
+                tile = model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)));
+                propertyValues = new String[]{command.get(1), command.get(4), command.get(5)};
+
+                model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Rotate":
                 try {
