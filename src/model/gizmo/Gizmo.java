@@ -1,10 +1,9 @@
 package model.gizmo;
 
-import main.Main;
 import model.*;
 
 import java.awt.*;
-import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable {
 
@@ -13,12 +12,13 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
 
     protected GizmoType type;
 
-    protected HashMap<GizmoPropertyType, String> properties;
+    private Map<GizmoPropertyType, String> properties;
 
-    Gizmo(String name, Color colour){
-        properties = new HashMap<>();
-        properties.put(GizmoPropertyType.NAME, name);
-        properties.put(GizmoPropertyType.ROTATION_DEG, "0");
+    Gizmo(Color colour, Map<GizmoPropertyType, String> props){
+        properties = props;
+//        properties = new HashMap<>();
+//        properties.put(GizmoPropertyType.NAME, name);
+//        properties.put(GizmoPropertyType.ROTATION_DEG, "0");
         this.colour = colour;
     }
 
@@ -51,13 +51,13 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
             return null;
     }
 
-    public void rotate() throws GizmoPropertyException {
+    public void rotateBy_Deg(double val) throws GizmoPropertyException {
         double rotation = Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG));
-        rotation = (rotation + 90) % 360;
-        rotateByDeg(rotation);
+        rotation = (rotation + val) % 360;
+        setRotation_Deg(rotation);
     }
 
-    private void rotateByDeg(double val) throws GizmoPropertyException {
+    public void setRotation_Deg(double val) throws GizmoPropertyException {
         setProperty(GizmoPropertyType.ROTATION_DEG, String.valueOf(val));
     }
 
@@ -70,4 +70,32 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
     public abstract GameObject getGameObject();
 
     protected abstract DrawingData getGizmoDrawingData();
+
+
+
+
+    public static String[] getPropertyDefaults(GizmoType type){
+        switch (type){
+            case FLIPPER:
+                //Name, Rotation_Deg
+                return new String[]{ "leftFlipper0", "0", "true" };
+            case BALL:
+                //Name, Vel_X, Vel_Y
+                return new String[]{ "ball0", "0", "0" };
+            case CIRCLE_BUMPER:
+                //Name, Rotation_Deg
+                return new String[]{ "circleBumper0", "0" };
+            case SQUARE_BUMPER:
+                //Name, Rotation_Deg
+                return new String[]{ "squareBumper0", "0" };
+            case TRIANGLE_BUMPER:
+                //Name, Rotation_Deg
+                return new String[]{ "triangleBumper0", "0" };
+            case ABSORBER:
+                //Name, width, height
+                return new String[]{ "absorber0", "20", "1" };
+        }
+
+        return null;
+    }
 }

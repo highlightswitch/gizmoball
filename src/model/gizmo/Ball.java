@@ -6,6 +6,7 @@ import physics.Vect;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
@@ -18,25 +19,18 @@ public class Ball extends Gizmo implements Tickable {
 	private Model model;
 
     private double cx, cy;
-	private double gravity;
-	private double friction;
 
 	private boolean isAbsorbed;
 	private boolean justFired;
 
 
 	// x, y coordinates and x,y velocity
-	public Ball(Model model, Color colour, String name, double xTile, double yTile, double xv, double yv, double g, double f) {
-        super(name, colour);
+	public Ball(Model model, Color colour, double xTile, double yTile, Map<GizmoPropertyType, String> properties) {
+        super(colour, properties);
 		this.model = model;
 
         this.cx = xTile + 0.5;
         this.cy = yTile + 0.5;
-
-        setVelocity(xv, yv);
-
-        gravity = g;
-        friction = f;
 
 		justFired = false;
 		isAbsorbed = false;
@@ -48,8 +42,13 @@ public class Ball extends Gizmo implements Tickable {
     }
 
     private void setVelocity(double xv, double yv){
-        properties.put(GizmoPropertyType.VEL_X, String.valueOf(xv));
-        properties.put(GizmoPropertyType.VEL_Y, String.valueOf(yv));
+        try {
+            setProperty(GizmoPropertyType.VEL_X, String.valueOf(xv));
+            setProperty(GizmoPropertyType.VEL_Y, String.valueOf(yv));
+        } catch (GizmoPropertyException e) {
+            //This should never be thrown anyway...
+            e.printStackTrace();
+        }
     }
 
     private void setVelocity(Vect velocity){
@@ -133,6 +132,7 @@ public class Ball extends Gizmo implements Tickable {
     }
 
     private double[] applyFrictionToVelocities(double[] velXY, double timeMoving){
+        double friction = Model.FRICTION_CONSTANT;
         return new double[]{
                 velXY[0] * (1 - friction * timeMoving - friction * Math.abs(velXY[0]) * timeMoving),
                 velXY[1] * (1 - friction * timeMoving - friction * Math.abs(velXY[1]) * timeMoving)
@@ -140,6 +140,7 @@ public class Ball extends Gizmo implements Tickable {
     }
 
     private double[] applyGravityToVelocities(double[] velXY, double timeMoving){
+        double gravity = Model.GRAVITY_CONSTANT;
         return new double[]{
                 velXY[0],
                 velXY[1] + (gravity * timeMoving)
@@ -194,11 +195,6 @@ public class Ball extends Gizmo implements Tickable {
     }
 
     public boolean isAbsorber() {return false;}
-
-    @Override
-    public void rotate() {
-
-    }
 
     @Override
     protected DrawingData getGizmoDrawingData() {

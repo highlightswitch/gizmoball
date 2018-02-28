@@ -14,7 +14,10 @@ import java.util.Observable;
 
 public class Model extends Observable {
 
-    private final int width = 20;
+	public static final double FRICTION_CONSTANT = 0.025;
+	public static final double GRAVITY_CONSTANT = 25;
+
+	private final int width = 20;
     private final int height = 20;
 
     private Tile[][] tiles;
@@ -127,39 +130,51 @@ public class Model extends Observable {
 	    return getTileAt((int) xPos, (int) yPos);
     }
 
-    public Gizmo placeGizmo(GizmoType gizmoType, String name, Tile tile){
+    public Gizmo placeGizmo(GizmoType gizmoType, Tile tile, String[] propertyValues){
+
+    	//If propertyValues is null, set them to the default values
+    	if(propertyValues == null){
+    		propertyValues = Gizmo.getPropertyDefaults(gizmoType);
+		}
+
+    	//Ensure propertyValues's size matches the number of properties this gizmo has.
+        ArrayList<GizmoPropertyType> propertyTypes = gizmoType.getPropertyTypes();
+        assert propertyTypes.size() == propertyValues.length :
+				"Length of propertyValues array (" + propertyValues.length + ") " +
+						"does not equal the number of " + gizmoType + "'s properties (" + propertyTypes.size() + ").";
+
+        //Create a property to value map
+        Map<GizmoPropertyType, String> properties = new HashMap<>();
+        for(int i = 0; i < propertyTypes.size(); i++){
+        	properties.put(propertyTypes.get(i), propertyValues[i]);
+		}
+
         Gizmo gizmo = null;
 		switch(gizmoType){
-			case LEFT_FLIPPER:
-				gizmo = new Flipper(null, name, true);
-				tile.placeGizmo(gizmo);
-				tickable.add((Flipper) gizmo);
-				collidable.add(gizmo);
-				break;
-			case RIGHT_FLIPPER:
-				gizmo = new Flipper(null, name, false);
+			case FLIPPER:
+				gizmo = new Flipper(null, properties);
 				tile.placeGizmo(gizmo);
 				tickable.add((Flipper) gizmo);
 				collidable.add(gizmo);
 				break;
 			case BALL:
-				gizmo = new Ball(this, Color.black, name, tile.getX(), tile.getY(), 0, 0, 25, 0.025);
+				gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), properties);
 				ball = (Ball) gizmo;
 				tickable.add((Ball) gizmo);
 				break;
 			case ABSORBER:
-				gizmo = new Absorber(Color.BLACK, name);
+				gizmo = new Absorber(Color.BLACK, properties);
 				collidable.add(gizmo);
 				tile.placeGizmo(gizmo);
 				break;
 			case CIRCLE_BUMPER:
-				gizmo = addBumper(GizmoType.CIRCLE_BUMPER, name, tile);
+				gizmo = addBumper(GizmoType.CIRCLE_BUMPER, tile, properties);
 				break;
 			case SQUARE_BUMPER:
-				gizmo = addBumper(GizmoType.SQUARE_BUMPER,name, tile);
+				gizmo = addBumper(GizmoType.SQUARE_BUMPER, tile, properties);
 				break;
 			case TRIANGLE_BUMPER:
-				gizmo = addBumper(GizmoType.TRIANGLE_BUMPER,name, tile);
+				gizmo = addBumper(GizmoType.TRIANGLE_BUMPER, tile, properties);
 				break;
 		}
 
@@ -174,19 +189,11 @@ public class Model extends Observable {
 
     }
 
-	private Gizmo addBumper(GizmoType gt, String name, Tile t) {
-		Bumper bumper = new Bumper(Color.black, name, gt);
+	private Gizmo addBumper(GizmoType gizmoType, Tile t, Map<GizmoPropertyType, String> properties) {
+		Bumper bumper = new Bumper(Color.black, gizmoType, properties);
 		collidable.add(bumper);
 		t.placeGizmo(bumper);
 		return bumper;
-	}
-
-	void setPropertyOfGizmo(Gizmo gizmo, GizmoPropertyType prop, String val){
-		try {
-			gizmo.setProperty(prop, val);
-		} catch (GizmoPropertyException e) {
-			e.printStackTrace();
-		}
 	}
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {

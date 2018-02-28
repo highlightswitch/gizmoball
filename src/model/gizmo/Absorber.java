@@ -1,20 +1,22 @@
 package model.gizmo;
 
-import model.*;
+import model.Collidable;
+import model.DrawingData;
+import model.GameObject;
+import model.StaticGameObject;
 import physics.Circle;
 import physics.LineSegment;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Absorber extends Gizmo implements Collidable {
 
     private Ball absorbedBall;
 
-    public Absorber(Color colour, String name){
-        super(name, colour);
-        properties.put(GizmoPropertyType.WIDTH, "20");
-        properties.put(GizmoPropertyType.HEIGHT, "1");
+    public Absorber(Color colour, Map<GizmoPropertyType, String> properties){
+        super(colour, properties);
     }
 
     void setAbsorbedBall (Ball ball) {
@@ -24,8 +26,8 @@ public class Absorber extends Gizmo implements Collidable {
     @Override
     public GameObject getPrototypeGameObject() {
         
-        double width = Double.valueOf(properties.get(GizmoPropertyType.WIDTH));
-        double height = Double.valueOf(properties.get(GizmoPropertyType.HEIGHT));
+        double width = Double.valueOf(this.getProperty(GizmoPropertyType.WIDTH));
+        double height = Double.valueOf(this.getProperty(GizmoPropertyType.HEIGHT));
 
         LineSegment[] lines = {
                 new LineSegment(0, 0, 0, height),
@@ -53,15 +55,10 @@ public class Absorber extends Gizmo implements Collidable {
     public boolean isAbsorber() {return true;}
 
     @Override
-    public void rotate() {
-
-    }
-
-    @Override
     public DrawingData getGizmoDrawingData() {
 
-        double width = Double.valueOf(properties.get(GizmoPropertyType.WIDTH));
-        double height = Double.valueOf(properties.get(GizmoPropertyType.HEIGHT));
+        double width = Double.valueOf(getProperty(GizmoPropertyType.WIDTH));
+        double height = Double.valueOf(getProperty(GizmoPropertyType.HEIGHT));
 
         DrawingData data = new DrawingData();
         ArrayList<Double[]> squarePoly = new ArrayList<>();

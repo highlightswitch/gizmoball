@@ -11,11 +11,12 @@ import physics.Vect;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Bumper extends Gizmo implements Collidable{
 
-    public Bumper(Color colour, String name, GizmoType type){
-        super(name, colour);
+    public Bumper(Color colour, GizmoType type, Map<GizmoPropertyType, String> properties){
+        super(colour, properties);
         this.type = type;
     }
 
