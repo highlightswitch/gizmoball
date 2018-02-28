@@ -8,7 +8,8 @@ import java.util.Map;
 public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable {
 
     private Color colour;
-    private Tile tile;
+    private Tile anchorTile;
+    private Tile[] annexedTiles;
 
     protected GizmoType type;
 
@@ -16,9 +17,6 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
 
     Gizmo(Color colour, Map<GizmoPropertyType, String> props){
         properties = props;
-//        properties = new HashMap<>();
-//        properties.put(GizmoPropertyType.NAME, name);
-//        properties.put(GizmoPropertyType.ROTATION_DEG, "0");
         this.colour = colour;
     }
 
@@ -40,13 +38,33 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
         }
     }
 
-    public void setTile(Tile tile) {
-        this.tile = tile;
+    public void setAnchorTile(Tile anchorTile) {
+        this.anchorTile = anchorTile;
+        setAnnexedTiles(findAnnexedTiles(anchorTile));
+    }
+
+    private void setAnnexedTiles(Tile[] tiles){
+        annexedTiles = tiles;
+        for(Tile t : annexedTiles){
+            t.setOccupied(true);
+        }
+    }
+
+    private void removeAnnexedTiles(){
+        for(Tile t : annexedTiles){
+            t.setOccupied(false);
+        }
+        annexedTiles = null;
+    }
+
+    public void removeTile(){
+        removeAnnexedTiles();
+        this.anchorTile = null;
     }
 
     public double[] getPosition(){
-        if(tile != null)
-            return new double[] {tile.getPosition()[0], tile.getPosition()[1]};
+        if(anchorTile != null)
+            return new double[] {anchorTile.getPosition()[0], anchorTile.getPosition()[1]};
         else
             return null;
     }
@@ -65,6 +83,7 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
         return this.getGizmoDrawingData().translate(getPosition());
     }
 
+    protected abstract Tile[] findAnnexedTiles(Tile anchorTile);
 
     public abstract GameObject getPrototypeGameObject();
     public abstract GameObject getGameObject();

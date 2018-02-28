@@ -1,9 +1,6 @@
 package model.gizmo;
 
-import model.Collidable;
-import model.DrawingData;
-import model.GameObject;
-import model.StaticGameObject;
+import model.*;
 import physics.Angle;
 import physics.Circle;
 import physics.LineSegment;
@@ -50,6 +47,24 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
         if(val < min) return min;
         if(val > max) return max;
         return val;
+    }
+
+    @Override
+    protected Tile[] findAnnexedTiles(Tile anchorTile) {
+
+        //The below means that the flipper occupies 2 tiles
+        // in the x and y directions (ie a 2x2 square).
+        double width = 2;
+        double height = 2;
+        ArrayList<Tile> tiles = new ArrayList<>();
+
+        for(int xOff = 0; xOff < width; xOff++)
+            for (int yOff = 0; yOff < height; yOff++)
+                tiles.add(anchorTile.getNeighbour(xOff+1, yOff+1));
+
+        Tile[] arr = new Tile[tiles.size()];
+        return tiles.toArray(arr);
+
     }
 
     @Override

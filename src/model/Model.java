@@ -38,7 +38,7 @@ public class Model extends Observable {
 
 	    for(int x = 0; x < width; x++){
             for(int y = 0; y < height; y++){
-                tiles[x][y] = new Tile(x,y);
+                tiles[x][y] = new Tile(this, x,y);
             }
         }
 
@@ -94,7 +94,7 @@ public class Model extends Observable {
 		Tile oldTile = getTileAt(gizmo.getPosition()[0], gizmo.getPosition()[1]);
 		oldTile.removeGizmo();
 		tile.placeGizmo(gizmo);
-		gizmo.setTile(tile);
+		gizmo.setAnchorTile(tile);
 	}
 
 	boolean checkName(String name){

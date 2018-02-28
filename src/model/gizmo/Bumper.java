@@ -1,9 +1,6 @@
 package model.gizmo;
 
-import model.Collidable;
-import model.DrawingData;
-import model.GameObject;
-import model.StaticGameObject;
+import model.*;
 import physics.Angle;
 import physics.Circle;
 import physics.LineSegment;
@@ -20,6 +17,11 @@ public class Bumper extends Gizmo implements Collidable{
         this.type = type;
     }
 
+    @Override
+    protected Tile[] findAnnexedTiles(Tile anchorTile) {
+        return new Tile[0];
+    }
+
     private double rotationInRadians(){
         return Math.toRadians(Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG)));
     }
@@ -30,8 +32,6 @@ public class Bumper extends Gizmo implements Collidable{
                 .rotateAroundPointByAngle( new Vect(0.5,0.5), new Angle(rotationInRadians()) )
                 .translate(getPosition());
     }
-
-    public GizmoType getGizmoType(){return type;}
 
     @Override
     public boolean isAbsorber() {
