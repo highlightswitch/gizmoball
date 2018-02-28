@@ -97,7 +97,7 @@ public class BuildView implements GameView {
         absorberGizmo.setContentAreaFilled(false);
         flipperGizmo.setContentAreaFilled(false);
         ballGizmo.setContentAreaFilled(false);
-
+        
 //        DragDropListener li = new DragDropListener();
 //        circleGizmo.addMouseListener(li);
 //        circleGizmo.setTransferHandler(new TransferHandler("icon"));

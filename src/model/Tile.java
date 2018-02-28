@@ -30,6 +30,10 @@ public class Tile {
         this.gizmo.setTile(this);
     }
 
+    public void removeGizmo(){
+        this.gizmo = null;
+    }
+
     public Gizmo getGizmo() {
         return gizmo;
     }
