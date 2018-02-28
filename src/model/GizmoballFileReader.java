@@ -75,6 +75,18 @@ public class GizmoballFileReader {
                 } else {
                     return false;
                 }
+            case "Delete":
+                if(model.checkName(command.get(1)) && command.size() == 2){
+                    return true;
+                } else {
+                    return false;
+                }
+            case "Move":
+                if(model.checkName(command.get(1)) && checkInt(command.get(2)) && checkInt(command.get(3)) && command.size() == 4){
+                    return true;
+                } else {
+                    return false;
+                }
                 default: return false;
         }
     }
@@ -143,9 +155,18 @@ public class GizmoballFileReader {
                     e.printStackTrace();
                 }
                 break;
-            case "Delete": //
+            case "Delete": try {
+                model.deleteGizmo(command.get(1));
+            } catch (GizmoNotFoundException e) {
+                e.printStackTrace();
+            }
                 break;
-            case "Move": //
+            case "Move":  try {
+                System.out.println("moving");
+                model.moveGizmo(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+            } catch (GizmoNotFoundException e) {
+                e.printStackTrace();
+            }
                 break;
             case "Connect": //
                 break;
