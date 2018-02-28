@@ -55,11 +55,6 @@ public class Absorber extends Gizmo implements Collidable {
     public boolean isAbsorber() {return true;}
 
     @Override
-    public void rotate() {
-
-    }
-
-    @Override
     public DrawingData getGizmoDrawingData() {
 
         double width = Double.valueOf(getProperty(GizmoPropertyType.WIDTH));

@@ -123,10 +123,6 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
         return false;
     }
 
-    public void rotate() {
-        rotation = rotation.plus(Angle.DEG_90);
-    }
-
     @Override
     public DrawingData getGizmoDrawingData() {
         DrawingData data = new DrawingData();

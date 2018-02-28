@@ -197,11 +197,6 @@ public class Ball extends Gizmo implements Tickable {
     public boolean isAbsorber() {return false;}
 
     @Override
-    public void rotate() {
-
-    }
-
-    @Override
     protected DrawingData getGizmoDrawingData() {
         DrawingData data = new DrawingData();
         data.addCircle(new Double[]{0.5, 0.5, 0.25});

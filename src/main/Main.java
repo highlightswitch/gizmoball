@@ -24,11 +24,11 @@ public class Main {
 		Flipper rightFlipper =  (Flipper) model.placeGizmo(GizmoType.RIGHT_FLIPPER, model.getTileAt(14,10), Gizmo.getPropertyDefaults(GizmoType.RIGHT_FLIPPER));
 		model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 6), Gizmo.getPropertyDefaults(GizmoType.CIRCLE_BUMPER));
 		model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 10), Gizmo.getPropertyDefaults(GizmoType.SQUARE_BUMPER));
+		model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), Gizmo.getPropertyDefaults(GizmoType.TRIANGLE_BUMPER));
 
 		Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(19, 0), Gizmo.getPropertyDefaults(GizmoType.TRIANGLE_BUMPER));
 		try {
-			triangle.rotate();
-			triangle.rotate();
+			triangle.setRotation_Deg(90);
 		} catch (GizmoPropertyException e) {
 			e.printStackTrace();
 		}

@@ -51,13 +51,13 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
             return null;
     }
 
-    public void rotate() throws GizmoPropertyException {
+    public void rotateBy_Deg(double val) throws GizmoPropertyException {
         double rotation = Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG));
-        rotation = (rotation + 90) % 360;
-        rotateByDeg(rotation);
+        rotation = (rotation + val) % 360;
+        setRotation_Deg(rotation);
     }
 
-    private void rotateByDeg(double val) throws GizmoPropertyException {
+    public void setRotation_Deg(double val) throws GizmoPropertyException {
         setProperty(GizmoPropertyType.ROTATION_DEG, String.valueOf(val));
     }
 
