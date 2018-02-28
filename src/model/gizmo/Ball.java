@@ -19,23 +19,18 @@ public class Ball extends Gizmo implements Tickable {
 	private Model model;
 
     private double cx, cy;
-	private double gravity;
-	private double friction;
 
 	private boolean isAbsorbed;
 	private boolean justFired;
 
 
 	// x, y coordinates and x,y velocity
-	public Ball(Model model, Color colour, double xTile, double yTile, double g, double f, Map<GizmoPropertyType, String> properties) {
+	public Ball(Model model, Color colour, double xTile, double yTile, Map<GizmoPropertyType, String> properties) {
         super(colour, properties);
 		this.model = model;
 
         this.cx = xTile + 0.5;
         this.cy = yTile + 0.5;
-
-        gravity = g;
-        friction = f;
 
 		justFired = false;
 		isAbsorbed = false;
@@ -137,6 +132,7 @@ public class Ball extends Gizmo implements Tickable {
     }
 
     private double[] applyFrictionToVelocities(double[] velXY, double timeMoving){
+        double friction = Model.FRICTION_CONSTANT;
         return new double[]{
                 velXY[0] * (1 - friction * timeMoving - friction * Math.abs(velXY[0]) * timeMoving),
                 velXY[1] * (1 - friction * timeMoving - friction * Math.abs(velXY[1]) * timeMoving)
@@ -144,6 +140,7 @@ public class Ball extends Gizmo implements Tickable {
     }
 
     private double[] applyGravityToVelocities(double[] velXY, double timeMoving){
+        double gravity = Model.GRAVITY_CONSTANT;
         return new double[]{
                 velXY[0],
                 velXY[1] + (gravity * timeMoving)

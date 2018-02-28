@@ -14,7 +14,10 @@ import java.util.Observable;
 
 public class Model extends Observable {
 
-    private final int width = 20;
+	public static final double FRICTION_CONSTANT = 0.025;
+	public static final double GRAVITY_CONSTANT = 25;
+
+	private final int width = 20;
     private final int height = 20;
 
     private Tile[][] tiles;
@@ -136,7 +139,7 @@ public class Model extends Observable {
 				collidable.add(gizmo);
 				break;
 			case BALL:
-				gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), 25, 0.025, properties);
+				gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), properties);
 				ball = (Ball) gizmo;
 				tickable.add((Ball) gizmo);
 				break;
