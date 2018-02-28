@@ -56,7 +56,7 @@ public class Ball extends Gizmo implements Tickable {
     }
 
     @Override
-    protected Tile[] findAnnexedTiles(Tile anchorTile) {
+    public Tile[] findAnnexedTiles(Tile anchorTile) {
         return new Tile[0];
     }
 

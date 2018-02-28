@@ -50,7 +50,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     }
 
     @Override
-    protected Tile[] findAnnexedTiles(Tile anchorTile) {
+    public Tile[] findAnnexedTiles(Tile anchorTile) {
 
         //The below means that the flipper occupies 2 tiles
         // in the x and y directions (ie a 2x2 square).
@@ -58,9 +58,9 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
         double height = 2;
         ArrayList<Tile> tiles = new ArrayList<>();
 
-        for(int xOff = 0; xOff < width; xOff++)
-            for (int yOff = 0; yOff < height; yOff++)
-                tiles.add(anchorTile.getNeighbour(xOff+1, yOff+1));
+        for(int xOff = 1; xOff < width; xOff++)
+            for (int yOff = 1; yOff < height; yOff++)
+                tiles.add(anchorTile.getNeighbour(xOff, yOff));
 
         Tile[] arr = new Tile[tiles.size()];
         return tiles.toArray(arr);

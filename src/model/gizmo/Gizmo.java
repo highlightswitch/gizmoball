@@ -83,7 +83,7 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
         return this.getGizmoDrawingData().translate(getPosition());
     }
 
-    protected abstract Tile[] findAnnexedTiles(Tile anchorTile);
+    public abstract Tile[] findAnnexedTiles(Tile anchorTile);
 
     public abstract GameObject getPrototypeGameObject();
     public abstract GameObject getGameObject();

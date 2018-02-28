@@ -18,7 +18,7 @@ public class Bumper extends Gizmo implements Collidable{
     }
 
     @Override
-    protected Tile[] findAnnexedTiles(Tile anchorTile) {
+    public Tile[] findAnnexedTiles(Tile anchorTile) {
         return new Tile[0];
     }
 

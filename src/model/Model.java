@@ -1,12 +1,11 @@
 package model;
 
+import com.sun.deploy.util.ArrayUtil;
 import model.gizmo.*;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
@@ -130,7 +129,32 @@ public class Model extends Observable {
 	    return getTileAt((int) xPos, (int) yPos);
     }
 
-    public Gizmo placeGizmo(GizmoType gizmoType, Tile tile, String[] propertyValues){
+    private void validateGizmoPlacement(Gizmo gizmo, Tile tile) throws GizmoPlacementNotValidException {
+
+    	//Get a list of all occupied tiles
+    	ArrayList<Tile> occupiedTiles = new ArrayList<>();
+    	for(int x = 0; x < width; x++){
+			for(int y = 0; y < height; y++){
+				if(tiles[x][y].isOccupied())
+					occupiedTiles.add(tiles[x][y]);
+			}
+		}
+
+		//Get a list of all the tiles this gizmo will occupy
+		ArrayList<Tile> tilesGizmoWillAnnex = new ArrayList<>();
+		tilesGizmoWillAnnex.add(tile);
+		Collections.addAll(tilesGizmoWillAnnex, gizmo.findAnnexedTiles(tile));
+
+		//If an occupied tile is a tile this gizmo will annex, throw exception
+		for(Tile t : occupiedTiles){
+			if (tilesGizmoWillAnnex.contains(t))
+				throw new GizmoPlacementNotValidException("Gizmo cannot be built at " + tile + " since "
+						+ t + " is occupied");
+		}
+
+    }
+
+    public Gizmo placeGizmo(GizmoType gizmoType, Tile tile, String[] propertyValues) throws GizmoPlacementNotValidException {
 
     	//If propertyValues is null, set them to the default values
     	if(propertyValues == null){
@@ -153,17 +177,20 @@ public class Model extends Observable {
 		switch(gizmoType){
 			case FLIPPER:
 				gizmo = new Flipper(null, properties);
+				validateGizmoPlacement(gizmo, tile);
 				tile.placeGizmo(gizmo);
 				tickable.add((Flipper) gizmo);
 				collidable.add(gizmo);
 				break;
 			case BALL:
 				gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), properties);
+				validateGizmoPlacement(gizmo, tile);
 				ball = (Ball) gizmo;
 				tickable.add((Ball) gizmo);
 				break;
 			case ABSORBER:
 				gizmo = new Absorber(Color.BLACK, properties);
+				validateGizmoPlacement(gizmo, tile);
 				collidable.add(gizmo);
 				tile.placeGizmo(gizmo);
 				break;
@@ -189,10 +216,11 @@ public class Model extends Observable {
 
     }
 
-	private Gizmo addBumper(GizmoType gizmoType, Tile t, Map<GizmoPropertyType, String> properties) {
+	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException {
 		Bumper bumper = new Bumper(Color.black, gizmoType, properties);
+		validateGizmoPlacement(bumper, tile);
 		collidable.add(bumper);
-		t.placeGizmo(bumper);
+		tile.placeGizmo(bumper);
 		return bumper;
 	}
 

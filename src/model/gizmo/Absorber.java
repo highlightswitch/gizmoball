@@ -21,15 +21,15 @@ public class Absorber extends Gizmo implements Collidable {
     }
 
     @Override
-    protected Tile[] findAnnexedTiles(Tile anchorTile) {
+    public Tile[] findAnnexedTiles(Tile anchorTile) {
 
         double width = Double.valueOf(this.getProperty(GizmoPropertyType.WIDTH));
         double height = Double.valueOf(this.getProperty(GizmoPropertyType.HEIGHT));
         ArrayList<Tile> tiles = new ArrayList<>();
 
-        for(int xOff = 0; xOff < width; xOff++)
-            for (int yOff = 0; yOff < height; yOff++)
-                tiles.add(anchorTile.getNeighbour(xOff+1, yOff+1));
+        for(int xOff = 1; xOff < width; xOff++)
+            for (int yOff = 1; yOff < height; yOff++)
+                tiles.add(anchorTile.getNeighbour(xOff, yOff));
 
         Tile[] arr = new Tile[tiles.size()];
         return tiles.toArray(arr);

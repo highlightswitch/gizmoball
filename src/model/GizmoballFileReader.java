@@ -35,8 +35,13 @@ public class GizmoballFileReader {
                     tokens.add(st.nextToken());
                 }
               //  System.out.println(tokens);
-                if(checkLine(tokens))
-                command(tokens);
+                if(checkLine(tokens)) {
+                    try{
+                        command(tokens);
+                    }catch (GizmoPlacementNotValidException e){
+                        e.printStackTrace();
+                    }
+                }
             }
             fileReader.close();
         } catch (IOException e) {
@@ -110,7 +115,7 @@ public class GizmoballFileReader {
     }
 
 
-    private void command(ArrayList<String> command) {
+    private void command(ArrayList<String> command) throws GizmoPlacementNotValidException{
         Gizmo gizmo;
         GizmoType type;
         Tile tile;
