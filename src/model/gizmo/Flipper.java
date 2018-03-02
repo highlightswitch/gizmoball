@@ -110,13 +110,18 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
         }
 
-        GameObject gameObject = new StaticGameObject(lines, circles, 0.95);
+//        GameObject gameObject = new StaticGameObject(lines, circles, 0.95);
 
-        //TODO: Get Rotating Game Objects working with the ball.
-//        double angularVelocity = 0.0;
-//        if(flipPos > 0.0 && flipPos < 1.0)
-//            angularVelocity = currentMovement < 0 ? Math.toRadians(180) : -1 * Math.toRadians(180);
-//        GameObject gameObject = new RotatingGameObject(lines, circles, 0.95, new Vect(width/2, 0), angularVelocity );
+        double angularVelocity = 0.0;
+        if(flipPos > 0.0 && flipPos < 1.0)
+            angularVelocity = currentMovement < 0 ? Math.toRadians(180) : -1 * Math.toRadians(180);
+        GameObject gameObject = new RotatingGameObject(
+                lines,
+                circles,
+                0.95,
+                new Vect(width/2, width/2),
+                angularVelocity
+        );
 
         gameObject.rotateAroundPointByAngle(
                 isLeftFlipper() ? new Vect(width/2, width/2) : new Vect(2 - width/2, width/2),
