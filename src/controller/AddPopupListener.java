@@ -11,7 +11,7 @@ public class AddPopupListener extends MouseAdapter {
         popup = p;
     }
     public void mousePressed(MouseEvent e) {
-        popup.show(e.getComponent(), e.getX() - 140, e.getY() - 80);
+        popup.show(e.getComponent(), e.getX() - 140, e.getY() - 85);
     }
 
     public void mouseReleased(MouseEvent e) {

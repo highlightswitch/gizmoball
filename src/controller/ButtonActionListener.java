@@ -2,6 +2,7 @@ package controller;
 
 import model.gizmo.TriggerType;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,10 +28,8 @@ public class ButtonActionListener implements ActionListener {
                 controller.getModel().getBall().moveBall(null);
                 break;
             case "Delete":
-                //
                 break;
             case "Rotate":
-                //
                 break;
             case "Edit":
                 //

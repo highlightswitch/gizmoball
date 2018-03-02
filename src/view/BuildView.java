@@ -16,17 +16,29 @@ public class BuildView implements GameView {
         panBuild.setBackground(Color.ORANGE);
 
         JPanel panControls = new JPanel();
-        JButton add = new JButton();
-        JButton rotate = new JButton();
-        JButton delete = new JButton();
-        JButton edit = new JButton();
-        JButton pointer = new JButton();
+        JToggleButton add = new JToggleButton();
+        JToggleButton rotate = new JToggleButton();
+        JToggleButton delete = new JToggleButton();
+        JToggleButton edit = new JToggleButton();
+        JToggleButton pointer = new JToggleButton();
 
         add.setIcon(new ImageIcon(getClass().getResource("/Images/fillAddSmall.png")));
         rotate.setIcon(new ImageIcon(getClass().getResource("/Images/fillRotateSmall.png")));
         delete.setIcon(new ImageIcon(getClass().getResource("/Images/fillDeleteSmall.png")));
         edit.setIcon(new ImageIcon(getClass().getResource("/Images/fillEditSmall.png")));
         pointer.setIcon(new ImageIcon(getClass().getResource("/Images/fillPointerSmall.png")));
+
+        rotate.setActionCommand("Rotate");
+        rotate.addActionListener(c.getActionListener("Button"));
+
+        delete.setActionCommand("Delete");
+        delete.addActionListener(c.getActionListener("Button"));
+
+        edit.setActionCommand("Edit");
+        edit.addActionListener(c.getActionListener("Button"));
+
+        pointer.setActionCommand("Move");
+        pointer.addActionListener(c.getActionListener("Button"));
 
         add.setBorder(null);
         add.setMargin(new Insets(0, 0, 0, 0));
@@ -69,8 +81,6 @@ public class BuildView implements GameView {
             panGrid.add(label);
         }
 
-        //panGrid.add(b);
-
         panBuild.setLayout(new BorderLayout());
         panBuild.add(panGrid, BorderLayout.CENTER);
         panBuild.add(panControls, BorderLayout.SOUTH);
@@ -86,10 +96,6 @@ public class BuildView implements GameView {
         JMenuItem absorberGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillRectangleSmall.png")));
         JMenuItem flipperGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillFlipperSmall.png")));
         JMenuItem ballGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/borderBallSmall.png")));
-
-//        circleGizmo.addActionListener(new AddCircleListener());
-//        triangleGizmo.addActionListener(new AddTriangleListener());
-//        squareGizmo.addActionListener(new addSquareListener());
 
         circleGizmo.setContentAreaFilled(false);
         triangleGizmo.setContentAreaFilled(false);
@@ -122,43 +128,10 @@ public class BuildView implements GameView {
         allShapes.setLayout(new FlowLayout());
     }
 
-     /*   MouseListener ml = new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            }
-
-
-           @Override
-            public void mousePressed(MouseEvent e) {
-                JComponent jc = (JComponent) e.getSource();
-                TransferHandler th = jc.getTransferHandler();
-                th.exportAsDrag(jc, e, TransferHandler.COPY);
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        };*/
-
-
-
-
-
-          //  @Override
-            public JPanel getPanel() {
-                return panBuild;
-            }
+    @Override
+    public JPanel getPanel() {
+        return panBuild;
+    }
 
         }
 

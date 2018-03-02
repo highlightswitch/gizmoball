@@ -29,7 +29,7 @@ public class MenuActionListener implements ActionListener {
                         controller.setModel(fileReader.getModel());
                         controller.getGameFrame().setModel(fileReader.getModel());
                         controller.getBoard().setModel(fileReader.getModel());
-                       controller.switchToRunView();
+                        controller.switchToRunView();
                      //   controller.refreshView();
                     } catch (Exception ex) {
                         ex.printStackTrace();
