@@ -17,6 +17,12 @@ public class RotatingGameObject extends GameObject {
     }
 
     @Override
+    public GameObject translate(double[] translation){
+        rotationPivot = new Vect(rotationPivot.x() + translation[0], rotationPivot.y() + translation[1]);
+        return super.translate(translation);
+    }
+
+    @Override
     protected double timeUntilLineCollision(LineSegment line, Circle ballCircle, Vect ballVelocity) {
         return Geometry.timeUntilRotatingWallCollision(line, rotationPivot, angularVelocity, ballCircle, ballVelocity);
     }

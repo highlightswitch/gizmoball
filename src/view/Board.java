@@ -32,7 +32,10 @@ public  class Board extends JPanel implements Observer {
 		return new Dimension(width, height);
 	}
 
-	public void setModel(Model model){ gm = model; }
+	public void setModel(Model model){
+		gm = model;
+		gm.addObserver(this);
+	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
