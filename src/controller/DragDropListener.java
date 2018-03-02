@@ -8,12 +8,10 @@ import java.awt.event.MouseEvent;
 
         }
 
-
         public void mousePressed(MouseEvent e) {
             JComponent jc = (JComponent) e.getSource();
             TransferHandler th = jc.getTransferHandler();
             th.exportAsDrag(jc, e, TransferHandler.COPY);
-
         }
     }
 
