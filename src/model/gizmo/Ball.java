@@ -81,43 +81,42 @@ public class Ball extends Gizmo implements Tickable {
         boolean isCollidingWithAbsorberNext = cd.getAbsorber() != null; // True if next thing ball is colliding with is an absorber
         Absorber collidedAbsorber = cd.getAbsorber(); //Usually null unless ball is colliding with absorber.
 
+        //The below was originally enclosed with
+        //if(tuc != 0 || isCollidingWithAbsorberNext).
+        //Keep this here for now incase we need it again
 
-        // If the ball has not collided with something or if it has, but it is an absorber
-        if(tuc != 0 || isCollidingWithAbsorberNext) {
+        boolean isCollidingThisTick = tuc < lengthOfTick;
+        double timeMoving = isCollidingThisTick ? tuc : lengthOfTick;
 
-            boolean isCollidingThisTick = tuc < lengthOfTick;
-            double timeMoving = isCollidingThisTick ? tuc : lengthOfTick;
+        //Get the new XY velocities of the ball during
+        double[] newVel = getNewVelocities(justFired, timeMoving);
 
-            //Get the new XY velocities of the ball during
-            double[] newVel = getNewVelocities(justFired, timeMoving);
+        //If the ball has just been fired, one tick later, it has not just been fired
+        if(justFired) justFired = false;
 
-            //If the ball has just been fired, one tick later, it has not just been fired
-            if(justFired) justFired = false;
+        //Set the balls new velocity and move the ball for the correct amount of time
+        setVelocity(newVel[0], newVel[1]);
+        moveBallForTime(timeMoving);
 
-            //Set the balls new velocity and move the ball for the correct amount of time
-            setVelocity(newVel[0], newVel[1]);
-            moveBallForTime(timeMoving);
+        if(isCollidingThisTick){
+            //At this point the ball has collided with something
 
-            if(isCollidingThisTick){
-                //At this point the ball has collided with something
+            // Set the velocity of the ball to its new post-collision velocity
+            setVelocity(velAfterCollision);
 
-				// Set the velocity of the ball to its new post-collision velocity
-                setVelocity(velAfterCollision);
-
-                //If the collision is with an absorber, absorb the ball.
-                if (isCollidingWithAbsorberNext) {
-                    isAbsorbed = true;
-                    collidedAbsorber.setAbsorbedBall(this);
-                    cx = 19.5;
-                    cy = 19.5;
-                } else {
-                	//If we get to here, the ball is colliding this tick, and it is not with an absorber
-					//So we move the ball for the remaining time with its new velocity
-                	moveBallForTime(lengthOfTick - tuc);
-				}
-
-
+            //If the collision is with an absorber, absorb the ball.
+            if (isCollidingWithAbsorberNext) {
+                isAbsorbed = true;
+                collidedAbsorber.setAbsorbedBall(this);
+                cx = 19.5;
+                cy = 19.5;
+            } else {
+                //If we get to here, the ball is colliding this tick, and it is not with an absorber
+                //So we move the ball for the remaining time with its new velocity
+                moveBallForTime(lengthOfTick - tuc);
             }
+
+
         }
     }
 
