@@ -41,4 +41,9 @@ public class RotatingGameObject extends GameObject {
     protected Vect velocityOfCircleCollision(Circle circle, Circle ballCircle, Vect ballVelocity) {
         return Geometry.reflectRotatingCircle(circle, rotationPivot, angularVelocity, ballCircle, ballVelocity, reflectionCoefficient);
     }
+
+    @Override
+    public GameObject clone() {
+        return new RotatingGameObject(getLines(), getCircles(), reflectionCoefficient, rotationPivot, angularVelocity);
+    }
 }

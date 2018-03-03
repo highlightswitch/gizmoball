@@ -29,4 +29,9 @@ public class MovingGameObject extends GameObject {
     protected Vect velocityOfCircleCollision(Circle circle, Circle ballCircle, Vect ballVelocity) {
         return null;
     }
+
+    @Override
+    public GameObject clone() {
+        return new MovingGameObject(getLines(), getCircles(), reflectionCoefficient);
+    }
 }
