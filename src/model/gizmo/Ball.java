@@ -136,7 +136,7 @@ public class Ball extends Gizmo implements Tickable {
     }
 
     private double[] applyFrictionToVelocities(double[] velXY, double timeMoving){
-        double friction = Model.FRICTION_CONSTANT;
+        double friction = model.getFrictionConstant();
         return new double[]{
                 velXY[0] * (1 - friction * timeMoving - friction * Math.abs(velXY[0]) * timeMoving),
                 velXY[1] * (1 - friction * timeMoving - friction * Math.abs(velXY[1]) * timeMoving)
@@ -144,7 +144,7 @@ public class Ball extends Gizmo implements Tickable {
     }
 
     private double[] applyGravityToVelocities(double[] velXY, double timeMoving){
-        double gravity = Model.GRAVITY_CONSTANT;
+        double gravity = model.getGravityConstant();
         return new double[]{
                 velXY[0],
                 velXY[1] + (gravity * timeMoving)

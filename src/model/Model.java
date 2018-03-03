@@ -13,11 +13,12 @@ import java.util.*;
 
 public class Model extends Observable {
 
-	public static final double FRICTION_CONSTANT = 0.025;
-	public static final double GRAVITY_CONSTANT = 25;
 
 	private final int width = 20;
     private final int height = 20;
+
+	private double frictionConstant = 0.025;
+	private double gravityConstant = 25;
 
     private Tile[][] tiles;
 
@@ -58,6 +59,24 @@ public class Model extends Observable {
 
 	public ArrayList<Collidable> getCollidable() {
 		return collidable;
+	}
+
+	public double getFrictionConstant(){
+    	return frictionConstant;
+	}
+
+	public double getGravityConstant() {
+		return gravityConstant;
+	}
+
+	public void setFrictionConstant(double val) throws ModelPropertyException {
+		validateFrictionValue(val);
+		frictionConstant = val;
+	}
+
+	public void setGravityConstant(double val) throws ModelPropertyException {
+		validateGravityValue(val);
+		gravityConstant = val;
 	}
 
 	public Ball getBall() {
@@ -127,31 +146,6 @@ public class Model extends Observable {
      */
     Tile getTileAt(double xPos, double yPos){
 	    return getTileAt((int) xPos, (int) yPos);
-    }
-
-    private void validateGizmoPlacement(Gizmo gizmo, Tile tile) throws GizmoPlacementNotValidException {
-
-    	//Get a list of all occupied tiles
-    	ArrayList<Tile> occupiedTiles = new ArrayList<>();
-    	for(int x = 0; x < width; x++){
-			for(int y = 0; y < height; y++){
-				if(tiles[x][y].isOccupied())
-					occupiedTiles.add(tiles[x][y]);
-			}
-		}
-
-		//Get a list of all the tiles this gizmo will occupy
-		ArrayList<Tile> tilesGizmoWillAnnex = new ArrayList<>();
-		tilesGizmoWillAnnex.add(tile);
-		Collections.addAll(tilesGizmoWillAnnex, gizmo.findAnnexedTiles(tile));
-
-		//If an occupied tile is a tile this gizmo will annex, throw exception
-		for(Tile t : occupiedTiles){
-			if (tilesGizmoWillAnnex.contains(t))
-				throw new GizmoPlacementNotValidException("Gizmo cannot be built at " + tile + " since "
-						+ t + " is occupied");
-		}
-
     }
 
     public Gizmo placeGizmo(GizmoType gizmoType, Tile tile, String[] propertyValues) throws GizmoPlacementNotValidException {
@@ -254,5 +248,44 @@ public class Model extends Observable {
         this.notifyObservers();
 
 	}
+
+
+	//==============================
+	//		Validation Methods
+	//==============================
+
+	private void validateGizmoPlacement(Gizmo gizmo, Tile tile) throws GizmoPlacementNotValidException {
+
+		//Get a list of all occupied tiles
+		ArrayList<Tile> occupiedTiles = new ArrayList<>();
+		for(int x = 0; x < width; x++){
+			for(int y = 0; y < height; y++){
+				if(tiles[x][y].isOccupied())
+					occupiedTiles.add(tiles[x][y]);
+			}
+		}
+
+		//Get a list of all the tiles this gizmo will occupy
+		ArrayList<Tile> tilesGizmoWillAnnex = new ArrayList<>();
+		tilesGizmoWillAnnex.add(tile);
+		Collections.addAll(tilesGizmoWillAnnex, gizmo.findAnnexedTiles(tile));
+
+		//If an occupied tile is a tile this gizmo will annex, throw exception
+		for(Tile t : occupiedTiles){
+			if (tilesGizmoWillAnnex.contains(t))
+				throw new GizmoPlacementNotValidException("Gizmo cannot be built at " + tile + " since "
+						+ t + " is occupied");
+		}
+
+	}
+
+	private void validateFrictionValue(double val) throws ModelPropertyException {
+
+	}
+
+	private void validateGravityValue(double val) throws ModelPropertyException {
+
+	}
+
 
 }

@@ -115,6 +115,7 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
                 return new String[]{ "absorber0", "20", "1" };
         }
 
-        return null;
+        throw new IllegalArgumentException();
+
     }
 }
