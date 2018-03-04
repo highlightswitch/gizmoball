@@ -198,6 +198,11 @@ public class Ball extends Gizmo implements Tickable {
         return getPrototypeGameObject().translate(getPosition());
     }
 
+    @Override
+    public Object clone() {
+        return this.clone();
+    }
+
     public boolean isAbsorber() {return false;}
 
     @Override

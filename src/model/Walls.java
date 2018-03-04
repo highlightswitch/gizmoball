@@ -45,6 +45,11 @@ public class Walls implements Collidable {
 	}
 
 	@Override
+	public Object clone() {
+		return this.clone();
+	}
+
+	@Override
 	public boolean isAbsorber() {
 		return false;
 	}

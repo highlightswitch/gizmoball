@@ -113,6 +113,16 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
     public abstract GameObject getPrototypeGameObject();
     public abstract GameObject getGameObject();
 
+    @Override
+    public Object clone() {
+        return this.clone();
+    }
+
+    @Override
+    public boolean isAbsorber() {
+        return false;
+    }
+
     protected abstract DrawingData getGizmoDrawingData();
 
 
@@ -143,4 +153,5 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
         throw new IllegalArgumentException();
 
     }
+
 }

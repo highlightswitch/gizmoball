@@ -65,6 +65,11 @@ public class Absorber extends Gizmo implements Collidable {
 
     public GameObject getGameObject(){return getPrototypeGameObject().translate(getPosition());}
 
+    @Override
+    public Object clone() {
+        return this.clone();
+    }
+
     public boolean isAbsorber() {return true;}
 
     @Override

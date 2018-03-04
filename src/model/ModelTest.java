@@ -42,15 +42,15 @@ class ModelTest {
         ArrayList<Tickable> t = new ArrayList<>();
 
         for (Collidable col : collide){
-            c.add(col.clone());
+            c.add((Collidable) col.clone());
         }
 
         for(Drawable dr : draw){
-            d.add(dr.clone());
+            d.add((Drawable) dr.clone());
         }
 
         for (Tickable ti : tick){
-            t.add(ti.clone());
+            t.add((Tickable) ti.clone());
         }
 
        m.deleteGizmo("Flipper");
