@@ -116,6 +116,9 @@ public class Model extends Observable {
 	}
 
 	boolean checkName(String name){
+    	if(name.equals("OuterWalls")){
+    	    return false;
+        }
 		for (Gizmo gizmo : gizmos) {
 			if (gizmo.getProperty(GizmoPropertyType.NAME).equals(name)) {
 				return true;
