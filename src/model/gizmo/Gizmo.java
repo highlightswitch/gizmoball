@@ -38,6 +38,31 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
         }
     }
 
+    public String toString(){
+        switch (type){
+            case FLIPPER:
+                if(Boolean.valueOf(getProperty(GizmoPropertyType.IS_LEFT_ORIENTATED))){
+                    return "LeftFlipper" + " " + getProperty(GizmoPropertyType.NAME) + " " + anchorTile.getX() + " " + anchorTile.getY();
+                } else {
+                    return "RightFlipper" + " " + getProperty(GizmoPropertyType.NAME) + " " + anchorTile.getX() + " " + anchorTile.getY();
+                }
+            case BALL:
+                //Name, Vel_X, Vel_Y
+                return "Ball" + " " + getProperty(GizmoPropertyType.NAME) + " " + anchorTile.getX() + " " + anchorTile.getY() + " " + getProperty(GizmoPropertyType.VEL_X) + " " + getProperty(GizmoPropertyType.VEL_Y);
+            case CIRCLE_BUMPER:
+                return "Circle" + " " + getProperty(GizmoPropertyType.NAME) + " " + anchorTile.getX() + " " + anchorTile.getY();
+            case SQUARE_BUMPER:
+                return "Square" + " " + getProperty(GizmoPropertyType.NAME) + " " + anchorTile.getX() + " " + anchorTile.getY();
+            case TRIANGLE_BUMPER:
+                return "Triangle" + " " + getProperty(GizmoPropertyType.NAME) + " " + anchorTile.getX() + " " + anchorTile.getY();
+            case ABSORBER:
+                double x2 = anchorTile.getX() + Double.parseDouble(getProperty(GizmoPropertyType.WIDTH));
+                double y2 = anchorTile.getY() + Double.parseDouble(getProperty(GizmoPropertyType.HEIGHT));
+                return "Absorber" + " " + getProperty(GizmoPropertyType.NAME) + " " + anchorTile.getX() + " " + anchorTile.getY() + " " + x2 + " " + y2;
+                default: return "Something's gone horribly wrong.";
+        }
+    }
+
     public void setAnchorTile(Tile anchorTile) {
         this.anchorTile = anchorTile;
         setAnnexedTiles(findAnnexedTiles(anchorTile));
