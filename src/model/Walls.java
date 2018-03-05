@@ -46,7 +46,12 @@ public class Walls implements Collidable {
 
 	@Override
 	public Object clone() {
-		return this.clone();
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override

@@ -138,7 +138,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
     @Override
     public Object clone() {
-        return this.clone();
+        return super.clone();
     }
 
     @Override

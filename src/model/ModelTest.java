@@ -15,6 +15,9 @@ class ModelTest {
     ArrayList<Collidable> collide;
     ArrayList<Drawable> draw;
     ArrayList<Tickable> tick;
+    ArrayList<Collidable> c =  new ArrayList<>();
+    ArrayList<Tickable> ti = new ArrayList<>();
+    ArrayList<Drawable> d = new ArrayList<>();
     Ball b;
     Tile[][] t;
     Flipper f;
@@ -36,33 +39,45 @@ class ModelTest {
     }
 
     @Test
-    void deleteGizmo() throws GizmoNotFoundException {
-        ArrayList<Collidable> c =  new ArrayList<>();
-        ArrayList<Drawable> d = new ArrayList<>();
-        ArrayList<Tickable> t = new ArrayList<>();
-
+    void deleteGizmoCollidable() throws GizmoNotFoundException {
+        for(Drawable dr : draw){
+            d.add((Drawable) dr.clone());
+        }
         for (Collidable col : collide){
             c.add((Collidable) col.clone());
         }
 
-        for(Drawable dr : draw){
-            d.add((Drawable) dr.clone());
-        }
-
-        for (Tickable ti : tick){
-            t.add((Tickable) ti.clone());
+        for (Tickable t : tick){
+            ti.add((Tickable) t.clone());
         }
 
        m.deleteGizmo("Flipper");
 
        assertEquals(c.size() - 1, collide.size());
-       assertEquals(d.size() - 1, draw.size());
-       assertEquals(t.size() - 1, tick.size());
        assertThrows(GizmoNotFoundException.class, () -> m.getGizmoByName("Flipper"));
     }
 
     @Test
-    void moveGizmo() {
+    void deleteGizmoDrawable(){
+        assertEquals(d.size() - 1, draw.size());
+    }
+
+    @Test
+    void deleteGizmoTickable(){
+        assertEquals(ti.size() - 1, tick.size());
+    }
+
+    @Test
+    void moveGizmo() throws GizmoNotFoundException {
+        double oldX = m.getGizmoByName("Ball").getPosition()[0];
+        double OldY = m.getGizmoByName("Ball").getPosition()[1];
+
+        m.moveGizmo("Ball", 2, 5);
+        double x = m.getGizmoByName("Ball").getPosition()[0];
+        double y = m.getGizmoByName("Ball").getPosition()[1];
+
+        assertEquals(2,x);
+        assertEquals(5,y);
     }
 
     @Test

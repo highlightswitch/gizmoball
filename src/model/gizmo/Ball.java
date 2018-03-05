@@ -200,7 +200,7 @@ public class Ball extends Gizmo implements Tickable {
 
     @Override
     public Object clone() {
-        return this.clone();
+        return super.clone();
     }
 
     public boolean isAbsorber() {return false;}

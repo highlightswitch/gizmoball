@@ -24,6 +24,8 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
         return colour;
     }
 
+    public GizmoType getType(){return type;}
+
     public String getProperty(GizmoPropertyType prop){
         return properties.getOrDefault(prop, null);
     }
@@ -115,7 +117,12 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
 
     @Override
     public Object clone() {
-        return this.clone();
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

@@ -35,7 +35,7 @@ public class Bumper extends Gizmo implements Collidable{
 
     @Override
     public Object clone() {
-        return this.clone();
+        return super.clone();
     }
 
     @Override

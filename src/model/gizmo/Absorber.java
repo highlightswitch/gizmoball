@@ -67,7 +67,7 @@ public class Absorber extends Gizmo implements Collidable {
 
     @Override
     public Object clone() {
-        return this.clone();
+        return super.clone();
     }
 
     public boolean isAbsorber() {return true;}
