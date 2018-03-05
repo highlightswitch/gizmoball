@@ -27,7 +27,7 @@ public class Main {
 			rFProp[2] = "false";
 			Flipper rightFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(14, 10), rFProp);
 			model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 6), null);
-			model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 10), null);
+			model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 8), null);
 			model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), null);
 
 			Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(19, 0), null);
