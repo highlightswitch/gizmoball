@@ -51,10 +51,6 @@ public class Ball extends Gizmo implements Tickable {
         }
     }
 
-    private void setVelocity(Vect velocity){
-        setVelocity(velocity.x(), velocity.y());
-    }
-
     @Override
     public Tile[] findAnnexedTiles(Tile anchorTile) {
         return new Tile[0];
@@ -73,26 +69,33 @@ public class Ball extends Gizmo implements Tickable {
 
     public void moveBall(Absorber absorber) {
 
-	    //A lot of definitions
+        //=====================
+	    //Start of Definitions
+        // \/ \/ \/ \/ \/ \/ \/
+
         double lengthOfTick = 0.05; // 0.05 = 20 times per second as per Gizmoball
+
+        double[] currentVelXY = new double[]{getVelocity().x(), getVelocity().y()}; // Balls velocity in the last tick
+
         CollisionDetails cd = timeUntilCollision(absorber);
         double tuc = cd.getTuc(); //ie Time Until Collision
-        Vect velAfterCollision = cd.getVelocity();
+        double[] velAfterCollisionXY = new double[]{cd.getVelocity().x(), cd.getVelocity().y()};
         boolean isCollidingWithAbsorberNext = cd.getAbsorber() != null; // True if next thing ball is colliding with is an absorber
         Absorber collidedAbsorber = cd.getAbsorber(); //Usually null unless ball is colliding with absorber.
-
-        //The below was originally enclosed with
-        //if(tuc != 0 || isCollidingWithAbsorberNext).
-        //Keep this here for now incase we need it again
 
         boolean isCollidingThisTick = tuc < lengthOfTick;
         double timeMoving = isCollidingThisTick ? tuc : lengthOfTick;
 
-        //Get the new XY velocities of the ball during
-        double[] newVel = getNewVelocities(justFired, timeMoving);
+        // /\ /\ /\ /\ /\ /\ /\
+        //End of Definitions
+        //=====================
 
-        //If the ball has just been fired, one tick later, it has not just been fired
-        if(justFired) justFired = false;
+        //=====================
+        //Start of Calculation
+        // \/ \/ \/ \/ \/ \/ \/
+
+        //Get the new XY velocities of the ball during
+        double[] newVel = getNewVelocities(currentVelXY, justFired, timeMoving);
 
         //Set the balls new velocity and move the ball for the correct amount of time
         setVelocity(newVel[0], newVel[1]);
@@ -100,9 +103,6 @@ public class Ball extends Gizmo implements Tickable {
 
         if(isCollidingThisTick){
             //At this point the ball has collided with something
-
-            // Set the velocity of the ball to its new post-collision velocity
-            setVelocity(velAfterCollision);
 
             //If the collision is with an absorber, absorb the ball.
             if (isCollidingWithAbsorberNext) {
@@ -112,27 +112,38 @@ public class Ball extends Gizmo implements Tickable {
                 cy = 19.5;
             } else {
                 //If we get to here, the ball is colliding this tick, and it is not with an absorber
-                //So we move the ball for the remaining time with its new velocity
+                //So we set the post-collision velocity, then move the ball for the remaining time with its new velocity
+
+                newVel = getNewVelocities(velAfterCollisionXY, justFired, lengthOfTick - tuc);
+
+                setVelocity(newVel[0], newVel[1]);
                 moveBallForTime(lengthOfTick - tuc);
             }
 
 
         }
+
+        //If the ball has just been fired, one tick later, it has not just been fired
+        if(justFired)
+            justFired = false;
+
+        // /\ /\ /\ /\ /\ /\ /\
+        //End of Calculations
+        //=====================
     }
 
-    private double[] getNewVelocities(boolean justFired, double timeMoving){
-
-        //Set the initial new XY velocities
-        //If the ball is just fired, it has a new velocity being fired upwards.
-        //If not, then the initial velocity is it's velocity in the last tick (ie its current velocity)
-        double[] velXY = justFired ? new double[]{0,-50} : new double[]{getVelocity().x(), getVelocity().y()};
-
-        //Apply friction and gravity to the velocities
-        velXY = applyFrictionToVelocities(velXY, timeMoving);
-        velXY = applyGravityToVelocities(velXY, timeMoving);
-
-        //This is the new velocity of the ball (before a collision if there is one).
-        return velXY;
+    private double[] getNewVelocities(double[] currentVelXY, boolean justFired, double timeMoving){
+        //If the ball is just fired,
+        // return a representation of the ball being fired upwards.
+        //Else
+        // return the currentVelocity with friction and gravity applied to it.
+        return justFired ?
+                new double[]{0,-50}
+                :
+                applyGravityToVelocities(
+                        applyFrictionToVelocities(currentVelXY, timeMoving),
+                        timeMoving
+                );
     }
 
     private double[] applyFrictionToVelocities(double[] velXY, double timeMoving){
