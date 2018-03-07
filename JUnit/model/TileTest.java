@@ -1,64 +1,67 @@
 package model;
 
 import model.gizmo.Bumper;
-import model.gizmo.Flipper;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoType;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.awt.*;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class TileTest {
+public class TileTest {
+
     Tile t;
     Model m;
     Gizmo g;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp(){
+
         m = new Model();
         t = new Tile(m,7,8);
     }
 
     @Test
-    void getX() {
+    public void getX() {
         assertEquals(7,t.getX());
     }
 
     @Test
-    void getY() {
+    public void getY() {
         assertEquals(8,t.getY());
     }
 
     @Test
-    void getPosition() {
+    public void getPosition() {
         int[] pos = {7,8};
         assertEquals(pos[0], t.getPosition()[0]);
         assertEquals(pos[1], t.getPosition()[1]);
     }
 
     @Test
-    void getNeighbour() {
+    public void getNeighbour() {
         assertEquals(10, t.getNeighbour(3,0).getX());
     }
 
     @Test
-    void isOccupied() {
+    public void isOccupied() {
         assertEquals(false, t.isOccupied());
     }
 
     @Test
-    void setOccupied() {
+    public void setOccupied() {
         g  = new Bumper(Color.WHITE, GizmoType.TRIANGLE_BUMPER, new HashMap<>());
         t.placeGizmo(g);
         assertEquals(true, t.isOccupied());
     }
 
+
     @Test
-    void removeGizmo() {
+    public void removeGizmo() {
         g  = new Bumper(Color.WHITE, GizmoType.TRIANGLE_BUMPER, new HashMap<>());
         t.placeGizmo(g);
         t.removeGizmo();
@@ -66,21 +69,21 @@ class TileTest {
     }
 
     @Test
-    void placeGizmo() {
+    public void placeGizmo() {
         g = new Bumper(Color.ORANGE, GizmoType.CIRCLE_BUMPER, new HashMap<>());
         t.placeGizmo(g);
         assertEquals(GizmoType.CIRCLE_BUMPER, t.getGizmo().getType());
     }
 
     @Test
-    void placeGizmoOccupied() {
+    public void placeGizmoOccupied() {
         g = new Bumper(Color.ORANGE, GizmoType.CIRCLE_BUMPER, new HashMap<>());
         t.placeGizmo(g);
         assertThrows(Exception.class, () -> t.placeGizmo(g));
     }
 
     @Test
-    void getGizmo() {
+    public void getGizmo() {
         assertEquals(g, t.getGizmo());
     }
 }
