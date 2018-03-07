@@ -105,4 +105,36 @@ class GeometryTest {
     @Test
     void reflectBalls() {
     }
+
+    @Test
+    void testToString() {
+    }
+
+    @Test
+    void testEqualsConsistent() {
+    }
+
+    @Test
+    void testEqualsReflexive() {
+    }
+
+    @Test
+    void testEqualsSymmertic() {
+    }
+
+    @Test
+    void testEqualsNull() {
+    }
+
+    @Test
+    void testEqualsTransitive() {
+    }
+
+    @Test
+    void testEquals1() {
+    }
+
+    @Test
+    void testHashCode() {
+    }
 }

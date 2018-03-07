@@ -1,8 +1,6 @@
 package model;
 
-import model.gizmo.Ball;
-import model.gizmo.Flipper;
-import model.gizmo.Tickable;
+import model.gizmo.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,16 +16,20 @@ class ModelTest {
     ArrayList<Collidable> c =  new ArrayList<>();
     ArrayList<Tickable> ti = new ArrayList<>();
     ArrayList<Drawable> d = new ArrayList<>();
-    Ball b;
     Tile[][] t;
-    Flipper f;
+    Gizmo flipper;
+    Gizmo circle;
+    Gizmo ball;
+    String[] prop = {};
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws GizmoPlacementNotValidException {
         m =  new Model();
+        flipper = m.placeGizmo(GizmoType.FLIPPER, new Tile(m, 5, 4), prop);
+        circle = m.placeGizmo(GizmoType.CIRCLE_BUMPER, new Tile(m, 5, 9), prop);
+        ball = m.placeGizmo(GizmoType.BALL, new Tile(m, 0, 1), prop);
         collide = m.getCollidable();
         draw = m.getDrawables();
-        b = m.getBall();
         t = m.getTiles();
     }
 
@@ -36,6 +38,11 @@ class ModelTest {
         //when retreving by name what do you if there is multiple gizmos with the same name
         // is the gizmo equals method overridden
        assertThrows(GizmoNotFoundException.class, () -> m.getGizmoByName("Blue"));
+    }
+
+    @Test
+    void getGizmoByName2 () throws GizmoNotFoundException {
+        assertEquals(flipper, m.getGizmoByName("Flipper"));
     }
 
     @Test
@@ -81,10 +88,6 @@ class ModelTest {
     }
 
     @Test
-    void checkName() {
-    }
-
-    @Test
     void setUpActionMap() {
     }
 
@@ -112,4 +115,39 @@ class ModelTest {
     void tick() {
     }
 
+    @Test
+    void getDrawables() {
+    }
+
+    @Test
+    void getCollidable() {
+    }
+
+    @Test
+    void getFrictionConstant() {
+    }
+
+    @Test
+    void getGravityConstant() {
+    }
+
+    @Test
+    void setFrictionConstant() {
+    }
+
+    @Test
+    void setGravityConstant() {
+    }
+
+    @Test
+    void getBall() {
+    }
+
+    @Test
+    void getTiles() {
+    }
+
+    @Test
+    void checkName() {
+    }
 }
