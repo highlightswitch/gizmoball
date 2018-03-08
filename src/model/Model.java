@@ -53,6 +53,17 @@ public class Model extends Observable {
 
 	}
 
+	public String toString(){
+        String game = "";
+        for (Gizmo gizmo: gizmos) {
+            game = game + gizmo.toString() + "\n";
+        }
+        game = game + "Gravity" + gravityConstant + "\n";
+        game = game + "Friction" + frictionConstant + "\n";
+        //need to add rotation
+        return game;
+    }
+
 	public ArrayList<Drawable> getDrawables() {
         return drawables;
     }
@@ -65,9 +76,13 @@ public class Model extends Observable {
     	return frictionConstant;
 	}
 
+	public void setFritctionConsatnt(double newFrictionConstant) { frictionConstant = newFrictionConstant;}
+
 	public double getGravityConstant() {
 		return gravityConstant;
 	}
+
+	public void setGravityConsatnt(double newGravityConstant) { gravityConstant = newGravityConstant;}
 
 	public void setFrictionConstant(double val) throws ModelPropertyException {
 		validateFrictionValue(val);
