@@ -1,6 +1,7 @@
 package model;
 
 import model.gizmo.GizmoActionType;
+import model.util.Procedure;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,7 +9,7 @@ import java.util.Set;
 public abstract class Triggerable {
 
 	private Set<Triggerable> connectedTriggerables;
-	protected Runnable action;
+	protected Procedure action;
 
 	protected Triggerable(){
 		connectedTriggerables = new HashSet<>();
@@ -29,7 +30,7 @@ public abstract class Triggerable {
 	}
 
 	public void doAction(){
-		action.run();
+		action.invoke();
 	}
 
 	void addActor(Triggerable actor){
