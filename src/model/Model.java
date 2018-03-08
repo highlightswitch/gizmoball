@@ -300,11 +300,12 @@ public class Model extends Observable {
 	}
 
 	private void validateFrictionValue(double val) throws ModelPropertyException {
-
+		if(val < 0 )
+			throw new ModelPropertyException("Friction value cannot be set to " + val);
 	}
 
 	private void validateGravityValue(double val) throws ModelPropertyException {
-
+		//Any gravity is fine...
 	}
 
 
