@@ -170,10 +170,6 @@ public class Ball extends Gizmo implements Tickable {
         //Create a list of all collidable objects in the game.
         ArrayList<Collidable> collidable = model.getCollidable();
 
-        // Create a new GameObject, move it to where the ball is the get the physics.Circle component.
-        Circle ballCircle = getGameObject().getCircles()[0];
-        Vect ballVelocity = getVelocity();
-
         //This collision will never happen.
         CollisionDetails nextCollision = new CollisionDetails(Double.MAX_VALUE, new Vect(0,0));
 
@@ -181,8 +177,8 @@ public class Ball extends Gizmo implements Tickable {
             if (co.equals(absorber)) {
                 continue;
             }
-            CollisionDetails cd = co.getGameObject().timeUntilGameObjectCollision(ballCircle, ballVelocity);
-            cd.setCollidable(co);
+            CollisionDetails cd = co.timeUntilCollisionWithBall(this.getGameObject(), this.getVelocity());
+            cd.setCollidingWith(co);
             if (co.isAbsorber()) {
                 cd.setAbsorber((Absorber) co);
             }

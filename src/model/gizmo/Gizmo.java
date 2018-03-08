@@ -1,6 +1,7 @@
 package model.gizmo;
 
 import model.*;
+import physics.Vect;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -137,6 +138,13 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
     }
 
     protected abstract DrawingData getGizmoDrawingData();
+
+    @Override
+    public CollisionDetails timeUntilCollisionWithBall(GameObject ballGO, Vect ballVelocity) {
+        CollisionDetails cd = getGameObject().timeUntilCollisionWithBall(ballGO, ballVelocity);
+        cd.setCollidingWith(this);
+        return cd;
+    }
 
     @Override
     public void trigger(){

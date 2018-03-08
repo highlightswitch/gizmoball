@@ -1,6 +1,7 @@
 package model;
 
 import physics.LineSegment;
+import physics.Vect;
 
 import java.util.ArrayList;
 
@@ -57,6 +58,11 @@ public class Walls implements Collidable {
 	@Override
 	public boolean isAbsorber() {
 		return false;
+	}
+
+	@Override
+	public CollisionDetails timeUntilCollisionWithBall(GameObject ballGO, Vect ballVelocity) {
+		return this.getGameObject().timeUntilCollisionWithBall(ballGO, ballVelocity);
 	}
 
 

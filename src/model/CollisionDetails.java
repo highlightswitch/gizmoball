@@ -41,7 +41,7 @@ public class CollisionDetails {
 		return "CollisionDetails <" + tuc + "," + velocity + ">";
 	}
 
-	public void setCollidable(Collidable collidable) {
+	public void setCollidingWith(Collidable collidable) {
 		this.collidingWith = collidable;
 	}
 
