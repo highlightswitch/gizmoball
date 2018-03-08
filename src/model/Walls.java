@@ -1,8 +1,9 @@
 package model;
 
-import java.util.ArrayList;
-
 import physics.LineSegment;
+import physics.Vect;
+
+import java.util.ArrayList;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
@@ -57,5 +58,15 @@ public class Walls implements Collidable {
 	@Override
 	public boolean isAbsorber() {
 		return false;
+	}
+
+	@Override
+	public CollisionDetails timeUntilCollisionWithBall(GameObject ballGO, Vect ballVelocity) {
+		return this.getGameObject().timeUntilCollisionWithBall(ballGO, ballVelocity);
+	}
+
+	@Override
+	public void collide(){
+
 	}
 }

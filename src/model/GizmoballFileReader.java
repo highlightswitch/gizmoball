@@ -56,7 +56,6 @@ public class GizmoballFileReader {
             case "Triangle":
             case "RightFlipper":
             case "LeftFlipper":
-                System.out.println("bumper check");
                 if(!model.checkName(command.get(1)) && checkInt(command.get(2)) && checkInt(command.get(3)) && command.size() == 4){
                     return true;
                 } else {
@@ -88,6 +87,19 @@ public class GizmoballFileReader {
                 }
             case "Move":
                 if(model.checkName(command.get(1)) && checkInt(command.get(2)) && checkInt(command.get(3)) && command.size() == 4){
+                    return true;
+                } else {
+                    return false;
+                }
+            case "Gravity":
+                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
+                    return true;
+                } else {
+                    return false;
+                }
+            case "Friction":
+                //check friction format
+                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
                     return true;
                 } else {
                     return false;
@@ -194,7 +206,6 @@ public class GizmoballFileReader {
             }
                 break;
             case "Move":  try {
-                System.out.println("moving");
                 model.moveGizmo(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
             } catch (GizmoNotFoundException e) {
                 e.printStackTrace();
@@ -204,9 +215,18 @@ public class GizmoballFileReader {
                 break;
             case "KeyConnect": //
                 break;
-            case "Gravity": //
+            case "Gravity": try {
+                model.setGravityConstant(Float.parseFloat(command.get(2)));
+            } catch (ModelPropertyException e){
+                e.printStackTrace();
+            }
                 break;
-            case "Friction": //
+            case "Friction": try {
+                //need to look at friction format
+                model.setFrictionConstant(Float.parseFloat(command.get(2)));
+            } catch (ModelPropertyException e){
+                e.printStackTrace();
+            }
                 break;
         }
     }

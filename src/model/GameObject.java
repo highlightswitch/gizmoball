@@ -98,8 +98,9 @@ public abstract class GameObject implements Drawable, Cloneable {
         return data;
     }
 
-    public CollisionDetails timeUntilGameObjectCollision(Circle ballCircle, Vect ballVelocity) {
+    public CollisionDetails timeUntilCollisionWithBall(GameObject ball, Vect ballVelocity) {
 
+        Circle ballCircle = ball.getCircles()[0];
         double shortestTime = Double.MAX_VALUE;
         double time;
         Vect newVelocity = new Vect(0, 0);

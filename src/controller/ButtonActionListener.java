@@ -1,6 +1,7 @@
 package controller;
 
 import model.gizmo.TriggerType;
+import view.EditShapeDialogue;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,9 +10,11 @@ import java.awt.event.ActionListener;
 public class ButtonActionListener implements ActionListener {
 
     private MainController controller;
+    JFrame frame;
 
-    ButtonActionListener(MainController controller) {
+    ButtonActionListener(MainController controller, JFrame f) {
         this.controller = controller;
+        frame = f;
 	}
 
     @Override
@@ -32,7 +35,7 @@ public class ButtonActionListener implements ActionListener {
             case "Rotate":
                 break;
             case "Edit":
-                //
+                EditShapeDialogue shapeDi = new EditShapeDialogue(frame);
                 break;
             case "Move":
                 //

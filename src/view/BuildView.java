@@ -58,6 +58,8 @@ public class BuildView implements GameView {
         edit.setBorder(null);
         edit.setMargin(new Insets(0, 0, 0, 0));
         edit.setContentAreaFilled(false);
+        edit.setActionCommand("Edit");
+        edit.addActionListener(c.getActionListener("Button"));
 
         pointer.setBorder(null);
         pointer.setMargin(new Insets(0, 0, 0, 0));

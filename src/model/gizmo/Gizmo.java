@@ -1,11 +1,12 @@
 package model.gizmo;
 
 import model.*;
+import physics.Vect;
 
 import java.awt.*;
 import java.util.Map;
 
-public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable {
+public abstract class Gizmo extends Triggerable implements Collidable, Drawable {
 
     private Color colour;
     private Tile anchorTile;
@@ -132,7 +133,50 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
 
     protected abstract DrawingData getGizmoDrawingData();
 
+    @Override
+    public CollisionDetails timeUntilCollisionWithBall(GameObject ballGO, Vect ballVelocity) {
+        CollisionDetails cd = getGameObject().timeUntilCollisionWithBall(ballGO, ballVelocity);
+        cd.setCollidingWith(this);
+        return cd;
+    }
 
+    @Override
+    public void collide(){
+        super.trigger();
+    }
+
+
+    @Override
+    public void setAction(GizmoActionType type){
+        if(type == GizmoActionType.CHANGE_COLOUR){
+            action = this::action_changeColour;
+        } else if(type == GizmoActionType.PRINT_TO_CONSOLE){
+            action = this::action_printToConsole;
+        } else {
+            action = this::action_printToConsole;
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void action_changeColour(){
+        System.out.println("colour changed");
+    }
+
+    private void action_printToConsole(){
+        System.out.println( this.getProperty(GizmoPropertyType.NAME) + " activated");
+    }
+
+    @Override
+    public void keyDown(){
+        super.keyDown();
+        //Override me to do something
+    }
+
+    @Override
+    public void keyUp(){
+        super.keyUp();
+        //Override me to do something
+    }
 
 
     public static String[] getPropertyDefaults(GizmoType type){

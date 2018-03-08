@@ -3,6 +3,7 @@ package model;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoType;
 import model.gizmo.Tickable;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,78 +12,46 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ModelTest {
-
     Model m;
     ArrayList<Collidable> collide;
     ArrayList<Drawable> draw;
     ArrayList<Tickable> tick;
     ArrayList<Collidable> c =  new ArrayList<>();
-    ArrayList<Tickable> ti = new ArrayList<>();
+    ArrayList<Tickable> t = new ArrayList<>();
     ArrayList<Drawable> d = new ArrayList<>();
-    Tile[][] t;
+    Tile[][] tile;
     Gizmo flipper;
     Gizmo circle;
     Gizmo ball;
-    String[] prop = {};
-
+    String[] prop = {"Flipper", "90", "true"};
+    String[] prop2 = null;
+    String[] prop3 = {"Ball", "0", "3"};
 
     @BeforeEach
     void setUp() throws GizmoPlacementNotValidException {
         m =  new Model();
         flipper = m.placeGizmo(GizmoType.FLIPPER, new Tile(m, 5, 4), prop);
-        circle = m.placeGizmo(GizmoType.CIRCLE_BUMPER, new Tile(m, 5, 9), prop);
-        ball = m.placeGizmo(GizmoType.BALL, new Tile(m, 0, 1), prop);
+        circle = m.placeGizmo(GizmoType.CIRCLE_BUMPER, new Tile(m, 5, 9), prop2);
+        ball = m.placeGizmo(GizmoType.BALL, new Tile(m, 0, 1), prop3);
         collide = m.getCollidable();
         draw = m.getDrawables();
-        t = m.getTiles();
+        tile = m.getTiles();
     }
 
     @Test
-    public void getDrawables() throws Exception {
-    }
-
-    @Test
-    public void getCollidable() throws Exception {
-    }
-
-    @Test
-    public void getFrictionConstant() throws Exception {
-    }
-
-    @Test
-    public void getGravityConstant() throws Exception {
-    }
-
-    @Test
-    public void setFrictionConstant() throws Exception {
-    }
-
-    @Test
-    public void setGravityConstant() throws Exception {
-    }
-
-    @Test
-    public void getBall() throws Exception {
-    }
-
-    @Test
-    public void getTiles() throws Exception {
-    }
-
-    @Test
-    public void getGizmoByName() throws GizmoNotFoundException {
+    void getGizmoByName() throws GizmoNotFoundException {
         //when retreving by name what do you if there is multiple gizmos with the same name
         // is the gizmo equals method overridden
-        assertThrows(GizmoNotFoundException.class, () -> m.getGizmoByName("Blue"));
+       assertThrows(GizmoNotFoundException.class, () -> m.getGizmoByName("Blue"));
     }
 
     @Test
-    public void getGizmoByName2() throws GizmoNotFoundException {
+    void getGizmoByName2 () throws GizmoNotFoundException {
         assertEquals(flipper, m.getGizmoByName("Flipper"));
     }
 
     @Test
-    public void deleteGizmoCollidable() throws GizmoNotFoundException {
+    void deleteGizmoCollidable() throws GizmoNotFoundException {
         for(Drawable dr : draw){
             d.add((Drawable) dr.clone());
         }
@@ -90,28 +59,28 @@ class ModelTest {
             c.add((Collidable) col.clone());
         }
 
-        for (Tickable t : tick){
-            ti.add((Tickable) t.clone());
+        for (Tickable ti : tick){
+            t.add((Tickable) ti.clone());
         }
 
-        m.deleteGizmo("Flipper");
+       m.deleteGizmo("Flipper");
 
-        assertEquals(c.size() - 1, collide.size());
-        assertThrows(GizmoNotFoundException.class, () -> m.getGizmoByName("Flipper"));
+       assertEquals((c.size()-1), collide.size());
+       assertThrows(GizmoNotFoundException.class, () -> m.getGizmoByName("Flipper"));
     }
 
     @Test
-    public void deleteGizmoDrawable(){
-        assertEquals(d.size() - 1, draw.size());
+    void deleteGizmoDrawable(){
+        assertEquals((d.size()-1), draw.size());
     }
 
     @Test
-    public void deleteGizmoTickable(){
-        assertEquals(ti.size() - 1, tick.size());
+    void deleteGizmoTickable(){
+        assertEquals((t.size()-1), tick.size());
     }
 
     @Test
-    public void moveGizmo() throws GizmoNotFoundException {
+    void moveGizmo() throws GizmoNotFoundException {
         double oldX = m.getGizmoByName("Ball").getPosition()[0];
         double OldY = m.getGizmoByName("Ball").getPosition()[1];
 
@@ -119,42 +88,71 @@ class ModelTest {
         double x = m.getGizmoByName("Ball").getPosition()[0];
         double y = m.getGizmoByName("Ball").getPosition()[1];
 
-
-
-        assertEquals(2, x, 0);
-        assertEquals(5, y, 0);
+        assertEquals(2,x);
+        assertEquals(5,y);
     }
 
     @Test
-    public void checkName() throws Exception {
+    void setUpActionMap() {
     }
 
     @Test
-    public void setUpActionMap() throws Exception {
+    void setUpActionMap1() {
     }
 
     @Test
-    public void setUpActionMap1() throws Exception {
+    void getTileAt() {
     }
 
     @Test
-    public void getTileAt() throws Exception {
+    void getTileAt1() {
     }
 
     @Test
-    public void getTileAt1() throws Exception {
+    void placeGizmo() {
     }
 
     @Test
-    public void placeGizmo() throws Exception {
+    void keyEventTriggered() {
     }
 
     @Test
-    public void keyEventTriggered() throws Exception {
+    void tick() {
     }
 
     @Test
-    public void tick() throws Exception {
+    void getDrawables() {
     }
 
+    @Test
+    void getCollidable() {
+    }
+
+    @Test
+    void getFrictionConstant() {
+    }
+
+    @Test
+    void getGravityConstant() {
+    }
+
+    @Test
+    void setFrictionConstant() {
+    }
+
+    @Test
+    void setGravityConstant() {
+    }
+
+    @Test
+    void getBall() {
+    }
+
+    @Test
+    void getTiles() {
+    }
+
+    @Test
+    void checkName() {
+    }
 }

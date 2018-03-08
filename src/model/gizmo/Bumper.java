@@ -132,21 +132,4 @@ public class Bumper extends Gizmo implements Collidable{
         return data;
     }
 
-    @Override
-    public void keyDown() {
-
-    }
-
-    @Override
-    public void keyUp() {
-
-    }
-
-    @Override
-    public void genericTrigger() {
-
-    }
-
-
-
 }

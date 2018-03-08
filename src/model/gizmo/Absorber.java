@@ -90,21 +90,26 @@ public class Absorber extends Gizmo implements Collidable {
     }
 
     @Override
-    public void genericTrigger() {
-        //Empty...
+    public void setAction(GizmoActionType type) {
+        if (type == GizmoActionType.FIRE_FROM_ABSORBER) {
+            action = this::action_fireBall;
+        } else {
+            super.setAction(type);
+        }
+    }
+
+    private void action_fireBall(){
+        if(absorbedBall != null) {
+            absorbedBall.fire(this);
+            absorbedBall = null;
+        }
     }
 
     @Override
     public void keyDown() {
-    	if(absorbedBall != null) {
-			absorbedBall.fire(this);
-			absorbedBall = null;
-		}
+    	super.keyDown();
+        action_fireBall();
     }
 
-    @Override
-    public void keyUp() {
-        //Empty...
-    }
 
 }

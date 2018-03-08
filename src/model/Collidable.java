@@ -1,5 +1,7 @@
 package model;
 
+import physics.Vect;
+
 public interface Collidable {
 
     GameObject getGameObject();
@@ -7,4 +9,7 @@ public interface Collidable {
 
     boolean isAbsorber();
 
+    CollisionDetails timeUntilCollisionWithBall(GameObject go, Vect ballVelocity);
+
+    void collide();
 }

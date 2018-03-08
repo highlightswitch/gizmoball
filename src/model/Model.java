@@ -1,10 +1,8 @@
 package model;
 
-import com.sun.deploy.util.ArrayUtil;
 import model.gizmo.*;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -25,7 +23,7 @@ public class Model extends Observable {
 	private Ball ball;
 	private Walls walls;
 
-    private Map<Integer, GizmoEventListener> keyEventTriggerMap =  new HashMap<>();
+    private Map<Integer, Set<KeyEventTriggerable>> keyEventTriggerMap =  new HashMap<>();
 
 	private ArrayList<Tickable> tickable;
     private ArrayList<Collidable> collidable;
@@ -53,6 +51,17 @@ public class Model extends Observable {
 
 	}
 
+	public String toString(){
+        String game = "";
+        for (Gizmo gizmo: gizmos) {
+            game = game + gizmo.toString() + "\n";
+        }
+        game = game + "Gravity" + gravityConstant + "\n";
+        game = game + "Friction" + frictionConstant + "\n";
+        //need to add rotation
+        return game;
+    }
+
 	public ArrayList<Drawable> getDrawables() {
         return drawables;
     }
@@ -65,9 +74,13 @@ public class Model extends Observable {
     	return frictionConstant;
 	}
 
+	public void setFritctionConsatnt(double newFrictionConstant) { frictionConstant = newFrictionConstant;}
+
 	public double getGravityConstant() {
 		return gravityConstant;
 	}
+
+	public void setGravityConsatnt(double newGravityConstant) { gravityConstant = newGravityConstant;}
 
 	public void setFrictionConstant(double val) throws ModelPropertyException {
 		validateFrictionValue(val);
@@ -125,15 +138,6 @@ public class Model extends Observable {
 			}
 		}
         return false;
-    }
-
-    public void setUpActionMap(Flipper l, Flipper r) {
-        keyEventTriggerMap.put(70, l); //Key code 70 = F
-        keyEventTriggerMap.put(71, r); //Key code 71 = G
-    }
-
-    public void setUpActionMap(Absorber absorber) {
-        keyEventTriggerMap.put(32, absorber); //Key code 32 = space
     }
 
     public Tile getTileAt(int x, int y){
@@ -221,21 +225,34 @@ public class Model extends Observable {
 		return bumper;
 	}
 
+	public void connect(Triggerable trigger, Triggerable actor){
+    	trigger.addActor(actor);
+	}
+
+	public void connect(int keyCode, KeyEventTriggerable actor){
+		if(keyEventTriggerMap.containsKey(keyCode)){
+			keyEventTriggerMap.get(keyCode).add(actor);
+		} else {
+			Set<KeyEventTriggerable> set = new HashSet<>();
+			set.add(actor);
+			keyEventTriggerMap.put(keyCode, set);
+		}
+	}
+
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 
         if(keyEventTriggerMap.containsKey(keyCode)){
-            GizmoEventListener eventListener = keyEventTriggerMap.get(keyCode);
-            switch(trigger){
-                case KEY_DOWN:
-                    eventListener.keyDown();
-                    break;
-                case KEY_UP:
-                    eventListener.keyUp();
-                    break;
-                case GENERIC:
-                    eventListener.genericTrigger();
-                    break;
-            }
+            Set<KeyEventTriggerable> set = keyEventTriggerMap.get(keyCode);
+            for(KeyEventTriggerable triggerable : set) {
+				switch (trigger) {
+					case KEY_DOWN:
+						triggerable.keyDown();
+						break;
+					case KEY_UP:
+						triggerable.keyUp();
+						break;
+				}
+			}
         }
 
     }
@@ -283,11 +300,12 @@ public class Model extends Observable {
 	}
 
 	private void validateFrictionValue(double val) throws ModelPropertyException {
-
+		if(val < 0 )
+			throw new ModelPropertyException("Friction value cannot be set to " + val);
 	}
 
 	private void validateGravityValue(double val) throws ModelPropertyException {
-
+		//Any gravity is fine...
 	}
 
 
