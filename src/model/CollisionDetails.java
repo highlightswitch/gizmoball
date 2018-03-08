@@ -45,7 +45,9 @@ public class CollisionDetails {
 		this.collidingWith = collidable;
 	}
 
-	public Collidable getCollidingWith() {
+	public Collidable getCollidingWith() throws IllegalStateException {
+		if(collidingWith == null)
+			throw new IllegalStateException();
 		return collidingWith;
 	}
 }
