@@ -80,7 +80,7 @@ public class MainController implements ActionListener {
     public ActionListener getActionListener(String type) {
 
         if(type.equals("Button")){
-            return new ButtonActionListener(this);
+            return new ButtonActionListener(this,fr.getFrame());
         }
         else if(type.equals("Menu")){
             return new MenuActionListener(this);
