@@ -23,7 +23,7 @@ public class Model extends Observable {
 	private Ball ball;
 	private Walls walls;
 
-    private Map<Integer, KeyEventTriggerable> keyEventTriggerMap =  new HashMap<>();
+    private Map<Integer, Set<KeyEventTriggerable>> keyEventTriggerMap =  new HashMap<>();
 
 	private ArrayList<Tickable> tickable;
     private ArrayList<Collidable> collidable;
@@ -230,21 +230,29 @@ public class Model extends Observable {
 	}
 
 	public void connect(int keyCode, KeyEventTriggerable actor){
-		keyEventTriggerMap.put(keyCode, actor);
+		if(keyEventTriggerMap.containsKey(keyCode)){
+			keyEventTriggerMap.get(keyCode).add(actor);
+		} else {
+			Set<KeyEventTriggerable> set = new HashSet<>();
+			set.add(actor);
+			keyEventTriggerMap.put(keyCode, set);
+		}
 	}
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 
         if(keyEventTriggerMap.containsKey(keyCode)){
-            KeyEventTriggerable eventListener = keyEventTriggerMap.get(keyCode);
-            switch(trigger){
-                case KEY_DOWN:
-                    eventListener.keyDown();
-                    break;
-                case KEY_UP:
-                    eventListener.keyUp();
-                    break;
-            }
+            Set<KeyEventTriggerable> set = keyEventTriggerMap.get(keyCode);
+            for(KeyEventTriggerable triggerable : set) {
+				switch (trigger) {
+					case KEY_DOWN:
+						triggerable.keyDown();
+						break;
+					case KEY_UP:
+						triggerable.keyUp();
+						break;
+				}
+			}
         }
 
     }

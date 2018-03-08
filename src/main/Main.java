@@ -41,9 +41,14 @@ public class Main {
 			Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19), null);
 
 			model.connect(square, triangle);
+
 			model.connect(32, absorber); //Key code 32 = space
 			model.connect(70, leftFlipper); //Key code 70 = F
 			model.connect(71, rightFlipper); //Key code 71 = G
+
+			model.connect(72, leftFlipper); //Key code 72 = H
+			model.connect(72, rightFlipper); //Key code 72 = H
+
 			rightFlipper.setAction(GizmoActionType.FLIP_FLIPPER);
 			leftFlipper.setAction(GizmoActionType.FLIP_FLIPPER);
 
