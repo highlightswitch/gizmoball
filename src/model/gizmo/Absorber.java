@@ -107,7 +107,8 @@ public class Absorber extends Gizmo implements Collidable {
 
     @Override
     public void keyDown() {
-    	action_fireBall();
+    	super.keyDown();
+        action_fireBall();
     }
 
 

@@ -168,11 +168,13 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
 
     @Override
     public void keyDown(){
+        super.keyDown();
         //Override me to do something
     }
 
     @Override
     public void keyUp(){
+        super.keyUp();
         //Override me to do something
     }
 

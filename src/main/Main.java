@@ -27,7 +27,6 @@ public class Main {
 			String[] rFProp = Gizmo.getPropertyDefaults(GizmoType.FLIPPER);
 			rFProp[2] = "false";
 			Flipper rightFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(14, 3), rFProp);
-			rightFlipper.setAction(GizmoActionType.FLIP_FLIPPER);
 			model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 6), null);
 			Gizmo square = model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 8), null);
 			Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), null);
@@ -45,6 +44,8 @@ public class Main {
 			model.connect(32, absorber); //Key code 32 = space
 			model.connect(70, leftFlipper); //Key code 70 = F
 			model.connect(71, rightFlipper); //Key code 71 = G
+			rightFlipper.setAction(GizmoActionType.FLIP_FLIPPER);
+			leftFlipper.setAction(GizmoActionType.FLIP_FLIPPER);
 
 
 

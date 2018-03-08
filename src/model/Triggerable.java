@@ -12,6 +12,8 @@ public abstract class Triggerable implements KeyEventTriggerable {
 	private Set<Triggerable> connectedTriggerables;
 	protected Procedure action;
 
+	private boolean keyDown;
+
 	protected Triggerable(){
 		connectedTriggerables = new HashSet<>();
 		setAction(GizmoActionType.PRINT_TO_CONSOLE);
@@ -31,15 +33,20 @@ public abstract class Triggerable implements KeyEventTriggerable {
 	}
 
 	public void doAction(){
-		action.invoke();
+		if(!keyDown)
+			action.invoke();
 	}
 
 	void addActor(Triggerable actor){
 		connectedTriggerables.add(actor);
 	}
 
-	public abstract void keyDown();
+	public void keyDown(){
+		keyDown = true;
+	}
 
-	public abstract void keyUp();
+	public void keyUp(){
+		keyDown = false;
+	}
 
 }
