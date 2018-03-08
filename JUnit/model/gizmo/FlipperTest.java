@@ -1,49 +1,49 @@
 package model.gizmo;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class FlipperTest {
-    @Before
-    public void setUp() throws Exception {
+class FlipperTest {
+    @BeforeEach
+    void setUp() {
     }
 
     @Test
-    public void findAnnexedTiles() throws Exception {
+    void findAnnexedTiles() {
     }
 
     @Test
-    public void getPrototypeGameObject() throws Exception {
+    void getPrototypeGameObject() {
     }
 
     @Test
-    public void getGameObject() throws Exception {
+    void getGameObject() {
     }
 
     @Test
-    public void isAbsorber() throws Exception {
+    void isAbsorber() {
     }
 
     @Test
-    public void getGizmoDrawingData() throws Exception {
+    void getGizmoDrawingData() {
     }
 
     @Test
-    public void tick() throws Exception {
+    void tick() {
     }
 
     @Test
-    public void keyDown() throws Exception {
+    void keyDown() {
     }
 
     @Test
-    public void keyUp() throws Exception {
+    void keyUp() {
     }
 
     @Test
-    public void genericTrigger() throws Exception {
+    void genericTrigger() {
     }
 
 }

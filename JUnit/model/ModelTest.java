@@ -3,15 +3,14 @@ package model;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoType;
 import model.gizmo.Tickable;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ModelTest {
+class ModelTest {
 
     Model m;
     ArrayList<Collidable> collide;
@@ -26,8 +25,9 @@ public class ModelTest {
     Gizmo ball;
     String[] prop = {};
 
-    @Before
-    public void setUp() throws GizmoPlacementNotValidException {
+
+    @BeforeEach
+    void setUp() throws GizmoPlacementNotValidException {
         m =  new Model();
         flipper = m.placeGizmo(GizmoType.FLIPPER, new Tile(m, 5, 4), prop);
         circle = m.placeGizmo(GizmoType.CIRCLE_BUMPER, new Tile(m, 5, 9), prop);

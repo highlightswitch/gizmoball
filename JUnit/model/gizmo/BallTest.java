@@ -1,30 +1,30 @@
 package model.gizmo;
 
 import model.Model;
-import model.Tile;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class BallTest {
+class BallTest {
 
     private Ball ball;
     private Model model;
     private Map<GizmoPropertyType, String> properties;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         properties = new HashMap<GizmoPropertyType, String>();
         properties.put(GizmoPropertyType.NAME, "Ball");
         properties.put(GizmoPropertyType.VEL_X, "0");
         properties.put(GizmoPropertyType.VEL_Y, "0.5");
 
         ball = new Ball(model, Color.white, 5, 10, properties);
+
     }
 
     @Test

@@ -1,8 +1,8 @@
 package model.gizmo;
 
 import model.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import physics.Circle;
 import physics.LineSegment;
 
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class AbsorberTest {
+class AbsorberTest {
 
     private Absorber absorber;
     private Ball ball;
@@ -32,9 +32,8 @@ public class AbsorberTest {
     DrawingData data;
     ArrayList<Double[]> squarePoly;
 
-    @Before
-    public void setUp() throws Exception {
-
+    @BeforeEach
+    void setUp() {
         properties = new HashMap<GizmoPropertyType, String>();
         properties.put(GizmoPropertyType.NAME, "Absorber");
         properties.put(GizmoPropertyType.WIDTH, "20");
@@ -64,26 +63,30 @@ public class AbsorberTest {
     }
 
     @Test
-    public void findAnnexedTiles() throws Exception {
+    void setAbsorbedBall() {
     }
 
     @Test
-    public void getPrototypeGameObject() throws Exception {
+    void findAnnexedTiles() {
+    }
+
+    @Test
+    void getPrototypeGameObject() {
         assertEquals(absorber.getPrototypeGameObject(), gameObject);
     }
 
     @Test
-    public void getGameObject() throws Exception {
+    void getGameObject() {
         assertEquals(absorber.getGameObject(), gameObject.translate(absorber.getPosition()));
     }
 
     @Test
-    public void isAbsorber() throws Exception {
+    void isAbsorber() {
         assertTrue(absorber.isAbsorber());
     }
 
     @Test
-    public void getGizmoDrawingData() throws Exception {
+    void getGizmoDrawingData() {
         squarePoly.add(new Double[]{0.0, 0.0}); //NE
         squarePoly.add(new Double[]{20.0, 0.0}); //NW
         squarePoly.add(new Double[]{20.0, 1.0}); //SW
@@ -94,6 +97,6 @@ public class AbsorberTest {
     }
 
     @Test
-    public void keyDown() throws Exception {
+    void keyDown() {
     }
 }

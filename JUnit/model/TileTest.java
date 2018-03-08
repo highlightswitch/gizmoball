@@ -3,24 +3,22 @@ package model;
 import model.gizmo.Bumper;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoType;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.util.HashMap;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TileTest {
+class TileTest {
 
     Tile t;
     Model m;
     Gizmo g;
 
-    @Before
-    public void setUp(){
-
+    @BeforeEach
+    void setUp() {
         m = new Model();
         t = new Tile(m,7,8);
     }

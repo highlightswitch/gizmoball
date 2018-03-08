@@ -1,27 +1,27 @@
 package model;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class WallsTest {
+class WallsTest {
 
     Walls w;
     Model m;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         m = new Model();
         w  = new Walls(1,1,10,2);
     }
 
     @Test
-    public void getGameObject() throws Exception {
+    void getGameObject() {
     }
 
     @Test
-    public void isAbsorber() throws Exception {
+    void isAbsorber() {
     }
 
 }
