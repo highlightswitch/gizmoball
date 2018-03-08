@@ -106,18 +106,9 @@ public class Absorber extends Gizmo implements Collidable {
     }
 
     @Override
-    public void genericTrigger() {
-        //Empty...
-    }
-
-    @Override
     public void keyDown() {
     	action_fireBall();
     }
 
-    @Override
-    public void keyUp() {
-        //Empty...
-    }
 
 }

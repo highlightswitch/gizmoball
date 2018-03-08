@@ -6,7 +6,7 @@ import physics.Vect;
 import java.awt.*;
 import java.util.Map;
 
-public abstract class Gizmo extends Triggerable implements GizmoEventListener, Collidable, Drawable {
+public abstract class Gizmo extends Triggerable implements Collidable, Drawable {
 
     private Color colour;
     private Tile anchorTile;
@@ -164,6 +164,16 @@ public abstract class Gizmo extends Triggerable implements GizmoEventListener, C
 
     private void action_printToConsole(){
         System.out.println( this.getProperty(GizmoPropertyType.NAME) + " activated");
+    }
+
+    @Override
+    public void keyDown(){
+        //Override me to do something
+    }
+
+    @Override
+    public void keyUp(){
+        //Override me to do something
     }
 
 

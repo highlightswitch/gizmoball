@@ -221,18 +221,12 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
         }
     }
 
-    @Override
     public void keyDown() {
         currentMovement = flipSpeed;
     }
 
-    @Override
     public void keyUp() {
         currentMovement = -1 * flipSpeed;
     }
 
-    @Override
-    public void genericTrigger() {
-        //Empty...
-    }
 }

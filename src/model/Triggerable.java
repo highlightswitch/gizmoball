@@ -1,12 +1,13 @@
 package model;
 
 import model.gizmo.GizmoActionType;
+import model.gizmo.KeyEventTriggerable;
 import model.util.Procedure;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Triggerable {
+public abstract class Triggerable implements KeyEventTriggerable {
 
 	private Set<Triggerable> connectedTriggerables;
 	protected Procedure action;
@@ -36,5 +37,9 @@ public abstract class Triggerable {
 	void addActor(Triggerable actor){
 		connectedTriggerables.add(actor);
 	}
+
+	public abstract void keyDown();
+
+	public abstract void keyUp();
 
 }

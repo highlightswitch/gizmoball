@@ -23,7 +23,7 @@ public class Model extends Observable {
 	private Ball ball;
 	private Walls walls;
 
-    private Map<Integer, GizmoEventListener> keyEventTriggerMap =  new HashMap<>();
+    private Map<Integer, KeyEventTriggerable> keyEventTriggerMap =  new HashMap<>();
 
 	private ArrayList<Tickable> tickable;
     private ArrayList<Collidable> collidable;
@@ -140,15 +140,6 @@ public class Model extends Observable {
         return false;
     }
 
-    public void setUpActionMap(Flipper l, Flipper r) {
-        keyEventTriggerMap.put(70, l); //Key code 70 = F
-        keyEventTriggerMap.put(71, r); //Key code 71 = G
-    }
-
-    public void setUpActionMap(Absorber absorber) {
-        keyEventTriggerMap.put(32, absorber); //Key code 32 = space
-    }
-
     public Tile getTileAt(int x, int y){
 	    return tiles[x][y];
     }
@@ -238,19 +229,20 @@ public class Model extends Observable {
     	trigger.addActor(actor);
 	}
 
+	public void connect(int keyCode, KeyEventTriggerable actor){
+		keyEventTriggerMap.put(keyCode, actor);
+	}
+
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 
         if(keyEventTriggerMap.containsKey(keyCode)){
-            GizmoEventListener eventListener = keyEventTriggerMap.get(keyCode);
+            KeyEventTriggerable eventListener = keyEventTriggerMap.get(keyCode);
             switch(trigger){
                 case KEY_DOWN:
                     eventListener.keyDown();
                     break;
                 case KEY_UP:
                     eventListener.keyUp();
-                    break;
-                case GENERIC:
-                    eventListener.genericTrigger();
                     break;
             }
         }

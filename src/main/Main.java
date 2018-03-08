@@ -32,8 +32,6 @@ public class Main {
 			Gizmo square = model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 8), null);
 			Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), null);
 
-			model.connect(square, triangle);
-
 			Gizmo cornerTriangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(19, 0), null);
 			try {
 				cornerTriangle.setRotation_Deg(90);
@@ -41,9 +39,15 @@ public class Main {
 				e.printStackTrace();
 			}
 
-			model.setUpActionMap(leftFlipper, rightFlipper);
 			Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19), null);
-			model.setUpActionMap(absorber);
+
+			model.connect(square, triangle);
+			model.connect(32, absorber); //Key code 32 = space
+			model.connect(70, leftFlipper); //Key code 70 = F
+			model.connect(71, rightFlipper); //Key code 71 = G
+
+
+
 		} catch (GizmoPlacementNotValidException e){
 			e.printStackTrace();
 		}

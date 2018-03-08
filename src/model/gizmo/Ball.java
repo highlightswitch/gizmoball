@@ -235,19 +235,4 @@ public class Ball extends Gizmo implements Tickable {
 
     }
 
-    @Override
-    public void keyDown() {
-
-    }
-
-    @Override
-    public void keyUp() {
-
-    }
-
-    @Override
-    public void genericTrigger() {
-
-    }
-
 }

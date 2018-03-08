@@ -1,11 +1,9 @@
 package model.gizmo;
 
-public interface GizmoEventListener {
+public interface KeyEventTriggerable {
 
     void keyDown();
 
     void keyUp();
-
-    void genericTrigger();
 
 }
