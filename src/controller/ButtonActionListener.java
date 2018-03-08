@@ -1,6 +1,5 @@
 package controller;
 
-import model.gizmo.TriggerType;
 import view.EditShapeDialogue;
 
 import javax.swing.*;

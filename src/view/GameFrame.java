@@ -10,6 +10,11 @@ public class GameFrame {
      private JFrame frMain;
      private JMenuBar top;
      private JMenu mTools;
+     private JMenu add;
+     private JMenuItem rotate;
+     private JMenuItem edit;
+     private JMenu settings;
+     private JMenuItem delete;
      private Model model;
      private MainController controller;
      private Board board;
@@ -45,6 +50,33 @@ public class GameFrame {
         build.setActionCommand("Build");
         build.addActionListener(controller.getActionListener("Menu"));
 
+        add = new JMenu("Add a Gizmo");
+        JMenu shape = new JMenu("Add a Shape");
+        JMenuItem circle = new JMenuItem("circle");
+        JMenuItem square = new JMenuItem("square");
+        JMenuItem triangle = new JMenuItem("triangle");
+        shape.add(circle);
+        shape.add(square);
+        shape.add(triangle);
+
+        JMenuItem ball = new JMenuItem("add a ball");
+        JMenuItem absorber = new JMenuItem("add an absorber");
+
+        add.add(shape);
+        add.add(ball);
+        add.add(absorber);
+
+        rotate = new JMenuItem("rotate");
+        edit = new JMenuItem("edit");
+
+        settings = new JMenu("settings");
+        JMenuItem gravity = new JMenuItem("change gravity");
+        JMenuItem friction = new JMenuItem("change friction");
+        settings.add(gravity);
+        settings.add(friction);
+
+        delete = new JMenuItem("delete");
+
         mFile.add(load);
         mFile.add(save);
         mFile.add(quit);
@@ -76,40 +108,12 @@ public class GameFrame {
     }
 
     public void extendMenu(){
-        JMenu add = new JMenu("add a gizmo");
-        JMenu shape = new JMenu("add a shape");
-        JMenuItem circle = new JMenuItem("circle");
-        JMenuItem square = new JMenuItem("square");
-        JMenuItem triangle = new JMenuItem("triangle");
-        shape.add(circle);
-        shape.add(square);
-        shape.add(triangle);
-
-        JMenuItem ball = new JMenuItem("add a ball");
-        JMenuItem absorber = new JMenuItem("add an absorber");
-
-        add.add(shape);
-        add.add(ball);
-        add.add(absorber);
-
-        JMenuItem rotate = new JMenuItem("rotate");
-        JMenuItem edit = new JMenuItem("edit");
-
-        JMenu settings = new JMenu("settings");
-        JMenuItem gravity = new JMenuItem("change gravity");
-        JMenuItem friction = new JMenuItem("change friction");
-        settings.add(gravity);
-        settings.add(friction);
-
-        JMenuItem delete = new JMenuItem("delete");
-
         mTools.add(add);
         mTools.add(rotate);
         mTools.add(edit);
         mTools.add(delete);
         mTools.addSeparator();
         mTools.add(settings);
-
         top.add(mTools);
     }
 
