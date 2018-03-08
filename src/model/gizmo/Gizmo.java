@@ -3,7 +3,9 @@ package model.gizmo;
 import model.*;
 
 import java.awt.*;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable {
 
@@ -13,11 +15,15 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
 
     protected GizmoType type;
 
+    private Set<Triggerable> connectedTriggerables;
+
     private Map<GizmoPropertyType, String> properties;
 
     Gizmo(Color colour, Map<GizmoPropertyType, String> props){
         properties = props;
         this.colour = colour;
+
+        connectedTriggerables = new HashSet<>();
     }
 
     public Color getColour() {
@@ -132,7 +138,27 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
 
     protected abstract DrawingData getGizmoDrawingData();
 
+    @Override
+    public void trigger(){
+        this.doAction();
+        triggerAllConnected();
+    }
 
+    @Override
+    public void triggerAllConnected(){
+        for(Triggerable t : connectedTriggerables){
+            t.doAction();
+            t.triggerAllConnected();
+        }
+    }
+
+    @Override
+    public abstract void doAction();
+
+    @Override
+    public void addActor(Triggerable actor){
+        connectedTriggerables.add(actor);
+    }
 
 
     public static String[] getPropertyDefaults(GizmoType type){

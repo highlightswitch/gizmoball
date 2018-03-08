@@ -104,6 +104,8 @@ public class Ball extends Gizmo implements Tickable {
         if(isCollidingThisTick){
             //At this point the ball has collided with something
 
+            cd.getCollidingWith().trigger();
+
             //If the collision is with an absorber, absorb the ball.
             if (isCollidingWithAbsorberNext) {
                 isAbsorbed = true;
@@ -180,6 +182,7 @@ public class Ball extends Gizmo implements Tickable {
                 continue;
             }
             CollisionDetails cd = co.getGameObject().timeUntilGameObjectCollision(ballCircle, ballVelocity);
+            cd.setCollidable(co);
             if (co.isAbsorber()) {
                 cd.setAbsorber((Absorber) co);
             }
@@ -221,6 +224,11 @@ public class Ball extends Gizmo implements Tickable {
         DrawingData data = new DrawingData();
         data.addCircle(new Double[]{0.5, 0.5, 0.25});
         return data;
+    }
+
+    @Override
+    public void doAction() {
+        System.out.println("Ball Action");
     }
 
     @Override

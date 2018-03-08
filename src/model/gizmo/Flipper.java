@@ -180,6 +180,11 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     }
 
     @Override
+    public void doAction() {
+        System.out.println("Flipper Action");
+    }
+
+    @Override
     public void tick() {
         moveFlipper();
     }

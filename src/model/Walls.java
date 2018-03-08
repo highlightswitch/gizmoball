@@ -1,8 +1,8 @@
 package model;
 
-import java.util.ArrayList;
-
 import physics.LineSegment;
+
+import java.util.ArrayList;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
@@ -57,5 +57,29 @@ public class Walls implements Collidable {
 	@Override
 	public boolean isAbsorber() {
 		return false;
+	}
+
+
+	//Below is the Triggerable methods. Since Walls are collidable, they are also Triggerable.
+	//Not currently used.
+
+	@Override
+	public void doAction() {
+
+	}
+
+	@Override
+	public void trigger() {
+
+	}
+
+	@Override
+	public void triggerAllConnected() {
+
+	}
+
+	@Override
+	public void addActor(Triggerable t) {
+
 	}
 }

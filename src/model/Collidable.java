@@ -1,6 +1,6 @@
 package model;
 
-public interface Collidable {
+public interface Collidable extends Triggerable {
 
     GameObject getGameObject();
     Object clone();

@@ -90,6 +90,11 @@ public class Absorber extends Gizmo implements Collidable {
     }
 
     @Override
+    public void doAction() {
+        System.out.println("Absorber Action");
+    }
+
+    @Override
     public void genericTrigger() {
         //Empty...
     }

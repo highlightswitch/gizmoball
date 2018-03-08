@@ -1,10 +1,8 @@
 package model;
 
-import com.sun.deploy.util.ArrayUtil;
 import model.gizmo.*;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -219,6 +217,10 @@ public class Model extends Observable {
 		collidable.add(bumper);
 		tile.placeGizmo(bumper);
 		return bumper;
+	}
+
+	public void connect(Triggerable trigger, Triggerable actor){
+    	trigger.addActor(actor);
 	}
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {

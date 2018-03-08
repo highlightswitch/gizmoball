@@ -12,6 +12,7 @@ public class CollisionDetails {
 	private double tuc;
 	private Vect velocity;
 	private Absorber absorber;
+	private Collidable collidingWith;
 
 	public CollisionDetails(double t, Vect v) {
 		tuc = t;
@@ -38,5 +39,13 @@ public class CollisionDetails {
 	@Override
 	public String toString(){
 		return "CollisionDetails <" + tuc + "," + velocity + ">";
+	}
+
+	public void setCollidable(Collidable collidable) {
+		this.collidingWith = collidable;
+	}
+
+	public Collidable getCollidingWith() {
+		return collidingWith;
 	}
 }
