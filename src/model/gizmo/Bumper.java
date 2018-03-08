@@ -133,11 +133,6 @@ public class Bumper extends Gizmo implements Collidable{
     }
 
     @Override
-    public void doAction() {
-        System.out.println(getType() + " Action");
-    }
-
-    @Override
     public void keyDown() {
 
     }

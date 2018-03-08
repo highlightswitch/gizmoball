@@ -2,7 +2,7 @@ package model;
 
 import physics.Vect;
 
-public interface Collidable extends Triggerable {
+public interface Collidable {
 
     GameObject getGameObject();
     Object clone();
@@ -11,4 +11,5 @@ public interface Collidable extends Triggerable {
 
     CollisionDetails timeUntilCollisionWithBall(GameObject go, Vect ballVelocity);
 
+    void collide();
 }

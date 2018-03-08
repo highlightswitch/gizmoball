@@ -22,11 +22,12 @@ public class Main {
 		Model model = new Model();
 
 		try {
-			model.placeGizmo(GizmoType.BALL, model.getTileAt(14, 1), null);
+			model.placeGizmo(GizmoType.BALL, model.getTileAt(15, 1), null);
 			Flipper leftFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(9, 10), null);
 			String[] rFProp = Gizmo.getPropertyDefaults(GizmoType.FLIPPER);
 			rFProp[2] = "false";
-			Flipper rightFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(14, 10), rFProp);
+			Flipper rightFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(14, 3), rFProp);
+			rightFlipper.setAction(GizmoActionType.FLIP_FLIPPER);
 			model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 6), null);
 			Gizmo square = model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 8), null);
 			Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), null);

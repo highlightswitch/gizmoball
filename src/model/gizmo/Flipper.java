@@ -36,7 +36,6 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
     private void moveFlipper(){
         flipPos =  clamp(flipPos + currentMovement, 0, 1);
-        System.out.println(flipPos);
     }
 
 
@@ -196,13 +195,30 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     }
 
     @Override
-    public void doAction() {
-        System.out.println("Flipper Action");
-    }
-
-    @Override
     public void tick() {
         moveFlipper();
+    }
+
+
+    @Override
+    public void setAction(GizmoActionType type) {
+        if (type == GizmoActionType.FLIP_FLIPPER) {
+            action = this::action_moveFlipper;
+        } else {
+            super.setAction(type);
+        }
+    }
+
+    private void action_moveFlipper(){
+        if(currentMovement < 0 && flipPos != 0){
+            currentMovement = flipSpeed;
+        } else if(currentMovement > 0 && flipPos != 1) {
+            currentMovement = -1 * flipSpeed;
+        } else if(flipPos == 0){
+            currentMovement = flipSpeed;
+        } else if(flipPos == 1){
+            currentMovement = -1 * flipSpeed;
+        }
     }
 
     @Override

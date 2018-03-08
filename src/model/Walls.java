@@ -65,27 +65,8 @@ public class Walls implements Collidable {
 		return this.getGameObject().timeUntilCollisionWithBall(ballGO, ballVelocity);
 	}
 
-
-	//Below is the Triggerable methods. Since Walls are collidable, they are also Triggerable.
-	//Not currently used.
-
 	@Override
-	public void doAction() {
-
-	}
-
-	@Override
-	public void trigger() {
-
-	}
-
-	@Override
-	public void triggerAllConnected() {
-
-	}
-
-	@Override
-	public void addActor(Triggerable t) {
+	public void collide(){
 
 	}
 }

@@ -4,11 +4,9 @@ import model.*;
 import physics.Vect;
 
 import java.awt.*;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable {
+public abstract class Gizmo extends Triggerable implements GizmoEventListener, Collidable, Drawable {
 
     private Color colour;
     private Tile anchorTile;
@@ -16,15 +14,11 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
 
     protected GizmoType type;
 
-    private Set<Triggerable> connectedTriggerables;
-
     private Map<GizmoPropertyType, String> properties;
 
     Gizmo(Color colour, Map<GizmoPropertyType, String> props){
         properties = props;
         this.colour = colour;
-
-        connectedTriggerables = new HashSet<>();
     }
 
     public Color getColour() {
@@ -147,25 +141,29 @@ public abstract class Gizmo implements GizmoEventListener, Collidable, Drawable 
     }
 
     @Override
-    public void trigger(){
-        this.doAction();
-        triggerAllConnected();
+    public void collide(){
+        super.trigger();
     }
 
+
     @Override
-    public void triggerAllConnected(){
-        for(Triggerable t : connectedTriggerables){
-            t.doAction();
-            t.triggerAllConnected();
+    public void setAction(GizmoActionType type){
+        if(type == GizmoActionType.CHANGE_COLOUR){
+            action = this::action_changeColour;
+        } else if(type == GizmoActionType.PRINT_TO_CONSOLE){
+            action = this::action_printToConsole;
+        } else {
+            action = this::action_printToConsole;
+            throw new IllegalArgumentException();
         }
     }
 
-    @Override
-    public abstract void doAction();
+    private void action_changeColour(){
+        System.out.println("colour changed");
+    }
 
-    @Override
-    public void addActor(Triggerable actor){
-        connectedTriggerables.add(actor);
+    private void action_printToConsole(){
+        System.out.println( this.getProperty(GizmoPropertyType.NAME) + " activated");
     }
 
 

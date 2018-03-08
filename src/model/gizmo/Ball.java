@@ -104,7 +104,7 @@ public class Ball extends Gizmo implements Tickable {
         if(isCollidingThisTick){
             //At this point the ball has collided with something
 
-            cd.getCollidingWith().trigger();
+            cd.getCollidingWith().collide();
 
             //If the collision is with an absorber, absorb the ball.
             if (isCollidingWithAbsorberNext) {
