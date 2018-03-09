@@ -48,12 +48,13 @@ public class EditShapeDialogue {
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
+        shapeColour.setOpaque(false);
 
         JPanel panShape = new JPanel();
         panShape.setLayout(new GridLayout(0,2));
 
         JPanel panForm = new JPanel();
-        panForm.setLayout(new BoxLayout(panForm, BoxLayout.Y_AXIS));
+        panForm.setLayout(new GridLayout(0,1));
         panForm.setOpaque(false);
 
         panForm.add(label);
@@ -98,7 +99,7 @@ public class EditShapeDialogue {
 
         edit =  new JDialog(fr, "Gizmo", true);
         edit.setContentPane(panDI);
-        edit.setMinimumSize(new Dimension(400,200));
+        edit.setMinimumSize(new Dimension(900,350));
         edit.setVisible(true);
     }
 }

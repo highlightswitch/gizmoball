@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PlaceGizmoListener implements ActionListener{
+public class PlaceGizmoListener{
     Model model;
     GizmoType g;
     String pos;
@@ -35,18 +35,18 @@ public class PlaceGizmoListener implements ActionListener{
         pos = position.replace("(", "");
         pos  = pos.replace(")", "");
         pos = pos.replace(",","");
-        x = pos.charAt(0);
-        y = pos.charAt(1);
+        x = Integer.valueOf(String.valueOf(pos.charAt(0)));
+        y = Integer.valueOf(String.valueOf(pos.charAt(1)));
         color = c;
         action = a;
         trigger = t;
+        place();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    public void place() {
         try {
+            System.out.println("I am going to place " + g.toString() + " at: (" + x + "," + y + ")");
             model.placeGizmo(g,model.getTileAt(x,y), null);
-
         } catch (GizmoPlacementNotValidException e1) {
             e1.printStackTrace();
         }
