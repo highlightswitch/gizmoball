@@ -29,8 +29,6 @@ public class GravitySlider {
         });
 
         JPanel content = new JPanel();
-
-
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
