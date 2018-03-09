@@ -49,7 +49,7 @@ public class MenuActionListener implements ActionListener {
                 EditShapeDialogue shapeDialogue = new EditShapeDialogue(frame, e.getActionCommand(), "Add", model);
                 break;
             case "Ball":
-                EditBallDialogue ballDialogue = new EditBallDialogue();
+                EditBallDialogue ballDialogue = new EditBallDialogue(frame, "Add", model);
                 break;
             case "Absorber":
                 EditAbsorberDialogue absorberDialogue = new EditAbsorberDialogue();

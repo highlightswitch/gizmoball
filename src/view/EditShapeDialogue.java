@@ -16,7 +16,6 @@ public class EditShapeDialogue {
     String cAction;
     String cTrigger;
     JDialog edit;
-    Board board;
 
     public EditShapeDialogue(JFrame fr, String shape, String mode, Model model){
         gizmo = shape;

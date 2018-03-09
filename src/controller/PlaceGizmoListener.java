@@ -3,11 +3,8 @@ package controller;
 import model.GizmoPlacementNotValidException;
 import model.Model;
 import model.gizmo.GizmoType;
-import view.Board;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PlaceGizmoListener{
     Model model;
