@@ -7,13 +7,18 @@ import java.io.File;
 import java.util.ArrayList;
 
 import model.*;
+import view.*;
 
 public class MenuActionListener implements ActionListener {
 
     private MainController controller;
+    private JFrame frame;
+    Model model;
 
-    MenuActionListener(MainController c){
+    MenuActionListener(MainController c, JFrame f, Model m){
         controller = c;
+        frame = f;
+        model = m;
     }
 
     @Override
@@ -30,16 +35,36 @@ public class MenuActionListener implements ActionListener {
                         controller.getGameFrame().setModel(fileReader.getModel());
                         controller.getBoard().setModel(fileReader.getModel());
                         controller.switchToRunView();
-                     //   controller.refreshView();
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-
-
                 }
                 break;
             case "Save":
                 //
+                break;
+            case "Circle":
+            case "Square":
+            case "Triangle":
+                EditShapeDialogue shapeDialogue = new EditShapeDialogue(frame, e.getActionCommand(), "Add", model);
+                break;
+            case "Ball":
+                EditBallDialogue ballDialogue = new EditBallDialogue();
+                break;
+            case "Absorber":
+                EditAbsorberDialogue absorberDialogue = new EditAbsorberDialogue();
+                break;
+            case "Rotate":
+                break;
+            case "Delete":
+                break;
+            case "Edit":
+                break;
+            case "Gravity":
+                GravitySlider g = new GravitySlider(frame);
+                break;
+            case "Friction":
+                FrictionSlider f = new FrictionSlider(frame);
                 break;
             case "Quit":
                 System.exit(0);

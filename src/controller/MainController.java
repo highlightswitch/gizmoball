@@ -7,6 +7,7 @@ import view.BuildView;
 import view.GameFrame;
 import view.RunView;
 
+import javax.jws.WebParam;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,7 +36,11 @@ public class MainController implements ActionListener {
 
     public Board getBoard(){ return board; }
 
-    public void setModel(Model newModel) { model = newModel; }
+    public void setModel(Model newModel) {
+        model = newModel;
+        board.setModel(model);
+        fr.setModel(model);
+    }
 
     public GameFrame getGameFrame() { return fr;}
 
@@ -61,6 +66,9 @@ public class MainController implements ActionListener {
     }
 
     void switchToBuildView(){
+        Model md = new Model();
+        board.setModel(md);
+        fr.setModel(md);
         fr.drawFrame(new BuildView(fr.getFrame(), this, board));
         fr.extendMenu();
         fr.getFrame().getContentPane().revalidate();
@@ -80,10 +88,10 @@ public class MainController implements ActionListener {
     public ActionListener getActionListener(String type) {
 
         if(type.equals("Button")){
-            return new ButtonActionListener(this,fr.getFrame());
+            return new ButtonActionListener(this,fr.getFrame(), model);
         }
         else if(type.equals("Menu")){
-            return new MenuActionListener(this);
+            return new MenuActionListener(this, fr.getFrame(), model);
         }
 
         return new ActionListener() {

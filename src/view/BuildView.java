@@ -1,6 +1,7 @@
 package view;
 
 import controller.*;
+import model.Model;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,15 +74,24 @@ public class BuildView implements GameView {
         panControls.setOpaque(false);
         panControls.setLayout(new FlowLayout());
 
-        JPanel panGrid = new JPanel(new GridLayout(20, 20));
-        panGrid.setOpaque(false);
-        panGrid.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        JLayeredPane panGrid = new JLayeredPane();
+
+        panGrid.add(b, new Integer(0),0);
+
+        JPanel tiles = new JPanel(new GridLayout(20, 20));
+
+        tiles.setOpaque(true);
+        tiles.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         for (int i = 0; i < (20 * 20); i++) {
             final JLabel label = new JLabel();
             label.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-            panGrid.add(label);
+            tiles.add(label);
         }
+
+        panGrid.add(tiles, new Integer(1), 0);
+
+        panGrid.setOpaque(false);
 
         panBuild.setLayout(new BorderLayout());
         panBuild.add(panGrid, BorderLayout.CENTER);

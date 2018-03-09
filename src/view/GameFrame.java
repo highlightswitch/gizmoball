@@ -52,30 +52,58 @@ public class GameFrame {
 
         add = new JMenu("Add a Gizmo");
         JMenu shape = new JMenu("Add a Shape");
-        JMenuItem circle = new JMenuItem("circle");
-        JMenuItem square = new JMenuItem("square");
-        JMenuItem triangle = new JMenuItem("triangle");
+
+        JMenuItem circle = new JMenuItem("Circle");
+        circle.setActionCommand("Circle");
+        circle.addActionListener(controller.getActionListener("Menu"));
+
+        JMenuItem square = new JMenuItem("Square");
+        square.setActionCommand("Square");
+        square.addActionListener(controller.getActionListener("Menu"));
+
+        JMenuItem triangle = new JMenuItem("Triangle");
+        triangle.setActionCommand("Triangle");
+        triangle.addActionListener(controller.getActionListener("Menu"));
+
         shape.add(circle);
         shape.add(square);
         shape.add(triangle);
 
-        JMenuItem ball = new JMenuItem("add a ball");
-        JMenuItem absorber = new JMenuItem("add an absorber");
+        JMenuItem ball = new JMenuItem("Add a Ball");
+        ball.setActionCommand("Ball");
+        ball.addActionListener(controller.getActionListener("Menu"));
+
+        JMenuItem absorber = new JMenuItem("Add an Absorber");
+        absorber.setActionCommand("Absorber");
+        absorber.addActionListener(controller.getActionListener("Menu"));
 
         add.add(shape);
         add.add(ball);
         add.add(absorber);
 
-        rotate = new JMenuItem("rotate");
-        edit = new JMenuItem("edit");
+        rotate = new JMenuItem("Rotate");
+        rotate.setActionCommand("Rotate");
+        rotate.addActionListener(controller.getActionListener("Menu"));
 
-        settings = new JMenu("settings");
-        JMenuItem gravity = new JMenuItem("change gravity");
-        JMenuItem friction = new JMenuItem("change friction");
+        edit = new JMenuItem("Edit");
+        edit.setActionCommand("Edit");
+        edit.addActionListener(controller.getActionListener("Menu"));
+
+        settings = new JMenu("Settings");
+        JMenuItem gravity = new JMenuItem("Change Gravity");
+        gravity.setActionCommand("Gravity");
+        gravity.addActionListener(controller.getActionListener("Menu"));
+
+        JMenuItem friction = new JMenuItem("Change Friction");
+        friction.setActionCommand("Friction");
+        friction.addActionListener(controller.getActionListener("Menu"));
+
         settings.add(gravity);
         settings.add(friction);
 
-        delete = new JMenuItem("delete");
+        delete = new JMenuItem("Delete");
+        delete.setActionCommand("Delete");
+        delete.addActionListener(controller.getActionListener("Menu"));
 
         mFile.add(load);
         mFile.add(save);

@@ -37,6 +37,10 @@ public  class Board extends JPanel implements Observer {
 		gm.addObserver(this);
 	}
 
+	public Model getModel(){
+		return gm;
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
@@ -57,7 +61,10 @@ public  class Board extends JPanel implements Observer {
 				DrawingData data = col.getGameObject().getDrawingData();
 				draw(data, g2, false);
 			}
-			draw(gm.getBall().getGameObject().getDrawingData(), g2, false);
+
+			if(gm.getBall() != null){
+				draw(gm.getBall().getGameObject().getDrawingData(), g2, false);
+			}
 			g2.setColor(Color.WHITE);
 		}
 

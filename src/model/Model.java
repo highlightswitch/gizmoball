@@ -53,8 +53,10 @@ public class Model extends Observable {
 
 	public String toString(){
         String game = "";
-        for (Gizmo gizmo: gizmos) {
-            game = game + gizmo.toString() + "\n";
+        if(gizmos.size() != 0){
+            for (Gizmo gizmo: gizmos) {
+                game = game + gizmo.toString() + "\n";
+            }
         }
         game = game + "Gravity" + gravityConstant + "\n";
         game = game + "Friction" + frictionConstant + "\n";

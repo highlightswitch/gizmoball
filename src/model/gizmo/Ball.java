@@ -235,4 +235,9 @@ public class Ball extends Gizmo implements Tickable {
 
     }
 
+    @Override
+    public String toString(){
+	    return "Radius is: " + newRadius + " x is: " + cx + " y is: " + cy;
+    };
+
 }

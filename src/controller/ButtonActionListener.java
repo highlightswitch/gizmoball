@@ -1,5 +1,7 @@
 package controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import model.Model;
 import view.EditShapeDialogue;
 
 import javax.swing.*;
@@ -10,10 +12,12 @@ public class ButtonActionListener implements ActionListener {
 
     private MainController controller;
     JFrame frame;
+    Model model;
 
-    ButtonActionListener(MainController controller, JFrame f) {
+    ButtonActionListener(MainController controller, JFrame f, Model m) {
         this.controller = controller;
         frame = f;
+        model = m;
 	}
 
     @Override
@@ -34,7 +38,7 @@ public class ButtonActionListener implements ActionListener {
             case "Rotate":
                 break;
             case "Edit":
-                EditShapeDialogue shapeDi = new EditShapeDialogue(frame);
+                EditShapeDialogue shapeDi = new EditShapeDialogue(frame, e.getActionCommand(), "Edit", model);
                 break;
             case "Move":
                 //
