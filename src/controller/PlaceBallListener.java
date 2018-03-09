@@ -20,15 +20,22 @@ public class PlaceBallListener {
         model = m;
         pos = position.replace("(", "");
         pos  = pos.replace(")", "");
-        pos = pos.replace(",","");
-        x = Integer.valueOf(String.valueOf(pos.charAt(0)));
-        y = Integer.valueOf(String.valueOf(pos.charAt(1)));
+
+        String posX = pos.substring(0, pos.indexOf(","));
+        String posY = pos.substring(pos.indexOf(","));
+        posY = posY.replace(",", "");
+        x = Integer.valueOf(posX);
+        y = Integer.valueOf(posY);
 
         vel = velocity.replace("(", "");
         vel  = vel.replace(")", "");
-        vel = vel.replace(",","");
-        vx = Integer.valueOf(String.valueOf(vel.charAt(0)));
-        vy = Integer.valueOf(String.valueOf(vel.charAt(1)));
+
+        String velX = vel.substring(0, vel.indexOf(","));
+        String velY = vel.substring(vel.indexOf(","));
+        velY = velY.replace(",", "");
+
+        vx = Integer.valueOf(velX);
+        vy = Integer.valueOf(velY);
 
         place();
     }

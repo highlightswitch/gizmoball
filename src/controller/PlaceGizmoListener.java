@@ -29,11 +29,16 @@ public class PlaceGizmoListener{
                 g = GizmoType.SQUARE_BUMPER;
                 break;
         }
+
         pos = position.replace("(", "");
         pos  = pos.replace(")", "");
-        pos = pos.replace(",","");
-        x = Integer.valueOf(String.valueOf(pos.charAt(0)));
-        y = Integer.valueOf(String.valueOf(pos.charAt(1)));
+
+        String posX = pos.substring(0, pos.indexOf(","));
+        String posY = pos.substring(pos.indexOf(","));
+        posY = posY.replace(",", "");
+        x = Integer.valueOf(posX);
+        y = Integer.valueOf(posY);
+
         color = c;
         action = a;
         trigger = t;
