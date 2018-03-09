@@ -7,7 +7,6 @@ import view.BuildView;
 import view.GameFrame;
 import view.RunView;
 
-import javax.jws.WebParam;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,9 +65,7 @@ public class MainController implements ActionListener {
     }
 
     void switchToBuildView(){
-        Model md = new Model();
-        board.setModel(md);
-        fr.setModel(md);
+        setModel(new Model());
         fr.drawFrame(new BuildView(fr.getFrame(), this, board));
         fr.extendMenu();
         fr.getFrame().getContentPane().revalidate();

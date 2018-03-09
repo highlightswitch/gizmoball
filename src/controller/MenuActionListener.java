@@ -1,13 +1,13 @@
 package controller;
 
+import model.GizmoballFileReader;
+import model.Model;
+import view.*;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
-
-import model.*;
-import view.*;
 
 public class MenuActionListener implements ActionListener {
 
@@ -46,7 +46,7 @@ public class MenuActionListener implements ActionListener {
             case "Circle":
             case "Square":
             case "Triangle":
-                EditShapeDialogue shapeDialogue = new EditShapeDialogue(frame, e.getActionCommand(), "Add", model);
+                EditShapeDialogue shapeDialogue = new EditShapeDialogue(frame, e.getActionCommand(), "Add", controller.getModel());
                 break;
             case "Ball":
                 EditBallDialogue ballDialogue = new EditBallDialogue(frame, "Add", model);
