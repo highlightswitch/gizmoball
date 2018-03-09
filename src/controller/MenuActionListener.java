@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileDescriptor;
 
 public class MenuActionListener implements ActionListener {
 
@@ -59,7 +60,7 @@ public class MenuActionListener implements ActionListener {
             case "Delete":
                 break;
             case "Edit":
-                // create mouse listener here
+                frame.addMouseListener(new FindEditorListener());
                 break;
             case "Gravity":
                 GravitySlider g = new GravitySlider(frame);

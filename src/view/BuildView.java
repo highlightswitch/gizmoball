@@ -74,11 +74,11 @@ public class BuildView implements GameView {
         panControls.setOpaque(false);
         panControls.setLayout(new FlowLayout());
 
-        JLayeredPane panGrid = new JLayeredPane();
+        JPanel panGrid = new JPanel();
 
-        panGrid.add(b, new Integer(0),0);
+        panGrid.add(b);
 
-        JPanel tiles = new JPanel(new GridLayout(20, 20));
+        /*JPanel tiles = new JPanel(new GridLayout(20, 20));
 
         tiles.setOpaque(true);
         tiles.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -89,7 +89,7 @@ public class BuildView implements GameView {
             tiles.add(label);
         }
 
-        panGrid.add(tiles, new Integer(1), 0);
+        panGrid.add(tiles, new Integer(1), 0);*/
 
         panGrid.setOpaque(false);
 
@@ -116,9 +116,7 @@ public class BuildView implements GameView {
         flipperGizmo.setContentAreaFilled(false);
         ballGizmo.setContentAreaFilled(false);
 
-      DragDropListener li = new DragDropListener();
-
-
+       DragDropListener li = new DragDropListener();
        circleGizmo.addMouseListener(li);
        circleGizmo.setTransferHandler(new TransferHandler("icon"));
        triangleGizmo.addMouseListener(li);
@@ -131,15 +129,14 @@ public class BuildView implements GameView {
        ballGizmo.setTransferHandler(new TransferHandler("icon"));
        flipperGizmo.addMouseListener(li);
        flipperGizmo.setTransferHandler(new TransferHandler("icon"));
-
-        allShapes.add(circleGizmo);
-        allShapes.add(triangleGizmo);
-        allShapes.add(squareGizmo);
-        allShapes.add(flipperGizmo);
-        allShapes.add(ballGizmo);
-        allShapes.add(absorberGizmo);
-        allShapes.setBackground(Color.WHITE);
-        allShapes.setLayout(new FlowLayout());
+       allShapes.add(circleGizmo);
+       allShapes.add(triangleGizmo);
+       allShapes.add(squareGizmo);
+       allShapes.add(flipperGizmo);
+       allShapes.add(ballGizmo);
+       allShapes.add(absorberGizmo);
+       allShapes.setBackground(Color.WHITE);
+       allShapes.setLayout(new FlowLayout());
     }
 
     @Override
