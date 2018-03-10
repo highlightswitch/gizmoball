@@ -2,6 +2,7 @@ package controller;
 
 import model.GizmoPlacementNotValidException;
 import model.Model;
+import model.TileCoordinatesNotValid;
 import model.gizmo.GizmoType;
 
 import java.awt.*;
@@ -49,7 +50,7 @@ public class PlaceGizmoListener{
         try {
             System.out.println("I am going to place " + g.toString() + " at: (" + x + "," + y + ")");
             model.placeGizmo(g,model.getTileAt(x,y), null);
-        } catch (GizmoPlacementNotValidException e1) {
+        } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
             e1.printStackTrace();
         }
     }

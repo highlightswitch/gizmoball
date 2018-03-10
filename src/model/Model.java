@@ -9,7 +9,7 @@ import java.util.*;
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
  */
 
-public class Model extends Observable implements IModel {
+public class Model extends Observable {
 
 
 	private final int width = 20;
@@ -85,25 +85,6 @@ public class Model extends Observable implements IModel {
 		throw new GizmoNotFoundException("Cannot find gizmo with name: " + name);
     }
 
-    public void deleteGizmo(String name) throws GizmoNotFoundException {
-    	Gizmo gizmo = getGizmoByName(name);
-        Tile tile = getTileAt(gizmo.getPosition()[0], gizmo.getPosition()[1]);
-        tile.removeGizmo();
-    	tickable.remove(gizmo);
-    	collidable.remove(gizmo);
-    	drawables.remove(gizmo);
-    	gizmos.remove(gizmo);
-	}
-
-	public void moveGizmo(String name, int x, int y) throws GizmoNotFoundException {
-		Gizmo gizmo = getGizmoByName(name);
-		Tile tile = getTileAt(x, y);
-		Tile oldTile = getTileAt(gizmo.getPosition()[0], gizmo.getPosition()[1]);
-		oldTile.removeGizmo();
-		tile.placeGizmo(gizmo);
-		gizmo.setAnchorTile(tile);
-	}
-
 	boolean checkName(String name){
     	if(name.equals("OuterWalls")){
     	    return false;
@@ -115,14 +96,6 @@ public class Model extends Observable implements IModel {
 		}
         return false;
     }
-
-	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException {
-		Bumper bumper = new Bumper(Color.black, gizmoType, properties);
-		validateGizmoPlacement(bumper, tile);
-		collidable.add(bumper);
-		tile.placeGizmo(bumper);
-		return bumper;
-	}
 
 	public void connect(Triggerable trigger, Triggerable actor){
     	trigger.addActor(actor);
@@ -173,6 +146,11 @@ public class Model extends Observable implements IModel {
 	//		Validation Methods
 	//==============================
 
+	private void validateTileCoordiantes(double coordX, double coordY) throws TileCoordinatesNotValid {
+		if(coordX < 0 || coordX >= width || coordY < 0 || coordY >= height)
+			throw new TileCoordinatesNotValid("Invalid coordinates: (" + coordX + "_" + coordY + ").");
+	}
+
 	private void validateGizmoPlacement(Gizmo gizmo, Tile tile) throws GizmoPlacementNotValidException {
 
 		//Get a list of all occupied tiles
@@ -211,11 +189,13 @@ public class Model extends Observable implements IModel {
 	//IModel interface implementation:
 
 
-	public Tile getTileAt(int tileCoordX, int tileCoordY){
+	public Tile getTileAt(int tileCoordX, int tileCoordY) throws TileCoordinatesNotValid {
+		validateTileCoordiantes((double) tileCoordX, (double)tileCoordY);
 		return tiles[tileCoordX][tileCoordY];
 	}
 
-	public Tile getTileNear(double coordX, double coordY){
+	public Tile getTileNear(double coordX, double coordY) throws TileCoordinatesNotValid{
+		validateTileCoordiantes(coordX, coordY);
 		return getTileAt((int)coordX, (int)coordY);
 	}
 
@@ -280,13 +260,32 @@ public class Model extends Observable implements IModel {
 
 	}
 
-//	public void deleteGizmo(String gizmoName) throws GizmoNotFoundException{
-//
-//	}
+	public void deleteGizmo(String gizmoName) throws GizmoNotFoundException{
+		Gizmo gizmo = getGizmoByName(gizmoName);
+		deleteGizmo(gizmo);
+	}
 
-//	public void moveGizmo(String gizmoName, Tile newTile) throws GizmoNotFoundException, GizmoPlacementNotValidException{
-//
-//	}
+	public void moveGizmo(String gizmoName, Tile newTile) throws GizmoNotFoundException, GizmoPlacementNotValidException{
+		Gizmo gizmo = getGizmoByName(gizmoName);
+		validateGizmoPlacement(gizmo, newTile);
+
+		if (gizmo.isTilePlacable()) {
+
+			try {
+				Tile oldTile = getTileAt((int) gizmo.getPosition()[0], (int) gizmo.getPosition()[1]);
+				oldTile.removeGizmo();
+			} catch (TileCoordinatesNotValid e) {
+				//This should never happen
+				e.printStackTrace();
+			}
+
+			newTile.placeGizmo(gizmo);
+			gizmo.setAnchorTile(newTile);
+
+		} else {
+			((TileIndependentGizmo) gizmo).moveTo(newTile.getX(), newTile.getY());
+		}
+	}
 
 	public void rotateGizmoBy_Deg(String gizmoName, double adjustment) throws GizmoNotFoundException, GizmoPropertyException {
 		Gizmo gizmo = getGizmoByName(gizmoName);
@@ -353,4 +352,31 @@ public class Model extends Observable implements IModel {
 		return drawables;
 	}
 
+
+
+
+	//Helpers:
+
+	private void deleteGizmo(Gizmo gizmo){
+		try {
+			Tile tile = getTileAt((int) gizmo.getPosition()[0], (int) gizmo.getPosition()[1]);
+			tile.removeGizmo();
+		} catch (TileCoordinatesNotValid e) {
+			//This should never happen
+			e.printStackTrace();
+		}
+
+		tickable.remove(gizmo);
+		collidable.remove(gizmo);
+		drawables.remove(gizmo);
+		gizmos.remove(gizmo);
+	}
+
+	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException {
+		Bumper bumper = new Bumper(Color.black, gizmoType, properties);
+		validateGizmoPlacement(bumper, tile);
+		collidable.add(bumper);
+		tile.placeGizmo(bumper);
+		return bumper;
+	}
 }

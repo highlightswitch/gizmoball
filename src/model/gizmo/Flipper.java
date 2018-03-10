@@ -30,6 +30,11 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
     }
 
+    @Override
+    public boolean isTilePlacable() {
+        return true;
+    }
+
     private boolean isLeftFlipper(){
         return Boolean.valueOf(getProperty(GizmoPropertyType.IS_LEFT_ORIENTATED));
     }

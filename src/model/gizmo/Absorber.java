@@ -16,6 +16,11 @@ public class Absorber extends Gizmo implements Collidable {
         super(colour, properties);
     }
 
+    @Override
+    public boolean isTilePlacable() {
+        return true;
+    }
+
     void setAbsorbedBall (Ball ball) {
         absorbedBall = ball;
     }

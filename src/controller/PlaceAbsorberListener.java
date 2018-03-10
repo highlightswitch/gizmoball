@@ -2,6 +2,7 @@ package controller;
 
 import model.GizmoPlacementNotValidException;
 import model.Model;
+import model.TileCoordinatesNotValid;
 import model.gizmo.GizmoType;
 
 import java.awt.*;
@@ -40,7 +41,7 @@ public class PlaceAbsorberListener {
     private void place() {
         try {
             model.placeGizmo(GizmoType.ABSORBER,model.getTileAt(sx,sy),null);
-        } catch (GizmoPlacementNotValidException e) {
+        } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e) {
             e.printStackTrace();
         }
     }

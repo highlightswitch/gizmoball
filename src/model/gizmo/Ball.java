@@ -12,7 +12,7 @@ import java.util.Map;
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
  */
 
-public class Ball extends Gizmo implements Tickable {
+public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 
     private final double newRadius = 0.25;
 
@@ -59,6 +59,17 @@ public class Ball extends Gizmo implements Tickable {
     @Override
     public double[] getPosition() {
         return new double[] { cx - 0.5, cy - 0.5 };
+    }
+
+    @Override
+    public void moveTo(double x, double y){
+        cx = x + 0.5;
+        cy = y + 0.5;
+    }
+
+    @Override
+    public boolean isTilePlacable() {
+        return false;
     }
 
     void fire(Absorber firedFrom) {

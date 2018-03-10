@@ -1,7 +1,9 @@
 package main;
 
+import model.GizmoNotFoundException;
 import model.GizmoPlacementNotValidException;
 import model.Model;
+import model.TileCoordinatesNotValid;
 import model.gizmo.*;
 import view.GameFrame;
 
@@ -22,7 +24,7 @@ public class Main {
 		Model model = new Model();
 
 		try {
-			model.placeGizmo(GizmoType.BALL, model.getTileAt(15, 1), null);
+			Gizmo ball = model.placeGizmo(GizmoType.BALL, model.getTileAt(15, 1), null);
 			Flipper leftFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(9, 10), null);
 			String[] rFProp = Gizmo.getPropertyDefaults(GizmoType.FLIPPER);
 			rFProp[2] = "false";
@@ -40,7 +42,14 @@ public class Main {
 
 			Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19), null);
 
-			model.connect(square, triangle);
+			try {
+				model.moveGizmo(ball.getProperty(GizmoPropertyType.NAME), model.getTileAt(0,12));
+				model.deleteGizmo(square.getProperty(GizmoPropertyType.NAME));
+			} catch (GizmoNotFoundException e) {
+				e.printStackTrace();
+			}
+
+//			model.connect(square, triangle);
 
 			model.connect(32, absorber); //Key code 32 = space
 			model.connect(70, leftFlipper); //Key code 70 = F
@@ -54,7 +63,7 @@ public class Main {
 
 
 
-		} catch (GizmoPlacementNotValidException e){
+		} catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e){
 			e.printStackTrace();
 		}
 
