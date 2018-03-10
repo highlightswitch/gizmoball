@@ -178,6 +178,10 @@ public class Model extends Observable implements IModel {
 	//==============================
 
 
+	public void addObserver(Observer o) {
+		super.addObserver(o);
+	}
+
 	public Tile getTileAt(int tileCoordX, int tileCoordY) throws TileCoordinatesNotValid {
 		validateTileCoordiantes((double) tileCoordX, (double)tileCoordY);
 		return tiles[tileCoordX][tileCoordY];
@@ -378,7 +382,17 @@ public class Model extends Observable implements IModel {
 		return drawables;
 	}
 
-
+	@Override
+	public ArrayList<Drawable> getDebugDrawables() {
+		ArrayList<Drawable> drawables = new ArrayList<>();
+		for(Collidable col : collidable){
+			drawables.add(col.getGameObject());
+		}
+		if(ball != null){
+			drawables.add(ball.getGameObject());
+		}
+		return drawables;
+	}
 
 
 	//Helpers:

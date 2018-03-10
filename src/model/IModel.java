@@ -3,8 +3,11 @@ package model;
 import model.gizmo.*;
 
 import java.util.ArrayList;
+import java.util.Observer;
 
 public interface IModel {
+
+	void addObserver(Observer o);
 
 	Tile getTileAt(int tileCoordX, int tileCoordY) throws TileCoordinatesNotValid;
 	Tile getTileNear(double coordX, double coordY) throws TileCoordinatesNotValid;
@@ -33,4 +36,5 @@ public interface IModel {
 	void setGravityConstant(double val) throws ModelPropertyException;
 
 	ArrayList<Drawable> getDrawables();
+	ArrayList<Drawable> getDebugDrawables();
 }

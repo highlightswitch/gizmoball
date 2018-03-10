@@ -15,14 +15,14 @@ public  class Board extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private int width;
 	private int height;
-	private Model gm;
+	private IModel iModel;
 
-	Board(int w, int h, Model m) {
+	Board(int w, int h, IModel m) {
 		// Observe changes in Model
 		m.addObserver(this);
 		width = w;
 		height = h;
-		gm = m;
+		iModel = m;
 		this.setOpaque(false);
 		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 	}
@@ -33,12 +33,12 @@ public  class Board extends JPanel implements Observer {
 	}
 
 	public void setModel(Model model){
-		gm = model;
-		gm.addObserver(this);
+		iModel = model;
+		iModel.addObserver(this);
 	}
 
-	public Model getModel(){
-		return gm;
+	public IModel getModel(){
+		return iModel;
 	}
 
 	public void paintComponent(Graphics g) {
@@ -47,7 +47,7 @@ public  class Board extends JPanel implements Observer {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.WHITE);
 
-		ArrayList<Drawable> drawableObjects = gm.getDrawables();
+		ArrayList<Drawable> drawableObjects = iModel.getDrawables();
 		for(Drawable drawable : drawableObjects) {
 			DrawingData data = drawable.getDrawingData();
 			draw(data, g2, true);
@@ -56,14 +56,10 @@ public  class Board extends JPanel implements Observer {
 		//If debug mode is on, draw the GameObjects as well
 		if(Main.debugMode){
 			g2.setColor(Color.CYAN);
-			ArrayList<Collidable> collidables = gm.getCollidable();
-			for(Collidable col : collidables) {
-				DrawingData data = col.getGameObject().getDrawingData();
+			ArrayList<Drawable> dataList = iModel.getDebugDrawables();
+			for(Drawable drawable : dataList) {
+				DrawingData data = drawable.getDrawingData();
 				draw(data, g2, false);
-			}
-
-			if(gm.getBall() != null){
-				draw(gm.getBall().getGameObject().getDrawingData(), g2, false);
 			}
 			g2.setColor(Color.WHITE);
 		}

@@ -1,6 +1,7 @@
 package view;
 
 import controller.MainController;
+import model.IModel;
 import model.Model;
 
 import javax.swing.*;
@@ -15,14 +16,14 @@ public class GameFrame {
      private JMenuItem edit;
      private JMenu settings;
      private JMenuItem delete;
-     private Model model;
+     private IModel iModel;
      private MainController controller;
      private Board board;
 
-    public GameFrame(Model m){
-        model = m;
-        board = new Board(500, 500, model);
-        controller = new MainController(model, this, board);
+    public GameFrame(IModel m){
+        iModel = m;
+        board = new Board(500, 500, iModel);
+        controller = new MainController((Model) iModel, this, board);
         frMain = new JFrame("Gizmoball");
         mTools = new JMenu("Tools");
         top = new JMenuBar();
@@ -120,8 +121,8 @@ public class GameFrame {
         drawFrame(view);
     }
 
-    public void setModel(Model model){
-        this.model = model;
+    public void setModel(IModel model){
+        this.iModel = model;
     }
 
 
