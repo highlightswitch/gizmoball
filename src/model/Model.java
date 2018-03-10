@@ -4,12 +4,13 @@ import model.gizmo.*;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
  */
 
-public class Model extends Observable {
+public class Model extends Observable implements IModel {
 
 
 	private final int width = 20;
@@ -97,20 +98,6 @@ public class Model extends Observable {
         return false;
     }
 
-	public void connect(Triggerable trigger, Triggerable actor){
-    	trigger.addActor(actor);
-	}
-
-	public void connect(int keyCode, KeyEventTriggerable actor){
-		if(keyEventTriggerMap.containsKey(keyCode)){
-			keyEventTriggerMap.get(keyCode).add(actor);
-		} else {
-			Set<KeyEventTriggerable> set = new HashSet<>();
-			set.add(actor);
-			keyEventTriggerMap.put(keyCode, set);
-		}
-	}
-
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 
         if(keyEventTriggerMap.containsKey(keyCode)){
@@ -186,7 +173,9 @@ public class Model extends Observable {
 	}
 
 
-	//IModel interface implementation:
+	//==============================
+	//	  IModel Implementation
+	//==============================
 
 
 	public Tile getTileAt(int tileCoordX, int tileCoordY) throws TileCoordinatesNotValid {
@@ -202,7 +191,7 @@ public class Model extends Observable {
 	public Gizmo placeGizmo(GizmoType gizmoType, Tile tile, String[] propertyValues) throws GizmoPlacementNotValidException {
 		//If propertyValues is null, set them to the default values
 		if(propertyValues == null){
-			propertyValues = Gizmo.getPropertyDefaults(gizmoType);
+			propertyValues = Gizmo.getPropertyDefaults(gizmoType, getAllGizmoNames());
 		}
 
 		//Ensure propertyValues's size matches the number of properties this gizmo has.
@@ -318,14 +307,51 @@ public class Model extends Observable {
 
 
 
-//	public void connect(String triggerName, String actorName) throws GizmoNotFoundException{
-//
-//	}
-//	void connect(int keyCode, String actorName) throws GizmoNotFoundException;
-//	void disconnect(String triggerName, String actorName) throws GizmoNotFoundException;
-//	void disconnectAll(String triggerName) throws GizmoNotFoundException;
-//	void disconnect(int keyCode, String actorName) throws GizmoNotFoundException;
-//	void disconnectAll(int keyCode) throws GizmoNotFoundException;
+	public void connect(String triggerName, String actorName) throws GizmoNotFoundException{
+		Triggerable trigger = getGizmoByName(triggerName);
+		Triggerable actor = getGizmoByName(actorName);
+
+		trigger.addActor(actor);
+	}
+
+	public void connect(int keyCode, String actorName) throws GizmoNotFoundException {
+		KeyEventTriggerable actor = getGizmoByName(actorName);
+
+		if(keyEventTriggerMap.containsKey(keyCode)){
+			keyEventTriggerMap.get(keyCode).add(actor);
+		} else {
+			Set<KeyEventTriggerable> set = new HashSet<>();
+			set.add(actor);
+			keyEventTriggerMap.put(keyCode, set);
+		}
+	}
+
+	public void disconnect(String triggerName, String actorName) throws GizmoNotFoundException {
+		Triggerable trigger = getGizmoByName(triggerName);
+		Triggerable actor = getGizmoByName(actorName);
+
+		trigger.removeActor(actor);
+	}
+
+	public void disconnectAll(String triggerName) throws GizmoNotFoundException {
+		Triggerable trigger = getGizmoByName(triggerName);
+
+		trigger.removeAllActors();
+	}
+
+	public void disconnect(int keyCode, String actorName) throws GizmoNotFoundException {
+		Triggerable actor = getGizmoByName(actorName);
+
+		if(keyEventTriggerMap.containsKey(keyCode)){
+			keyEventTriggerMap.get(keyCode).remove(actor);
+		}
+	}
+
+	public void disconnectAll(int keyCode) throws GizmoNotFoundException{
+		if(keyEventTriggerMap.containsKey(keyCode)){
+			keyEventTriggerMap.remove(keyCode);
+		}
+	}
 
 
 
@@ -378,5 +404,13 @@ public class Model extends Observable {
 		collidable.add(bumper);
 		tile.placeGizmo(bumper);
 		return bumper;
+	}
+
+	private List<String> getAllGizmoNames(){
+		List<String> names = new ArrayList<>(gizmos.size());
+		for(Gizmo g : gizmos){
+			names.add(g.getProperty(GizmoPropertyType.NAME));
+		}
+		return names;
 	}
 }

@@ -80,11 +80,11 @@ class ModelTest {
     }
 
     @Test
-    void moveGizmo() throws GizmoNotFoundException {
+    void moveGizmo() throws GizmoNotFoundException, TileCoordinatesNotValid, GizmoPlacementNotValidException {
         double oldX = m.getGizmoByName("Ball").getPosition()[0];
         double OldY = m.getGizmoByName("Ball").getPosition()[1];
 
-        m.moveGizmo("Ball", 2, 5);
+        m.moveGizmo("Ball", m.getTileAt(2,5));
         double x = m.getGizmoByName("Ball").getPosition()[0];
         double y = m.getGizmoByName("Ball").getPosition()[1];
 

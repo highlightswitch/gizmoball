@@ -6,15 +6,8 @@ import java.util.ArrayList;
 
 public interface IModel {
 
-	Tile getTileAt(int tileCoordX, int tileCoordY);
-	/**
-	 * This returns the tile under the given coordinates. eg tile (3,5) is under the coords (3.25, 5.89).
-	 * This can be used for learning where the mouse was clicked.
-	 * @param coordX The x coordinate
-	 * @param coordY The y coordinate
-	 * @return The tile at coordinates (x,y)
-	 */
-	Tile getTileNear(double coordX, double coordY);
+	Tile getTileAt(int tileCoordX, int tileCoordY) throws TileCoordinatesNotValid;
+	Tile getTileNear(double coordX, double coordY) throws TileCoordinatesNotValid;
 
 	Gizmo placeGizmo(GizmoType gt, Tile t, String[] propertyValues) throws GizmoPlacementNotValidException;
 	void deleteGizmo(String gizmoName) throws GizmoNotFoundException;

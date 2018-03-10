@@ -4,6 +4,7 @@ import model.*;
 import physics.Vect;
 
 import java.awt.*;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Gizmo extends Triggerable implements Collidable, Drawable {
@@ -181,29 +182,50 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
     }
 
 
-    public static String[] getPropertyDefaults(GizmoType type){
+    public static String[] getPropertyDefaults(GizmoType type, List<String> usedNames){
+        String[] propVals = null;
         switch (type){
             case FLIPPER:
                 //Name, Rotation_Deg
-                return new String[]{ "leftFlipper0", "0", "true" };
+                propVals = new String[]{ "leftFlipper_0", "0", "true" };
+                break;
             case BALL:
                 //Name, Vel_X, Vel_Y
-                return new String[]{ "ball0", "0", "0" };
+                propVals = new String[]{ "ball_0", "0", "0" };
+                break;
             case CIRCLE_BUMPER:
                 //Name, Rotation_Deg
-                return new String[]{ "circleBumper0", "0" };
+                propVals = new String[]{ "circleBumper_0", "0" };
+                break;
             case SQUARE_BUMPER:
                 //Name, Rotation_Deg
-                return new String[]{ "squareBumper0", "0" };
+                propVals = new String[]{ "squareBumper_0", "0" };
+                break;
             case TRIANGLE_BUMPER:
                 //Name, Rotation_Deg
-                return new String[]{ "triangleBumper0", "0" };
+                propVals = new String[]{ "triangleBumper_0", "0" };
+                break;
             case ABSORBER:
                 //Name, width, height
-                return new String[]{ "absorber0", "20", "1" };
+                propVals = new String[]{ "absorber_0", "20", "1" };
+                break;
         }
 
-        throw new IllegalArgumentException();
+        if(usedNames != null){
+            String newName = propVals[0];
+            while(usedNames.contains(newName)){
+                String[] arr = newName.split("_");
+                arr[arr.length -1] = String.valueOf(Integer.parseInt(arr[arr.length -1]) + 1);
+                StringBuilder sb = new StringBuilder();
+                for(String s : arr)
+                    sb.append(s);
+                newName = sb.toString();
+                System.out.println(newName);
+            }
+            propVals[0] = newName;
+        }
+
+        return propVals;
 
     }
 

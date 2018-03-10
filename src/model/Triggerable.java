@@ -41,6 +41,14 @@ public abstract class Triggerable implements KeyEventTriggerable {
 		connectedTriggerables.add(actor);
 	}
 
+	void removeActor(Triggerable actor){
+		connectedTriggerables.remove(actor);
+	}
+
+	void removeAllActors(){
+		connectedTriggerables.clear();
+	}
+
 	public void keyDown(){
 		keyDown = true;
 	}
