@@ -100,10 +100,10 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
     public void rotateBy_Deg(double val) throws GizmoPropertyException {
         double rotation = Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG));
         rotation = (rotation + val) % 360;
-        setRotation_Deg(rotation);
+        rotateTo_Deg(rotation);
     }
 
-    public void setRotation_Deg(double val) throws GizmoPropertyException {
+    public void rotateTo_Deg(double val) throws GizmoPropertyException {
         setProperty(GizmoPropertyType.ROTATION_DEG, String.valueOf(val));
     }
 

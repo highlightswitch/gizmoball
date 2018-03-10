@@ -9,7 +9,7 @@ import java.util.*;
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
  */
 
-public class Model extends Observable {
+public class Model extends Observable implements IModel {
 
 
 	private final int width = 20;
@@ -64,34 +64,8 @@ public class Model extends Observable {
         return game;
     }
 
-	public ArrayList<Drawable> getDrawables() {
-        return drawables;
-    }
-
 	public ArrayList<Collidable> getCollidable() {
 		return collidable;
-	}
-
-	public double getFrictionConstant(){
-    	return frictionConstant;
-	}
-
-	public void setFritctionConsatnt(double newFrictionConstant) { frictionConstant = newFrictionConstant;}
-
-	public double getGravityConstant() {
-		return gravityConstant;
-	}
-
-	public void setGravityConsatnt(double newGravityConstant) { gravityConstant = newGravityConstant;}
-
-	public void setFrictionConstant(double val) throws ModelPropertyException {
-		validateFrictionValue(val);
-		frictionConstant = val;
-	}
-
-	public void setGravityConstant(double val) throws ModelPropertyException {
-		validateGravityValue(val);
-		gravityConstant = val;
 	}
 
 	public Ball getBall() {
@@ -140,83 +114,6 @@ public class Model extends Observable {
 			}
 		}
         return false;
-    }
-
-    public Tile getTileAt(int x, int y){
-	    return tiles[x][y];
-    }
-
-    /**
-     * This returns the tile under the pixel coordinates. eg tile (3,5) is under the coords (3.25, 5.89).
-     * This can be used for learning where the mouse was clicked.
-     * @param xPos The x coordinate
-     * @param yPos The y coordinate
-     * @return The tile at coordinates (x,y)
-     */
-    Tile getTileAt(double xPos, double yPos){
-	    return getTileAt((int) xPos, (int) yPos);
-    }
-
-    public Gizmo placeGizmo(GizmoType gizmoType, Tile tile, String[] propertyValues) throws GizmoPlacementNotValidException {
-
-    	//If propertyValues is null, set them to the default values
-    	if(propertyValues == null){
-    		propertyValues = Gizmo.getPropertyDefaults(gizmoType);
-		}
-
-    	//Ensure propertyValues's size matches the number of properties this gizmo has.
-        ArrayList<GizmoPropertyType> propertyTypes = gizmoType.getPropertyTypes();
-        assert propertyTypes.size() == propertyValues.length :
-				"Length of propertyValues array (" + propertyValues.length + ") " +
-						"does not equal the number of " + gizmoType + "'s properties (" + propertyTypes.size() + ").";
-
-        //Create a property to value map
-        Map<GizmoPropertyType, String> properties = new HashMap<>();
-        for(int i = 0; i < propertyTypes.size(); i++){
-        	properties.put(propertyTypes.get(i), propertyValues[i]);
-		}
-
-        Gizmo gizmo = null;
-		switch(gizmoType){
-			case FLIPPER:
-				gizmo = new Flipper(null, properties);
-				validateGizmoPlacement(gizmo, tile);
-				tile.placeGizmo(gizmo);
-				tickable.add((Flipper) gizmo);
-				collidable.add(gizmo);
-				break;
-			case BALL:
-				gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), properties);
-				validateGizmoPlacement(gizmo, tile);
-				ball = (Ball) gizmo;
-				tickable.add((Ball) gizmo);
-				break;
-			case ABSORBER:
-				gizmo = new Absorber(Color.BLACK, properties);
-				validateGizmoPlacement(gizmo, tile);
-				collidable.add(gizmo);
-				tile.placeGizmo(gizmo);
-				break;
-			case CIRCLE_BUMPER:
-				gizmo = addBumper(GizmoType.CIRCLE_BUMPER, tile, properties);
-				break;
-			case SQUARE_BUMPER:
-				gizmo = addBumper(GizmoType.SQUARE_BUMPER, tile, properties);
-				break;
-			case TRIANGLE_BUMPER:
-				gizmo = addBumper(GizmoType.TRIANGLE_BUMPER, tile, properties);
-				break;
-		}
-
-		gizmos.add(gizmo);
-		drawables.add(gizmo);
-
-        // Notify observers ... redraw updated view
-        this.setChanged();
-        this.notifyObservers();
-
-        return gizmo;
-
     }
 
 	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException {
@@ -310,5 +207,150 @@ public class Model extends Observable {
 		//Any gravity is fine...
 	}
 
+
+	//IModel interface implementation:
+
+
+	public Tile getTileAt(int tileCoordX, int tileCoordY){
+		return tiles[tileCoordX][tileCoordY];
+	}
+
+	public Tile getTileNear(double coordX, double coordY){
+		return getTileAt((int)coordX, (int)coordY);
+	}
+
+	public Gizmo placeGizmo(GizmoType gizmoType, Tile tile, String[] propertyValues) throws GizmoPlacementNotValidException {
+		//If propertyValues is null, set them to the default values
+		if(propertyValues == null){
+			propertyValues = Gizmo.getPropertyDefaults(gizmoType);
+		}
+
+		//Ensure propertyValues's size matches the number of properties this gizmo has.
+		ArrayList<GizmoPropertyType> propertyTypes = gizmoType.getPropertyTypes();
+		assert propertyTypes.size() == propertyValues.length :
+				"Length of propertyValues array (" + propertyValues.length + ") " +
+						"does not equal the number of " + gizmoType + "'s properties (" + propertyTypes.size() + ").";
+
+		//Create a property to value map
+		Map<GizmoPropertyType, String> properties = new HashMap<>();
+		for(int i = 0; i < propertyTypes.size(); i++){
+			properties.put(propertyTypes.get(i), propertyValues[i]);
+		}
+
+		Gizmo gizmo = null;
+		switch(gizmoType){
+			case FLIPPER:
+				gizmo = new Flipper(null, properties);
+				validateGizmoPlacement(gizmo, tile);
+				tile.placeGizmo(gizmo);
+				tickable.add((Flipper) gizmo);
+				collidable.add(gizmo);
+				break;
+			case BALL:
+				gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), properties);
+				validateGizmoPlacement(gizmo, tile);
+				ball = (Ball) gizmo;
+				tickable.add((Ball) gizmo);
+				break;
+			case ABSORBER:
+				gizmo = new Absorber(Color.BLACK, properties);
+				validateGizmoPlacement(gizmo, tile);
+				collidable.add(gizmo);
+				tile.placeGizmo(gizmo);
+				break;
+			case CIRCLE_BUMPER:
+				gizmo = addBumper(GizmoType.CIRCLE_BUMPER, tile, properties);
+				break;
+			case SQUARE_BUMPER:
+				gizmo = addBumper(GizmoType.SQUARE_BUMPER, tile, properties);
+				break;
+			case TRIANGLE_BUMPER:
+				gizmo = addBumper(GizmoType.TRIANGLE_BUMPER, tile, properties);
+				break;
+		}
+
+		gizmos.add(gizmo);
+		drawables.add(gizmo);
+
+		// Notify observers ... redraw updated view
+		this.setChanged();
+		this.notifyObservers();
+
+		return gizmo;
+
+	}
+
+//	public void deleteGizmo(String gizmoName) throws GizmoNotFoundException{
+//
+//	}
+
+//	public void moveGizmo(String gizmoName, Tile newTile) throws GizmoNotFoundException, GizmoPlacementNotValidException{
+//
+//	}
+
+	public void rotateGizmoBy_Deg(String gizmoName, double adjustment) throws GizmoNotFoundException, GizmoPropertyException {
+		Gizmo gizmo = getGizmoByName(gizmoName);
+		gizmo.rotateBy_Deg(adjustment);
+	}
+
+	public void rotateGizmoTo_Deg(String gizmoName, double rotationVal) throws GizmoNotFoundException, GizmoPropertyException{
+		Gizmo gizmo = getGizmoByName(gizmoName);
+		gizmo.rotateTo_Deg(rotationVal);
+	}
+
+
+
+	public String getGizmoProperty(String gizmoName, GizmoPropertyType type) throws GizmoNotFoundException {
+		Gizmo gizmo = getGizmoByName(gizmoName);
+		return gizmo.getProperty(type);
+	}
+
+	public void setGizmoProperty(String gizmoName, GizmoPropertyType prop, String val) throws GizmoNotFoundException, GizmoPropertyException {
+		Gizmo gizmo = getGizmoByName(gizmoName);
+		gizmo.setProperty(prop, val);
+	}
+
+
+
+	public void setGizmoAction(String gizmoName, GizmoActionType actionType) throws GizmoNotFoundException {
+		Gizmo gizmo = getGizmoByName(gizmoName);
+		gizmo.setAction(actionType);
+	}
+
+
+
+//	public void connect(String triggerName, String actorName) throws GizmoNotFoundException{
+//
+//	}
+//	void connect(int keyCode, String actorName) throws GizmoNotFoundException;
+//	void disconnect(String triggerName, String actorName) throws GizmoNotFoundException;
+//	void disconnectAll(String triggerName) throws GizmoNotFoundException;
+//	void disconnect(int keyCode, String actorName) throws GizmoNotFoundException;
+//	void disconnectAll(int keyCode) throws GizmoNotFoundException;
+
+
+
+	public double getFrictionConstant(){
+		return frictionConstant;
+	}
+
+	public double getGravityConstant(){
+		return gravityConstant;
+	}
+
+	public void setFrictionConstant(double val) throws ModelPropertyException {
+		validateFrictionValue(val);
+		frictionConstant = val;
+	}
+
+	public void setGravityConstant(double val) throws ModelPropertyException {
+		validateGravityValue(val);
+		gravityConstant = val;
+	}
+
+
+	public ArrayList<Drawable> getDrawables(){
+		return drawables;
+	}
 
 }

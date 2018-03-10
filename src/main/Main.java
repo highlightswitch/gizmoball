@@ -33,7 +33,7 @@ public class Main {
 
 			Gizmo cornerTriangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(19, 0), null);
 			try {
-				cornerTriangle.setRotation_Deg(90);
+				cornerTriangle.rotateTo_Deg(90);
 			} catch (GizmoPropertyException e) {
 				e.printStackTrace();
 			}
