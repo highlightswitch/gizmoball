@@ -1,21 +1,21 @@
 package controller;
 
-import model.GizmoPlacementNotValidException;
-import model.Model;
-import model.TileCoordinatesNotValid;
+import model.*;
+import model.gizmo.GizmoPropertyException;
+import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
 
 import java.awt.*;
 
 public class PlaceBallListener {
-    Model model;
+    IModel model;
     String pos;
     String vel;
     Color color;
     int x;
     int y;
-    int vx;
-    int vy;
+    String vx;
+    String vy;
 
     public PlaceBallListener(String position, String velocity, Color color, Model m){
         model = m;
@@ -31,22 +31,28 @@ public class PlaceBallListener {
         vel = velocity.replace("(", "");
         vel  = vel.replace(")", "");
 
-        String velX = vel.substring(0, vel.indexOf(","));
-        String velY = vel.substring(vel.indexOf(","));
-        velY = velY.replace(",", "");
+        vx = vel.substring(0, vel.indexOf(","));
+        vy = vel.substring(vel.indexOf(","));
+        vy = vy.replace(",", "");
 
-        vx = Integer.valueOf(velX);
-        vy = Integer.valueOf(velY);
+        //vx = Integer.valueOf(velX);
+        //vy = Integer.valueOf(velY);
 
         place();
     }
 
     public void place(){
         try {
-            System.out.println("I am going to place a ball" + " at: (" + x + "," + y + ")");
+            //System.out.println("I am going to place a ball" + " at: (" + x + "," + y + ")");
             model.placeGizmo(GizmoType.BALL,model.getTileAt(x,y), null);
+            model.setGizmoProperty("Ball", GizmoPropertyType.VEL_X, vx);
+            model.setGizmoProperty("Ball", GizmoPropertyType.VEL_Y, vy);
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
             e1.printStackTrace();
+        } catch (GizmoPropertyException e) {
+            e.printStackTrace();
+        } catch (GizmoNotFoundException e) {
+            e.printStackTrace();
         }
 
     }

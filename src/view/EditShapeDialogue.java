@@ -40,6 +40,7 @@ public class EditShapeDialogue {
         }
 
         JComboBox actionList = new JComboBox(actions);
+
         JComboBox triggerList = new JComboBox(triggers);
 
         JLabel pos = new JLabel("Initial position: ");
@@ -78,6 +79,10 @@ public class EditShapeDialogue {
                     intPosition = position.getText();
                     color = shapeColour.getColor();
                     cAction = actions[actionList.getSelectedIndex()];
+                    if(cAction.equals("Activate Another Gizmo")){
+                        JComboBox gizmos = new JComboBox(new String[]{"Flipper", "Absorber"});
+                        JOptionPane.showMessageDialog(fr, gizmos, "Select gizmo to activate", JOptionPane.QUESTION_MESSAGE);
+                    }
                     cTrigger = triggers[triggerList.getSelectedIndex()];
                     new PlaceGizmoListener(gizmo, intPosition, color, cAction, cTrigger, model);
                     edit.dispose();

@@ -1,25 +1,28 @@
 package controller;
 
-import model.GizmoPlacementNotValidException;
-import model.Model;
-import model.TileCoordinatesNotValid;
+import model.*;
+import model.gizmo.Gizmo;
+import model.gizmo.GizmoActionType;
+import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
 
 import java.awt.*;
 
 public class PlaceGizmoListener{
-    Model model;
+    IModel model;
     GizmoType g;
+    String name;
     String pos;
     Color color;
-    String action;
-    String trigger;
+    //GizmoPropertyType trigger;
+    GizmoActionType action;
     int x;
     int y;
 
     public PlaceGizmoListener(String gizmo, String position, Color c, String a, String t, Model m){
         model = m;
-        switch (gizmo){
+        name = gizmo;
+        switch (name){
             case "Circle":
                 g = GizmoType.CIRCLE_BUMPER;
                 break;
@@ -41,8 +44,27 @@ public class PlaceGizmoListener{
         y = Integer.valueOf(posY);
 
         color = c;
-        action = a;
-        trigger = t;
+
+        switch (a){
+            case "Change Colour":
+                action = GizmoActionType.CHANGE_COLOUR;
+                break;
+            case "Rotate":
+                action = GizmoActionType.PRINT_TO_CONSOLE;
+                break;
+            case "Activate Another Gizmo":
+                action = GizmoActionType.PRINT_TO_CONSOLE;
+                break;
+        }
+
+        switch (t){
+            case "Another Gizmo":
+                break;
+            case "A Key Press":
+                break;
+            case "Ball Collision":
+                break;
+        }
         place();
     }
 
@@ -50,8 +72,13 @@ public class PlaceGizmoListener{
         try {
             System.out.println("I am going to place " + g.toString() + " at: (" + x + "," + y + ")");
             model.placeGizmo(g,model.getTileAt(x,y), null);
+            // how are objects named initially ?
+            model.setGizmoAction(name, action);
+            //how to trigger
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
             e1.printStackTrace();
+        } catch (GizmoNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
