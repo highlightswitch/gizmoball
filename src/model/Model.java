@@ -217,6 +217,43 @@ public class Model extends Observable {
 
     }
 
+    public Gizmo loadBall(double x, double y, String[] propertyValues) throws GizmoPlacementNotValidException {
+
+    	Tile tile = getTileAt(x, y);
+
+        //If propertyValues is null, set them to the default values
+        if(propertyValues == null){
+            propertyValues = Gizmo.getPropertyDefaults(GizmoType.BALL);
+        }
+
+        //Ensure propertyValues's size matches the number of properties this gizmo has.
+        ArrayList<GizmoPropertyType> propertyTypes = GizmoType.BALL.getPropertyTypes();
+        assert propertyTypes.size() == propertyValues.length :
+                "Length of propertyValues array (" + propertyValues.length + ") " +
+                        "does not equal the number of " + GizmoType.BALL + "'s properties (" + propertyTypes.size() + ").";
+
+        //Create a property to value map
+        Map<GizmoPropertyType, String> properties = new HashMap<>();
+        for(int i = 0; i < propertyTypes.size(); i++){
+            properties.put(propertyTypes.get(i), propertyValues[i]);
+        }
+
+        Gizmo gizmo = new Ball(this, Color.black, x, y, properties);
+
+        validateGizmoPlacement(gizmo, tile);
+
+        ball = (Ball) gizmo;
+        tickable.add((Ball) gizmo);
+        gizmos.add(gizmo);
+        drawables.add(gizmo);
+
+        // Notify observers ... redraw updated view
+        this.setChanged();
+        this.notifyObservers();
+
+        return gizmo;
+    }
+
 	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException {
 		Bumper bumper = new Bumper(Color.black, gizmoType, properties);
 		validateGizmoPlacement(bumper, tile);

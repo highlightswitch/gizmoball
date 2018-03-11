@@ -187,7 +187,9 @@ public class GizmoballFileReader {
                 tile = model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)));
                 propertyValues = new String[]{command.get(1), command.get(4), command.get(5)};
 
-                model.placeGizmo(type, tile, propertyValues);
+                model.loadBall(Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)), propertyValues);
+
+              //  model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Rotate":
                 try {
