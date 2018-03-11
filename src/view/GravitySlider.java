@@ -46,7 +46,7 @@ public class GravitySlider {
         content.add(s);
         content.add(panControls);
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
-        content.setBackground(Color.PINK);
+        content.setBackground(Color.ORANGE);
 
         gravity = new JDialog(f, "Modify Gravity", true);
         gravity.setContentPane(content);

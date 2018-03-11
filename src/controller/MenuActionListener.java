@@ -50,17 +50,17 @@ public class MenuActionListener implements ActionListener {
                 EditShapeDialogue shapeDialogue = new EditShapeDialogue(frame, e.getActionCommand(), "Add", controller.getModel());
                 break;
             case "Ball":
-                EditBallDialogue ballDialogue = new EditBallDialogue(frame, "Add", controller.getModel());
+                new EditBallDialogue(frame, "Add", controller.getModel());
                 break;
             case "Absorber":
-                EditAbsorberDialogue absorberDialogue = new EditAbsorberDialogue(frame, "Add", controller.getModel());
+                new EditAbsorberDialogue(frame, "Add", controller.getModel());
                 break;
             case "Rotate":
                 break;
             case "Delete":
                 break;
             case "Edit":
-                frame.addMouseListener(new FindEditorListener());
+                frame.addMouseListener(new FindEditorListener(frame, controller.getModel()));
                 break;
             case "Gravity":
                 GravitySlider g = new GravitySlider(frame);

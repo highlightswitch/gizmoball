@@ -45,7 +45,7 @@ public class FrictionSlider {
         content.add(s);
         content.add(panControls);
         content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
-        content.setBackground(Color.PINK);
+        content.setBackground(Color.ORANGE);
 
         friction = new JDialog(f, "Modify Friction", true);
         friction.setContentPane(content);
