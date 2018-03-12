@@ -38,7 +38,7 @@ public class ButtonActionListener implements ActionListener {
             case "Rotate":
                 break;
             case "Edit":
-                EditShapeDialogue shapeDi = new EditShapeDialogue(frame, e.getActionCommand(), "Edit", model);
+                new EditShapeDialogue(frame, e.getActionCommand(), "Edit", model);
                 break;
             case "Move":
                 //

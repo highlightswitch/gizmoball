@@ -19,9 +19,9 @@ public class EditShapeDialogue {
 
     public EditShapeDialogue(JFrame fr, String shape, String mode, Model model){
         gizmo = shape;
-
+        //change to mapping from action
         JLabel action = new JLabel("When the ball collides with this gizmo the gizmo should: ");
-        String[] actions = {"Change Colour", "Rotate", "Activate Another Gizmo"};
+        String[] actions = {"Change Colour", "Rotate", "Activate Another Gizmo", "Do Nothing"};
         JLabel trigger = new JLabel("This gizmo is triggered by: ");
         String[] triggers = {"A Key Press", "Another Gizmo", "Ball Collision"};
 
@@ -80,10 +80,15 @@ public class EditShapeDialogue {
                     color = shapeColour.getColor();
                     cAction = actions[actionList.getSelectedIndex()];
                     if(cAction.equals("Activate Another Gizmo")){
-                        JComboBox gizmos = new JComboBox(new String[]{"Flipper", "Absorber"});
+                        String[] action = new String[]{"Flipper", "Absorber"};
+                        JComboBox gizmos = new JComboBox(action);
                         JOptionPane.showMessageDialog(fr, gizmos, "Select gizmo to activate", JOptionPane.QUESTION_MESSAGE);
+                        cAction = action[gizmos.getSelectedIndex()];
                     }
+
                     cTrigger = triggers[triggerList.getSelectedIndex()];
+                    //any circle, any square, flipper, absorber, etc
+
                     new PlaceGizmoListener(gizmo, intPosition, color, cAction, cTrigger, model);
                     edit.dispose();
                 }

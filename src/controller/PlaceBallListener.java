@@ -12,6 +12,8 @@ public class PlaceBallListener {
     String pos;
     String vel;
     Color color;
+    String name;
+    int id;
     int x;
     int y;
     String vx;
@@ -19,6 +21,9 @@ public class PlaceBallListener {
 
     public PlaceBallListener(String position, String velocity, Color color, Model m){
         model = m;
+        name = "Ball" + id;
+        id++;
+
         pos = position.replace("(", "");
         pos  = pos.replace(")", "");
 
@@ -44,16 +49,9 @@ public class PlaceBallListener {
     public void place(){
         try {
             //System.out.println("I am going to place a ball" + " at: (" + x + "," + y + ")");
-            model.placeGizmo(GizmoType.BALL,model.getTileAt(x,y), null);
-            model.setGizmoProperty("Ball", GizmoPropertyType.VEL_X, vx);
-            model.setGizmoProperty("Ball", GizmoPropertyType.VEL_Y, vy);
+            model.placeGizmo(GizmoType.BALL,model.getTileAt(x,y), new String[]{name, vx, vy});
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
             e1.printStackTrace();
-        } catch (GizmoPropertyException e) {
-            e.printStackTrace();
-        } catch (GizmoNotFoundException e) {
-            e.printStackTrace();
         }
-
     }
 }

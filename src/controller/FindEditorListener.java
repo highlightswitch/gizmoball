@@ -15,7 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class FindEditorListener implements MouseListener {
-    IModel m;
+    Model m;
     JFrame frame;
 
     public FindEditorListener(JFrame f, Model model){

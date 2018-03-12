@@ -18,10 +18,15 @@ public class PlaceAbsorberListener {
     int ey;
     int width;
     int height;
+    String name;
+    int id = 0;
     Color c;
 
     public PlaceAbsorberListener(String start, String end,Color c, Model m){
         model = m;
+
+        name = "Absorber" + id;
+        id++;
 
         String spos = start.replace("(", "");
         spos  = spos.replace(")", "");
@@ -48,14 +53,8 @@ public class PlaceAbsorberListener {
 
     private void place() {
         try {
-            model.placeGizmo(GizmoType.ABSORBER,model.getTileAt(sx,sy),null);
-            model.setGizmoProperty("Absorber", GizmoPropertyType.WIDTH, String.valueOf(width));
-            model.setGizmoProperty("Absorber", GizmoPropertyType.HEIGHT, String.valueOf(height));
+            model.placeGizmo(GizmoType.ABSORBER,model.getTileAt(sx,sy),new String[] {name, String.valueOf(width), String.valueOf(height) });
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e) {
-            e.printStackTrace();
-        } catch (GizmoPropertyException e) {
-            e.printStackTrace();
-        } catch (GizmoNotFoundException e) {
             e.printStackTrace();
         }
     }

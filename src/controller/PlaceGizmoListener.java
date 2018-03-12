@@ -12,6 +12,8 @@ public class PlaceGizmoListener{
     IModel model;
     GizmoType g;
     String name;
+    String gname;
+    int id = 0;
     String pos;
     Color color;
     //GizmoPropertyType trigger;
@@ -22,15 +24,22 @@ public class PlaceGizmoListener{
     public PlaceGizmoListener(String gizmo, String position, Color c, String a, String t, Model m){
         model = m;
         name = gizmo;
+
         switch (name){
             case "Circle":
                 g = GizmoType.CIRCLE_BUMPER;
+                gname = name + id;
+                id++;
                 break;
             case "Triangle":
                 g = GizmoType.TRIANGLE_BUMPER;
+                gname = name + id;
+                id++;
                 break;
             case  "Square":
                 g = GizmoType.SQUARE_BUMPER;
+                gname = name + id;
+                id++;
                 break;
         }
 
@@ -52,8 +61,11 @@ public class PlaceGizmoListener{
             case "Rotate":
                 action = GizmoActionType.PRINT_TO_CONSOLE;
                 break;
-            case "Activate Another Gizmo":
-                action = GizmoActionType.PRINT_TO_CONSOLE;
+            case "Flipper":
+                action = GizmoActionType.FLIP_FLIPPER;
+                break;
+            case "Absorber":
+                action = GizmoActionType.FIRE_FROM_ABSORBER;
                 break;
         }
 
@@ -70,11 +82,10 @@ public class PlaceGizmoListener{
 
     public void place() {
         try {
-            System.out.println("I am going to place " + g.toString() + " at: (" + x + "," + y + ")");
-            model.placeGizmo(g,model.getTileAt(x,y), null);
-            // how are objects named initially ?
-            model.setGizmoAction(name, action);
-            //how to trigger
+            //System.out.println("I am going to place " + g.toString() + " at: (" + x + "," + y + ")");
+            model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0)});
+            model.setGizmoAction(gname, action);
+            //how to trigger: use connect
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
             e1.printStackTrace();
         } catch (GizmoNotFoundException e) {
