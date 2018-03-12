@@ -15,7 +15,7 @@ public class Model extends Observable {
 	private final int width = 20;
     private final int height = 20;
 
-	private double frictionConstant = 0.025;
+	private double[] frictionConstants = { 0.025, 0.025 };
 	private double gravityConstant = 25;
 
     private Tile[][] tiles;
@@ -56,8 +56,8 @@ public class Model extends Observable {
         for (Gizmo gizmo: gizmos) {
             game = game + gizmo.toString() + "\n";
         }
-        game = game + "Gravity" + gravityConstant + "\n";
-        game = game + "Friction" + frictionConstant + "\n";
+        game = game + "Gravity " + gravityConstant + "\n";
+        game = game + "Friction " + Arrays.toString(frictionConstants) + "\n";
         //need to add rotation
         return game;
     }
@@ -70,21 +70,17 @@ public class Model extends Observable {
 		return collidable;
 	}
 
-	public double getFrictionConstant(){
-    	return frictionConstant;
+	public double[] getFrictionConstants(){
+    	return frictionConstants;
 	}
-
-	public void setFritctionConsatnt(double newFrictionConstant) { frictionConstant = newFrictionConstant;}
 
 	public double getGravityConstant() {
 		return gravityConstant;
 	}
 
-	public void setGravityConsatnt(double newGravityConstant) { gravityConstant = newGravityConstant;}
-
-	public void setFrictionConstant(double val) throws ModelPropertyException {
-		validateFrictionValue(val);
-		frictionConstant = val;
+	public void setFrictionConstants(double[] arr) throws ModelPropertyException {
+		validateFrictionValues(arr);
+		frictionConstants = arr;
 	}
 
 	public void setGravityConstant(double val) throws ModelPropertyException {
@@ -299,9 +295,9 @@ public class Model extends Observable {
 
 	}
 
-	private void validateFrictionValue(double val) throws ModelPropertyException {
-		if(val < 0 )
-			throw new ModelPropertyException("Friction value cannot be set to " + val);
+	private void validateFrictionValues(double[] arr) throws ModelPropertyException {
+		if(arr[0] < 0 || arr[1] < 0)
+			throw new ModelPropertyException("Friction values cannot be set to " + Arrays.toString(arr));
 	}
 
 	private void validateGravityValue(double val) throws ModelPropertyException {
