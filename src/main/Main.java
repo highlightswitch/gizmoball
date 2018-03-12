@@ -1,11 +1,11 @@
 package main;
 
+import controller.MainController;
 import model.GizmoNotFoundException;
 import model.GizmoPlacementNotValidException;
-import model.Model;
+import model.IModel;
 import model.TileCoordinatesNotValid;
 import model.gizmo.*;
-import view.GameFrame;
 
 import javax.swing.*;
 
@@ -21,12 +21,15 @@ public class Main {
 			System.out.println("Look and Feel error in Main");
 		}
 
-		Model model = new Model();
+		MainController cont = new MainController();
+
+		IModel model = cont.getIModel();
 
 		try {
 			Gizmo ball = model.placeGizmo(GizmoType.BALL, model.getTileAt(15, 1), null);
 			Flipper leftFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(9, 10), null);
 			String[] rFProp = Gizmo.getPropertyDefaults(GizmoType.FLIPPER, null);
+			rFProp[0] = "rf_0";
 			rFProp[2] = "false";
 			Flipper rightFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(14, 3), rFProp);
 			model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 6), null);
@@ -65,6 +68,6 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		GameFrame fr = new GameFrame(model);
+//		GameFrame fr = new GameFrame(model);
 	}
 }

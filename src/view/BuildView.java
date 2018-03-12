@@ -1,7 +1,8 @@
 package view;
 
-import controller.*;
-import model.Model;
+import controller.AddPopupListener;
+import controller.DragDropListener;
+import controller.MainController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,16 +31,16 @@ public class BuildView implements GameView {
         pointer.setIcon(new ImageIcon(getClass().getResource("/Images/fillPointerSmall.png")));
 
         rotate.setActionCommand("Rotate");
-        rotate.addActionListener(c.getActionListener("Button"));
+        rotate.addActionListener(c.getActionListener(frame, "Button"));
 
         delete.setActionCommand("Delete");
-        delete.addActionListener(c.getActionListener("Button"));
+        delete.addActionListener(c.getActionListener(frame, "Button"));
 
         edit.setActionCommand("Edit");
-        edit.addActionListener(c.getActionListener("Button"));
+        edit.addActionListener(c.getActionListener(frame, "Button"));
 
         pointer.setActionCommand("Move");
-        pointer.addActionListener(c.getActionListener("Button"));
+        pointer.addActionListener(c.getActionListener(frame, "Button"));
 
         add.setBorder(null);
         add.setMargin(new Insets(0, 0, 0, 0));
@@ -60,7 +61,7 @@ public class BuildView implements GameView {
         edit.setMargin(new Insets(0, 0, 0, 0));
         edit.setContentAreaFilled(false);
         edit.setActionCommand("Edit");
-        edit.addActionListener(c.getActionListener("Button"));
+        edit.addActionListener(c.getActionListener(frame, "Button"));
 
         pointer.setBorder(null);
         pointer.setMargin(new Insets(0, 0, 0, 0));

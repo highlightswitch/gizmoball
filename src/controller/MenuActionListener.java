@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileDescriptor;
 
 public class MenuActionListener implements ActionListener {
 
@@ -33,8 +32,6 @@ public class MenuActionListener implements ActionListener {
                     try {
                         GizmoballFileReader fileReader = new GizmoballFileReader(selectedFile);
                         controller.setModel(fileReader.getModel());
-                        controller.getGameFrame().setModel(fileReader.getModel());
-                        controller.getBoard().setModel(fileReader.getModel());
                         controller.switchToRunView();
                     } catch (Exception ex) {
                         ex.printStackTrace();

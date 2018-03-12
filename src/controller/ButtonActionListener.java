@@ -1,6 +1,5 @@
 package controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import model.Model;
 import view.EditShapeDialogue;
 
@@ -29,9 +28,6 @@ public class ButtonActionListener implements ActionListener {
                 break;
             case "Stop":
                 controller.stopTimer();
-                break;
-            case "Tick":
-                controller.getModel().getBall().moveBall(null);
                 break;
             case "Delete":
                 break;
