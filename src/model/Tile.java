@@ -50,7 +50,7 @@ public class Tile {
         occupied = true;
     }
 
-    public void removeGizmo(){
+    void removeGizmo(){
         if(gizmo != null) {
             gizmo.removeTile();
             this.gizmo = null;

@@ -22,9 +22,8 @@ public class Model extends Observable implements IModel {
     private Tile[][] tiles;
 
 	private Ball ball;
-	private Walls walls;
 
-    private Map<Integer, Set<KeyEventTriggerable>> keyEventTriggerMap =  new HashMap<>();
+	private Map<Integer, Set<KeyEventTriggerable>> keyEventTriggerMap =  new HashMap<>();
 
 	private ArrayList<Tickable> tickable;
     private ArrayList<Collidable> collidable;
@@ -41,7 +40,7 @@ public class Model extends Observable implements IModel {
             }
         }
 
-		walls = new Walls(0, 0, 20, 20);
+		Walls walls = new Walls(0, 0, 20, 20);
 
 		tickable = new ArrayList<>();
 		drawables = new ArrayList<>();

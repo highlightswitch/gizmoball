@@ -1,29 +1,24 @@
 package controller;
 
 import model.*;
-import model.gizmo.Gizmo;
 import model.gizmo.GizmoActionType;
-import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
 
 import java.awt.*;
 
 public class PlaceGizmoListener{
-    IModel model;
-    GizmoType g;
-    String name;
-    String gname;
-    int id = 0;
-    String pos;
-    Color color;
-    //GizmoPropertyType trigger;
-    GizmoActionType action;
-    int x;
-    int y;
+    private IModel model;
+    private GizmoType g;
+    private String gname;
+    private int id = 0;
+    private Color color;
+    private GizmoActionType action;
+    private int x;
+    private int y;
 
     public PlaceGizmoListener(String gizmo, String position, Color c, String a, String t, Model m){
         model = m;
-        name = gizmo;
+        String name = gizmo;
 
         switch (name){
             case "Circle":
@@ -43,8 +38,8 @@ public class PlaceGizmoListener{
                 break;
         }
 
-        pos = position.replace("(", "");
-        pos  = pos.replace(")", "");
+        String pos = position.replace("(", "");
+        pos = pos.replace(")", "");
 
         String posX = pos.substring(0, pos.indexOf(","));
         String posY = pos.substring(pos.indexOf(","));
@@ -80,7 +75,7 @@ public class PlaceGizmoListener{
         place();
     }
 
-    public void place() {
+    private void place() {
         try {
             //System.out.println("I am going to place " + g.toString() + " at: (" + x + "," + y + ")");
             model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0)});

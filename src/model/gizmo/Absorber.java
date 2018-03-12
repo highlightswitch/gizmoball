@@ -63,9 +63,7 @@ public class Absorber extends Gizmo implements Collidable {
                 new Circle(width, height, 0)
         };
 
-        GameObject gameObject = new StaticGameObject(lines, circles, 1);
-
-        return gameObject;
+        return new StaticGameObject(lines, circles, 1);
     }
 
     public GameObject getGameObject(){return getPrototypeGameObject().translate(getPosition());}

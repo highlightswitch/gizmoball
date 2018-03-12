@@ -1,28 +1,25 @@
 package controller;
 
-import model.GizmoNotFoundException;
 import model.GizmoPlacementNotValidException;
 import model.Model;
 import model.TileCoordinatesNotValid;
-import model.gizmo.GizmoPropertyException;
-import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
 
 import java.awt.*;
 
 public class PlaceAbsorberListener {
-    Model model;
-    int sx;
-    int sy;
-    int ex;
-    int ey;
-    int width;
-    int height;
-    String name;
-    int id = 0;
+    private Model model;
+    private int sx;
+    private int sy;
+    private int ex;
+    private int ey;
+    private int width;
+    private int height;
+    private String name;
+    private int id = 0;
     Color c;
 
-    public PlaceAbsorberListener(String start, String end,Color c, Model m){
+    public PlaceAbsorberListener(String start, String end, Color c, Model m){
         model = m;
 
         name = "Absorber" + id;

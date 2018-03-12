@@ -1,7 +1,6 @@
 package controller;
 
 import model.GizmoballFileReader;
-import model.Model;
 import view.*;
 
 import javax.swing.*;
@@ -13,12 +12,10 @@ public class MenuActionListener implements ActionListener {
 
     private MainController controller;
     private JFrame frame;
-    Model model;
 
-    MenuActionListener(MainController c, JFrame f, Model m){
+    MenuActionListener(MainController c, JFrame f){
         controller = c;
         frame = f;
-        model = m;
     }
 
     @Override

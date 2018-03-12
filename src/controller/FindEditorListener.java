@@ -1,10 +1,8 @@
 package controller;
 
-import model.IModel;
 import model.Model;
 import model.Tile;
 import model.TileCoordinatesNotValid;
-import model.gizmo.Gizmo;
 import model.gizmo.GizmoType;
 import view.EditAbsorberDialogue;
 import view.EditBallDialogue;
@@ -15,10 +13,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class FindEditorListener implements MouseListener {
-    Model m;
-    JFrame frame;
+    private Model m;
+    private JFrame frame;
 
-    public FindEditorListener(JFrame f, Model model){
+    FindEditorListener(JFrame f, Model model){
         m = model;
         frame = f;
     }

@@ -1,6 +1,7 @@
 package model.gizmo;
 
 import model.*;
+import model.util.GizmoMaths;
 import physics.Angle;
 import physics.Circle;
 import physics.LineSegment;
@@ -40,14 +41,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     }
 
     private void moveFlipper(){
-        flipPos =  clamp(flipPos + currentMovement, 0, 1);
-    }
-
-
-    private double clamp(double val, double min, double max){
-        if(val < min) return min;
-        if(val > max) return max;
-        return val;
+        flipPos = GizmoMaths.clamp(flipPos + currentMovement, 0, 1);
     }
 
     @Override

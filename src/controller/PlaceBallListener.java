@@ -1,31 +1,30 @@
 package controller;
 
-import model.*;
-import model.gizmo.GizmoPropertyException;
-import model.gizmo.GizmoPropertyType;
+import model.GizmoPlacementNotValidException;
+import model.IModel;
+import model.Model;
+import model.TileCoordinatesNotValid;
 import model.gizmo.GizmoType;
 
 import java.awt.*;
 
 public class PlaceBallListener {
-    IModel model;
-    String pos;
-    String vel;
+    private IModel model;
     Color color;
-    String name;
-    int id;
-    int x;
-    int y;
-    String vx;
-    String vy;
+    private String name;
+    private int id;
+    private int x;
+    private int y;
+    private String vx;
+    private String vy;
 
     public PlaceBallListener(String position, String velocity, Color color, Model m){
         model = m;
         name = "Ball" + id;
         id++;
 
-        pos = position.replace("(", "");
-        pos  = pos.replace(")", "");
+        String pos = position.replace("(", "");
+        pos = pos.replace(")", "");
 
         String posX = pos.substring(0, pos.indexOf(","));
         String posY = pos.substring(pos.indexOf(","));
@@ -33,8 +32,8 @@ public class PlaceBallListener {
         x = Integer.valueOf(posX);
         y = Integer.valueOf(posY);
 
-        vel = velocity.replace("(", "");
-        vel  = vel.replace(")", "");
+        String vel = velocity.replace("(", "");
+        vel = vel.replace(")", "");
 
         vx = vel.substring(0, vel.indexOf(","));
         vy = vel.substring(vel.indexOf(","));
@@ -46,7 +45,7 @@ public class PlaceBallListener {
         place();
     }
 
-    public void place(){
+    private void place(){
         try {
             //System.out.println("I am going to place a ball" + " at: (" + x + "," + y + ")");
             model.placeGizmo(GizmoType.BALL,model.getTileAt(x,y), new String[]{name, vx, vy});

@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 public class ButtonActionListener implements ActionListener {
 
     private MainController controller;
-    JFrame frame;
-    Model model;
+    private JFrame frame;
+    private Model model;
 
     ButtonActionListener(MainController controller, JFrame f, Model m) {
         this.controller = controller;

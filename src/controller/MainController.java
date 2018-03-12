@@ -30,7 +30,7 @@ public class MainController implements ActionListener {
         return model;
     }
 
-    public Model getModel(){
+    Model getModel(){
         return model;
     }
 
@@ -70,7 +70,7 @@ public class MainController implements ActionListener {
             return new ButtonActionListener(this, frame, model);
         }
         else if(type.equals("Menu")){
-            return new MenuActionListener(this, frame, model);
+            return new MenuActionListener(this, frame);
         }
 
         return new ActionListener() {

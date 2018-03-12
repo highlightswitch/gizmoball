@@ -78,7 +78,7 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 	    moveBall(firedFrom);
     }
 
-    public void moveBall(Absorber absorber) {
+    private void moveBall(Absorber absorber) {
 
         //=====================
 	    //Start of Definitions
@@ -249,6 +249,6 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
     @Override
     public String toString(){
 	    return "Radius is: " + newRadius + " x is: " + cx + " y is: " + cy;
-    };
+    }
 
 }
