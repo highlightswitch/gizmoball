@@ -1,11 +1,12 @@
 package main;
 
-import model.GizmoPlacementNotValidException;
 import model.Model;
+
+import javax.swing.*;
+import model.GizmoPlacementNotValidException;
 import model.gizmo.*;
 import view.GameFrame;
 
-import javax.swing.*;
 
 public class Main {
 
