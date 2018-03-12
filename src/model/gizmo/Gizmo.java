@@ -162,7 +162,20 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
     }
 
     private void action_changeColour(){
-        System.out.println("colour changed");
+//        System.out.println("colour changed");
+        try {
+            String currentColour = getProperty(GizmoPropertyType.CURRENT_COLOUR);
+            String defaultColour = getProperty(GizmoPropertyType.DEFAULT_COLOUR);
+            String altColour = getProperty(GizmoPropertyType.ALT_COLOUR);
+            if(currentColour.equals(defaultColour))
+                this.setProperty(GizmoPropertyType.CURRENT_COLOUR, getProperty(GizmoPropertyType.ALT_COLOUR));
+            else if(currentColour.equals(altColour))
+                this.setProperty(GizmoPropertyType.CURRENT_COLOUR, getProperty(GizmoPropertyType.DEFAULT_COLOUR));
+            else
+                throw new IllegalStateException("Current colour of " + this + "is not default or alt colour");
+        } catch (GizmoPropertyException e) {
+            //This should never happen
+        }
     }
 
     private void action_printToConsole(){
@@ -187,27 +200,27 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
         switch (type){
             case FLIPPER:
                 //Name, Rotation_Deg
-                propVals = new String[]{ "leftFlipper_0", "0", "true" };
+                propVals = new String[]{ "leftFlipper_0", "0", "true", "white", "white", "black" };
                 break;
             case BALL:
                 //Name, Vel_X, Vel_Y
-                propVals = new String[]{ "ball_0", "0", "0" };
+                propVals = new String[]{ "ball_0", "0", "0", "white", "white", "red" };
                 break;
             case CIRCLE_BUMPER:
                 //Name, Rotation_Deg
-                propVals = new String[]{ "circleBumper_0", "0" };
+                propVals = new String[]{ "circleBumper_0", "0", "white", "white", "orange" };
                 break;
             case SQUARE_BUMPER:
                 //Name, Rotation_Deg
-                propVals = new String[]{ "squareBumper_0", "0" };
+                propVals = new String[]{ "squareBumper_0", "0", "white", "white", "red" };
                 break;
             case TRIANGLE_BUMPER:
                 //Name, Rotation_Deg
-                propVals = new String[]{ "triangleBumper_0", "0" };
+                propVals = new String[]{ "triangleBumper_0", "0", "white", "white", "green" };
                 break;
             case ABSORBER:
                 //Name, width, height
-                propVals = new String[]{ "absorber_0", "20", "1" };
+                propVals = new String[]{ "absorber_0", "20", "1", "white", "white", "gray" };
                 break;
         }
 

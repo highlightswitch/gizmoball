@@ -190,6 +190,8 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
             data.rotateAroundPivotByRadians(new double[]{2 - width/2, width/2}, Math.toRadians(90 * flipPos));
         }
 
+        data.setColourString(getProperty(GizmoPropertyType.CURRENT_COLOUR));
+
         return data;
     }
 

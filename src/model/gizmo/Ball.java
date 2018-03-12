@@ -230,6 +230,7 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
     protected DrawingData getGizmoDrawingData() {
         DrawingData data = new DrawingData();
         data.addCircle(new Double[]{0.5, 0.5, 0.25});
+        data.setColourString(getProperty(GizmoPropertyType.CURRENT_COLOUR));
         return data;
     }
 

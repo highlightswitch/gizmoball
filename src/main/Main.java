@@ -11,7 +11,7 @@ import javax.swing.*;
 
 public class Main {
 
-	public static boolean debugMode = true;
+	public static boolean debugMode = false;
 
 	public static void main(String[] args) {
 		try {
@@ -35,6 +35,7 @@ public class Main {
 			model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 6), null);
 			Gizmo square = model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 8), null);
 			Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), null);
+			Gizmo deleteMe = model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(2,6), null);
 
 			Gizmo cornerTriangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(19, 0), null);
 			try {
@@ -46,9 +47,9 @@ public class Main {
 			Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19), null);
 
 			model.moveGizmo(ball.getProperty(GizmoPropertyType.NAME), model.getTileAt(0,12));
-			model.deleteGizmo(square.getProperty(GizmoPropertyType.NAME));
+			model.deleteGizmo(deleteMe.getProperty(GizmoPropertyType.NAME));
 
-			model.connect(cornerTriangle.getProperty(GizmoPropertyType.NAME), triangle.getProperty(GizmoPropertyType.NAME));
+			model.connect(square.getProperty(GizmoPropertyType.NAME), triangle.getProperty(GizmoPropertyType.NAME));
 
 			model.connect(32, absorber.getProperty(GizmoPropertyType.NAME)); //Key code 32 = space
 			model.connect(70, leftFlipper.getProperty(GizmoPropertyType.NAME)); //Key code 70 = F

@@ -89,6 +89,8 @@ public class Absorber extends Gizmo implements Collidable {
         squarePoly.add(new Double[]{0.0 , height}); //SE
         data.addPolygon(squarePoly);
 
+        data.setColourString(getProperty(GizmoPropertyType.CURRENT_COLOUR));
+
         return data;
     }
 
