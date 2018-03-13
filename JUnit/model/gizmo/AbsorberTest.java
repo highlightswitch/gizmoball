@@ -97,6 +97,15 @@ class AbsorberTest {
     }
 
     @Test
+    void genericTrigger() {
+    }
+
+    @Test
     void keyDown() {
     }
+
+    @Test
+    void keyUp() {
+    }
+
 }

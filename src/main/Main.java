@@ -7,6 +7,9 @@ import model.GizmoPlacementNotValidException;
 import model.gizmo.*;
 import view.GameFrame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Main {
 
@@ -31,6 +34,7 @@ public class Main {
 			model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 6), null);
 			Gizmo square = model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 8), null);
 			Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), null);
+			Gizmo triangle1 = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(8, 1), null);
 
 			Gizmo cornerTriangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(19, 0), null);
 			try {
@@ -39,11 +43,19 @@ public class Main {
 				e.printStackTrace();
 			}
 
-			Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19), null);
+			List<Absorber> absorbers = new ArrayList<>();
+
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(3, 15), new String[]{ "1", "6", "1" }));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(2, 17), new String[]{ "2", "15", "1" }));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19),  new String[]{ "3", "20", "1" }));
 
 			model.connect(square, triangle);
+			model.connect(triangle, triangle1);
 
-			model.connect(32, absorber); //Key code 32 = space
+			for (Absorber a : absorbers) {
+				model.connect(32, a); //Key code 32 = space
+			}
+
 			model.connect(70, leftFlipper); //Key code 70 = F
 			model.connect(71, rightFlipper); //Key code 71 = G
 
