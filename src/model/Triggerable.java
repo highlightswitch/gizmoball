@@ -33,7 +33,6 @@ public abstract class Triggerable implements KeyEventTriggerable {
 	}
 
 	public void doAction(){
-		if(!keyDown)
 			action.invoke();
 	}
 

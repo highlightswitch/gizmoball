@@ -1,6 +1,7 @@
 package model;
 
 import model.gizmo.*;
+import model.util.DualKeyMap;
 
 import java.awt.*;
 import java.util.*;
@@ -23,7 +24,7 @@ public class Model extends Observable implements IModel {
 
 	private Ball ball;
 
-	private Map<Integer, Set<KeyEventTriggerable>> keyEventTriggerMap =  new HashMap<>();
+    private DualKeyMap<Integer, TriggerType, Set<KeyEventTriggerable>> keyEventTriggerMap;
 
 	private ArrayList<Tickable> tickable;
     private ArrayList<Collidable> collidable;
@@ -41,6 +42,8 @@ public class Model extends Observable implements IModel {
         }
 
 		Walls walls = new Walls(0, 0, 20, 20);
+
+        keyEventTriggerMap = new DualKeyMap<>();
 
 		tickable = new ArrayList<>();
 		drawables = new ArrayList<>();
@@ -99,9 +102,9 @@ public class Model extends Observable implements IModel {
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 
-        if(keyEventTriggerMap.containsKey(keyCode)){
-            Set<KeyEventTriggerable> set = keyEventTriggerMap.get(keyCode);
-            for(KeyEventTriggerable triggerable : set) {
+		if(keyEventTriggerMap.containsKey(keyCode, trigger)){
+			Set<KeyEventTriggerable> set = keyEventTriggerMap.get(keyCode, trigger);
+			for(KeyEventTriggerable triggerable : set) {
 				switch (trigger) {
 					case KEY_DOWN:
 						triggerable.keyDown();
@@ -111,7 +114,7 @@ public class Model extends Observable implements IModel {
 						break;
 				}
 			}
-        }
+		}
 
     }
 
@@ -317,15 +320,15 @@ public class Model extends Observable implements IModel {
 		trigger.addActor(actor);
 	}
 
-	public void connect(int keyCode, String actorName) throws GizmoNotFoundException {
+	public void connect(int keyCode, TriggerType type, String actorName) throws GizmoNotFoundException {
 		KeyEventTriggerable actor = getGizmoByName(actorName);
 
-		if(keyEventTriggerMap.containsKey(keyCode)){
-			keyEventTriggerMap.get(keyCode).add(actor);
+		if(keyEventTriggerMap.containsKey(keyCode, type)){
+			keyEventTriggerMap.get(keyCode, type).add(actor);
 		} else {
 			Set<KeyEventTriggerable> set = new HashSet<>();
 			set.add(actor);
-			keyEventTriggerMap.put(keyCode, set);
+			keyEventTriggerMap.put(keyCode, type, set);
 		}
 	}
 
@@ -342,17 +345,17 @@ public class Model extends Observable implements IModel {
 		trigger.removeAllActors();
 	}
 
-	public void disconnect(int keyCode, String actorName) throws GizmoNotFoundException {
+	public void disconnect(int keyCode, TriggerType type, String actorName) throws GizmoNotFoundException {
 		Triggerable actor = getGizmoByName(actorName);
 
-		if(keyEventTriggerMap.containsKey(keyCode)){
-			keyEventTriggerMap.get(keyCode).remove(actor);
+		if(keyEventTriggerMap.containsKey(keyCode, type)){
+			keyEventTriggerMap.get(keyCode, type).remove(actor);
 		}
 	}
 
-	public void disconnectAll(int keyCode) throws GizmoNotFoundException{
-		if(keyEventTriggerMap.containsKey(keyCode)){
-			keyEventTriggerMap.remove(keyCode);
+	public void disconnectAll(int keyCode, TriggerType type) throws GizmoNotFoundException{
+		if(keyEventTriggerMap.containsKey(keyCode, type)){
+			keyEventTriggerMap.remove(keyCode, type);
 		}
 	}
 

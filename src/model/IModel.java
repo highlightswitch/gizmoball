@@ -24,11 +24,11 @@ public interface IModel {
 	void setGizmoAction(String gizmoName, GizmoActionType actionType) throws GizmoNotFoundException;
 
 	void connect(String triggerName, String actorName) throws GizmoNotFoundException;
-	void connect(int keyCode, String actorName) throws GizmoNotFoundException;
+	void connect(int keyCode, TriggerType type, String actorName) throws GizmoNotFoundException;
 	void disconnect(String triggerName, String actorName) throws GizmoNotFoundException;
 	void disconnectAll(String triggerName) throws GizmoNotFoundException;
-	void disconnect(int keyCode, String actorName) throws GizmoNotFoundException;
-	void disconnectAll(int keyCode) throws GizmoNotFoundException;
+	void disconnect(int keyCode, TriggerType type, String actorName) throws GizmoNotFoundException;
+	void disconnectAll(int keyCode, TriggerType type) throws GizmoNotFoundException;
 
 	double[] getFrictionConstants();
 	double getGravityConstant();
