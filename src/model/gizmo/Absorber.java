@@ -16,6 +16,11 @@ public class Absorber extends Gizmo implements Collidable {
         super(colour, properties);
     }
 
+    @Override
+    public boolean isTilePlacable() {
+        return true;
+    }
+
     void setAbsorbedBall (Ball ball) {
         absorbedBall = ball;
     }
@@ -58,9 +63,7 @@ public class Absorber extends Gizmo implements Collidable {
                 new Circle(width, height, 0)
         };
 
-        GameObject gameObject = new StaticGameObject(lines, circles, 1);
-
-        return gameObject;
+        return new StaticGameObject(lines, circles, 1);
     }
 
     public GameObject getGameObject(){return getPrototypeGameObject().translate(getPosition());}
@@ -85,6 +88,8 @@ public class Absorber extends Gizmo implements Collidable {
         squarePoly.add(new Double[]{width, height}); //SW
         squarePoly.add(new Double[]{0.0 , height}); //SE
         data.addPolygon(squarePoly);
+
+        data.setColourString(getProperty(GizmoPropertyType.CURRENT_COLOUR));
 
         return data;
     }

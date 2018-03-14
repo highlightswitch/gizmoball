@@ -26,7 +26,7 @@ public class Walls implements Collidable {
 	}
 
 	private ArrayList<LineSegment> getLineSegments() {
-		ArrayList<LineSegment> ls = new ArrayList<LineSegment>();
+		ArrayList<LineSegment> ls = new ArrayList<>();
 		LineSegment l1 = new LineSegment(xpos1, ypos1, xpos2, ypos1);
 		LineSegment l2 = new LineSegment(xpos1, ypos1, xpos1, ypos2);
 		LineSegment l3 = new LineSegment(xpos2, ypos1, xpos2, ypos2);

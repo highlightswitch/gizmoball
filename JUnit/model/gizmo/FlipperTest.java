@@ -3,6 +3,7 @@ package model.gizmo;
 import model.GizmoPlacementNotValidException;
 import model.Model;
 import model.Tile;
+import model.TileCoordinatesNotValid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ class FlipperTest {
     Model model;
 
     @BeforeEach
-    void setUp() throws GizmoPlacementNotValidException {
+    void setUp() throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
         model = new Model();
         anchorTile = model.getTileAt(9, 10);
         flipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, anchorTile, null);

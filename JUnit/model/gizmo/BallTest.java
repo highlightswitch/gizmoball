@@ -21,7 +21,7 @@ class BallTest {
     private Map<GizmoPropertyType, String> properties;
 
     @BeforeEach
-    void setUp() throws GizmoPlacementNotValidException {
+    void setUp() throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
 
         model = new Model();
         anchorTile = model.getTileAt(15, 1);

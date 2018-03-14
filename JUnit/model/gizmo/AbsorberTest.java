@@ -25,7 +25,7 @@ class AbsorberTest {
 
 
     @BeforeEach
-    void setUp() throws GizmoPlacementNotValidException {
+    void setUp() throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
         model = new Model();
         anchorTile1 = model.getTileAt(9, 10);
         anchorTile2 = model.getTileAt(2, 17);

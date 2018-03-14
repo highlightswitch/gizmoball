@@ -25,7 +25,7 @@ class BumperTest {
     private Model model;
 
     @BeforeEach
-    void setUp() throws GizmoPlacementNotValidException {
+    void setUp() throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
         model = new Model();
 
         anchorTileCircle = model.getTileAt(5, 6);

@@ -1,6 +1,7 @@
 package model.gizmo;
 
 import model.*;
+import model.util.GizmoMaths;
 import physics.Angle;
 import physics.Circle;
 import physics.LineSegment;
@@ -30,19 +31,33 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
     }
 
+    @Override
+    public boolean isTilePlacable() {
+        return true;
+    }
+
     private boolean isLeftFlipper(){
         return Boolean.valueOf(getProperty(GizmoPropertyType.IS_LEFT_ORIENTATED));
     }
 
     private void moveFlipper(){
-        flipPos =  clamp(flipPos + currentMovement, 0, 1);
+        flipPos = GizmoMaths.clamp(flipPos + currentMovement, 0, 1);
     }
 
+    private boolean isMovingUp(){
+        return currentMovement > 0;
+    }
 
-    private double clamp(double val, double min, double max){
-        if(val < min) return min;
-        if(val > max) return max;
-        return val;
+    private boolean isMovingDown(){
+        return currentMovement < 0;
+    }
+
+    private void setMovingUp(){
+        currentMovement = flipSpeed;
+    }
+
+    private void setMovingDown(){
+        currentMovement = -1* flipSpeed;
     }
 
     @Override
@@ -191,6 +206,8 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
             data.rotateAroundPivotByRadians(new double[]{2 - width/2, width/2}, Math.toRadians(90 * flipPos));
         }
 
+        data.setColourString(getProperty(GizmoPropertyType.CURRENT_COLOUR));
+
         return data;
     }
 
@@ -210,25 +227,27 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     }
 
     private void action_moveFlipper(){
-        if(currentMovement < 0 && flipPos != 0){
-            currentMovement = flipSpeed;
-        } else if(currentMovement > 0 && flipPos != 1) {
-            currentMovement = -1 * flipSpeed;
+        if(isMovingDown() && flipPos != 0){
+            setMovingUp();
+        } else if(isMovingUp() && flipPos != 1) {
+            setMovingDown();
         } else if(flipPos == 0){
-            currentMovement = flipSpeed;
+            setMovingUp();
         } else if(flipPos == 1){
-            currentMovement = -1 * flipSpeed;
+            setMovingDown();
+        } else {
+            System.err.println("action_MoveFlipper: This should never happen");
         }
     }
 
     public void keyDown() {
         super.keyDown();
-        currentMovement = flipSpeed;
+        trigger();
     }
 
     public void keyUp() {
         super.keyUp();
-        currentMovement = -1 * flipSpeed;
+        trigger();
     }
 
 }

@@ -16,7 +16,7 @@ public abstract class Triggerable implements KeyEventTriggerable {
 
 	protected Triggerable(){
 		connectedTriggerables = new HashSet<>();
-		setAction(GizmoActionType.PRINT_TO_CONSOLE);
+		setAction(GizmoActionType.CHANGE_COLOUR);
 	}
 
 	public abstract void setAction(GizmoActionType type);
@@ -33,12 +33,19 @@ public abstract class Triggerable implements KeyEventTriggerable {
 	}
 
 	public void doAction(){
-		if(!keyDown)
 			action.invoke();
 	}
 
 	void addActor(Triggerable actor){
 		connectedTriggerables.add(actor);
+	}
+
+	void removeActor(Triggerable actor){
+		connectedTriggerables.remove(actor);
+	}
+
+	void removeAllActors(){
+		connectedTriggerables.clear();
 	}
 
 	public void keyDown(){

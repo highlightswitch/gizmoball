@@ -1,6 +1,8 @@
 package view;
 
-import controller.*;
+import controller.AddPopupListener;
+import controller.DragDropListener;
+import controller.MainController;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -30,16 +32,16 @@ public class BuildView implements GameView {
         pointer.setIcon(new ImageIcon(getClass().getResource("/Images/fillPointerSmall.png")));
 
         rotate.setActionCommand("Rotate");
-        rotate.addActionListener(c.getActionListener("Button"));
+        rotate.addActionListener(c.getActionListener(frame, "Button"));
 
         delete.setActionCommand("Delete");
-        delete.addActionListener(c.getActionListener("Button"));
+        delete.addActionListener(c.getActionListener(frame, "Button"));
 
         edit.setActionCommand("Edit");
-        edit.addActionListener(c.getActionListener("Button"));
+        edit.addActionListener(c.getActionListener(frame, "Button"));
 
         pointer.setActionCommand("Move");
-        pointer.addActionListener(c.getActionListener("Button"));
+        pointer.addActionListener(c.getActionListener(frame, "Button"));
 
         add.setBorder(null);
         add.setMargin(new Insets(0, 0, 0, 0));
@@ -60,7 +62,7 @@ public class BuildView implements GameView {
         edit.setMargin(new Insets(0, 0, 0, 0));
         edit.setContentAreaFilled(false);
         edit.setActionCommand("Edit");
-        edit.addActionListener(c.getActionListener("Button"));
+        edit.addActionListener(c.getActionListener(frame, "Button"));
 
         pointer.setBorder(null);
         pointer.setMargin(new Insets(0, 0, 0, 0));
@@ -74,15 +76,24 @@ public class BuildView implements GameView {
         panControls.setOpaque(false);
         panControls.setLayout(new FlowLayout());
 
-        JPanel panGrid = new JPanel(new GridLayout(20, 20));
-        panGrid.setOpaque(false);
-        panGrid.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        JPanel panGrid = new JPanel();
+
+        panGrid.add(b);
+
+        /*JPanel tiles = new JPanel(new GridLayout(20, 20));
+
+        tiles.setOpaque(true);
+        tiles.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         for (int i = 0; i < (20 * 20); i++) {
             final JLabel label = new JLabel();
             label.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-            panGrid.add(label);
+            tiles.add(label);
         }
+
+        panGrid.add(tiles, new Integer(1), 0);*/
+
+        panGrid.setOpaque(false);
 
         panBuild.setLayout(new BorderLayout());
         panBuild.add(panGrid, BorderLayout.CENTER);

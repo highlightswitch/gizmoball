@@ -13,6 +13,9 @@ public class DrawingData {
 	//An array list of cx,cy,r data of the circles that create a drawable object
 	private ArrayList<Double[]> circlesData;
 
+	//The colourString of a drawable object
+	private String colourString;
+
 	public DrawingData(){
 		polygonsData = new ArrayList<>();
 		circlesData = new ArrayList<>();
@@ -32,12 +35,20 @@ public class DrawingData {
 		circlesData.add(c);
 	}
 
+	public void setColourString(String str){
+		colourString = str;
+	}
+
 	public ArrayList<ArrayList<Double[]>> getPolygonsData() {
 		return polygonsData;
 	}
 
 	public ArrayList<Double[]> getCirclesData() {
 		return circlesData;
+	}
+
+	public String getColourString(){
+		return colourString;
 	}
 
 	public DrawingData translate(double[] translation){
