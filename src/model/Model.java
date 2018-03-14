@@ -68,24 +68,6 @@ public class Model extends Observable implements IModel {
 		return collidable;
 	}
 
-	public double[] getFrictionConstants(){
-    	return frictionConstants;
-	}
-
-	public double getGravityConstant() {
-		return gravityConstant;
-	}
-
-	public void setFrictionConstants(double[] arr) throws ModelPropertyException {
-		validateFrictionValues(arr);
-		frictionConstants = arr;
-	}
-
-	public void setGravityConstant(double val) throws ModelPropertyException {
-		validateGravityValue(val);
-		gravityConstant = val;
-	}
-
 	public Ball getBall() {
 		return ball;
 	}
@@ -180,9 +162,9 @@ public class Model extends Observable implements IModel {
 
 	}
 
-	private void validateFrictionValue(double val) throws ModelPropertyException {
-		if(val < 0 )
-			throw new ModelPropertyException("Friction value cannot be set to " + val);
+	private void validateFrictionValues(double[] arr) throws ModelPropertyException {
+		if(arr[0] < 0 || arr[1] < 0)
+			throw new ModelPropertyException("Friction values cannot be set to " + Arrays.toString(arr));
 	}
 
 	private void validateGravityValue(double val) throws ModelPropertyException {
@@ -376,17 +358,17 @@ public class Model extends Observable implements IModel {
 
 
 
-	public double getFrictionConstant(){
-		return frictionConstant;
+	public double[] getFrictionConstants(){
+		return frictionConstants;
 	}
 
-	public double getGravityConstant(){
+	public double getGravityConstant() {
 		return gravityConstant;
 	}
 
-	public void setFrictionConstant(double x, double y) throws ModelPropertyException {
-		validateFrictionValue(x);
-		frictionConstant = x;
+	public void setFrictionConstants(double[] arr) throws ModelPropertyException {
+		validateFrictionValues(arr);
+		frictionConstants = arr;
 	}
 
 	public void setGravityConstant(double val) throws ModelPropertyException {
@@ -399,10 +381,17 @@ public class Model extends Observable implements IModel {
 		return drawables;
 	}
 
-	private void validateFrictionValues(double[] arr) throws ModelPropertyException {
-		if(arr[0] < 0 || arr[1] < 0)
-			throw new ModelPropertyException("Friction values cannot be set to " + Arrays.toString(arr));
+	public ArrayList<Drawable> getDebugDrawables() {
+		ArrayList<Drawable> drawables = new ArrayList<>();
+		for(Collidable col : collidable){
+			drawables.add(col.getGameObject());
+		}
+		if(ball != null){
+			drawables.add(ball.getGameObject());
+		}
+		return drawables;
 	}
+
 
 
 	//Helpers:

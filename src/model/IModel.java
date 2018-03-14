@@ -30,9 +30,9 @@ public interface IModel {
 	void disconnect(int keyCode, String actorName) throws GizmoNotFoundException;
 	void disconnectAll(int keyCode) throws GizmoNotFoundException;
 
-	double getFrictionConstant();
+	double[] getFrictionConstants();
 	double getGravityConstant();
-	void setFrictionConstant(double x, double y) throws ModelPropertyException;
+	void setFrictionConstants(double[] arr) throws ModelPropertyException;
 	void setGravityConstant(double val) throws ModelPropertyException;
 
 	ArrayList<Drawable> getDrawables();
