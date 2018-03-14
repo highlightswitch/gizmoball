@@ -86,7 +86,10 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 
         double lengthOfTick = 0.05; // 0.05 = 20 times per second as per Gizmoball
 
-        double[] currentVelXY = new double[]{getVelocity().x(), getVelocity().y()}; // Balls velocity in the last tick
+        double[] currentVelXY = justFired ?
+                new double[]{0,-50}
+                :new double[]{getVelocity().x(), getVelocity().y()}; // Balls velocity in the last tick
+        setVelocity(currentVelXY[0], currentVelXY[1]);
 
         CollisionDetails cd = timeUntilCollision(absorber);
         double tuc = cd.getTuc(); //ie Time Until Collision
@@ -121,8 +124,8 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
             if (isCollidingWithAbsorberNext) {
                 isAbsorbed = true;
                 collidedAbsorber.setAbsorbedBall(this);
-                cx = 19.5;
-                cy = 19.5;
+                cx = cd.getAbsorber().getPosition()[0] + Double.valueOf(cd.getAbsorber().getProperty(GizmoPropertyType.WIDTH)) - 0.5;
+                cy = cd.getAbsorber().getPosition()[1] + Double.valueOf(cd.getAbsorber().getProperty(GizmoPropertyType.HEIGHT)) / 2;
             } else {
                 //If we get to here, the ball is colliding this tick, and it is not with an absorber
                 //So we set the post-collision velocity, then move the ball for the remaining time with its new velocity
@@ -160,10 +163,10 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
     }
 
     private double[] applyFrictionToVelocities(double[] velXY, double timeMoving){
-        double friction = model.getFrictionConstant();
+        double[] frictionArr = model.getFrictionConstants();
         return new double[]{
-                velXY[0] * (1 - friction * timeMoving - friction * Math.abs(velXY[0]) * timeMoving),
-                velXY[1] * (1 - friction * timeMoving - friction * Math.abs(velXY[1]) * timeMoving)
+                velXY[0] * (1 - frictionArr[0] * timeMoving - frictionArr[1] * Math.abs(velXY[0]) * timeMoving),
+                velXY[1] * (1 - frictionArr[0] * timeMoving - frictionArr[1] * Math.abs(velXY[1]) * timeMoving)
         };
     }
 

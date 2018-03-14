@@ -7,7 +7,9 @@ import model.IModel;
 import model.TileCoordinatesNotValid;
 import model.gizmo.*;
 
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Main {
 
@@ -44,7 +46,11 @@ public class Main {
 				e.printStackTrace();
 			}
 
-			Absorber absorber = (Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19), null);
+			List<Absorber> absorbers = new ArrayList<>();
+
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(3, 15), new String[]{ "1", "6", "1" }));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(2, 17), new String[]{ "2", "15", "1" }));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19),  new String[]{ "3", "20", "1" }));
 
 			model.moveGizmo(ball.getProperty(GizmoPropertyType.NAME), model.getTileAt(0,12));
 			model.deleteGizmo(deleteMe.getProperty(GizmoPropertyType.NAME));

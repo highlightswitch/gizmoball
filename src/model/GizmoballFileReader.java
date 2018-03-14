@@ -92,18 +92,20 @@ public class GizmoballFileReader {
                     return false;
                 }
             case "Gravity":
-                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
-                    return true;
-                } else {
-                    return false;
-                }
+//                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+                return true;
             case "Friction":
                 //check friction format
-                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
-                    return true;
-                } else {
-                    return false;
-                }
+//                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+                return true;
             default: return false;
         }
     }
@@ -215,14 +217,18 @@ public class GizmoballFileReader {
             case "KeyConnect": //
                 break;
             case "Gravity": try {
-                model.setGravityConstant(Float.parseFloat(command.get(2)));
+                model.setGravityConstant(Float.parseFloat(command.get(1)));
             } catch (ModelPropertyException e){
                 e.printStackTrace();
             }
                 break;
             case "Friction": try {
-                //need to look at friction format
-                model.setFrictionConstant(Float.parseFloat(command.get(2)), Float.parseFloat(command.get(2)));
+                model.setFrictionConstants(
+                        new double[]{
+                                Float.parseFloat(command.get(1)),
+                                Float.parseFloat(command.get(2))
+                        }
+                );
             } catch (ModelPropertyException e){
                 e.printStackTrace();
             }

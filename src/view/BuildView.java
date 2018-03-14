@@ -4,6 +4,7 @@ import controller.AddPopupListener;
 import controller.DragDropListener;
 import controller.MainController;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 
@@ -102,22 +103,52 @@ public class BuildView implements GameView {
 
     public void drawPopupMenu() {
         allShapes = new JPopupMenu();
-
-        JMenuItem circleGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillCircleSmall.png")));
+        ImageIcon circleGizmo = (new ImageIcon(getClass().getResource("/Images/fillCircleSmall.png")));
+        ImageIcon triangleGizmo = (new ImageIcon(getClass().getResource("/Images/fillTriangleSmall.png")));
+        ImageIcon squareGizmo = (new ImageIcon(getClass().getResource("/Images/fillSquareSmall.png")));
+        ImageIcon absorberGizmo = (new ImageIcon(getClass().getResource("/Images/fillRectangleSmall.png")));
+        ImageIcon flipperGizmo = (new ImageIcon(getClass().getResource("/Images/fillFlipperSmall.png")));
+        ImageIcon ballGizmo =  (new ImageIcon(getClass().getResource("/Images/borderBallSmall.png")));
+        JButton circleGizmoButton = new JButton();
+        circleGizmoButton.setIcon(circleGizmo);
+        circleGizmoButton.setPreferredSize(new Dimension(50,50));
+        JButton triangleGizmoButton = new JButton();
+        triangleGizmoButton.setIcon(triangleGizmo);
+        triangleGizmoButton.setPreferredSize(new Dimension(50,50));
+        JButton squareGizmoButton = new JButton();
+        squareGizmoButton.setIcon(squareGizmo);
+        squareGizmoButton.setPreferredSize(new Dimension(50,50));
+        JButton absorberGizmoButton = new JButton();
+        absorberGizmoButton.setIcon(absorberGizmo);
+        absorberGizmoButton.setPreferredSize(new Dimension(50,50));
+        JButton flipperGizmoButton = new JButton();
+        flipperGizmoButton.setIcon(flipperGizmo);
+        flipperGizmoButton.setPreferredSize(new Dimension(50,50));
+        JButton ballGizmoButton = new JButton();
+        ballGizmoButton.setIcon(ballGizmo);
+        ballGizmoButton.setPreferredSize(new Dimension(50,50));
+        /*JMenuItem circleGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillCircleSmall.png")));
         JMenuItem triangleGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillTriangleSmall.png")));
         JMenuItem squareGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillSquareSmall.png")));
         JMenuItem absorberGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillRectangleSmall.png")));
         JMenuItem flipperGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillFlipperSmall.png")));
-        JMenuItem ballGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/borderBallSmall.png")));
+        JMenuItem ballGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/borderBallSmall.png")));*/
 
-        circleGizmo.setContentAreaFilled(false);
+
+//        circleGizmo.addActionListener(new AddCircleListener());
+//        triangleGizmo.addActionListener(new AddTriangleListener());
+//        squareGizmo.addActionListener(new addSquareListener());
+
+        /*circleGizmo.setContentAreaFilled(false);
         triangleGizmo.setContentAreaFilled(false);
         squareGizmo.setContentAreaFilled(false);
         absorberGizmo.setContentAreaFilled(false);
         flipperGizmo.setContentAreaFilled(false);
-        ballGizmo.setContentAreaFilled(false);
+        ballGizmo.setContentAreaFilled(false);*/
 
-       DragDropListener li = new DragDropListener();
+
+     /* DragDropListener li = new DragDropListener();
+      circleGizmo.addMouseListener(li);
        circleGizmo.addMouseListener(li);
        circleGizmo.setTransferHandler(new TransferHandler("icon"));
        triangleGizmo.addMouseListener(li);
@@ -130,14 +161,20 @@ public class BuildView implements GameView {
        ballGizmo.setTransferHandler(new TransferHandler("icon"));
        flipperGizmo.addMouseListener(li);
        flipperGizmo.setTransferHandler(new TransferHandler("icon"));
-       allShapes.add(circleGizmo);
-       allShapes.add(triangleGizmo);
-       allShapes.add(squareGizmo);
-       allShapes.add(flipperGizmo);
-       allShapes.add(ballGizmo);
-       allShapes.add(absorberGizmo);
-       allShapes.setBackground(Color.WHITE);
-       allShapes.setLayout(new FlowLayout());
+*/
+        allShapes.add(circleGizmoButton);
+        allShapes.add(triangleGizmoButton);
+        allShapes.add(squareGizmoButton);
+        allShapes.add(absorberGizmoButton);
+        allShapes.add(flipperGizmoButton);
+        allShapes.add(ballGizmoButton);
+        //allShapes.add(triangleGizmo);
+       // allShapes.add(squareGizmo);
+       // allShapes.add(flipperGizmo);
+       // allShapes.add(ballGizmo);
+       // allShapes.add(absorberGizmo);
+        allShapes.setBackground(Color.WHITE);
+        allShapes.setLayout(new FlowLayout());
     }
 
     @Override
