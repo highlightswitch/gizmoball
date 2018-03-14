@@ -3,6 +3,7 @@ package view;
 import controller.PlaceAbsorberListener;
 import controller.PlaceBallListener;
 import model.Model;
+import model.gizmo.Gizmo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class EditAbsorberDialogue {
     String heightS;
     Color color;
 
-    public EditAbsorberDialogue(JFrame f, String mode, Model m){
+    public EditAbsorberDialogue(JFrame f, String mode, Model m, Gizmo g){
         JLabel label = new JLabel();
         label.setIcon(new ImageIcon(getClass().getResource("/Images/fillRectangleSmall.png")));
         label.setHorizontalAlignment(SwingConstants.CENTER);

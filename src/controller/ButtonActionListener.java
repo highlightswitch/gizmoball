@@ -12,11 +12,13 @@ public class ButtonActionListener implements ActionListener {
     private MainController controller;
     private JFrame frame;
     private Model model;
+    private JPanel panel;
 
-    ButtonActionListener(MainController controller, JFrame f, Model m) {
+    ButtonActionListener(MainController controller, JFrame f, Model m, JPanel p) {
         this.controller = controller;
         frame = f;
         model = m;
+        panel = p;
 	}
 
     @Override
@@ -34,7 +36,7 @@ public class ButtonActionListener implements ActionListener {
             case "Rotate":
                 break;
             case "Edit":
-                new EditShapeDialogue(frame, e.getActionCommand(), "Edit", model);
+                frame.addMouseListener(new FindEditorListener(frame,model, panel));
                 break;
             case "Move":
                 //

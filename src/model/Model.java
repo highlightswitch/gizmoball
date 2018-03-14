@@ -295,16 +295,23 @@ public class Model extends Observable implements IModel {
 		} else {
 			((TileIndependentGizmo) gizmo).moveTo(newTile.getX(), newTile.getY());
 		}
+
+        this.setChanged();
+        this.notifyObservers();
 	}
 
 	public void rotateGizmoBy_Deg(String gizmoName, double adjustment) throws GizmoNotFoundException, GizmoPropertyException {
 		Gizmo gizmo = getGizmoByName(gizmoName);
 		gizmo.rotateBy_Deg(adjustment);
+        this.setChanged();
+        this.notifyObservers();
 	}
 
 	public void rotateGizmoTo_Deg(String gizmoName, double rotationVal) throws GizmoNotFoundException, GizmoPropertyException{
 		Gizmo gizmo = getGizmoByName(gizmoName);
 		gizmo.rotateTo_Deg(rotationVal);
+        this.setChanged();
+        this.notifyObservers();
 	}
 
 
@@ -317,11 +324,27 @@ public class Model extends Observable implements IModel {
 	public void setGizmoProperty(String gizmoName, GizmoPropertyType prop, String val) throws GizmoNotFoundException, GizmoPropertyException {
 		Gizmo gizmo = getGizmoByName(gizmoName);
 		gizmo.setProperty(prop, val);
+        this.setChanged();
+        this.notifyObservers();
 	}
 
+    @Override
+    public void setAllProperties(String gizmoName, HashMap<GizmoPropertyType, String> properties) throws GizmoNotFoundException {
+        Gizmo g = getGizmoByName(gizmoName);
 
+        properties.forEach((p, v) -> {
+            try {
+                g.setProperty(p,v);
+            } catch (GizmoPropertyException e) {
+                e.printStackTrace();
+            }
+        });
 
-	public void setGizmoAction(String gizmoName, GizmoActionType actionType) throws GizmoNotFoundException {
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public void setGizmoAction(String gizmoName, GizmoActionType actionType) throws GizmoNotFoundException {
 		Gizmo gizmo = getGizmoByName(gizmoName);
 		gizmo.setAction(actionType);
 	}
@@ -410,6 +433,8 @@ public class Model extends Observable implements IModel {
 		collidable.remove(gizmo);
 		drawables.remove(gizmo);
 		gizmos.remove(gizmo);
+        this.setChanged();
+        this.notifyObservers();
 	}
 
 	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException {

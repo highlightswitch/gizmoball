@@ -2,6 +2,7 @@ package view;
 
 import controller.PlaceBallListener;
 import model.Model;
+import model.gizmo.Gizmo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +16,7 @@ public class EditBallDialogue {
     String intVelocity;
     Color color;
 
-    public EditBallDialogue(JFrame f, String mode, Model m){
+    public EditBallDialogue(JFrame f, String mode, Model m, Gizmo g){
 
         JLabel label = new JLabel();
         label.setIcon(new ImageIcon(getClass().getResource("/Images/borderBallSmall.png")));

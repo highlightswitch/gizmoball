@@ -40,19 +40,22 @@ public class FindEditorListener implements MouseListener {
             Tile t = m.getTileAt(xy[0], xy[1]);
 
             if(t.isOccupied()){
+                System.out.println("found something");
                GizmoType g =  t.getGizmo().getType();
                switch (g){
                    case BALL:
-                       new EditBallDialogue(frame, "Edit", m);
+                       new EditBallDialogue(frame, "Edit", m, t.getGizmo());
                        break;
                    case ABSORBER:
-                       new EditAbsorberDialogue(frame, "Edit", m);
+                       new EditAbsorberDialogue(frame, "Edit", m, t.getGizmo());
                    case FLIPPER:
-                       new EditFlipperDialogue(frame, "Edit", m);
+                       new EditFlipperDialogue(frame, "Edit", m, t.getGizmo());
                    default:
-                       new EditShapeDialogue(frame, g.toString(), "Edit", m);
+                       String s = g.name().substring(0,g.name().indexOf("_")).toLowerCase();
+                       new EditShapeDialogue(frame, s, "Edit", m, t.getGizmo());
                }
             }
+            System.out.println("tile empty");
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
             tileCoordinatesNotValid.printStackTrace();
         }

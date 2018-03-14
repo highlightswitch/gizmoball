@@ -3,6 +3,7 @@ package view;
 import controller.PlaceBallListener;
 import controller.PlaceFlipperListener;
 import model.Model;
+import model.gizmo.Gizmo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ public class EditFlipperDialogue {
     String orient;
     Color color;
 
-    public EditFlipperDialogue(JFrame f, String mode, Model m){
+    public EditFlipperDialogue(JFrame f, String mode, Model m, Gizmo g){
         JLabel label = new JLabel();
         label.setIcon(new ImageIcon(getClass().getResource("/Images/fillFlipperSmall.png")));
         label.setHorizontalAlignment(SwingConstants.CENTER);

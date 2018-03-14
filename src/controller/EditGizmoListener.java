@@ -1,41 +1,29 @@
 package controller;
 
 import model.*;
+import model.gizmo.Gizmo;
 import model.gizmo.GizmoActionType;
+import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
 
 import java.awt.*;
+import java.util.HashMap;
 
-public class PlaceGizmoListener{
+public class EditGizmoListener {
     private IModel model;
-    private GizmoType g;
-    private String gname;
-    private int id = 0;
+    private Gizmo gizmo;
     private String color;
     private GizmoActionType action;
     private int x;
     private int y;
+    private HashMap<GizmoPropertyType, String> properties = new HashMap<>();
 
-    public PlaceGizmoListener(String gizmo, String position, Color c, String a, String t, Model m){
+    public EditGizmoListener(Gizmo g, String position, Color c, String a, String t, Model m){
         model = m;
-        String name = gizmo;
+        gizmo = g;
+
         color = c.toString();
         color = color.substring(color.indexOf("["));
-
-        switch (name){
-            case "Circle":
-                g = GizmoType.CIRCLE_BUMPER;
-                break;
-            case "Triangle":
-                g = GizmoType.TRIANGLE_BUMPER;
-                break;
-            case  "Square":
-                g = GizmoType.SQUARE_BUMPER;
-                break;
-        }
-
-        gname = name + id;
-        id++;
 
         String pos = position.replace("(", "");
         pos = pos.replace(")", "");
@@ -45,7 +33,6 @@ public class PlaceGizmoListener{
         posY = posY.replace(",", "");
         x = Integer.valueOf(posX);
         y = Integer.valueOf(posY);
-
 
 
         switch (a){
@@ -71,18 +58,25 @@ public class PlaceGizmoListener{
             case "Ball Collision":
                 break;
         }
-        place();
+
+        edit();
     }
 
-    private void place() {
+    public void edit(){
         try {
-            model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,""});
-            model.setGizmoAction(gname, action);
-            //how to trigger: use connect
-        } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
-            e1.printStackTrace();
+            model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
+            properties.put(GizmoPropertyType.NAME, gizmo.getProperty(GizmoPropertyType.NAME));
+            properties.put(GizmoPropertyType.ROTATION_DEG, String.valueOf(0));
+            properties.put(GizmoPropertyType.CURRENT_COLOUR, color);
+            properties.put(GizmoPropertyType.DEFAULT_COLOUR, color);
+            properties.put(GizmoPropertyType.ALT_COLOUR, "");
+            model.setAllProperties(gizmo.getProperty(GizmoPropertyType.NAME), properties);
         } catch (GizmoNotFoundException e) {
             e.printStackTrace();
+        } catch (GizmoPlacementNotValidException e) {
+            e.printStackTrace();
+        } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+            tileCoordinatesNotValid.printStackTrace();
         }
     }
 }
