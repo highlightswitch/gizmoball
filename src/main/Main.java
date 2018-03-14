@@ -45,7 +45,7 @@ public class Main {
 
 			List<Absorber> absorbers = new ArrayList<>();
 
-			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(3, 15), new String[]{ "1", "6", "1" }));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(3, 15), new String[]{ "1", "6", "2" }));
 			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(2, 17), new String[]{ "2", "15", "1" }));
 			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19),  new String[]{ "3", "20", "1" }));
 

@@ -136,4 +136,14 @@ public class DrawingData {
 		return sb.toString();
 	}
 
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null || getClass() != obj.getClass())
+//			return false;
+//		DrawingData data = (DrawingData) obj;
+//		return polygonsData == data.polygonsData && circlesData == data.circlesData;
+//	}
+
 }
