@@ -1,6 +1,7 @@
 package model;
 
 import model.gizmo.*;
+import model.util.DualKeyMap;
 
 import java.awt.*;
 import java.util.*;
@@ -23,7 +24,7 @@ public class Model extends Observable implements IModel {
 
 	private Ball ball;
 
-	private Map<Integer, Set<KeyEventTriggerable>> keyEventTriggerMap =  new HashMap<>();
+    private DualKeyMap<Integer, TriggerType, Set<KeyEventTriggerable>> keyEventTriggerMap;
 
 	private ArrayList<Tickable> tickable;
     private ArrayList<Collidable> collidable;
@@ -41,6 +42,8 @@ public class Model extends Observable implements IModel {
         }
 
 		Walls walls = new Walls(0, 0, 20, 20);
+
+        keyEventTriggerMap = new DualKeyMap<>();
 
 		tickable = new ArrayList<>();
 		drawables = new ArrayList<>();
@@ -66,24 +69,6 @@ public class Model extends Observable implements IModel {
 
 	public ArrayList<Collidable> getCollidable() {
 		return collidable;
-	}
-
-	public double[] getFrictionConstants(){
-    	return frictionConstants;
-	}
-
-	public double getGravityConstant() {
-		return gravityConstant;
-	}
-
-	public void setFrictionConstants(double[] arr) throws ModelPropertyException {
-		validateFrictionValues(arr);
-		frictionConstants = arr;
-	}
-
-	public void setGravityConstant(double val) throws ModelPropertyException {
-		validateGravityValue(val);
-		gravityConstant = val;
 	}
 
 	public Ball getBall() {
@@ -117,9 +102,9 @@ public class Model extends Observable implements IModel {
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 
-        if(keyEventTriggerMap.containsKey(keyCode)){
-            Set<KeyEventTriggerable> set = keyEventTriggerMap.get(keyCode);
-            for(KeyEventTriggerable triggerable : set) {
+		if(keyEventTriggerMap.containsKey(keyCode, trigger)){
+			Set<KeyEventTriggerable> set = keyEventTriggerMap.get(keyCode, trigger);
+			for(KeyEventTriggerable triggerable : set) {
 				switch (trigger) {
 					case KEY_DOWN:
 						triggerable.keyDown();
@@ -129,7 +114,7 @@ public class Model extends Observable implements IModel {
 						break;
 				}
 			}
-        }
+		}
 
     }
 
@@ -180,9 +165,9 @@ public class Model extends Observable implements IModel {
 
 	}
 
-	private void validateFrictionValue(double val) throws ModelPropertyException {
-		if(val < 0 )
-			throw new ModelPropertyException("Friction value cannot be set to " + val);
+	private void validateFrictionValues(double[] arr) throws ModelPropertyException {
+		if(arr[0] < 0 || arr[1] < 0)
+			throw new ModelPropertyException("Friction values cannot be set to " + Arrays.toString(arr));
 	}
 
 	private void validateGravityValue(double val) throws ModelPropertyException {
@@ -358,15 +343,15 @@ public class Model extends Observable implements IModel {
 		trigger.addActor(actor);
 	}
 
-	public void connect(int keyCode, String actorName) throws GizmoNotFoundException {
+	public void connect(int keyCode, TriggerType type, String actorName) throws GizmoNotFoundException {
 		KeyEventTriggerable actor = getGizmoByName(actorName);
 
-		if(keyEventTriggerMap.containsKey(keyCode)){
-			keyEventTriggerMap.get(keyCode).add(actor);
+		if(keyEventTriggerMap.containsKey(keyCode, type)){
+			keyEventTriggerMap.get(keyCode, type).add(actor);
 		} else {
 			Set<KeyEventTriggerable> set = new HashSet<>();
 			set.add(actor);
-			keyEventTriggerMap.put(keyCode, set);
+			keyEventTriggerMap.put(keyCode, type, set);
 		}
 	}
 
@@ -383,38 +368,51 @@ public class Model extends Observable implements IModel {
 		trigger.removeAllActors();
 	}
 
-	public void disconnect(int keyCode, String actorName) throws GizmoNotFoundException {
+	public void disconnect(int keyCode, TriggerType type, String actorName) throws GizmoNotFoundException {
 		Triggerable actor = getGizmoByName(actorName);
 
-		if(keyEventTriggerMap.containsKey(keyCode)){
-			keyEventTriggerMap.get(keyCode).remove(actor);
+		if(keyEventTriggerMap.containsKey(keyCode, type)){
+			keyEventTriggerMap.get(keyCode, type).remove(actor);
 		}
 	}
 
-	public void disconnectAll(int keyCode) throws GizmoNotFoundException{
-		if(keyEventTriggerMap.containsKey(keyCode)){
-			keyEventTriggerMap.remove(keyCode);
+	public void disconnectAll(int keyCode, TriggerType type) throws GizmoNotFoundException{
+		if(keyEventTriggerMap.containsKey(keyCode, type)){
+			keyEventTriggerMap.remove(keyCode, type);
 		}
 	}
 
-	@Override
-	public double[] getFrictionConstant() {
+	public double[] getFrictionConstants(){
 		return frictionConstants;
 	}
 
-	public ArrayList<Drawable> getDrawables(){
+	public double getGravityConstant() {
+		return gravityConstant;
+	}
 
+	public void setFrictionConstants(double[] arr) throws ModelPropertyException {
+		validateFrictionValues(arr);
+		frictionConstants = arr;
+	}
+
+	public void setGravityConstant(double val) throws ModelPropertyException {
+		validateGravityValue(val);
+		this.gravityConstant = val;
+	}
+
+	public ArrayList<Drawable> getDrawables(){
     	return drawables;
 	}
 
-	@Override
 	public ArrayList<Drawable> getDebugDrawables() {
-		return null;
-	}
-
-	private void validateFrictionValues(double[] arr) throws ModelPropertyException {
-		if(arr[0] < 0 || arr[1] < 0)
-			throw new ModelPropertyException("Friction values cannot be set to " + Arrays.toString(arr));
+		ArrayList<Drawable> drawables = new ArrayList<>();
+		for(Collidable col : collidable){
+			drawables.add(col.getGameObject());
+		}
+		if(ball != null){
+			drawables.add(ball.getGameObject());
+		}
+		return drawables;
 	}
 
 

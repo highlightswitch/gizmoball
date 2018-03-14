@@ -37,10 +37,26 @@ public class ButtonActionListener implements ActionListener {
                 break;
             case "Edit":
                 frame.addMouseListener(new FindEditorListener(frame,model, panel));
+                //EditShapeDialogue shapeDi = new EditShapeDialogue(frame);
                 break;
             case "Move":
                 //
                 break;
+            case "circle":
+                frame.addMouseListener(new AddCircleListener());
+            case "triangle":
+                frame.addMouseListener(new AddTriangleListener());
+            case "square":
+                frame.addMouseListener(new AddSquareListener());
+            case "absorber":
+                frame.addMouseListener(new AddAbsorberListener());
+            case "flipper":
+                frame.addMouseListener(new AddFlipperListener());
+            case "ball":
+                frame.addMouseListener(new AddBallListener());
+
+
+
         }
 
 	}
