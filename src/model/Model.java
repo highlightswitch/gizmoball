@@ -1,6 +1,7 @@
 package model;
 
 import model.gizmo.*;
+import model.util.DualKeyMap;
 
 import java.awt.*;
 import java.util.*;
@@ -23,7 +24,7 @@ public class Model extends Observable {
 	private Ball ball;
 	private Walls walls;
 
-    private Map<Integer, Set<KeyEventTriggerable>> keyEventTriggerMap =  new HashMap<>();
+    private DualKeyMap<Integer, TriggerType, Set<KeyEventTriggerable>> keyEventTriggerMap;
 
 	private ArrayList<Tickable> tickable;
     private ArrayList<Collidable> collidable;
@@ -39,6 +40,8 @@ public class Model extends Observable {
                 tiles[x][y] = new Tile(this, x,y);
             }
         }
+
+        keyEventTriggerMap = new DualKeyMap<>();
 
 		walls = new Walls(0, 0, 20, 20);
 
@@ -225,20 +228,20 @@ public class Model extends Observable {
     	trigger.addActor(actor);
 	}
 
-	public void connect(int keyCode, KeyEventTriggerable actor){
-		if(keyEventTriggerMap.containsKey(keyCode)){
-			keyEventTriggerMap.get(keyCode).add(actor);
+	public void connect(int keyCode, TriggerType type, KeyEventTriggerable actor){
+		if(keyEventTriggerMap.containsKey(keyCode, type)){
+			keyEventTriggerMap.get(keyCode, type).add(actor);
 		} else {
 			Set<KeyEventTriggerable> set = new HashSet<>();
 			set.add(actor);
-			keyEventTriggerMap.put(keyCode, set);
+			keyEventTriggerMap.put(keyCode, type, set);
 		}
 	}
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 
-        if(keyEventTriggerMap.containsKey(keyCode)){
-            Set<KeyEventTriggerable> set = keyEventTriggerMap.get(keyCode);
+        if(keyEventTriggerMap.containsKey(keyCode, trigger)){
+            Set<KeyEventTriggerable> set = keyEventTriggerMap.get(keyCode, trigger);
             for(KeyEventTriggerable triggerable : set) {
 				switch (trigger) {
 					case KEY_DOWN:

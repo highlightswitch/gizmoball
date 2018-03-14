@@ -1,11 +1,11 @@
 package main;
 
-import model.Model;
-
-import javax.swing.*;
 import model.GizmoPlacementNotValidException;
+import model.Model;
 import model.gizmo.*;
 import view.GameFrame;
+
+import javax.swing.*;
 
 
 public class Main {
@@ -43,12 +43,15 @@ public class Main {
 
 			model.connect(square, triangle);
 
-			model.connect(32, absorber); //Key code 32 = space
-			model.connect(70, leftFlipper); //Key code 70 = F
-			model.connect(71, rightFlipper); //Key code 71 = G
+			model.connect(32, TriggerType.KEY_DOWN, absorber); //Key code 32 = space
+			model.connect(70, TriggerType.KEY_DOWN, leftFlipper); //Key code 70 = F
+			model.connect(71, TriggerType.KEY_DOWN, rightFlipper); //Key code 71 = G
 
-			model.connect(72, leftFlipper); //Key code 72 = H
-			model.connect(72, rightFlipper); //Key code 72 = H
+			model.connect(70, TriggerType.KEY_UP, leftFlipper); //Key code 70 = F
+			model.connect(71, TriggerType.KEY_UP, rightFlipper); //Key code 71 = G
+
+			model.connect(72, TriggerType.KEY_DOWN, leftFlipper); //Key code 72 = H
+			model.connect(72, TriggerType.KEY_DOWN, rightFlipper); //Key code 72 = H
 
 			rightFlipper.setAction(GizmoActionType.FLIP_FLIPPER);
 			leftFlipper.setAction(GizmoActionType.FLIP_FLIPPER);

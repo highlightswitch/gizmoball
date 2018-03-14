@@ -38,6 +38,21 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
         flipPos =  clamp(flipPos + currentMovement, 0, 1);
     }
 
+    private boolean isMovingUp(){
+        return currentMovement > 0;
+    }
+
+    private boolean isMovingDown(){
+        return currentMovement < 0;
+    }
+
+    private void setMovingUp(){
+        currentMovement = flipSpeed;
+    }
+
+    private void setMovingDown(){
+        currentMovement = -1* flipSpeed;
+    }
 
     private double clamp(double val, double min, double max){
         if(val < min) return min;
@@ -210,25 +225,27 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     }
 
     private void action_moveFlipper(){
-        if(currentMovement < 0 && flipPos != 0){
-            currentMovement = flipSpeed;
-        } else if(currentMovement > 0 && flipPos != 1) {
-            currentMovement = -1 * flipSpeed;
+        if(isMovingDown() && flipPos != 0){
+            setMovingUp();
+        } else if(isMovingUp() && flipPos != 1) {
+            setMovingDown();
         } else if(flipPos == 0){
-            currentMovement = flipSpeed;
+            setMovingUp();
         } else if(flipPos == 1){
-            currentMovement = -1 * flipSpeed;
+            setMovingDown();
+        } else {
+            System.err.println("action_MoveFlipper: This should never happen");
         }
     }
 
     public void keyDown() {
         super.keyDown();
-        currentMovement = flipSpeed;
+        trigger();
     }
 
     public void keyUp() {
         super.keyUp();
-        currentMovement = -1 * flipSpeed;
+        trigger();
     }
 
 }
