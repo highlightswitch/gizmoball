@@ -8,6 +8,7 @@ import java.awt.*;
 public class RunView implements GameView {
     JFrame frame;
     JPanel panGame;
+    JPanel panBoard;
 
     public RunView(JFrame frame, MainController c, Board b){
 
@@ -46,6 +47,8 @@ public class RunView implements GameView {
         panGrid.add(b);
         panGrid.setOpaque(false);
 
+        panBoard = panGrid;
+
         panGame.setLayout(new BorderLayout());
         panGame.add(panGrid, BorderLayout.CENTER);
         panGame.add(panControls, BorderLayout.SOUTH);
@@ -53,5 +56,10 @@ public class RunView implements GameView {
 
     public JPanel getPanel() {
         return panGame;
+    }
+
+    @Override
+    public JPanel getBoard() {
+        return panBoard;
     }
 }

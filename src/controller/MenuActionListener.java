@@ -12,10 +12,12 @@ public class MenuActionListener implements ActionListener {
 
     private MainController controller;
     private JFrame frame;
+    private JPanel panel;
 
-    MenuActionListener(MainController c, JFrame f){
+    MenuActionListener(MainController c, JFrame f, JPanel p){
         controller = c;
         frame = f;
+        panel = p;
     }
 
     @Override
@@ -57,7 +59,9 @@ public class MenuActionListener implements ActionListener {
             case "Delete":
                 break;
             case "Edit":
-                frame.addMouseListener(new FindEditorListener(frame, controller.getModel()));
+                System.out.println("you are in editing mode");
+                System.out.println("adding listener to " + panel.hashCode());
+                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel));
                 break;
             case "Gravity":
                 new GravitySlider(frame, controller.getModel());
@@ -69,6 +73,7 @@ public class MenuActionListener implements ActionListener {
                 System.exit(0);
                 break;
             case "Build":
+                controller.stopTimer();
                 controller.switchToBuildView();
                 break;
             case "Run":

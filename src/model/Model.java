@@ -374,29 +374,19 @@ public class Model extends Observable implements IModel {
 		}
 	}
 
-
-
-	public double getFrictionConstant(){
-		return frictionConstant;
+	@Override
+	public double[] getFrictionConstant() {
+		return frictionConstants;
 	}
-
-	public double getGravityConstant(){
-		return gravityConstant;
-	}
-
-	public void setFrictionConstant(double x, double y) throws ModelPropertyException {
-		validateFrictionValue(x);
-		frictionConstant = x;
-	}
-
-	public void setGravityConstant(double val) throws ModelPropertyException {
-		validateGravityValue(val);
-		gravityConstant = val;
-	}
-
 
 	public ArrayList<Drawable> getDrawables(){
-		return drawables;
+
+    	return drawables;
+	}
+
+	@Override
+	public ArrayList<Drawable> getDebugDrawables() {
+		return null;
 	}
 
 	private void validateFrictionValues(double[] arr) throws ModelPropertyException {

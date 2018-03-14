@@ -19,11 +19,10 @@ public class MainController implements ActionListener {
 
     public MainController(){
         keyListener = new MagicKeyListener(this);
-
         this.model = new Model();
-        this.fr = new GameFrame(this);
-
+        fr = new GameFrame(this);
         this.timer = new Timer(50, this);
+        fr.assignActionListeners();
     }
 
     public IModel getIModel() {
@@ -70,7 +69,8 @@ public class MainController implements ActionListener {
             return new ButtonActionListener(this, frame, model);
         }
         else if(type.equals("Menu")){
-            return new MenuActionListener(this, frame);
+            System.out.println("main controller: " + fr.geActiveBoard().hashCode());
+            return new MenuActionListener(this, frame, fr.geActiveBoard());
         }
 
         return new ActionListener() {

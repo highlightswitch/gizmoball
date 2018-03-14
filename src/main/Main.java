@@ -7,6 +7,7 @@ import model.IModel;
 import model.TileCoordinatesNotValid;
 import model.gizmo.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,16 +49,19 @@ public class Main {
 
 			List<Absorber> absorbers = new ArrayList<>();
 
-			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(3, 15), new String[]{ "1", "6", "1" }));
-			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(2, 17), new String[]{ "2", "15", "1" }));
-			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19),  new String[]{ "3", "20", "1" }));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(3, 15), new String[]{ "1", "6", "1", "white", "white", "blue"}));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(2, 17), new String[]{ "2", "15", "1", "white", "white", "white" }));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19),  new String[]{ "3", "20", "1", "white", "white", "red"}));
 
 			model.moveGizmo(ball.getProperty(GizmoPropertyType.NAME), model.getTileAt(0,12));
 			model.deleteGizmo(deleteMe.getProperty(GizmoPropertyType.NAME));
 
 			model.connect(square.getProperty(GizmoPropertyType.NAME), triangle.getProperty(GizmoPropertyType.NAME));
 
-			model.connect(32, absorber.getProperty(GizmoPropertyType.NAME)); //Key code 32 = space
+			model.connect(32, absorbers.get(0).getProperty(GizmoPropertyType.NAME)); //Key code 32 = space
+			model.connect(32, absorbers.get(1).getProperty(GizmoPropertyType.NAME));
+			model.connect(32, absorbers.get(2).getProperty(GizmoPropertyType.NAME));
+
 			model.connect(70, leftFlipper.getProperty(GizmoPropertyType.NAME)); //Key code 70 = F
 			model.connect(71, rightFlipper.getProperty(GizmoPropertyType.NAME)); //Key code 71 = G
 
@@ -66,8 +70,6 @@ public class Main {
 
 			model.setGizmoAction(leftFlipper.getProperty(GizmoPropertyType.NAME), GizmoActionType.FLIP_FLIPPER);
 			model.setGizmoAction(rightFlipper.getProperty(GizmoPropertyType.NAME), GizmoActionType.FLIP_FLIPPER);
-
-
 
 		} catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e){
 			e.printStackTrace();
