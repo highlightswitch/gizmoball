@@ -34,7 +34,6 @@ public class GizmoballFileReader {
                 while(st.hasMoreTokens()){
                     tokens.add(st.nextToken());
                 }
-              //  System.out.println(tokens);
                 if(checkLine(tokens)) {
                     try{
                         command(tokens);

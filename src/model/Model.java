@@ -51,13 +51,26 @@ public class Model extends Observable {
 
 	}
 
+	public String getBallName(){
+    	return ball.getProperty(GizmoPropertyType.NAME);
+	}
+
 	public String toString(){
         String game = "";
         for (Gizmo gizmo: gizmos) {
             game = game + gizmo.toString() + "\n";
+            if(!(gizmo.getType() == GizmoType.BALL)) {
+                if(!(gizmo.getType() == GizmoType.ABSORBER)) {
+                    double rotation = Double.parseDouble(gizmo.getProperty(GizmoPropertyType.ROTATION_DEG));
+                    rotation = rotation / 90;
+                    for (int i = 0; i < rotation; i++) {
+                        game = game + "Rotate" + " " + gizmo.getProperty(GizmoPropertyType.NAME) + "\n";
+                    }
+                }
+            }
         }
-        game = game + "Gravity" + gravityConstant + "\n";
-        game = game + "Friction" + frictionConstant + "\n";
+        game = game + "Gravity" + " " + gravityConstant + "\n";
+        game = game + "Friction" + " " + frictionConstant + "\n";
         //need to add rotation
         return game;
     }

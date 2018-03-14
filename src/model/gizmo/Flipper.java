@@ -20,6 +20,8 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     private double currentMovement;
     private double flipPos;
 
+   // protected GizmoType type;
+
     public Flipper(Color colour, Map<GizmoPropertyType, String> properties){
         super(colour, properties);
 
@@ -28,7 +30,10 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
         flipPos = 0;
         currentMovement = 0;
 
+        type = GizmoType.FLIPPER;
     }
+
+    public GizmoType getType(){return type;}
 
     private boolean isLeftFlipper(){
         return Boolean.valueOf(getProperty(GizmoPropertyType.IS_LEFT_ORIENTATED));

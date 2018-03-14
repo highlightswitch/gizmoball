@@ -14,6 +14,7 @@ public class Absorber extends Gizmo implements Collidable {
 
     public Absorber(Color colour, Map<GizmoPropertyType, String> properties){
         super(colour, properties);
+        type = GizmoType.ABSORBER;
     }
 
     void setAbsorbedBall (Ball ball) {
@@ -35,6 +36,8 @@ public class Absorber extends Gizmo implements Collidable {
         return tiles.toArray(arr);
 
     }
+
+    public GizmoType getType(){return type;}
 
     @Override
     public GameObject getPrototypeGameObject() {
