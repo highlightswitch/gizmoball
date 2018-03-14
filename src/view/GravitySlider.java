@@ -1,5 +1,9 @@
 package view;
 
+import controller.SetGravity;
+import model.IModel;
+import model.ModelPropertyException;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -9,9 +13,9 @@ import java.awt.event.ActionListener;
 
 public class GravitySlider {
     JDialog gravity;
-    int newGravity;
+    double newGravity;
 
-    public GravitySlider(JFrame f){
+    public GravitySlider(JFrame f, IModel m){
         JLabel label = new JLabel("Drag slider to change gravity: ");
         JSlider s = new JSlider(JSlider.HORIZONTAL, -35, 35, 25);
 
@@ -35,6 +39,11 @@ public class GravitySlider {
         ok.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    new SetGravity(m, newGravity);
+                } catch (ModelPropertyException e1) {
+                    e1.printStackTrace();
+                }
                 gravity.dispose();
             }
         });

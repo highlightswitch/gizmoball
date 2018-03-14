@@ -75,9 +75,14 @@ public class GameFrame {
         absorber.setActionCommand("Absorber");
         absorber.addActionListener(controller.getActionListener(this.frMain, "Menu"));
 
+        JMenuItem flipper  = new JMenuItem("Add a Flipper");
+        flipper.setActionCommand("Flipper");
+        flipper.addActionListener(controller.getActionListener(this.frMain, "Menu"));
+
         add.add(shape);
         add.add(ball);
         add.add(absorber);
+        add.add(flipper);
 
         rotate = new JMenuItem("Rotate");
         rotate.setActionCommand("Rotate");

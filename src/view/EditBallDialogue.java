@@ -19,6 +19,7 @@ public class EditBallDialogue {
 
         JLabel label = new JLabel();
         label.setIcon(new ImageIcon(getClass().getResource("/Images/borderBallSmall.png")));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel pos = new JLabel("Initial position: ");
         JTextField position = new JTextField("(0,0)");

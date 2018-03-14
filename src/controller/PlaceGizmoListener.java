@@ -11,7 +11,7 @@ public class PlaceGizmoListener{
     private GizmoType g;
     private String gname;
     private int id = 0;
-    private Color color;
+    private String color;
     private GizmoActionType action;
     private int x;
     private int y;
@@ -19,6 +19,8 @@ public class PlaceGizmoListener{
     public PlaceGizmoListener(String gizmo, String position, Color c, String a, String t, Model m){
         model = m;
         String name = gizmo;
+        color = c.toString();
+        color = color.substring(color.indexOf("["));
 
         switch (name){
             case "Circle":
@@ -47,7 +49,7 @@ public class PlaceGizmoListener{
         x = Integer.valueOf(posX);
         y = Integer.valueOf(posY);
 
-        color = c;
+
 
         switch (a){
             case "Change Colour":
@@ -77,8 +79,7 @@ public class PlaceGizmoListener{
 
     private void place() {
         try {
-            //System.out.println("I am going to place " + g.toString() + " at: (" + x + "," + y + ")");
-            model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0)});
+            model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,""});
             model.setGizmoAction(gname, action);
             //how to trigger: use connect
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {

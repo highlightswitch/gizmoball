@@ -7,24 +7,25 @@ import model.gizmo.GizmoType;
 
 import java.awt.*;
 
-public class PlaceAbsorberListener {
+public class PlaceFlipperListener {
     private Model model;
     private int sx;
     private int sy;
-    private String width;
-    private String height;
+    private String di;
     private String name;
     private int id = 0;
     private String color;
 
-    public PlaceAbsorberListener(String start, String w, String h, Color c, Model m){
+    public PlaceFlipperListener(String pos, String direction, Color c, Model m){
         model = m;
+
         color = c.toString();
         color = color.substring(color.indexOf("["));
-        name = "Absorber" + id;
+
+        name = "Flipper" + id;
         id++;
 
-        String spos = start.replace("(", "");
+        String spos = pos.replace("(", "");
         spos  = spos.replace(")", "");
 
         String posXS = spos.substring(0, spos.indexOf(","));
@@ -33,18 +34,25 @@ public class PlaceAbsorberListener {
         sx = Integer.valueOf(posXS);
         sy = Integer.valueOf(posYS);
 
-        width = w;
-        height = h;
+        if(direction.equals("Left")){
+            di = "true";
+        } else {
+            di = "false";
+        }
+
+
 
         place();
+
     }
 
     private void place() {
         try {
-            model.placeGizmo(GizmoType.ABSORBER,model.getTileAt(sx,sy),new String[] {name, width, height, color, color, ""});
-        } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e) {
+            model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(sx,sy), new String[]{name, String.valueOf(0), di,color,color, ""});
+        } catch (GizmoPlacementNotValidException e) {
             e.printStackTrace();
+        } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+            tileCoordinatesNotValid.printStackTrace();
         }
     }
-
 }

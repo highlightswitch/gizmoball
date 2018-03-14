@@ -222,7 +222,7 @@ public class GizmoballFileReader {
                 break;
             case "Friction": try {
                 //need to look at friction format
-                model.setFrictionConstant(Float.parseFloat(command.get(2)));
+                model.setFrictionConstant(Float.parseFloat(command.get(2)), Float.parseFloat(command.get(2)));
             } catch (ModelPropertyException e){
                 e.printStackTrace();
             }

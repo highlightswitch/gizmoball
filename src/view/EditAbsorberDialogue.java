@@ -13,18 +13,23 @@ public class EditAbsorberDialogue {
     JPanel panDI;
     JDialog edit;
     String startPosition;
-    String endPosition;
+    String widthS;
+    String heightS;
     Color color;
 
     public EditAbsorberDialogue(JFrame f, String mode, Model m){
         JLabel label = new JLabel();
         label.setIcon(new ImageIcon(getClass().getResource("/Images/fillRectangleSmall.png")));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel spos = new JLabel("Start position (top left): ");
         JTextField sposition = new JTextField("(0,0)");
 
-        JLabel epos = new JLabel("End position (bottom right): ");
-        JTextField eposition = new JTextField("(0,0)");
+        JLabel w = new JLabel("Width: ");
+        JTextField width = new JTextField();
+
+        JLabel h = new JLabel("Height: ");
+        JTextField height = new JTextField();
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
@@ -40,8 +45,10 @@ public class EditAbsorberDialogue {
         panForm.add(label);
         panForm.add(spos);
         panForm.add(sposition);
-        panForm.add(epos);
-        panForm.add(eposition);
+        panForm.add(w);
+        panForm.add(width);
+        panForm.add(h);
+        panForm.add(height);
 
         panShape.add(panForm);
         panShape.add(shapeColour);
@@ -55,9 +62,10 @@ public class EditAbsorberDialogue {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     startPosition = sposition.getText();
-                    endPosition = eposition.getText();
+                    widthS  = width.getText();
+                    heightS = height.getText();
                     color = shapeColour.getColor();
-                    new PlaceAbsorberListener(startPosition, endPosition , color, m);
+                    new PlaceAbsorberListener(startPosition, widthS, heightS, color, m);
                     edit.dispose();
                 }
             });

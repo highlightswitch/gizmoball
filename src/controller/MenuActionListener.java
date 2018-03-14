@@ -49,6 +49,9 @@ public class MenuActionListener implements ActionListener {
             case "Absorber":
                 new EditAbsorberDialogue(frame, "Add", controller.getModel());
                 break;
+            case "Flipper":
+                new EditFlipperDialogue(frame, "Add", controller.getModel());
+                break;
             case "Rotate":
                 break;
             case "Delete":
@@ -57,10 +60,10 @@ public class MenuActionListener implements ActionListener {
                 frame.addMouseListener(new FindEditorListener(frame, controller.getModel()));
                 break;
             case "Gravity":
-                GravitySlider g = new GravitySlider(frame);
+                new GravitySlider(frame, controller.getModel());
                 break;
             case "Friction":
-                FrictionSlider f = new FrictionSlider(frame);
+                new FrictionSlider(frame, controller.getModel());
                 break;
             case "Quit":
                 System.exit(0);

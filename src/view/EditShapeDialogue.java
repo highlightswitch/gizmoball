@@ -30,6 +30,7 @@ public class EditShapeDialogue {
         switch (gizmo){
             case "Circle":
                 label.setIcon(new ImageIcon(getClass().getResource("/Images/fillCircleSmall.png")));
+
                 break;
             case "Triangle":
                 label.setIcon(new ImageIcon(getClass().getResource("/Images/fillTriangleSmall.png")));
@@ -39,10 +40,10 @@ public class EditShapeDialogue {
                 break;
         }
 
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+
         JComboBox actionList = new JComboBox(actions);
-
         JComboBox triggerList = new JComboBox(triggers);
-
         JLabel pos = new JLabel("Initial position: ");
         JTextField position = new JTextField("(0,0)");
 
@@ -58,12 +59,14 @@ public class EditShapeDialogue {
         panForm.setOpaque(false);
 
         panForm.add(label);
-        panForm.add(action);
-        panForm.add(actionList);
-        panForm.add(pos);
-        panForm.add(position);
+
         panForm.add(trigger);
         panForm.add(triggerList);
+        panForm.add(action);
+        panForm.add(actionList);
+
+        panForm.add(pos);
+        panForm.add(position);
 
         panShape.add(panForm);
         panShape.add(shapeColour);
@@ -79,16 +82,19 @@ public class EditShapeDialogue {
                     intPosition = position.getText();
                     color = shapeColour.getColor();
                     cAction = actions[actionList.getSelectedIndex()];
+
+                    cTrigger = triggers[triggerList.getSelectedIndex()];
+                    //any circle, any square, flipper, absorber, etc
+
                     if(cAction.equals("Activate Another Gizmo")){
                         String[] action = new String[]{"Flipper", "Absorber"};
                         JComboBox gizmos = new JComboBox(action);
                         JOptionPane.showMessageDialog(fr, gizmos, "Select gizmo to activate", JOptionPane.QUESTION_MESSAGE);
                         cAction = action[gizmos.getSelectedIndex()];
                     }
-
-                    cTrigger = triggers[triggerList.getSelectedIndex()];
-                    //any circle, any square, flipper, absorber, etc
-
+                    if(cTrigger.equals("A Key Press")){
+                        // start key listener, give user
+                    }
                     new PlaceGizmoListener(gizmo, intPosition, color, cAction, cTrigger, model);
                     edit.dispose();
                 }

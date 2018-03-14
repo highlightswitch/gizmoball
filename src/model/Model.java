@@ -366,9 +366,9 @@ public class Model extends Observable implements IModel {
 		return gravityConstant;
 	}
 
-	public void setFrictionConstant(double val) throws ModelPropertyException {
-		validateFrictionValue(val);
-		frictionConstant = val;
+	public void setFrictionConstant(double x, double y) throws ModelPropertyException {
+		validateFrictionValue(x);
+		frictionConstant = x;
 	}
 
 	public void setGravityConstant(double val) throws ModelPropertyException {

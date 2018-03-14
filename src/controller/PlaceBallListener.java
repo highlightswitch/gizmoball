@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class PlaceBallListener {
     private IModel model;
-    Color color;
+    String color;
     private String name;
     private int id;
     private int x;
@@ -18,10 +18,12 @@ public class PlaceBallListener {
     private String vx;
     private String vy;
 
-    public PlaceBallListener(String position, String velocity, Color color, Model m){
+    public PlaceBallListener(String position, String velocity, Color c, Model m){
         model = m;
         name = "Ball" + id;
         id++;
+        color = c.toString();
+        color = color.substring(color.indexOf("["));
 
         String pos = position.replace("(", "");
         pos = pos.replace(")", "");
@@ -39,16 +41,14 @@ public class PlaceBallListener {
         vy = vel.substring(vel.indexOf(","));
         vy = vy.replace(",", "");
 
-        //vx = Integer.valueOf(velX);
-        //vy = Integer.valueOf(velY);
-
         place();
     }
 
     private void place(){
         try {
-            //System.out.println("I am going to place a ball" + " at: (" + x + "," + y + ")");
-            model.placeGizmo(GizmoType.BALL,model.getTileAt(x,y), new String[]{name, vx, vy});
+            System.out.println(color); // [r=51,g=0,b=153]
+            model.placeGizmo(GizmoType.BALL,model.getTileAt(x,y), new String[]{name, vx, vy, color, color, ""});
+            // connect one trigger to one action
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
             e1.printStackTrace();
         }

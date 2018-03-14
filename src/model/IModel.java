@@ -32,7 +32,7 @@ public interface IModel {
 
 	double getFrictionConstant();
 	double getGravityConstant();
-	void setFrictionConstant(double val) throws ModelPropertyException;
+	void setFrictionConstant(double x, double y) throws ModelPropertyException;
 	void setGravityConstant(double val) throws ModelPropertyException;
 
 	ArrayList<Drawable> getDrawables();
