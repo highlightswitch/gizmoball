@@ -1,19 +1,21 @@
 package controller;
 
+import model.GizmoballFileReader;
+import view.*;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
-
-import model.*;
 
 public class MenuActionListener implements ActionListener {
 
     private MainController controller;
+    private JFrame frame;
 
-    MenuActionListener(MainController c){
+    MenuActionListener(MainController c, JFrame f){
         controller = c;
+        frame = f;
     }
 
     @Override
@@ -27,19 +29,41 @@ public class MenuActionListener implements ActionListener {
                     try {
                         GizmoballFileReader fileReader = new GizmoballFileReader(selectedFile);
                         controller.setModel(fileReader.getModel());
-                        controller.getGameFrame().setModel(fileReader.getModel());
-                        controller.getBoard().setModel(fileReader.getModel());
                         controller.switchToRunView();
-                     //   controller.refreshView();
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-
-
                 }
                 break;
             case "Save":
                 //
+                break;
+            case "Circle":
+            case "Square":
+            case "Triangle":
+                new EditShapeDialogue(frame, e.getActionCommand(), "Add", controller.getModel());
+                break;
+            case "Ball":
+                new EditBallDialogue(frame, "Add", controller.getModel());
+                break;
+            case "Absorber":
+                new EditAbsorberDialogue(frame, "Add", controller.getModel());
+                break;
+            case "Flipper":
+                new EditFlipperDialogue(frame, "Add", controller.getModel());
+                break;
+            case "Rotate":
+                break;
+            case "Delete":
+                break;
+            case "Edit":
+                frame.addMouseListener(new FindEditorListener(frame, controller.getModel()));
+                break;
+            case "Gravity":
+                new GravitySlider(frame, controller.getModel());
+                break;
+            case "Friction":
+                new FrictionSlider(frame, controller.getModel());
                 break;
             case "Quit":
                 System.exit(0);

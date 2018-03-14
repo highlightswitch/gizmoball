@@ -6,9 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RunView implements GameView {
+    JFrame frame;
     JPanel panGame;
 
-    public RunView(MainController c, Board b){
+    public RunView(JFrame frame, MainController c, Board b){
+
+        this.frame = frame;
 
         panGame = new JPanel();
         panGame.setBackground(Color.PINK);
@@ -20,7 +23,7 @@ public class RunView implements GameView {
         play.setIcon(new ImageIcon(getClass().getResource("/Images/fillPlaySmall.png")));
         stop.setBorder(null);
         stop.setMargin(new Insets(0, 0, 0, 0));
-        stop.addActionListener(c.getActionListener("Button"));
+        stop.addActionListener(c.getActionListener(frame, "Button"));
         stop.setContentAreaFilled(false);
         stop.setActionCommand("Stop");
 
@@ -28,7 +31,7 @@ public class RunView implements GameView {
         play.setMargin(new Insets(0, 0, 0, 0));
         play.setContentAreaFilled(false);
         play.setActionCommand("Start");
-        play.addActionListener(c.getActionListener("Button"));
+        play.addActionListener(c.getActionListener(frame, "Button"));
 
         //Need to do this so that the key listener works properly.
         play.setFocusable(false);

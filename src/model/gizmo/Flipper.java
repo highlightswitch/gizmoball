@@ -1,6 +1,7 @@
 package model.gizmo;
 
 import model.*;
+import model.util.GizmoMaths;
 import physics.Angle;
 import physics.Circle;
 import physics.LineSegment;
@@ -30,19 +31,17 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
     }
 
+    @Override
+    public boolean isTilePlacable() {
+        return true;
+    }
+
     private boolean isLeftFlipper(){
         return Boolean.valueOf(getProperty(GizmoPropertyType.IS_LEFT_ORIENTATED));
     }
 
     private void moveFlipper(){
-        flipPos =  clamp(flipPos + currentMovement, 0, 1);
-    }
-
-
-    private double clamp(double val, double min, double max){
-        if(val < min) return min;
-        if(val > max) return max;
-        return val;
+        flipPos = GizmoMaths.clamp(flipPos + currentMovement, 0, 1);
     }
 
     @Override
@@ -190,6 +189,8 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
             data.rotateAroundPivotByRadians(new double[]{2 - width/2, width/2}, Math.toRadians(90 * flipPos));
         }
+
+        data.setColourString(getProperty(GizmoPropertyType.CURRENT_COLOUR));
 
         return data;
     }
