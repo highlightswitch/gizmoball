@@ -28,7 +28,6 @@ public class Main {
 
 		IModel model = cont.getIModel();
 
-
 		test(model);
 	}
 
