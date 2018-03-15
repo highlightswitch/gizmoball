@@ -4,6 +4,7 @@ import model.*;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -53,7 +54,7 @@ public class EditFlipperListener {
             properties.put(GizmoPropertyType.ALT_COLOUR, "");
             model.setAllProperties(gizmo.getProperty(GizmoPropertyType.NAME), properties);
         } catch (GizmoNotFoundException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (GizmoPlacementNotValidException e) {
             e.printStackTrace();
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {

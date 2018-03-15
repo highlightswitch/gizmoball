@@ -69,6 +69,7 @@ public  class Board extends JPanel implements Observer {
 	}
 
 	private void draw(DrawingData data, Graphics2D g2, boolean fill){
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		if(data != null){
 			//If the data exists, loop through and draw the polygons and circles of this shape
 

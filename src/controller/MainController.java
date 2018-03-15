@@ -47,15 +47,15 @@ public class MainController implements ActionListener {
     }
 
     void switchToRunView(){
-        setModel(new Model());
+       // setModel(new Model());
         fr.switchToRunView();
-        fr.assignActionListeners();
+       // fr.assignActionListeners();
     }
 
     void switchToBuildView(){
         setModel(new Model());
         fr.switchToBuildView();
-        fr.assignActionListeners();
+       // fr.assignActionListeners();
     }
 
     public KeyListener getKeyListener() {
