@@ -4,6 +4,8 @@ import model.GizmoPlacementNotValidException;
 import model.Model;
 import model.Tile;
 import model.TileCoordinatesNotValid;
+import model.gizmo.GizmoPropertyException;
+import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
 
 import javax.swing.*;
@@ -15,6 +17,8 @@ public class FindAdderListener implements MouseListener {
     private JFrame frame;
     private JPanel panel;
     private String type;
+    String name;
+    int id = 0;
 
     FindAdderListener(JFrame f, Model model, JPanel p, String t){
         System.out.println("hello");
@@ -30,16 +34,16 @@ public class FindAdderListener implements MouseListener {
         try {
             int offsetx = (frame.getWidth() - panel.getWidth())/2;
             int offsety = (frame.getHeight() - panel.getHeight())/3;
-
             int x = e.getX() - offsetx;
             int y = e.getY() - offsety;
-
             int[] xy = getXYNear(x,y);
 
-            System.out.println("Getting tile at: " + xy[0] + ", " +  xy[1]);
+            System.out.println("add Getting tile at: " + xy[0] + ", " +  xy[1]);
             Tile t = m.getTileAt(xy[0], xy[1]);
 
             if(!t.isOccupied()){
+                name = type + id;
+                id++;
                 switch (type){
                     case "Ball":
                         try {
@@ -81,6 +85,11 @@ public class FindAdderListener implements MouseListener {
                             e1.printStackTrace();
                         }
                         break;
+                }
+                try {
+                    t.getGizmo().setProperty(GizmoPropertyType.NAME, name);
+                } catch (GizmoPropertyException e1) {
+                    e1.printStackTrace();
                 }
                 }
             System.out.println("tile occupied");

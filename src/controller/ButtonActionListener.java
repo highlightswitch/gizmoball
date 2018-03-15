@@ -51,6 +51,7 @@ public class ButtonActionListener implements ActionListener {
             case "Absorber":
             case "Flipper":
             case "Ball":
+                frame.removeMouseListener(add);
                 frame.removeMouseListener(edit);
                 add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
                 frame.addMouseListener(add);
