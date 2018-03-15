@@ -19,11 +19,16 @@ public class MainController implements ActionListener {
 
     public MainController(){
         keyListener = new MagicKeyListener(this);
-
         this.model = new Model();
+<<<<<<< HEAD
+        fr = new GameFrame(this);
+        this.timer = new Timer(50, this);
+        fr.assignActionListeners();
+=======
         this.fr = new GameFrame(this);
 
         this.timer = new Timer(25, this);
+>>>>>>> master
     }
 
     public IModel getIModel() {
@@ -48,12 +53,15 @@ public class MainController implements ActionListener {
     }
 
     void switchToRunView(){
+       // setModel(new Model());
         fr.switchToRunView();
+       // fr.assignActionListeners();
     }
 
     void switchToBuildView(){
         setModel(new Model());
         fr.switchToBuildView();
+       // fr.assignActionListeners();
     }
 
     public KeyListener getKeyListener() {
@@ -67,10 +75,10 @@ public class MainController implements ActionListener {
     public ActionListener getActionListener(JFrame frame, String type) {
 
         if(type.equals("Button")){
-            return new ButtonActionListener(this, frame, model);
+            return new ButtonActionListener(this, frame, model, fr.geActiveBoard());
         }
         else if(type.equals("Menu")){
-            return new MenuActionListener(this, frame);
+            return new MenuActionListener(this, frame, fr.geActiveBoard());
         }
 
         return new ActionListener() {

@@ -1,7 +1,9 @@
 package view;
 
+import controller.EditBallListener;
 import controller.PlaceBallListener;
 import model.Model;
+import model.gizmo.Gizmo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +17,7 @@ public class EditBallDialogue {
     String intVelocity;
     Color color;
 
-    public EditBallDialogue(JFrame f, String mode, Model m){
+    public EditBallDialogue(JFrame f, String mode, Model m, Gizmo g){
 
         JLabel label = new JLabel();
         label.setIcon(new ImageIcon(getClass().getResource("/Images/borderBallSmall.png")));
@@ -51,20 +53,20 @@ public class EditBallDialogue {
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
-        if(mode.equals("Add")){
-            ok.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    intPosition = position.getText();
-                    intVelocity = velcoity.getText();
-                    color = shapeColour.getColor();
+        ok.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                intPosition = position.getText();
+                intVelocity = velcoity.getText();
+                color = shapeColour.getColor();
+                if(mode.equals("Add")){
                     new PlaceBallListener(intPosition, intVelocity, color, m);
-                    edit.dispose();
+                }else {
+                    new EditBallListener(g, intPosition, intVelocity, color, m);
                 }
-            });
-        } else {
-            //edit shape listener;
-        }
+                edit.dispose();
+            }
+        });
 
         panControls.add(ok);
         panControls.setOpaque(false);

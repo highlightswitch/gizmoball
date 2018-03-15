@@ -1,40 +1,78 @@
 package controller;
 
+import model.GizmoNotFoundException;
 import model.Model;
 import model.Tile;
 import model.TileCoordinatesNotValid;
+import model.gizmo.GizmoPropertyException;
+import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
-import view.EditAbsorberDialogue;
-import view.EditBallDialogue;
-import view.EditShapeDialogue;
+import view.*;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
 
 public class FindEditorListener implements MouseListener {
     private Model m;
     private JFrame frame;
+    private JPanel panel;
+    String mode;
 
-    FindEditorListener(JFrame f, Model model){
+    FindEditorListener(JFrame f, Model model, JPanel p, String type){
+        System.out.println("hi");
         m = model;
         frame = f;
+        panel = p;
+        mode = type;
+
     }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         System.out.println("Clicked: " + e.getX() + ", " + e.getY());
         try {
-            Tile t = m.getTileNear(e.getX(), e.getY());
+            int offsetx = (frame.getWidth() - panel.getWidth())/2;
+            int offsety = (frame.getHeight() - panel.getHeight())/3;
+
+            int x = e.getX() - offsetx;
+            int y = e.getY() - offsety;
+
+            int[] xy = getXYNear(x,y);
+
+            System.out.println("Getting tile at: " + xy[0] + ", " +  xy[1]);
+            Tile t = m.getTileAt(xy[0], xy[1]);
+
             if(t.isOccupied()){
                GizmoType g =  t.getGizmo().getType();
-               switch (g){
-                   case BALL:
-                       new EditBallDialogue(frame, "Edit", m);
-                       break;
-                   case ABSORBER:
-                       new EditAbsorberDialogue(frame, "Edit", m);
-                   default:
-                       new EditShapeDialogue(frame, g.toString(), "Edit", m);
+               if(mode.equals("Edit")){
+                   switch (g){
+                       case BALL:
+                           new EditBallDialogue(frame, "Edit", m, t.getGizmo());
+                           break;
+                       case ABSORBER:
+                           new EditAbsorberDialogue(frame, "Edit", m, t.getGizmo());
+                       case FLIPPER:
+                           new EditFlipperDialogue(frame, "Edit", m, t.getGizmo());
+                       default:
+                           String s = g.name().substring(0,g.name().indexOf("_")).toLowerCase();
+                           new EditShapeDialogue(frame, s, "Edit", m, t.getGizmo());
+                   }
+               }else if(mode.equals("Delete")){
+                   try {
+                       m.deleteGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME));
+                   } catch (GizmoNotFoundException e1) {
+                       e1.printStackTrace();
+                   }
+               }else {
+                   try {
+                       m.rotateGizmoBy_Deg(t.getGizmo().getProperty(GizmoPropertyType.NAME), 90.0);
+                   } catch (GizmoNotFoundException e1) {
+                       e1.printStackTrace();
+                   } catch (GizmoPropertyException e1) {
+                       e1.printStackTrace();
+                   }
                }
             }
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
@@ -60,5 +98,16 @@ public class FindEditorListener implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public int[] getXYNear(double x, double y){
+        Double px = Math.floor(x/25) - 1;
+        Double py = Math.floor(y/25) - 1;
+
+        if(px >= 0 && py >= 0){
+            return new int[]{px.intValue(),py.intValue()};
+        }else {
+            return new int[]{0,0};
+        }
     }
 }

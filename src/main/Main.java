@@ -28,7 +28,6 @@ public class Main {
 
 		IModel model = cont.getIModel();
 
-
 		test(model);
 	}
 
@@ -44,7 +43,9 @@ public class Main {
 			Flipper rightFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(15, 3), rFProp);
 			model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 6), null);
 			Gizmo square = model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 8), null);
+
 			Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), null);
+
 			model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(8, 0), null);
 			Gizmo deleteMe = model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(2, 6), null);
 
@@ -56,11 +57,13 @@ public class Main {
 			}
 
 			List<Absorber> absorbers = new ArrayList<>();
+
 			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(3, 15), new String[]{"1", "6", "1", "red", "red", "red"}));
 			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(2, 17), new String[]{"2", "15", "1", "red", "red", "red"}));
 			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19), new String[]{"3", "20", "1", "red", "red", "red"}));
 
 			model.moveGizmo(ball.getProperty(GizmoPropertyType.NAME), model.getTileAt(0, 12));
+
 			model.deleteGizmo(deleteMe.getProperty(GizmoPropertyType.NAME));
 
 			model.connect(square.getProperty(GizmoPropertyType.NAME), triangle.getProperty(GizmoPropertyType.NAME));
@@ -86,10 +89,9 @@ public class Main {
 			model.setGizmoAction(leftFlipper.getProperty(GizmoPropertyType.NAME), GizmoActionType.FLIP_FLIPPER);
 			model.setGizmoAction(rightFlipper.getProperty(GizmoPropertyType.NAME), GizmoActionType.FLIP_FLIPPER);
 
+		} catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e){
 			return model;
 
-		} catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e) {
-			e.printStackTrace();
 		} catch (GizmoNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -162,3 +164,8 @@ public class Main {
 		return null;
 	}
 }
+
+
+
+
+

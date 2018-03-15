@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -69,6 +68,7 @@ public  class Board extends JPanel implements Observer {
 	}
 
 	private void draw(DrawingData data, Graphics2D g2, boolean fill){
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		if(data != null){
 			//If the data exists, loop through and draw the polygons and circles of this shape
 
@@ -87,8 +87,10 @@ public  class Board extends JPanel implements Observer {
 					//Draw a line back to the starting point
 					path.closePath();
 
+					Color color = getColorOfData(data);
+
 					//Draw the scaled up shape
-					drawShape(path, stringToColor(data.getColourString()), g2, fill);
+					drawShape(path, color, g2, fill);
 				}
 			}
 
@@ -96,8 +98,10 @@ public  class Board extends JPanel implements Observer {
 				//Create an ellipse using its rectangular bounds
 				Ellipse2D circle = new Ellipse2D.Double(circleData[0] - circleData[2], circleData[1] - circleData[2], 2 * circleData[2], 2 * circleData[2]);
 
+				Color color = getColorOfData(data);
+
 				//Draw the scaled up shape
-				drawShape(circle, stringToColor(data.getColourString()), g2, fill);
+				drawShape(circle, color, g2, fill);
 			}
 		}
 	}
@@ -112,29 +116,12 @@ public  class Board extends JPanel implements Observer {
 		}
 	}
 
-    private Shape toPixels(Shape shape){
-		return AffineTransform.getScaleInstance(25, 25).createTransformedShape(shape);
+	private Color getColorOfData(DrawingData data){
+		return new Color(data.getRedValue(), data.getGreenValue(), data.getBlueValue());
 	}
 
-	private static Color stringToColor(final String value) {
-		if (value == null) {
-			return Color.black;
-		}
-		try {
-			// get color by hex or octal value
-			return Color.decode(value);
-		} catch (NumberFormatException nfe) {
-			// if we can't decode lets try to get it by name
-			try {
-				// try to get a color by name using reflection
-				final Field f = Color.class.getField(value);
-
-				return (Color) f.get(null);
-			} catch (Exception ce) {
-				// if we can't get any color return black
-				return Color.black;
-			}
-		}
+    private Shape toPixels(Shape shape){
+		return AffineTransform.getScaleInstance(25, 25).createTransformedShape(shape);
 	}
 
     @Override
