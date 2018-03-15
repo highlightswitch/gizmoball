@@ -6,6 +6,7 @@ import view.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -25,6 +26,7 @@ public class MenuActionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        MouseListener mouse = new FindEditorListener(frame, controller.getModel(), panel, e.getActionCommand());
         switch (e.getActionCommand()){
             case "Load":
                 JFileChooser fileChooser = new JFileChooser();
@@ -65,13 +67,13 @@ public class MenuActionListener implements ActionListener {
                 new EditFlipperDialogue(frame, "Add", controller.getModel(), null);
                 break;
             case "Rotate":
-                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel, "Rotate"));
+                frame.addMouseListener(mouse);
                 break;
             case "Delete":
-                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel, "Delete"));
+                frame.addMouseListener(mouse);
                 break;
             case "Edit":
-                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel, "Edit"));
+                frame.addMouseListener(mouse);
                 break;
             case "Gravity":
                 new GravitySlider(frame, controller.getModel());

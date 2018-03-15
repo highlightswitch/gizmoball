@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -20,13 +21,15 @@ public  class Board extends JPanel implements Observer {
 	private int width;
 	private int height;
 	private IModel iModel;
+	private String mode;
 
-	Board(int w, int h, IModel m) {
+	Board(int w, int h, IModel m, String mode) {
 		// Observe changes in Model
 		m.addObserver(this);
 		width = w;
 		height = h;
 		iModel = m;
+		this.mode = mode;
 		this.setOpaque(false);
 		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 	}
@@ -55,6 +58,18 @@ public  class Board extends JPanel implements Observer {
 			DrawingData data = drawable.getDrawingData();
 			draw(data, g2, true);
 		}
+
+        if(getMode().equals("Build")) {
+            System.out.println("in build mode");
+            g2.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{10.0f}, 0.0f));
+            //g2.setStroke(new BasicStroke(2.0f));
+            for (int i = 0; i < 20; i++) {
+                g2.drawLine(i * 25, 0, i * 25, width);
+            }
+            for (int i = 0; i < 20; i++) {
+                g2.drawLine(0, i * 25, height, i * 25);
+            }
+        }
 
 		//If debug mode is on, draw the GameObjects as well
 		if(Main.debugMode){
@@ -104,6 +119,7 @@ public  class Board extends JPanel implements Observer {
 				drawShape(circle, color, g2, fill);
 			}
 		}
+
 	}
 
 	private void drawShape(Shape shape, Color color, Graphics2D g2, boolean fill){
@@ -123,6 +139,14 @@ public  class Board extends JPanel implements Observer {
     private Shape toPixels(Shape shape){
 		return AffineTransform.getScaleInstance(25, 25).createTransformedShape(shape);
 	}
+
+	public void updateMode(String m){
+        mode = m;
+    }
+
+    public String getMode(){
+	    return mode;
+    }
 
     @Override
 	public void update(Observable arg0, Object arg1) {
