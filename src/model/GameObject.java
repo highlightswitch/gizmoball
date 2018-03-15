@@ -124,7 +124,6 @@ public abstract class GameObject implements Drawable, Cloneable {
         return new CollisionDetails(shortestTime, newVelocity);
 
     }
-
     protected abstract double timeUntilLineCollision(LineSegment line, Circle ballCircle, Vect ballVelocity);
     protected abstract Vect velocityOfLineCollision(LineSegment line, Circle ballCircle, Vect ballVelocity);
 

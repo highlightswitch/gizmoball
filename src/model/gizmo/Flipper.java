@@ -240,14 +240,4 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
         }
     }
 
-    public void keyDown() {
-        super.keyDown();
-        trigger();
-    }
-
-    public void keyUp() {
-        super.keyUp();
-        trigger();
-    }
-
 }
