@@ -229,10 +229,14 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
             while(usedNames.contains(newName)){
                 String[] arr = newName.split("_");
                 arr[arr.length -1] = String.valueOf(Integer.parseInt(arr[arr.length -1]) + 1);
+
                 StringBuilder sb = new StringBuilder();
-                for(String s : arr)
-                    sb.append(s);
+                for(int i = 0; i < arr.length-1; i++)
+                    sb.append(arr[i]);
+                sb.append("_");
+                sb.append(arr[arr.length-1]);
                 newName = sb.toString();
+
                 System.out.println(newName);
             }
             propVals[0] = newName;
