@@ -14,7 +14,7 @@ public class BuildView implements GameView {
     JPanel panBuild;
     JPanel panBoard;
     JPopupMenu allShapes;
-    ArrayList<JButton> buttons = new ArrayList<>();
+    ArrayList<AbstractButton> buttons = new ArrayList<>();
     MainController controller;
 
     public BuildView(JFrame fr, MainController c, Board b) {
@@ -58,20 +58,26 @@ public class BuildView implements GameView {
         rotate.setBorder(null);
         rotate.setMargin(new Insets(0, 0, 0, 0));
         rotate.setContentAreaFilled(false);
+        rotate.setActionCommand("Rotate");
+        buttons.add(rotate);
 
         delete.setBorder(null);
         delete.setMargin(new Insets(0, 0, 0, 0));
         delete.setContentAreaFilled(false);
+        delete.setActionCommand("Delete");
+        buttons.add(delete);
 
         edit.setBorder(null);
         edit.setMargin(new Insets(0, 0, 0, 0));
         edit.setContentAreaFilled(false);
         edit.setActionCommand("Edit");
-        edit.addActionListener(c.getActionListener(frame, "Button"));
+        buttons.add(edit);
 
         pointer.setBorder(null);
         pointer.setMargin(new Insets(0, 0, 0, 0));
         pointer.setContentAreaFilled(false);
+        pointer.setActionCommand("Move");
+        buttons.add(pointer);
 
         panControls.add(add);
         panControls.add(rotate);
@@ -111,7 +117,7 @@ public class BuildView implements GameView {
         circleGizmoButton.setMargin(new Insets(0, 0, 0, 0));
         circleGizmoButton.setContentAreaFilled(false);
         circleGizmoButton.setActionCommand("Circle");
-        buttons.add(circleGizmoButton);
+        circleGizmoButton.addActionListener(controller.getActionListener(frame, "Button"));
 
         JButton triangleGizmoButton = new JButton();
         triangleGizmoButton.setIcon(triangleGizmo);
@@ -119,7 +125,7 @@ public class BuildView implements GameView {
         triangleGizmoButton.setMargin(new Insets(0, 0, 0, 0));
         triangleGizmoButton.setContentAreaFilled(false);
         triangleGizmoButton.setActionCommand("Triangle");
-        buttons.add(triangleGizmoButton);
+        triangleGizmoButton.addActionListener(controller.getActionListener(frame, "Button"));
 
         JButton squareGizmoButton = new JButton();
         squareGizmoButton.setIcon(squareGizmo);
@@ -127,7 +133,7 @@ public class BuildView implements GameView {
         squareGizmoButton.setMargin(new Insets(0, 0, 0, 0));
         squareGizmoButton.setContentAreaFilled(false);
         squareGizmoButton.setActionCommand("Square");
-        buttons.add(squareGizmoButton);
+        squareGizmoButton.addActionListener(controller.getActionListener(frame, "Button"));
 
         JButton absorberGizmoButton = new JButton();
         absorberGizmoButton.setIcon(absorberGizmo);
@@ -135,7 +141,7 @@ public class BuildView implements GameView {
         absorberGizmoButton.setMargin(new Insets(0, 0, 0, 0));
         absorberGizmoButton.setContentAreaFilled(false);
         absorberGizmoButton.setActionCommand("Absorber");
-        buttons.add(absorberGizmoButton);
+        absorberGizmoButton.addActionListener(controller.getActionListener(frame, "Button"));
 
         JButton flipperGizmoButton = new JButton();
         flipperGizmoButton.setIcon(flipperGizmo);
@@ -143,7 +149,7 @@ public class BuildView implements GameView {
         flipperGizmoButton.setMargin(new Insets(0, 0, 0, 0));
         flipperGizmoButton.setContentAreaFilled(false);
         flipperGizmoButton.setActionCommand("Flipper");
-        buttons.add(flipperGizmoButton);
+        flipperGizmoButton.addActionListener(controller.getActionListener(frame, "Button"));
 
         JButton ballGizmoButton = new JButton();
         ballGizmoButton.setIcon(ballGizmo);
@@ -151,7 +157,7 @@ public class BuildView implements GameView {
         ballGizmoButton.setMargin(new Insets(0, 0, 0, 0));
         ballGizmoButton.setContentAreaFilled(false);
         ballGizmoButton.setActionCommand("Ball");
-        buttons.add(ballGizmoButton);
+        ballGizmoButton.addActionListener(controller.getActionListener(frame, "Button"));
 
         allShapes.add(circleGizmoButton);
         allShapes.add(triangleGizmoButton);
@@ -176,7 +182,7 @@ public class BuildView implements GameView {
 
     @Override
     public void setAllButtonListeners() {
-        for(JButton b: buttons){
+        for(AbstractButton b: buttons){
             b.addActionListener(controller.getActionListener(frame, "Button"));
         }
     }

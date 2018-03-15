@@ -2,22 +2,21 @@ package controller;
 
 import model.*;
 import model.gizmo.Gizmo;
-import model.gizmo.GizmoActionType;
 import model.gizmo.GizmoPropertyType;
 
 import java.awt.*;
 import java.util.HashMap;
 
-public class EditGizmoListener {
+public class EditBallListener {
     private IModel model;
     private Gizmo gizmo;
     private String color;
-    private GizmoActionType action;
+    private String vx;
+    private String vy;
     private int x;
     private int y;
     private HashMap<GizmoPropertyType, String> properties = new HashMap<>();
-
-    public EditGizmoListener(Gizmo g, String position, Color c, String a, String t, Model m){
+    public EditBallListener(Gizmo g, String position, String velocity, Color c, Model m){
         model = m;
         gizmo = g;
 
@@ -33,43 +32,28 @@ public class EditGizmoListener {
         x = Integer.valueOf(posX);
         y = Integer.valueOf(posY);
 
+        String vel = velocity.replace("(", "");
+        vel = vel.replace(")", "");
 
-        switch (a){
-            case "Change Colour":
-                action = GizmoActionType.CHANGE_COLOUR;
-                break;
-            case "Rotate":
-                action = GizmoActionType.PRINT_TO_CONSOLE;
-                break;
-            case "Flipper":
-                action = GizmoActionType.FLIP_FLIPPER;
-                break;
-            case "Absorber":
-                action = GizmoActionType.FIRE_FROM_ABSORBER;
-                break;
-        }
-
-        switch (t){
-            case "Another Gizmo":
-                break;
-            case "A Key Press":
-                break;
-            case "Ball Collision":
-                break;
-        }
+        vx = vel.substring(0, vel.indexOf(","));
+        vy = vel.substring(vel.indexOf(","));
+        vy = vy.replace(",", "");
 
         edit();
+
     }
 
-    public void edit(){
+    private void edit() {
         try {
             model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
             properties.put(GizmoPropertyType.NAME, gizmo.getProperty(GizmoPropertyType.NAME));
-            properties.put(GizmoPropertyType.ROTATION_DEG, String.valueOf(0));
+            properties.put(GizmoPropertyType.VEL_X, vx);
+            properties.put(GizmoPropertyType.VEL_Y, vy);
             properties.put(GizmoPropertyType.CURRENT_COLOUR, color);
             properties.put(GizmoPropertyType.DEFAULT_COLOUR, color);
             properties.put(GizmoPropertyType.ALT_COLOUR, "");
             model.setAllProperties(gizmo.getProperty(GizmoPropertyType.NAME), properties);
+
         } catch (GizmoNotFoundException e) {
             e.printStackTrace();
         } catch (GizmoPlacementNotValidException e) {

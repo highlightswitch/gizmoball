@@ -49,11 +49,13 @@ public class MainController implements ActionListener {
     void switchToRunView(){
         setModel(new Model());
         fr.switchToRunView();
+        fr.assignActionListeners();
     }
 
     void switchToBuildView(){
         setModel(new Model());
         fr.switchToBuildView();
+        fr.assignActionListeners();
     }
 
     public KeyListener getKeyListener() {

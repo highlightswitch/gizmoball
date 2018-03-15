@@ -2,22 +2,21 @@ package controller;
 
 import model.*;
 import model.gizmo.Gizmo;
-import model.gizmo.GizmoActionType;
 import model.gizmo.GizmoPropertyType;
 
 import java.awt.*;
 import java.util.HashMap;
 
-public class EditGizmoListener {
+public class EditFlipperListener {
     private IModel model;
     private Gizmo gizmo;
     private String color;
-    private GizmoActionType action;
+    private String di;
     private int x;
     private int y;
     private HashMap<GizmoPropertyType, String> properties = new HashMap<>();
 
-    public EditGizmoListener(Gizmo g, String position, Color c, String a, String t, Model m){
+    public EditFlipperListener(Gizmo g, String position, String direction, Color c, Model m){
         model = m;
         gizmo = g;
 
@@ -33,39 +32,22 @@ public class EditGizmoListener {
         x = Integer.valueOf(posX);
         y = Integer.valueOf(posY);
 
-
-        switch (a){
-            case "Change Colour":
-                action = GizmoActionType.CHANGE_COLOUR;
-                break;
-            case "Rotate":
-                action = GizmoActionType.PRINT_TO_CONSOLE;
-                break;
-            case "Flipper":
-                action = GizmoActionType.FLIP_FLIPPER;
-                break;
-            case "Absorber":
-                action = GizmoActionType.FIRE_FROM_ABSORBER;
-                break;
-        }
-
-        switch (t){
-            case "Another Gizmo":
-                break;
-            case "A Key Press":
-                break;
-            case "Ball Collision":
-                break;
+        if(direction.equals("Left")){
+            di = "true";
+        } else {
+            di = "false";
         }
 
         edit();
+
     }
 
-    public void edit(){
+    private void edit() {
         try {
             model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
             properties.put(GizmoPropertyType.NAME, gizmo.getProperty(GizmoPropertyType.NAME));
             properties.put(GizmoPropertyType.ROTATION_DEG, String.valueOf(0));
+            properties.put(GizmoPropertyType.IS_LEFT_ORIENTATED, di);
             properties.put(GizmoPropertyType.CURRENT_COLOUR, color);
             properties.put(GizmoPropertyType.DEFAULT_COLOUR, color);
             properties.put(GizmoPropertyType.ALT_COLOUR, "");
@@ -77,5 +59,6 @@ public class EditGizmoListener {
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
             tileCoordinatesNotValid.printStackTrace();
         }
+
     }
 }

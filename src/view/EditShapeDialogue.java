@@ -48,7 +48,15 @@ public class EditShapeDialogue {
         JComboBox actionList = new JComboBox(actions);
         JComboBox triggerList = new JComboBox(triggers);
         JLabel pos = new JLabel("Initial position: ");
-        JTextField position = new JTextField("(0,0)");
+        JTextField position;
+
+        if(g != null){
+            Double x = g.getPosition()[0] ;
+            Double y = g.getPosition()[1] ;
+            position = new JTextField("(" + x.intValue() + "," + y.intValue() + ")");
+        }else {
+            position = new JTextField("(0,0)");
+        }
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;

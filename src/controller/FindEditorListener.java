@@ -21,7 +21,6 @@ public class FindEditorListener implements MouseListener {
         m = model;
         frame = f;
         panel = p;
-
     }
 
     @Override

@@ -1,5 +1,6 @@
 package view;
 
+import controller.EditBallListener;
 import controller.PlaceBallListener;
 import model.Model;
 import model.gizmo.Gizmo;
@@ -52,20 +53,20 @@ public class EditBallDialogue {
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
-        if(mode.equals("Add")){
-            ok.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    intPosition = position.getText();
-                    intVelocity = velcoity.getText();
-                    color = shapeColour.getColor();
+        ok.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                intPosition = position.getText();
+                intVelocity = velcoity.getText();
+                color = shapeColour.getColor();
+                if(mode.equals("Add")){
                     new PlaceBallListener(intPosition, intVelocity, color, m);
-                    edit.dispose();
+                }else {
+                    new EditBallListener(g, intPosition, intVelocity, color, m);
                 }
-            });
-        } else {
-            //edit shape listener;
-        }
+                edit.dispose();
+            }
+        });
 
         panControls.add(ok);
         panControls.setOpaque(false);

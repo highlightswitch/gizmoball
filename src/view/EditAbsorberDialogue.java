@@ -1,5 +1,6 @@
 package view;
 
+import controller.EditAbsorberListener;
 import controller.PlaceAbsorberListener;
 import controller.PlaceBallListener;
 import model.Model;
@@ -58,21 +59,21 @@ public class EditAbsorberDialogue {
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
-        if(mode.equals("Add")){
-            ok.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    startPosition = sposition.getText();
-                    widthS  = width.getText();
-                    heightS = height.getText();
-                    color = shapeColour.getColor();
+        ok.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startPosition = sposition.getText();
+                widthS  = width.getText();
+                heightS = height.getText();
+                color = shapeColour.getColor();
+                if(mode.equals("Add")){
                     new PlaceAbsorberListener(startPosition, widthS, heightS, color, m);
-                    edit.dispose();
+                } else {
+                    new EditAbsorberListener(g, startPosition, widthS, heightS, color, m);
                 }
-            });
-        } else {
-            //edit shape listener;
-        }
+                edit.dispose();
+            }
+        });
 
         panControls.add(ok);
         panControls.setOpaque(false);

@@ -6,6 +6,8 @@ import view.EditShapeDialogue;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 
 public class ButtonActionListener implements ActionListener {
 
@@ -13,7 +15,7 @@ public class ButtonActionListener implements ActionListener {
     private JFrame frame;
     private Model model;
     private JPanel panel;
-
+     //name things !!!!
     ButtonActionListener(MainController controller, JFrame f, Model m, JPanel p) {
         this.controller = controller;
         frame = f;
@@ -23,7 +25,9 @@ public class ButtonActionListener implements ActionListener {
 
     @Override
 	public final void actionPerformed(final ActionEvent e) {
-
+        MouseListener edit =  new FindEditorListener(frame,model, panel);
+        MouseListener add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
+        System.out.println(e.getActionCommand());
         switch (e.getActionCommand()) {
             case "Start":
                 controller.startTimer();
@@ -32,30 +36,44 @@ public class ButtonActionListener implements ActionListener {
                 controller.stopTimer();
                 break;
             case "Delete":
+                //
                 break;
             case "Rotate":
+                //
                 break;
             case "Edit":
-                frame.addMouseListener(new FindEditorListener(frame,model, panel));
-                //EditShapeDialogue shapeDi = new EditShapeDialogue(frame);
+                frame.removeMouseListener(add);
+                frame.addMouseListener(edit);
                 break;
             case "Move":
                 //
                 break;
-            case "circle":
-                frame.addMouseListener(new AddCircleListener());
-            case "triangle":
-                frame.addMouseListener(new AddTriangleListener());
-            case "square":
-                frame.addMouseListener(new AddSquareListener());
-            case "absorber":
-                frame.addMouseListener(new AddAbsorberListener());
-            case "flipper":
-                frame.addMouseListener(new AddFlipperListener());
-            case "ball":
-                frame.addMouseListener(new AddBallListener());
-
-
+            case "Circle":
+                frame.removeMouseListener(edit);
+                add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
+                frame.addMouseListener(add);
+            case "Triangle":
+                frame.removeMouseListener(edit);
+                add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
+                frame.addMouseListener(add);
+            case "Square":
+                frame.removeMouseListener(edit);
+                add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
+                frame.addMouseListener(add);
+            case "Absorber":
+                frame.removeMouseListener(edit);
+                add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
+                frame.addMouseListener(add);
+            case "Flipper":
+                frame.removeMouseListener(edit);
+                add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
+                frame.addMouseListener(add);
+            case "Ball":
+                frame.removeMouseListener(edit);
+                add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
+                frame.addMouseListener(add);
+            default:
+                System.out.println("dunno");
 
         }
 
