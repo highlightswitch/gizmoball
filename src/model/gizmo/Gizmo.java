@@ -51,8 +51,10 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
                     return "RightFlipper" + " " + getProperty(GizmoPropertyType.NAME) + " " + anchorTile.getX() + " " + anchorTile.getY();
                 }
             case BALL:
+                Ball ball = (Ball) this;
+                double [] pos = ball.getPosition();
                 //Name, Vel_X, Vel_Y
-                return "Ball" + " " + getProperty(GizmoPropertyType.NAME) + " " + anchorTile.getX() + " " + anchorTile.getY() + " " + getProperty(GizmoPropertyType.VEL_X) + " " + getProperty(GizmoPropertyType.VEL_Y);
+                return "Ball" + " " + getProperty(GizmoPropertyType.NAME) + " " + pos[0] + " " + pos[1] + " " + getProperty(GizmoPropertyType.VEL_X) + " " + getProperty(GizmoPropertyType.VEL_Y);
             case CIRCLE_BUMPER:
                 return "Circle" + " " + getProperty(GizmoPropertyType.NAME) + " " + anchorTile.getX() + " " + anchorTile.getY();
             case SQUARE_BUMPER:

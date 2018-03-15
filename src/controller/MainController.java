@@ -20,15 +20,9 @@ public class MainController implements ActionListener {
     public MainController(){
         keyListener = new MagicKeyListener(this);
         this.model = new Model();
-<<<<<<< HEAD
         fr = new GameFrame(this);
-        this.timer = new Timer(50, this);
-        fr.assignActionListeners();
-=======
-        this.fr = new GameFrame(this);
-
         this.timer = new Timer(25, this);
->>>>>>> master
+        fr.assignActionListeners();
     }
 
     public IModel getIModel() {

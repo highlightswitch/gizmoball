@@ -45,10 +45,8 @@ public class Main {
 			Gizmo square = model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 8), null);
 
 			Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), null);
-
 			model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(8, 0), null);
 			Gizmo deleteMe = model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(2, 6), null);
-
 			Gizmo cornerTriangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(19, 0), null);
 			try {
 				cornerTriangle.rotateTo_Deg(90);

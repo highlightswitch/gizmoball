@@ -25,6 +25,8 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
     private boolean justStarted;
     private boolean isStopped;
 
+  //  protected GizmoType type;
+
 
     // x, y coordinates and x,y velocity
     public Ball(Model model, Color colour, double xTile, double yTile, Map<GizmoPropertyType, String> properties) {
@@ -39,7 +41,11 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
         justStarted = true;
         isStopped = false;
 
-    }
+		type = GizmoType.BALL;
+
+	}
+
+    public GizmoType getType(){return type;}
 
     private Vect getVelocity() {
         return new Vect(Double.valueOf(getProperty(GizmoPropertyType.VEL_X)), Double.valueOf(getProperty(GizmoPropertyType.VEL_Y)));

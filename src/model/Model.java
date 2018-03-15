@@ -54,8 +54,24 @@ public class Model extends Observable implements IModel {
 
 	}
 
+	public String getBallName(){
+    	return ball.getProperty(GizmoPropertyType.NAME);
+	}
+
 	public String toString(){
         String game = "";
+        for (Gizmo gizmo: gizmos) {
+            game = game + gizmo.toString() + "\n";
+            if(!(gizmo.getType() == GizmoType.BALL)) {
+                if(!(gizmo.getType() == GizmoType.ABSORBER)) {
+                    double rotation = Double.parseDouble(gizmo.getProperty(GizmoPropertyType.ROTATION_DEG));
+                    rotation = rotation / 90;
+                    for (int i = 0; i < rotation; i++) {
+                        game = game + "Rotate" + " " + gizmo.getProperty(GizmoPropertyType.NAME) + "\n";
+                    }
+                }
+            }
+        }
         if(gizmos.size() != 0){
             for (Gizmo gizmo: gizmos) {
                 game = game + gizmo.toString() + "\n";
@@ -299,8 +315,6 @@ public class Model extends Observable implements IModel {
         this.notifyObservers();
 	}
 
-
-
 	public String getGizmoProperty(String gizmoName, GizmoPropertyType type) throws GizmoNotFoundException {
 		Gizmo gizmo = getGizmoByName(gizmoName);
 		return gizmo.getProperty(type);
@@ -329,11 +343,55 @@ public class Model extends Observable implements IModel {
         this.notifyObservers();
     }
 
+    public Gizmo loadBall(Double x, Double y, String[] propertyValues) throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
+
+    	Tile tile = getTileAt(x.intValue(), y.intValue());
+
+        //If propertyValues is null, set them to the default values
+        if(propertyValues == null){
+            propertyValues = Gizmo.getPropertyDefaults(GizmoType.BALL, null);
+        }
+
+        //Ensure propertyValues's size matches the number of properties this gizmo has.
+        ArrayList<GizmoPropertyType> propertyTypes = GizmoType.BALL.getPropertyTypes();
+        assert propertyTypes.size() == propertyValues.length :
+                "Length of propertyValues array (" + propertyValues.length + ") " +
+                        "does not equal the number of " + GizmoType.BALL + "'s properties (" + propertyTypes.size() + ").";
+
+        //Create a property to value map
+        Map<GizmoPropertyType, String> properties = new HashMap<>();
+        for(int i = 0; i < propertyTypes.size(); i++){
+            properties.put(propertyTypes.get(i), propertyValues[i]);
+        }
+
+        Gizmo gizmo = new Ball(this, Color.black, x, y, properties);
+
+        validateGizmoPlacement(gizmo, tile);
+
+        ball = (Ball) gizmo;
+        tickable.add((Ball) gizmo);
+        gizmos.add(gizmo);
+        drawables.add(gizmo);
+
+        // Notify observers ... redraw updated view
+        this.setChanged();
+        this.notifyObservers();
+
+        return gizmo;
+    }
+
+	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException {
+		Bumper bumper = new Bumper(Color.black, gizmoType, properties);
+		validateGizmoPlacement(bumper, tile);
+		collidable.add(bumper);
+		tile.placeGizmo(bumper);
+		return bumper;
+	}
+
     public void setGizmoAction(String gizmoName, GizmoActionType actionType) throws GizmoNotFoundException {
 		Gizmo gizmo = getGizmoByName(gizmoName);
 		gizmo.setAction(actionType);
 	}
-
 
 
 	public void connect(String triggerName, String actorName) throws GizmoNotFoundException{
@@ -433,14 +491,6 @@ public class Model extends Observable implements IModel {
 		gizmos.remove(gizmo);
         this.setChanged();
         this.notifyObservers();
-	}
-
-	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException {
-		Bumper bumper = new Bumper(Color.black, gizmoType, properties);
-		validateGizmoPlacement(bumper, tile);
-		collidable.add(bumper);
-		tile.placeGizmo(bumper);
-		return bumper;
 	}
 
 	private List<String> getAllGizmoNames(){

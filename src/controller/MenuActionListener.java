@@ -6,7 +6,10 @@ import view.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MenuActionListener implements ActionListener {
 
@@ -38,7 +41,14 @@ public class MenuActionListener implements ActionListener {
                 }
                 break;
             case "Save":
-                //
+                try {
+                    String game = controller.getModel().toString();
+                    BufferedWriter writer = new BufferedWriter(new FileWriter("gizmoball_save"));
+                    writer.write(game);
+                    writer.close();
+                } catch (IOException ex){
+                    ex.printStackTrace();
+                }
                 break;
             case "Circle":
             case "Square":
