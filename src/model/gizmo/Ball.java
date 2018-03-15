@@ -12,30 +12,34 @@ import java.util.Map;
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
  */
 
-public class Ball extends Gizmo implements Tickable {
+public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 
     private final double newRadius = 0.25;
 
-	private Model model;
+    private Model model;
 
     private double cx, cy;
 
-	private boolean isAbsorbed;
-	private boolean justFired;
+    private boolean isAbsorbed;
+    private boolean justFired;
+    private boolean justStarted;
+    private boolean isStopped;
 
   //  protected GizmoType type;
 
 
-	// x, y coordinates and x,y velocity
-	public Ball(Model model, Color colour, double xTile, double yTile, Map<GizmoPropertyType, String> properties) {
+    // x, y coordinates and x,y velocity
+    public Ball(Model model, Color colour, double xTile, double yTile, Map<GizmoPropertyType, String> properties) {
         super(colour, properties);
-		this.model = model;
+        this.model = model;
 
         this.cx = xTile + 0.5;
         this.cy = yTile + 0.5;
 
-		justFired = false;
-		isAbsorbed = false;
+        justFired = false;
+        isAbsorbed = false;
+        justStarted = true;
+        isStopped = false;
 
 		type = GizmoType.BALL;
 
@@ -43,11 +47,11 @@ public class Ball extends Gizmo implements Tickable {
 
     public GizmoType getType(){return type;}
 
-	private Vect getVelocity(){
-	    return new Vect(Double.valueOf(getProperty(GizmoPropertyType.VEL_X)), Double.valueOf(getProperty(GizmoPropertyType.VEL_Y)));
+    private Vect getVelocity() {
+        return new Vect(Double.valueOf(getProperty(GizmoPropertyType.VEL_X)), Double.valueOf(getProperty(GizmoPropertyType.VEL_Y)));
     }
 
-    private void setVelocity(double xv, double yv){
+    private void setVelocity(double xv, double yv) {
         try {
             setProperty(GizmoPropertyType.VEL_X, String.valueOf(xv));
             setProperty(GizmoPropertyType.VEL_Y, String.valueOf(yv));
@@ -64,24 +68,38 @@ public class Ball extends Gizmo implements Tickable {
 
     @Override
     public double[] getPosition() {
-        return new double[] { cx - 0.5, cy - 0.5 };
+        return new double[]{cx - 0.5, cy - 0.5};
+    }
+
+    @Override
+    public void moveTo(double x, double y) {
+        cx = x + 0.5;
+        cy = y + 0.5;
+    }
+
+    @Override
+    public boolean isTilePlacable() {
+        return false;
     }
 
     void fire(Absorber firedFrom) {
-	    justFired = true;
-	    isAbsorbed = false;
-	    moveBall(firedFrom);
+        justFired = true;
+        isAbsorbed = false;
+        moveBall(firedFrom);
     }
 
-    public void moveBall(Absorber absorber) {
+    private void moveBall(Absorber absorber) {
 
         //=====================
-	    //Start of Definitions
+        //Start of Definitions
         // \/ \/ \/ \/ \/ \/ \/
 
-        double lengthOfTick = 0.05; // 0.05 = 20 times per second as per Gizmoball
+        double lengthOfTick = 0.025; // 0.025 = 40 times per second as per Gizmoball
 
-        double[] currentVelXY = new double[]{getVelocity().x(), getVelocity().y()}; // Balls velocity in the last tick
+        double[] currentVelXY = justFired ?
+                new double[]{0, -50}
+                : new double[]{getVelocity().x(), getVelocity().y()}; // Balls velocity in the last tick
+        setVelocity(currentVelXY[0], currentVelXY[1]);
 
         CollisionDetails cd = timeUntilCollision(absorber);
         double tuc = cd.getTuc(); //ie Time Until Collision
@@ -107,20 +125,21 @@ public class Ball extends Gizmo implements Tickable {
         setVelocity(newVel[0], newVel[1]);
         moveBallForTime(timeMoving);
 
-        if(isCollidingThisTick){
+        if (isCollidingThisTick) {
             //At this point the ball has collided with something
-
-            cd.getCollidingWith().collide();
 
             //If the collision is with an absorber, absorb the ball.
             if (isCollidingWithAbsorberNext) {
                 isAbsorbed = true;
                 collidedAbsorber.setAbsorbedBall(this);
-                cx = 19.5;
-                cy = 19.5;
+                cx = cd.getAbsorber().getPosition()[0] + Double.valueOf(cd.getAbsorber().getProperty(GizmoPropertyType.WIDTH)) - 0.5;
+                cy = cd.getAbsorber().getPosition()[1] + Double.valueOf(cd.getAbsorber().getProperty(GizmoPropertyType.HEIGHT)) / 2;
+                cd.getCollidingWith().collide(); // need to collide after absorbing the ball
             } else {
                 //If we get to here, the ball is colliding this tick, and it is not with an absorber
                 //So we set the post-collision velocity, then move the ball for the remaining time with its new velocity
+
+                cd.getCollidingWith().collide();
 
                 newVel = getNewVelocities(velAfterCollisionXY, justFired, lengthOfTick - tuc);
 
@@ -132,13 +151,52 @@ public class Ball extends Gizmo implements Tickable {
         }
 
         //If the ball has just been fired, one tick later, it has not just been fired
-        if(justFired)
+        if (justFired)
             justFired = false;
 
         // /\ /\ /\ /\ /\ /\ /\
         //End of Calculations
         //=====================
     }
+
+//    private double[] getNewVelocities(double[] currentVelXY, boolean justFired, double timeMoving) {
+//        //If the ball is just fired,
+//        // return a representation of the ball being fired upwards.
+//        // Else
+//        // return the currentVelocity with friction and gravity applied to it.
+//
+//        double[] velocity = new double[]{};
+//        Double n = Double.POSITIVE_INFINITY;
+//
+//
+//        if (justFired) {
+//            velocity = new double[]{0, -50};
+//        } else {
+//            if (!isStopped) {
+//                if (!justStarted) {
+//                    double[] val = applyGravityToVelocities(applyFrictionToVelocities(currentVelXY, timeMoving), timeMoving);
+//                    System.out.println(val[1]);
+//                    System.out.println(currentVelXY[1]);
+//                    if (Math.ceil(val[1]*1000000000)/1000000000 == Math.ceil(currentVelXY[1]*1000000000)/1000000000
+//                            &&
+//                            Math.ceil(val[0]*1000000000)/1000000000 == Math.ceil(currentVelXY[0]*1000000000)/1000000000) {
+//                        isStopped = true;
+//                        velocity = new double[]{currentVelXY[0], currentVelXY[1]};
+//                    } else {
+//                        velocity = val;
+//                    }
+//                } else {
+//                    justStarted = false;
+//                    velocity = applyGravityToVelocities(
+//                            applyFrictionToVelocities(currentVelXY, timeMoving),
+//                            timeMoving);
+//                }
+//            }
+//        }
+//
+//        return velocity;
+//    }
+
 
     private double[] getNewVelocities(double[] currentVelXY, boolean justFired, double timeMoving){
         //If the ball is just fired,
@@ -155,10 +213,10 @@ public class Ball extends Gizmo implements Tickable {
     }
 
     private double[] applyFrictionToVelocities(double[] velXY, double timeMoving){
-        double friction = model.getFrictionConstant();
+        double[] frictionArr = model.getFrictionConstants();
         return new double[]{
-                velXY[0] * (1 - friction * timeMoving - friction * Math.abs(velXY[0]) * timeMoving),
-                velXY[1] * (1 - friction * timeMoving - friction * Math.abs(velXY[1]) * timeMoving)
+                velXY[0] * (1 - frictionArr[0] * timeMoving - frictionArr[1] * Math.abs(velXY[0]) * timeMoving),
+                velXY[1] * (1 - frictionArr[0] * timeMoving - frictionArr[1] * Math.abs(velXY[1]) * timeMoving)
         };
     }
 
@@ -225,6 +283,7 @@ public class Ball extends Gizmo implements Tickable {
     protected DrawingData getGizmoDrawingData() {
         DrawingData data = new DrawingData();
         data.addCircle(new Double[]{0.5, 0.5, 0.25});
+        data.setColour(getProperty(GizmoPropertyType.CURRENT_COLOUR));
         return data;
     }
 
@@ -239,6 +298,11 @@ public class Ball extends Gizmo implements Tickable {
             moveBall(null);
         }
 
+    }
+
+    @Override
+    public String toString(){
+	    return "Radius is: " + newRadius + " x is: " + cx + " y is: " + cy;
     }
 
 }

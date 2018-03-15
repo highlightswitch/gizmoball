@@ -1,10 +1,12 @@
 package view;
 
 import controller.MainController;
-import model.Model;
+import controller.MenuActionListener;
+import model.IModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GameFrame {
      private JFrame frMain;
@@ -15,67 +17,103 @@ public class GameFrame {
      private JMenuItem edit;
      private JMenu settings;
      private JMenuItem delete;
-     private Model model;
      private MainController controller;
      private Board board;
+     private JPanel activePanel;
+     private JPanel activeBoard;
+     private ArrayList<JMenuItem> menuItems;
+     GameView view;
 
-    public GameFrame(Model m){
-        model = m;
-        board = new Board(500, 500, model);
-        controller = new MainController(model, this, board);
+    public GameFrame(MainController cont){
+        controller = cont;
+        board = new Board(500, 500, cont.getIModel());
         frMain = new JFrame("Gizmoball");
         mTools = new JMenu("Tools");
         top = new JMenuBar();
+        menuItems = new ArrayList<>();
 
         JMenu mFile = new JMenu("File");
         JMenu mView = new JMenu("View");
 
         JMenuItem load = new JMenuItem("Load");
         load.setActionCommand("Load");
-        load.addActionListener(controller.getActionListener("Menu"));
+        menuItems.add(load);
 
         JMenuItem save = new JMenuItem("Save");
         save.setActionCommand("Save");
-        save.addActionListener(controller.getActionListener("Menu"));
+        menuItems.add(save);
 
         JMenuItem quit = new JMenuItem("Quit");
         quit.setActionCommand("Quit");
-        quit.addActionListener(controller.getActionListener("Menu"));
+        menuItems.add(quit);
 
         JMenuItem run = new JMenuItem("Run View");
         run.setActionCommand("Run");
-        run.addActionListener(controller.getActionListener("Menu"));
+        menuItems.add(run);
 
         JMenuItem build = new JMenuItem("Build View");
         build.setActionCommand("Build");
-        build.addActionListener(controller.getActionListener("Menu"));
+        menuItems.add(build);
 
         add = new JMenu("Add a Gizmo");
         JMenu shape = new JMenu("Add a Shape");
-        JMenuItem circle = new JMenuItem("circle");
-        JMenuItem square = new JMenuItem("square");
-        JMenuItem triangle = new JMenuItem("triangle");
+
+        JMenuItem circle = new JMenuItem("Circle");
+        circle.setActionCommand("Circle");
+        menuItems.add(circle);
+
+        JMenuItem square = new JMenuItem("Square");
+        square.setActionCommand("Square");
+        menuItems.add(square);
+
+        JMenuItem triangle = new JMenuItem("Triangle");
+        triangle.setActionCommand("Triangle");
+        menuItems.add(triangle);
+
         shape.add(circle);
         shape.add(square);
         shape.add(triangle);
 
-        JMenuItem ball = new JMenuItem("add a ball");
-        JMenuItem absorber = new JMenuItem("add an absorber");
+        JMenuItem ball = new JMenuItem("Add a Ball");
+        ball.setActionCommand("Ball");
+        menuItems.add(ball);
+
+        JMenuItem absorber = new JMenuItem("Add an Absorber");
+        absorber.setActionCommand("Absorber");
+        menuItems.add(absorber);
+
+        JMenuItem flipper  = new JMenuItem("Add a Flipper");
+        flipper.setActionCommand("Flipper");
+        menuItems.add(flipper);
 
         add.add(shape);
         add.add(ball);
         add.add(absorber);
+        add.add(flipper);
 
-        rotate = new JMenuItem("rotate");
-        edit = new JMenuItem("edit");
+        rotate = new JMenuItem("Rotate");
+        rotate.setActionCommand("Rotate");
+        menuItems.add(rotate);
 
-        settings = new JMenu("settings");
-        JMenuItem gravity = new JMenuItem("change gravity");
-        JMenuItem friction = new JMenuItem("change friction");
+        edit = new JMenuItem("Edit");
+        edit.setActionCommand("Edit");
+        menuItems.add(edit);
+
+        settings = new JMenu("Settings");
+        JMenuItem gravity = new JMenuItem("Change Gravity");
+        gravity.setActionCommand("Gravity");
+        menuItems.add(gravity);
+
+        JMenuItem friction = new JMenuItem("Change Friction");
+        friction.setActionCommand("Friction");
+        menuItems.add(friction);
+
         settings.add(gravity);
         settings.add(friction);
 
-        delete = new JMenuItem("delete");
+        delete = new JMenuItem("Delete");
+        delete.setActionCommand("Delete");
+        menuItems.add(delete);
 
         mFile.add(load);
         mFile.add(save);
@@ -87,19 +125,40 @@ public class GameFrame {
         top.add(mFile);
         top.add(mView);
 
-        GameView view = new RunView(controller, board);
+        view = new RunView(frMain, controller, board);
+        activePanel = view.getPanel();
+        activeBoard = view.getBoard();
 
         drawFrame(view);
     }
 
-    public void setModel(Model model){
-        this.model = model;
+    public void setModel(IModel model){
+        this.board.setModel(model);
     }
 
+    public void switchToRunView(){
+        this.drawFrame(new RunView(frMain, controller, board));
+        frMain.getContentPane().revalidate();
+        frMain.getContentPane().repaint();
+        this.compressMenu();
+        frMain.getJMenuBar().revalidate();
+        frMain.getJMenuBar().repaint();
+    }
+
+    public void switchToBuildView(){
+        this.drawFrame(new BuildView(frMain, controller, board));
+        this.extendMenu();
+        frMain.getContentPane().revalidate();
+        frMain.getContentPane().repaint();
+        frMain.getJMenuBar().revalidate();
+        frMain.getJMenuBar().repaint();
+    }
 
     public void drawFrame(GameView g){
         //open running view by default then user can change to build view
-        frMain.setContentPane(g.getPanel());
+        activePanel = g.getPanel();
+        activeBoard = g.getBoard();
+        frMain.setContentPane(activePanel);
         frMain.setJMenuBar(top);
         frMain.setVisible(true);
         frMain.addKeyListener(controller.getKeyListener());
@@ -125,4 +184,18 @@ public class GameFrame {
         return frMain;
     }
 
+    public JPanel getActivePanel() {
+        return activePanel;
+    }
+
+    public JPanel geActiveBoard(){
+        return activeBoard;
+    }
+
+    public void assignActionListeners(){
+        for(JMenuItem m: menuItems){
+            m.addActionListener(controller.getActionListener(this.frMain,"Menu"));
+        }
+        view.setAllButtonListeners();
+    }
 }

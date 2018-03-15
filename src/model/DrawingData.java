@@ -13,6 +13,11 @@ public class DrawingData {
 	//An array list of cx,cy,r data of the circles that create a drawable object
 	private ArrayList<Double[]> circlesData;
 
+	//The colour of the drawable object
+	int r;
+	int g;
+	int b;
+
 	public DrawingData(){
 		polygonsData = new ArrayList<>();
 		circlesData = new ArrayList<>();
@@ -32,12 +37,47 @@ public class DrawingData {
 		circlesData.add(c);
 	}
 
+	public void setColour(String rgbString){
+
+		int iOfStartR = rgbString.indexOf('=');
+		int iOfEndR = rgbString.indexOf(",");
+		this.r = Integer.parseInt(rgbString.substring(iOfStartR+1, iOfEndR));
+
+		int iOfStartG = rgbString.indexOf('=', iOfEndR);
+		int iOfEndG = rgbString.indexOf(',', iOfStartG);
+		this.g = Integer.parseInt(rgbString.substring(iOfStartG+1, iOfEndG));
+
+
+		int iOfStartB = rgbString.indexOf('=', iOfEndG);
+		int iOfEndB = rgbString.indexOf(']', iOfStartB);
+		this.b = Integer.parseInt(rgbString.substring(iOfStartB+1, iOfEndB));
+
+
+		//TODO:Make parser into regex check
+//		String regex = "[\\[r=(\\d{1,3}),g=(\\d{1,3}),b=(\\d{1,3})\\]]";
+//
+//		Matcher matcher = Pattern.compile(regex).matcher(str);
+//		if(matcher.find() && matcher.groupCount() == 2) {
+//
+//		}
+	}
+
 	public ArrayList<ArrayList<Double[]>> getPolygonsData() {
 		return polygonsData;
 	}
 
 	public ArrayList<Double[]> getCirclesData() {
 		return circlesData;
+	}
+
+	public int getRedValue(){
+		return r;
+	}
+	public int getGreenValue(){
+		return g;
+	}
+	public int getBlueValue(){
+		return b;
 	}
 
 	public DrawingData translate(double[] translation){
@@ -135,5 +175,15 @@ public class DrawingData {
 
 		return sb.toString();
 	}
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null || getClass() != obj.getClass())
+//			return false;
+//		DrawingData data = (DrawingData) obj;
+//		return polygonsData == data.polygonsData && circlesData == data.circlesData;
+//	}
 
 }

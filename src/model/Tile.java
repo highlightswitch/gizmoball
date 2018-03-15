@@ -28,7 +28,12 @@ public class Tile {
     }
 
     public Tile getNeighbour(int xOff, int yOff){
-        return model.getTileAt(x+xOff, y+yOff);
+        try {
+            return model.getTileAt(x+xOff, y+yOff);
+        } catch (TileCoordinatesNotValid e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public boolean isOccupied(){
@@ -45,10 +50,12 @@ public class Tile {
         occupied = true;
     }
 
-    public void removeGizmo(){
-        gizmo.removeTile();
-        this.gizmo = null;
-        occupied = false;
+    void removeGizmo(){
+        if(gizmo != null) {
+            gizmo.removeTile();
+            this.gizmo = null;
+            occupied = false;
+        }
     }
 
     public Gizmo getGizmo() {
@@ -58,6 +65,16 @@ public class Tile {
     @Override
     public String toString(){
         return "<Tile(" + x + "," + y + ")>";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Tile tile = (Tile) obj;
+        return ((x == tile.x) && (y == tile.y));
     }
 
 }

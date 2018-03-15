@@ -4,6 +4,7 @@ import model.*;
 import physics.Vect;
 
 import java.awt.*;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Gizmo extends Triggerable implements Collidable, Drawable {
@@ -99,13 +100,15 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
             return null;
     }
 
+    public abstract boolean isTilePlacable();
+
     public void rotateBy_Deg(double val) throws GizmoPropertyException {
         double rotation = Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG));
         rotation = (rotation + val) % 360;
-        setRotation_Deg(rotation);
+        rotateTo_Deg(rotation);
     }
 
-    public void setRotation_Deg(double val) throws GizmoPropertyException {
+    public void rotateTo_Deg(double val) throws GizmoPropertyException {
         setProperty(GizmoPropertyType.ROTATION_DEG, String.valueOf(val));
     }
 
@@ -161,49 +164,75 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
     }
 
     private void action_changeColour(){
-        System.out.println("colour changed");
+//        System.out.println("colour changed");
+        try {
+            String currentColour = getProperty(GizmoPropertyType.CURRENT_COLOUR);
+            String defaultColour = getProperty(GizmoPropertyType.DEFAULT_COLOUR);
+            String altColour = getProperty(GizmoPropertyType.ALT_COLOUR);
+            if(currentColour.equals(defaultColour))
+                this.setProperty(GizmoPropertyType.CURRENT_COLOUR, getProperty(GizmoPropertyType.ALT_COLOUR));
+            else if(currentColour.equals(altColour))
+                this.setProperty(GizmoPropertyType.CURRENT_COLOUR, getProperty(GizmoPropertyType.DEFAULT_COLOUR));
+            else
+                throw new IllegalStateException("Current colour of " + this + "is not default or alt colour");
+        } catch (GizmoPropertyException e) {
+            //This should never happen
+        }
     }
 
     private void action_printToConsole(){
         System.out.println( this.getProperty(GizmoPropertyType.NAME) + " activated");
     }
 
-    @Override
-    public void keyDown(){
-        super.keyDown();
-        //Override me to do something
-    }
 
-    @Override
-    public void keyUp(){
-        super.keyUp();
-        //Override me to do something
-    }
-
-
-    public static String[] getPropertyDefaults(GizmoType type){
+    public static String[] getPropertyDefaults(GizmoType type, List<String> usedNames){
+        String[] propVals = null;
         switch (type){
             case FLIPPER:
                 //Name, Rotation_Deg
-                return new String[]{ "leftFlipper0", "0", "true" };
+                propVals = new String[]{ "leftFlipper_0", "0", "true", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]" };
+                break;
             case BALL:
                 //Name, Vel_X, Vel_Y
-                return new String[]{ "ball0", "0", "0" };
+                propVals = new String[]{ "ball_0", "0", "0", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]" };
+                break;
             case CIRCLE_BUMPER:
                 //Name, Rotation_Deg
-                return new String[]{ "circleBumper0", "0" };
+                propVals = new String[]{ "circleBumper_0", "0", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]" };
+                break;
             case SQUARE_BUMPER:
                 //Name, Rotation_Deg
-                return new String[]{ "squareBumper0", "0" };
+                propVals = new String[]{ "squareBumper_0", "0", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]" };
+                break;
             case TRIANGLE_BUMPER:
                 //Name, Rotation_Deg
-                return new String[]{ "triangleBumper0", "0" };
+                propVals = new String[]{ "triangleBumper_0", "0", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]" };
+                break;
             case ABSORBER:
                 //Name, width, height
-                return new String[]{ "absorber0", "20", "1" };
+                propVals = new String[]{ "absorber_0", "20", "1", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]" };
+                break;
         }
 
-        throw new IllegalArgumentException();
+        if(usedNames != null){
+            String newName = propVals[0];
+            while(usedNames.contains(newName)){
+                String[] arr = newName.split("_");
+                arr[arr.length -1] = String.valueOf(Integer.parseInt(arr[arr.length -1]) + 1);
+
+                StringBuilder sb = new StringBuilder();
+                for(int i = 0; i < arr.length-1; i++)
+                    sb.append(arr[i]);
+                sb.append("_");
+                sb.append(arr[arr.length-1]);
+                newName = sb.toString();
+
+                System.out.println(newName);
+            }
+            propVals[0] = newName;
+        }
+
+        return propVals;
 
     }
 

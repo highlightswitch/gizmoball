@@ -37,7 +37,7 @@ public class GizmoballFileReader {
                 if(checkLine(tokens)) {
                     try{
                         command(tokens);
-                    }catch (GizmoPlacementNotValidException e){
+                    }catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e){
                         e.printStackTrace();
                     }
                 }
@@ -91,18 +91,20 @@ public class GizmoballFileReader {
                     return false;
                 }
             case "Gravity":
-                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
-                    return true;
-                } else {
-                    return false;
-                }
+//                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+                return true;
             case "Friction":
                 //check friction format
-                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
-                    return true;
-                } else {
-                    return false;
-                }
+//                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+                return true;
             default: return false;
         }
     }
@@ -126,7 +128,7 @@ public class GizmoballFileReader {
     }
 
 
-    private void command(ArrayList<String> command) throws GizmoPlacementNotValidException{
+    private void command(ArrayList<String> command) throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
         Gizmo gizmo;
         GizmoType type;
         Tile tile;
@@ -168,12 +170,12 @@ public class GizmoballFileReader {
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Absorber":
-                double x1 = Integer.parseInt(command.get(2));
-                double y1 = Integer.parseInt(command.get(3));
-                double x2 = Integer.parseInt(command.get(4));
-                double y2 = Integer.parseInt(command.get(5));
-                double w = x2 - x1;
-                double h = y2 - y1;
+                int x1 = Integer.parseInt(command.get(2));
+                int y1 = Integer.parseInt(command.get(3));
+                int x2 = Integer.parseInt(command.get(4));
+                int y2 = Integer.parseInt(command.get(5));
+                int w = x2 - x1;
+                int h = y2 - y1;
 
                 type = GizmoType.ABSORBER;
                 tile = model.getTileAt(x1, y1);
@@ -183,7 +185,7 @@ public class GizmoballFileReader {
                 break;
             case "Ball":
                 type = GizmoType.BALL;
-                tile = model.getTileAt( Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)));
+                tile = model.getTileNear ( Double.parseDouble(command.get(2)), Double.parseDouble(command.get(3)));
                 propertyValues = new String[]{command.get(1), command.get(4), command.get(5)};
 
                 model.loadBall(Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)), propertyValues);
@@ -192,8 +194,7 @@ public class GizmoballFileReader {
                 break;
             case "Rotate":
                 try {
-                    gizmo = model.getGizmoByName(command.get(1));
-                    gizmo.rotateBy_Deg(90);
+                    model.rotateGizmoBy_Deg(command.get(1), 90);
                 } catch (GizmoNotFoundException e) {
                     e.printStackTrace();
                 } catch (GizmoPropertyException e) {
@@ -207,7 +208,7 @@ public class GizmoballFileReader {
             }
                 break;
             case "Move":  try {
-                model.moveGizmo(command.get(1), Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
+                model.moveGizmo(command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
             } catch (GizmoNotFoundException e) {
                 e.printStackTrace();
             }
@@ -217,14 +218,18 @@ public class GizmoballFileReader {
             case "KeyConnect": //
                 break;
             case "Gravity": try {
-                model.setGravityConstant(Float.parseFloat(command.get(2)));
+                model.setGravityConstant(Float.parseFloat(command.get(1)));
             } catch (ModelPropertyException e){
                 e.printStackTrace();
             }
                 break;
             case "Friction": try {
-                //need to look at friction format
-                model.setFrictionConstant(Float.parseFloat(command.get(2)));
+                model.setFrictionConstants(
+                        new double[]{
+                                Float.parseFloat(command.get(1)),
+                                Float.parseFloat(command.get(2))
+                        }
+                );
             } catch (ModelPropertyException e){
                 e.printStackTrace();
             }

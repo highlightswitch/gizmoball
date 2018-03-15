@@ -1,7 +1,5 @@
-package model;
+package model.gizmo;
 
-import model.gizmo.GizmoActionType;
-import model.gizmo.KeyEventTriggerable;
 import model.util.Procedure;
 
 import java.util.HashSet;
@@ -14,15 +12,15 @@ public abstract class Triggerable implements KeyEventTriggerable {
 
 	private boolean keyDown;
 
-	protected Triggerable(){
+	Triggerable(){
 		connectedTriggerables = new HashSet<>();
-		setAction(GizmoActionType.PRINT_TO_CONSOLE);
+		setAction(GizmoActionType.CHANGE_COLOUR);
 	}
 
 	public abstract void setAction(GizmoActionType type);
 
-	protected void trigger(){
-		this.doAction();
+	void trigger(){
+//		this.doAction();
 		triggerAllConnected();
 	}
 
@@ -33,20 +31,27 @@ public abstract class Triggerable implements KeyEventTriggerable {
 	}
 
 	public void doAction(){
-		if(!keyDown)
 			action.invoke();
 	}
 
-	void addActor(Triggerable actor){
+	public void addActor(Triggerable actor){
 		connectedTriggerables.add(actor);
 	}
 
+	public void removeActor(Triggerable actor){
+		connectedTriggerables.remove(actor);
+	}
+
+	public void removeAllActors(){
+		connectedTriggerables.clear();
+	}
+
 	public void keyDown(){
-		keyDown = true;
+		doAction();
 	}
 
 	public void keyUp(){
-		keyDown = false;
+		doAction();
 	}
 
 }

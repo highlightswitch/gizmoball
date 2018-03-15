@@ -1,11 +1,15 @@
 package view;
 
 import main.Main;
-import model.*;
+import model.Drawable;
+import model.DrawingData;
+import model.IModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,14 +19,14 @@ public  class Board extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private int width;
 	private int height;
-	private Model gm;
+	private IModel iModel;
 
-	Board(int w, int h, Model m) {
+	Board(int w, int h, IModel m) {
 		// Observe changes in Model
 		m.addObserver(this);
 		width = w;
 		height = h;
-		gm = m;
+		iModel = m;
 		this.setOpaque(false);
 		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 	}
@@ -32,18 +36,21 @@ public  class Board extends JPanel implements Observer {
 		return new Dimension(width, height);
 	}
 
-	public void setModel(Model model){
-		gm = model;
-		gm.addObserver(this);
+	public void setModel(IModel model){
+		iModel = model;
+		iModel.addObserver(this);
+	}
+
+	public IModel getModel(){
+		return iModel;
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.WHITE);
 
-		ArrayList<Drawable> drawableObjects = gm.getDrawables();
+		ArrayList<Drawable> drawableObjects = iModel.getDrawables();
 		for(Drawable drawable : drawableObjects) {
 			DrawingData data = drawable.getDrawingData();
 			draw(data, g2, true);
@@ -51,19 +58,17 @@ public  class Board extends JPanel implements Observer {
 
 		//If debug mode is on, draw the GameObjects as well
 		if(Main.debugMode){
-			g2.setColor(Color.CYAN);
-			ArrayList<Collidable> collidables = gm.getCollidable();
-			for(Collidable col : collidables) {
-				DrawingData data = col.getGameObject().getDrawingData();
+			ArrayList<Drawable> dataList = iModel.getDebugDrawables();
+			for(Drawable drawable : dataList) {
+				DrawingData data = drawable.getDrawingData();
 				draw(data, g2, false);
 			}
-			draw(gm.getBall().getGameObject().getDrawingData(), g2, false);
-			g2.setColor(Color.WHITE);
 		}
 
 	}
 
 	private void draw(DrawingData data, Graphics2D g2, boolean fill){
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		if(data != null){
 			//If the data exists, loop through and draw the polygons and circles of this shape
 
@@ -82,11 +87,10 @@ public  class Board extends JPanel implements Observer {
 					//Draw a line back to the starting point
 					path.closePath();
 
+					Color color = getColorOfData(data);
+
 					//Draw the scaled up shape
-					if(fill)
-						g2.fill(toPixels(path));
-					else
-						g2.draw(toPixels(path));
+					drawShape(path, color, g2, fill);
 				}
 			}
 
@@ -94,13 +98,26 @@ public  class Board extends JPanel implements Observer {
 				//Create an ellipse using its rectangular bounds
 				Ellipse2D circle = new Ellipse2D.Double(circleData[0] - circleData[2], circleData[1] - circleData[2], 2 * circleData[2], 2 * circleData[2]);
 
+				Color color = getColorOfData(data);
+
 				//Draw the scaled up shape
-				if(fill)
-					g2.fill(toPixels(circle));
-				else
-					g2.draw(toPixels(circle));
+				drawShape(circle, color, g2, fill);
 			}
 		}
+	}
+
+	private void drawShape(Shape shape, Color color, Graphics2D g2, boolean fill){
+		if(fill) {
+			g2.setColor(color);
+			g2.fill(toPixels(shape));
+		}else {
+			g2.setColor(Color.CYAN);
+			g2.draw(toPixels(shape));
+		}
+	}
+
+	private Color getColorOfData(DrawingData data){
+		return new Color(data.getRedValue(), data.getGreenValue(), data.getBlueValue());
 	}
 
     private Shape toPixels(Shape shape){
