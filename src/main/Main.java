@@ -38,8 +38,8 @@ public class Main {
 			model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 6), null);
 			Gizmo square = model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 8), null);
 
-			Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), new String[]{"triangle", "180", "", "", ""});
-			Gizmo triangle1 = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(9, 8), new String[]{"triangle1", "270", "", "", ""});
+			Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), null);
+			model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(9, 8), null);
 
 			Gizmo deleteMe = model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(2,6), null);
 
