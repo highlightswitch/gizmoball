@@ -182,18 +182,6 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
         System.out.println( this.getProperty(GizmoPropertyType.NAME) + " activated");
     }
 
-    @Override
-    public void keyDown(){
-        super.keyDown();
-        //Override me to do something
-    }
-
-    @Override
-    public void keyUp(){
-        super.keyUp();
-        //Override me to do something
-    }
-
 
     public static String[] getPropertyDefaults(GizmoType type, List<String> usedNames){
         String[] propVals = null;
