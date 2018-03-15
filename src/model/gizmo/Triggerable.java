@@ -1,7 +1,5 @@
-package model;
+package model.gizmo;
 
-import model.gizmo.GizmoActionType;
-import model.gizmo.KeyEventTriggerable;
 import model.util.Procedure;
 
 import java.util.HashSet;
@@ -36,15 +34,15 @@ public abstract class Triggerable implements KeyEventTriggerable {
 			action.invoke();
 	}
 
-	void addActor(Triggerable actor){
+	public void addActor(Triggerable actor){
 		connectedTriggerables.add(actor);
 	}
 
-	void removeActor(Triggerable actor){
+	public void removeActor(Triggerable actor){
 		connectedTriggerables.remove(actor);
 	}
 
-	void removeAllActors(){
+	public void removeAllActors(){
 		connectedTriggerables.clear();
 	}
 
