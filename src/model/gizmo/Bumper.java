@@ -134,7 +134,7 @@ public class Bumper extends Gizmo implements Collidable{
 
         data.rotateAroundPivotByRadians(new double[]{0.5, 0.5}, rotationInRadians());
 
-        data.setColourString(getProperty(GizmoPropertyType.CURRENT_COLOUR));
+        data.setColour(getProperty(GizmoPropertyType.CURRENT_COLOUR));
 
         return data;
     }

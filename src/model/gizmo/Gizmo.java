@@ -200,27 +200,27 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
         switch (type){
             case FLIPPER:
                 //Name, Rotation_Deg
-                propVals = new String[]{ "leftFlipper_0", "0", "true", "white", "white", "black" };
+                propVals = new String[]{ "leftFlipper_0", "0", "true", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]" };
                 break;
             case BALL:
                 //Name, Vel_X, Vel_Y
-                propVals = new String[]{ "ball_0", "0", "0", "white", "white", "red" };
+                propVals = new String[]{ "ball_0", "0", "0", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]" };
                 break;
             case CIRCLE_BUMPER:
                 //Name, Rotation_Deg
-                propVals = new String[]{ "circleBumper_0", "0", "white", "white", "orange" };
+                propVals = new String[]{ "circleBumper_0", "0", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]" };
                 break;
             case SQUARE_BUMPER:
                 //Name, Rotation_Deg
-                propVals = new String[]{ "squareBumper_0", "0", "white", "white", "red" };
+                propVals = new String[]{ "squareBumper_0", "0", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]" };
                 break;
             case TRIANGLE_BUMPER:
                 //Name, Rotation_Deg
-                propVals = new String[]{ "triangleBumper_0", "0", "white", "white", "green" };
+                propVals = new String[]{ "triangleBumper_0", "0", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]" };
                 break;
             case ABSORBER:
                 //Name, width, height
-                propVals = new String[]{ "absorber_0", "20", "1", "white", "white", "gray" };
+                propVals = new String[]{ "absorber_0", "20", "1", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]" };
                 break;
         }
 
