@@ -27,14 +27,10 @@ public class Bumper extends Gizmo implements Collidable{
         return new Tile[0];
     }
 
-    private double rotationInRadians(){
-        return Math.toRadians(Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG)));
-    }
-
     @Override
     public GameObject getGameObject() {
         return getPrototypeGameObject()
-                .rotateAroundPointByAngle( new Vect(0.5,0.5), new Angle(rotationInRadians()) )
+                .rotateAroundPointByAngle( new Vect(0.5,0.5), new Angle(getCurrentRotationInRadians()) )
                 .translate(getPosition());
     }
 
@@ -132,7 +128,7 @@ public class Bumper extends Gizmo implements Collidable{
                 break;
         }
 
-        data.rotateAroundPivotByRadians(new double[]{0.5, 0.5}, rotationInRadians());
+        data.rotateAroundPivotByRadians(new double[]{0.5, 0.5}, getCurrentRotationInRadians());
 
         data.setColour(getProperty(GizmoPropertyType.CURRENT_COLOUR));
 

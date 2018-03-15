@@ -102,6 +102,10 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
 
     public abstract boolean isTilePlacable();
 
+    double getCurrentRotationInRadians(){
+        return Math.toRadians(Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG)));
+    }
+
     public void rotateBy_Deg(double val) throws GizmoPropertyException {
         double rotation = Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG));
         rotation = (rotation + val) % 360;
