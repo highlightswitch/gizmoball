@@ -43,25 +43,25 @@ public class MenuActionListener implements ActionListener {
             case "Circle":
             case "Square":
             case "Triangle":
-                new EditShapeDialogue(frame, e.getActionCommand(), "Add", controller.getModel());
+                new EditShapeDialogue(frame, e.getActionCommand(), "Add", controller.getModel(), null);
                 break;
             case "Ball":
-                new EditBallDialogue(frame, "Add", controller.getModel());
+                new EditBallDialogue(frame, "Add", controller.getModel(), null);
                 break;
             case "Absorber":
-                new EditAbsorberDialogue(frame, "Add", controller.getModel());
+                new EditAbsorberDialogue(frame, "Add", controller.getModel(), null);
                 break;
             case "Flipper":
-                new EditFlipperDialogue(frame, "Add", controller.getModel());
+                new EditFlipperDialogue(frame, "Add", controller.getModel(), null);
                 break;
             case "Rotate":
+                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel, "Rotate"));
                 break;
             case "Delete":
+                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel, "Delete"));
                 break;
             case "Edit":
-                System.out.println("you are in editing mode");
-                System.out.println("adding listener to " + panel.hashCode());
-                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel));
+                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel, "Edit"));
                 break;
             case "Gravity":
                 new GravitySlider(frame, controller.getModel());
@@ -73,8 +73,8 @@ public class MenuActionListener implements ActionListener {
                 System.exit(0);
                 break;
             case "Build":
-                controller.stopTimer();
                 controller.switchToBuildView();
+                controller.stopTimer();
                 break;
             case "Run":
                 controller.switchToRunView();

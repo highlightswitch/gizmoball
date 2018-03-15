@@ -3,6 +3,7 @@ package model;
 import model.gizmo.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observer;
 
 public interface IModel {
@@ -20,6 +21,7 @@ public interface IModel {
 
 	String getGizmoProperty(String gizmoName, GizmoPropertyType type) throws GizmoNotFoundException;
 	void setGizmoProperty(String gizmoName, GizmoPropertyType prop, String val) throws GizmoNotFoundException, GizmoPropertyException;
+	void setAllProperties(String gimoName, HashMap<GizmoPropertyType, String> properties) throws GizmoNotFoundException;
 
 	void setGizmoAction(String gizmoName, GizmoActionType actionType) throws GizmoNotFoundException;
 

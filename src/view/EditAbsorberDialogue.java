@@ -1,8 +1,10 @@
 package view;
 
+import controller.EditAbsorberListener;
 import controller.PlaceAbsorberListener;
 import controller.PlaceBallListener;
 import model.Model;
+import model.gizmo.Gizmo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +19,7 @@ public class EditAbsorberDialogue {
     String heightS;
     Color color;
 
-    public EditAbsorberDialogue(JFrame f, String mode, Model m){
+    public EditAbsorberDialogue(JFrame f, String mode, Model m, Gizmo g){
         JLabel label = new JLabel();
         label.setIcon(new ImageIcon(getClass().getResource("/Images/fillRectangleSmall.png")));
         label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -57,21 +59,21 @@ public class EditAbsorberDialogue {
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
-        if(mode.equals("Add")){
-            ok.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    startPosition = sposition.getText();
-                    widthS  = width.getText();
-                    heightS = height.getText();
-                    color = shapeColour.getColor();
+        ok.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startPosition = sposition.getText();
+                widthS  = width.getText();
+                heightS = height.getText();
+                color = shapeColour.getColor();
+                if(mode.equals("Add")){
                     new PlaceAbsorberListener(startPosition, widthS, heightS, color, m);
-                    edit.dispose();
+                } else {
+                    new EditAbsorberListener(g, startPosition, widthS, heightS, color, m);
                 }
-            });
-        } else {
-            //edit shape listener;
-        }
+                edit.dispose();
+            }
+        });
 
         panControls.add(ok);
         panControls.setOpaque(false);

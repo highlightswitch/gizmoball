@@ -7,17 +7,21 @@ import controller.MainController;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class BuildView implements GameView {
     JFrame frame;
     JPanel panBuild;
     JPanel panBoard;
     JPopupMenu allShapes;
+    ArrayList<AbstractButton> buttons = new ArrayList<>();
+    MainController controller;
 
     public BuildView(JFrame fr, MainController c, Board b) {
         frame = fr;
         panBuild = new JPanel();
         panBuild.setBackground(Color.ORANGE);
+        controller = c;
 
         JPanel panControls = new JPanel();
         JToggleButton add = new JToggleButton();
@@ -54,20 +58,26 @@ public class BuildView implements GameView {
         rotate.setBorder(null);
         rotate.setMargin(new Insets(0, 0, 0, 0));
         rotate.setContentAreaFilled(false);
+        rotate.setActionCommand("Rotate");
+        buttons.add(rotate);
 
         delete.setBorder(null);
         delete.setMargin(new Insets(0, 0, 0, 0));
         delete.setContentAreaFilled(false);
+        delete.setActionCommand("Delete");
+        buttons.add(delete);
 
         edit.setBorder(null);
         edit.setMargin(new Insets(0, 0, 0, 0));
         edit.setContentAreaFilled(false);
         edit.setActionCommand("Edit");
-        edit.addActionListener(c.getActionListener(frame, "Button"));
+        buttons.add(edit);
 
         pointer.setBorder(null);
         pointer.setMargin(new Insets(0, 0, 0, 0));
         pointer.setContentAreaFilled(false);
+        pointer.setActionCommand("Move");
+        buttons.add(pointer);
 
         panControls.add(add);
         panControls.add(rotate);
@@ -80,19 +90,6 @@ public class BuildView implements GameView {
         JPanel panGrid = new JPanel();
 
         panGrid.add(b);
-
-        /*JPanel tiles = new JPanel(new GridLayout(20, 20));
-
-        tiles.setOpaque(true);
-        tiles.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
-        for (int i = 0; i < (20 * 20); i++) {
-            final JLabel label = new JLabel();
-            label.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-            tiles.add(label);
-        }
-
-        panGrid.add(tiles, new Integer(1), 0);*/
 
         panGrid.setOpaque(false);
         panBoard = panGrid;
@@ -119,52 +116,49 @@ public class BuildView implements GameView {
         circleGizmoButton.setPreferredSize(new Dimension(50,50));
         circleGizmoButton.setMargin(new Insets(0, 0, 0, 0));
         circleGizmoButton.setContentAreaFilled(false);
+        circleGizmoButton.setActionCommand("Circle");
+        circleGizmoButton.addActionListener(controller.getActionListener(frame, "Button"));
 
         JButton triangleGizmoButton = new JButton();
         triangleGizmoButton.setIcon(triangleGizmo);
         triangleGizmoButton.setPreferredSize(new Dimension(50,50));
         triangleGizmoButton.setMargin(new Insets(0, 0, 0, 0));
         triangleGizmoButton.setContentAreaFilled(false);
+        triangleGizmoButton.setActionCommand("Triangle");
+        triangleGizmoButton.addActionListener(controller.getActionListener(frame, "Button"));
 
         JButton squareGizmoButton = new JButton();
         squareGizmoButton.setIcon(squareGizmo);
         squareGizmoButton.setPreferredSize(new Dimension(50,50));
         squareGizmoButton.setMargin(new Insets(0, 0, 0, 0));
         squareGizmoButton.setContentAreaFilled(false);
+        squareGizmoButton.setActionCommand("Square");
+        squareGizmoButton.addActionListener(controller.getActionListener(frame, "Button"));
 
         JButton absorberGizmoButton = new JButton();
         absorberGizmoButton.setIcon(absorberGizmo);
         absorberGizmoButton.setPreferredSize(new Dimension(50,50));
         absorberGizmoButton.setMargin(new Insets(0, 0, 0, 0));
         absorberGizmoButton.setContentAreaFilled(false);
+        absorberGizmoButton.setActionCommand("Absorber");
+        absorberGizmoButton.addActionListener(controller.getActionListener(frame, "Button"));
 
         JButton flipperGizmoButton = new JButton();
         flipperGizmoButton.setIcon(flipperGizmo);
         flipperGizmoButton.setPreferredSize(new Dimension(50,50));
         flipperGizmoButton.setMargin(new Insets(0, 0, 0, 0));
         flipperGizmoButton.setContentAreaFilled(false);
+        flipperGizmoButton.setActionCommand("Flipper");
+        flipperGizmoButton.addActionListener(controller.getActionListener(frame, "Button"));
 
         JButton ballGizmoButton = new JButton();
         ballGizmoButton.setIcon(ballGizmo);
         ballGizmoButton.setPreferredSize(new Dimension(50,50));
         ballGizmoButton.setMargin(new Insets(0, 0, 0, 0));
         ballGizmoButton.setContentAreaFilled(false);
+        ballGizmoButton.setActionCommand("Ball");
+        ballGizmoButton.addActionListener(controller.getActionListener(frame, "Button"));
 
-     /* DragDropListener li = new DragDropListener();
-      circleGizmo.addMouseListener(li);
-       circleGizmo.addMouseListener(li);
-       circleGizmo.setTransferHandler(new TransferHandler("icon"));
-       triangleGizmo.addMouseListener(li);
-       triangleGizmo.setTransferHandler(new TransferHandler("icon"));
-       squareGizmo.addMouseListener(li);
-       squareGizmo.setTransferHandler(new TransferHandler("icon"));
-       absorberGizmo.addMouseListener(li);
-       absorberGizmo.setTransferHandler(new TransferHandler("icon"));
-       ballGizmo.addMouseListener(li);
-       ballGizmo.setTransferHandler(new TransferHandler("icon"));
-       flipperGizmo.addMouseListener(li);
-       flipperGizmo.setTransferHandler(new TransferHandler("icon"));
-*/
         allShapes.add(circleGizmoButton);
         allShapes.add(triangleGizmoButton);
         allShapes.add(squareGizmoButton);
@@ -184,6 +178,13 @@ public class BuildView implements GameView {
     @Override
     public JPanel getBoard() {
         return panBoard;
+    }
+
+    @Override
+    public void setAllButtonListeners() {
+        for(AbstractButton b: buttons){
+            b.addActionListener(controller.getActionListener(frame, "Button"));
+        }
     }
 
 }

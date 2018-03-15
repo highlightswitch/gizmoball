@@ -29,7 +29,7 @@ public class Main {
 		IModel model = cont.getIModel();
 
 		try {
-			Gizmo ball = model.placeGizmo(GizmoType.BALL, model.getTileAt(15, 1), null);
+			Gizmo ball = model.placeGizmo(GizmoType.BALL, model.getTileAt(10, 1), null);
 			Flipper leftFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(8, 10), null);
 			String[] rFProp = Gizmo.getPropertyDefaults(GizmoType.FLIPPER, null);
 			rFProp[0] = "rf_0";
@@ -37,7 +37,10 @@ public class Main {
 			Flipper rightFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(15, 3), rFProp);
 			model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(5, 6), null);
 			Gizmo square = model.placeGizmo(GizmoType.SQUARE_BUMPER, model.getTileAt(6, 8), null);
-			Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), null);
+
+			Gizmo triangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(10, 8), new String[]{"triangle", "180", "", "", ""});
+			Gizmo triangle1 = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(9, 8), new String[]{"triangle1", "270", "", "", ""});
+
 			Gizmo deleteMe = model.placeGizmo(GizmoType.CIRCLE_BUMPER, model.getTileAt(2,6), null);
 
 			Gizmo cornerTriangle = model.placeGizmo(GizmoType.TRIANGLE_BUMPER, model.getTileAt(19, 0), null);
@@ -52,7 +55,7 @@ public class Main {
 			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(2, 17), new String[]{ "2", "15", "1","[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]"}));
 			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19),  new String[]{ "3", "20", "1", "[r=255,g=255, b=255]", "[r=255,g=255, b=255]", "[r=255,g=0, b=0]"}));
 
-			model.moveGizmo(ball.getProperty(GizmoPropertyType.NAME), model.getTileAt(0,12));
+			//model.moveGizmo(ball.getProperty(GizmoPropertyType.NAME), model.getTileAt(0,12));
 			model.deleteGizmo(deleteMe.getProperty(GizmoPropertyType.NAME));
 
 			model.connect(square.getProperty(GizmoPropertyType.NAME), triangle.getProperty(GizmoPropertyType.NAME));

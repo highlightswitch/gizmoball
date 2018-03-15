@@ -47,12 +47,15 @@ public class MainController implements ActionListener {
     }
 
     void switchToRunView(){
+       // setModel(new Model());
         fr.switchToRunView();
+       // fr.assignActionListeners();
     }
 
     void switchToBuildView(){
         setModel(new Model());
         fr.switchToBuildView();
+       // fr.assignActionListeners();
     }
 
     public KeyListener getKeyListener() {
@@ -66,10 +69,9 @@ public class MainController implements ActionListener {
     public ActionListener getActionListener(JFrame frame, String type) {
 
         if(type.equals("Button")){
-            return new ButtonActionListener(this, frame, model);
+            return new ButtonActionListener(this, frame, model, fr.geActiveBoard());
         }
         else if(type.equals("Menu")){
-            System.out.println("main controller: " + fr.geActiveBoard().hashCode());
             return new MenuActionListener(this, frame, fr.geActiveBoard());
         }
 

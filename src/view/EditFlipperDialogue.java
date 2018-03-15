@@ -1,8 +1,10 @@
 package view;
 
+import controller.EditFlipperListener;
 import controller.PlaceBallListener;
 import controller.PlaceFlipperListener;
 import model.Model;
+import model.gizmo.Gizmo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,13 +18,21 @@ public class EditFlipperDialogue {
     String orient;
     Color color;
 
-    public EditFlipperDialogue(JFrame f, String mode, Model m){
+    public EditFlipperDialogue(JFrame f, String mode, Model m, Gizmo g){
         JLabel label = new JLabel();
         label.setIcon(new ImageIcon(getClass().getResource("/Images/fillFlipperSmall.png")));
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel pos = new JLabel("Initial position: ");
-        JTextField position = new JTextField("(0,0)");
+        JTextField position;
+
+        if(g != null){
+            Double x = g.getPosition()[0] ;
+            Double y = g.getPosition()[1] ;
+            position = new JTextField("(" + x.intValue() + "," + y.intValue() + ")");
+        }else {
+            position = new JTextField("(0,0)");
+        }
 
         JLabel label2 = new JLabel("Select flipper direction: ");
         String[] direction = {"Left", "Right"};
@@ -52,20 +62,22 @@ public class EditFlipperDialogue {
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
-        if(mode.equals("Add")){
-            ok.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    intPosition = position.getText();
-                    orient = direction[di.getSelectedIndex()];
-                    color = shapeColour.getColor();
+
+        ok.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                intPosition = position.getText();
+                orient = direction[di.getSelectedIndex()];
+                color = shapeColour.getColor();
+                if(mode.equals("Add")){
                     new PlaceFlipperListener(intPosition,orient,color,m);
-                    edit.dispose();
+                }else {
+                    new EditFlipperListener(g, intPosition, orient, color, m );
                 }
-            });
-        } else {
-            //edit shape listener;
-        }
+                edit.dispose();
+            }
+        });
+
 
         panControls.add(ok);
         panControls.setOpaque(false);

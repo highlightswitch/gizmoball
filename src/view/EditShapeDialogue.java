@@ -1,7 +1,9 @@
 package view;
 
+import controller.EditGizmoListener;
 import controller.PlaceGizmoListener;
 import model.Model;
+import model.gizmo.Gizmo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +19,10 @@ public class EditShapeDialogue {
     String cTrigger;
     JDialog edit;
 
-    public EditShapeDialogue(JFrame fr, String shape, String mode, Model model){
+    public EditShapeDialogue(JFrame fr, String shape, String mode, Model model, Gizmo g){
         gizmo = shape;
+        System.out.println(gizmo);
+
         //change to mapping from action
         JLabel action = new JLabel("When the ball collides with this gizmo the gizmo should: ");
         String[] actions = {"Change Colour", "Rotate", "Activate Another Gizmo", "Do Nothing"};
@@ -27,15 +31,14 @@ public class EditShapeDialogue {
 
         JLabel label = new JLabel();
 
-        switch (gizmo){
-            case "Circle":
+        switch (gizmo.toLowerCase()){
+            case "circle":
                 label.setIcon(new ImageIcon(getClass().getResource("/Images/fillCircleSmall.png")));
-
                 break;
-            case "Triangle":
+            case "triangle":
                 label.setIcon(new ImageIcon(getClass().getResource("/Images/fillTriangleSmall.png")));
                 break;
-            case "Square":
+            case "square":
                 label.setIcon(new ImageIcon(getClass().getResource("/Images/fillSquareSmall.png")));
                 break;
         }
@@ -45,7 +48,15 @@ public class EditShapeDialogue {
         JComboBox actionList = new JComboBox(actions);
         JComboBox triggerList = new JComboBox(triggers);
         JLabel pos = new JLabel("Initial position: ");
-        JTextField position = new JTextField("(0,0)");
+        JTextField position;
+
+        if(g != null){
+            Double x = g.getPosition()[0] ;
+            Double y = g.getPosition()[1] ;
+            position = new JTextField("(" + x.intValue() + "," + y.intValue() + ")");
+        }else {
+            position = new JTextField("(0,0)");
+        }
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
@@ -75,33 +86,34 @@ public class EditShapeDialogue {
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
-        if(mode.equals("Add")){
-            ok.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    intPosition = position.getText();
-                    color = shapeColour.getColor();
-                    cAction = actions[actionList.getSelectedIndex()];
+        ok.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                intPosition = position.getText();
+                color = shapeColour.getColor();
+                cAction = actions[actionList.getSelectedIndex()];
+                cTrigger = triggers[triggerList.getSelectedIndex()];
+                //any circle, any square, flipper, absorber, etc
 
-                    cTrigger = triggers[triggerList.getSelectedIndex()];
-                    //any circle, any square, flipper, absorber, etc
-
-                    if(cAction.equals("Activate Another Gizmo")){
-                        String[] action = new String[]{"Flipper", "Absorber"};
-                        JComboBox gizmos = new JComboBox(action);
-                        JOptionPane.showMessageDialog(fr, gizmos, "Select gizmo to activate", JOptionPane.QUESTION_MESSAGE);
-                        cAction = action[gizmos.getSelectedIndex()];
-                    }
-                    if(cTrigger.equals("A Key Press")){
-                        // start key listener, give user
-                    }
-                    new PlaceGizmoListener(gizmo, intPosition, color, cAction, cTrigger, model);
-                    edit.dispose();
+                if(cAction.equals("Activate Another Gizmo")){
+                    String[] action = new String[]{"Flipper", "Absorber"};
+                    JComboBox gizmos = new JComboBox(action);
+                    JOptionPane.showMessageDialog(fr, gizmos, "Select gizmo to activate", JOptionPane.QUESTION_MESSAGE);
+                    cAction = action[gizmos.getSelectedIndex()];
                 }
-            });
-        } else {
-            //edit shape listener;
-        }
+                if(cTrigger.equals("A Key Press")){
+                    // start key listener, give user
+                }
+
+                if(mode.equals("Add")){
+                    new PlaceGizmoListener(gizmo, intPosition, color, cAction, cTrigger, model);
+                } else {
+                    new EditGizmoListener(g, intPosition, color, cAction, cTrigger, model);
+                }
+
+                edit.dispose();
+            }
+        });
 
         panControls.add(ok);
         panControls.setOpaque(false);

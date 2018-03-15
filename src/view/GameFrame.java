@@ -22,6 +22,7 @@ public class GameFrame {
      private JPanel activePanel;
      private JPanel activeBoard;
      private ArrayList<JMenuItem> menuItems;
+     GameView view;
 
     public GameFrame(MainController cont){
         controller = cont;
@@ -124,7 +125,7 @@ public class GameFrame {
         top.add(mFile);
         top.add(mView);
 
-        GameView view = new RunView(frMain, controller, board);
+        view = new RunView(frMain, controller, board);
         activePanel = view.getPanel();
         activeBoard = view.getBoard();
 
@@ -195,5 +196,6 @@ public class GameFrame {
         for(JMenuItem m: menuItems){
             m.addActionListener(controller.getActionListener(this.frMain,"Menu"));
         }
+        view.setAllButtonListeners();
     }
 }
