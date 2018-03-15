@@ -56,9 +56,9 @@ public class Main {
 
 			List<Absorber> absorbers = new ArrayList<>();
 
-			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(3, 15), new String[]{"1", "6", "1", "red", "red", "red"}));
-			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(2, 17), new String[]{"2", "15", "1", "red", "red", "red"}));
-			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19), new String[]{"3", "20", "1", "red", "red", "red"}));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(3, 15), new String[]{"1", "6", "1", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=16,g=219,b=139]"}));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(2, 17), new String[]{"2", "15", "1", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=16,g=219,b=139]"}));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19), new String[]{"3", "20", "1", "[r=239,g=193,b=35]", "[r=255,g=255,b=255]", "[r=16,g=219,b=139]"}));
 
 			model.moveGizmo(ball.getProperty(GizmoPropertyType.NAME), model.getTileAt(0, 12));
 
@@ -123,9 +123,9 @@ public class Main {
 			}
 
 			List<Absorber> absorbers = new ArrayList<>();
-			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(3, 15), new String[]{"1", "6", "1", "red", "red", "red"}));
-			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(2, 17), new String[]{"2", "15", "1", "red", "red", "red"}));
-			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19), new String[]{"3", "20", "1", "red", "red", "red"}));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(3, 15), new String[]{"1", "6", "1", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=16,g=219,b=139]"}));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(2, 17), new String[]{"2", "15", "1", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=16,g=219,b=139]"}));
+			absorbers.add((Absorber) model.placeGizmo(GizmoType.ABSORBER, model.getTileAt(0, 19), new String[]{"3", "20", "1", "[r=239,g=193,b=35]", "[r=255,g=255,b=255]", "[r=16,g=219,b=139]"}));
 
 			model.moveGizmo(ball.getProperty(GizmoPropertyType.NAME), model.getTileAt(0, 12));
 			model.deleteGizmo(deleteMe.getProperty(GizmoPropertyType.NAME));

@@ -188,7 +188,7 @@ public class GizmoballFileReader {
                 tile = model.getTileNear ( Double.parseDouble(command.get(2)), Double.parseDouble(command.get(3)));
                 propertyValues = new String[]{command.get(1), command.get(4), command.get(5)};
 
-                model.loadBall(Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)), propertyValues);
+                model.loadBall(Double.parseDouble(command.get(2)), Double.parseDouble(command.get(3)), propertyValues);
 
               //  model.placeGizmo(type, tile, propertyValues);
                 break;
