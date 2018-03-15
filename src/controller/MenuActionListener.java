@@ -89,6 +89,7 @@ public class MenuActionListener implements ActionListener {
                 controller.stopTimer();
                 break;
             case "Run":
+                controller.startTimer();
                 controller.switchToRunView();
                 break;
         }
