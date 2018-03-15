@@ -29,12 +29,16 @@ public class BuildView implements GameView {
         JToggleButton delete = new JToggleButton();
         JToggleButton edit = new JToggleButton();
         JToggleButton pointer = new JToggleButton();
+        JToggleButton keyTrigger = new JToggleButton();
+        JToggleButton connectTwo = new JToggleButton();
 
         add.setIcon(new ImageIcon(getClass().getResource("/Images/fillAddSmall.png")));
         rotate.setIcon(new ImageIcon(getClass().getResource("/Images/fillRotateSmall.png")));
         delete.setIcon(new ImageIcon(getClass().getResource("/Images/fillDeleteSmall.png")));
         edit.setIcon(new ImageIcon(getClass().getResource("/Images/fillEditSmall.png")));
         pointer.setIcon(new ImageIcon(getClass().getResource("/Images/fillPointerSmall.png")));
+        keyTrigger.setIcon(new ImageIcon(getClass().getResource("/Images/fillKeySmall.png")));
+        connectTwo.setIcon(new ImageIcon(getClass().getResource("/Images/borderConnectSmall.png")));
 
         rotate.setActionCommand("Rotate");
         rotate.addActionListener(c.getActionListener(frame, "Button"));
@@ -79,11 +83,26 @@ public class BuildView implements GameView {
         pointer.setActionCommand("Move");
         buttons.add(pointer);
 
+        keyTrigger.setBorder(null);
+        keyTrigger.setMargin(new Insets(0, 0, 0, 0));
+        keyTrigger.setContentAreaFilled(false);
+        keyTrigger.setActionCommand("Key");
+        buttons.add(keyTrigger);
+
+        connectTwo.setBorder(null);
+        connectTwo.setMargin(new Insets(0, 0, 0, 0));
+        connectTwo.setContentAreaFilled(false);
+        connectTwo.setActionCommand("Connect");
+        buttons.add(connectTwo);
+
         panControls.add(add);
         panControls.add(rotate);
         panControls.add(delete);
         panControls.add(edit);
         panControls.add(pointer);
+        panControls.add(keyTrigger);
+        panControls.add(connectTwo);
+
         panControls.setOpaque(false);
         panControls.setLayout(new FlowLayout());
 

@@ -63,10 +63,10 @@ public  class Board extends JPanel implements Observer {
             System.out.println("in build mode");
             g2.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{10.0f}, 0.0f));
             //g2.setStroke(new BasicStroke(2.0f));
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i <= 20; i++) {
                 g2.drawLine(i * 25, 0, i * 25, width);
             }
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i <= 20; i++) {
                 g2.drawLine(0, i * 25, height, i * 25);
             }
         }

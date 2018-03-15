@@ -55,9 +55,15 @@ public class ButtonActionListener implements ActionListener {
                 frame.removeMouseListener(edit);
                 //add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
                 frame.addMouseListener(add);
+            case "Key":
+                //
+                break;
+            case "Connect":
+                //
+                break;
             default:
                 System.out.println("dunno");
-
+                break;
         }
 
 	}
