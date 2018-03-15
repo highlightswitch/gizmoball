@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Main {
 
-	public static boolean debugMode = false;
+	public static boolean debugMode = true;
 
 	public static void main(String[] args) {
 		try {
@@ -160,6 +160,79 @@ public class Main {
 		}
 
 		return null;
+	}
+
+	private static void testFlipperRotation(IModel model){
+
+		try {
+
+			String[] rFProp = Gizmo.getPropertyDefaults(GizmoType.FLIPPER, null);
+
+			Flipper l1 = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(2, 5), null);
+			Flipper l2 = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(4, 5), null);
+			Flipper l3 = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(6, 5), null);
+			Flipper l4 = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(8, 5), null);
+
+			Flipper r1 = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(2, 15), null);
+			Flipper r2 = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(4, 15), null);
+			Flipper r3 = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(6, 15), null);
+			Flipper r4 = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(8, 15), null);
+
+			model.setGizmoProperty(r1.getProperty(GizmoPropertyType.NAME), GizmoPropertyType.IS_LEFT_ORIENTATED, "false");
+			model.setGizmoProperty(r2.getProperty(GizmoPropertyType.NAME), GizmoPropertyType.IS_LEFT_ORIENTATED, "false");
+			model.setGizmoProperty(r3.getProperty(GizmoPropertyType.NAME), GizmoPropertyType.IS_LEFT_ORIENTATED, "false");
+			model.setGizmoProperty(r4.getProperty(GizmoPropertyType.NAME), GizmoPropertyType.IS_LEFT_ORIENTATED, "false");
+
+			model.connect(49, TriggerType.KEY_DOWN, l1.getProperty(GizmoPropertyType.NAME));
+			model.connect(50, TriggerType.KEY_DOWN, l2.getProperty(GizmoPropertyType.NAME));
+			model.connect(51, TriggerType.KEY_DOWN, l3.getProperty(GizmoPropertyType.NAME));
+			model.connect(52, TriggerType.KEY_DOWN, l4.getProperty(GizmoPropertyType.NAME));
+
+			model.connect(53, TriggerType.KEY_DOWN, r1.getProperty(GizmoPropertyType.NAME));
+			model.connect(54, TriggerType.KEY_DOWN, r2.getProperty(GizmoPropertyType.NAME));
+			model.connect(55, TriggerType.KEY_DOWN, r3.getProperty(GizmoPropertyType.NAME));
+			model.connect(56, TriggerType.KEY_DOWN, r4.getProperty(GizmoPropertyType.NAME));
+
+			model.connect(49, TriggerType.KEY_UP, l1.getProperty(GizmoPropertyType.NAME));
+			model.connect(50, TriggerType.KEY_UP, l2.getProperty(GizmoPropertyType.NAME));
+			model.connect(51, TriggerType.KEY_UP, l3.getProperty(GizmoPropertyType.NAME));
+			model.connect(52, TriggerType.KEY_UP, l4.getProperty(GizmoPropertyType.NAME));
+
+			model.connect(53, TriggerType.KEY_UP, r1.getProperty(GizmoPropertyType.NAME));
+			model.connect(54, TriggerType.KEY_UP, r2.getProperty(GizmoPropertyType.NAME));
+			model.connect(55, TriggerType.KEY_UP, r3.getProperty(GizmoPropertyType.NAME));
+			model.connect(56, TriggerType.KEY_UP, r4.getProperty(GizmoPropertyType.NAME));
+
+			model.setGizmoAction(l1.getProperty(GizmoPropertyType.NAME), GizmoActionType.FLIP_FLIPPER);
+			model.setGizmoAction(l2.getProperty(GizmoPropertyType.NAME), GizmoActionType.FLIP_FLIPPER);
+			model.setGizmoAction(l3.getProperty(GizmoPropertyType.NAME), GizmoActionType.FLIP_FLIPPER);
+			model.setGizmoAction(l4.getProperty(GizmoPropertyType.NAME), GizmoActionType.FLIP_FLIPPER);
+
+			model.setGizmoAction(r1.getProperty(GizmoPropertyType.NAME), GizmoActionType.FLIP_FLIPPER);
+			model.setGizmoAction(r2.getProperty(GizmoPropertyType.NAME), GizmoActionType.FLIP_FLIPPER);
+			model.setGizmoAction(r3.getProperty(GizmoPropertyType.NAME), GizmoActionType.FLIP_FLIPPER);
+			model.setGizmoAction(r4.getProperty(GizmoPropertyType.NAME), GizmoActionType.FLIP_FLIPPER);
+
+			model.rotateGizmoTo_Deg(l2.getProperty(GizmoPropertyType.NAME), 90);
+			model.rotateGizmoTo_Deg(l3.getProperty(GizmoPropertyType.NAME), 180);
+			model.rotateGizmoTo_Deg(l4.getProperty(GizmoPropertyType.NAME), 270);
+
+			model.rotateGizmoTo_Deg(r2.getProperty(GizmoPropertyType.NAME), 90);
+			model.rotateGizmoTo_Deg(r3.getProperty(GizmoPropertyType.NAME), 180);
+			model.rotateGizmoTo_Deg(r4.getProperty(GizmoPropertyType.NAME), 270);
+
+
+		} catch (GizmoPlacementNotValidException e) {
+			e.printStackTrace();
+		} catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+			tileCoordinatesNotValid.printStackTrace();
+		} catch (GizmoNotFoundException e) {
+			e.printStackTrace();
+		} catch (GizmoPropertyException e) {
+			e.printStackTrace();
+		}
+
+
 	}
 }
 

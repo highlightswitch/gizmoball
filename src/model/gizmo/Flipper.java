@@ -167,7 +167,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
     @Override
     public GameObject getGameObject() {
-        return getPrototypeGameObject(). /* rotateAroundPointByAngle( new Vect(0,0), rotation ) . */ translate(getPosition());
+        return getPrototypeGameObject().rotateAroundPointByAngle( new Vect(1,1),  new Angle(getCurrentRotationInRadians())).translate(getPosition());
     }
 
     @Override
@@ -209,6 +209,8 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
             data.rotateAroundPivotByRadians(new double[]{2 - width/2, width/2}, Math.toRadians(90 * flipPos));
         }
+
+        data.rotateAroundPivotByRadians(new int[]{1,1}, getCurrentRotationInRadians());
 
         data.setColour(getProperty(GizmoPropertyType.CURRENT_COLOUR));
 

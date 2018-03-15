@@ -190,6 +190,17 @@ public class Model extends Observable implements IModel {
 		//Any gravity is fine...
 	}
 
+	private void validateColorString(String str){
+
+		if (str.length() >= 13 && str.length() <= 19) {
+			return;
+		}
+
+		//Check regex pattern here
+
+		throw new IllegalArgumentException("Given color string is invalid: " + str);
+	}
+
 
 	//==============================
 	//	  IModel Implementation
@@ -226,6 +237,16 @@ public class Model extends Observable implements IModel {
 		Map<GizmoPropertyType, String> properties = new HashMap<>();
 		for(int i = 0; i < propertyTypes.size(); i++){
 			properties.put(propertyTypes.get(i), propertyValues[i]);
+		}
+
+		if(properties.containsKey(GizmoPropertyType.CURRENT_COLOUR)){
+			validateColorString(properties.get(GizmoPropertyType.CURRENT_COLOUR));
+		}
+		if(properties.containsKey(GizmoPropertyType.DEFAULT_COLOUR)){
+			validateColorString(properties.get(GizmoPropertyType.DEFAULT_COLOUR));
+		}
+		if(properties.containsKey(GizmoPropertyType.ALT_COLOUR)){
+			validateColorString(properties.get(GizmoPropertyType.ALT_COLOUR));
 		}
 
 		Gizmo gizmo = null;
