@@ -25,7 +25,7 @@ public class ButtonActionListener implements ActionListener {
 
     @Override
 	public final void actionPerformed(final ActionEvent e) {
-        MouseListener edit =  new FindEditorListener(frame,model, panel);
+        MouseListener edit =  new FindEditorListener(frame,model, panel, e.getActionCommand());
         MouseListener add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
         System.out.println(e.getActionCommand());
         switch (e.getActionCommand()) {
@@ -36,38 +36,20 @@ public class ButtonActionListener implements ActionListener {
                 controller.stopTimer();
                 break;
             case "Delete":
-                //
-                break;
             case "Rotate":
-                //
-                break;
             case "Edit":
                 frame.removeMouseListener(add);
+                edit =  new FindEditorListener(frame,model, panel, e.getActionCommand());
                 frame.addMouseListener(edit);
                 break;
             case "Move":
                 //
                 break;
             case "Circle":
-                frame.removeMouseListener(edit);
-                add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
-                frame.addMouseListener(add);
             case "Triangle":
-                frame.removeMouseListener(edit);
-                add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
-                frame.addMouseListener(add);
             case "Square":
-                frame.removeMouseListener(edit);
-                add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
-                frame.addMouseListener(add);
             case "Absorber":
-                frame.removeMouseListener(edit);
-                add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
-                frame.addMouseListener(add);
             case "Flipper":
-                frame.removeMouseListener(edit);
-                add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
-                frame.addMouseListener(add);
             case "Ball":
                 frame.removeMouseListener(edit);
                 add =  new FindAdderListener(frame, model, panel, e.getActionCommand());

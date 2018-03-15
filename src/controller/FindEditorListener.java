@@ -1,8 +1,11 @@
 package controller;
 
+import model.GizmoNotFoundException;
 import model.Model;
 import model.Tile;
 import model.TileCoordinatesNotValid;
+import model.gizmo.GizmoPropertyException;
+import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
 import view.*;
 
@@ -15,12 +18,15 @@ public class FindEditorListener implements MouseListener {
     private Model m;
     private JFrame frame;
     private JPanel panel;
+    String mode;
 
-    FindEditorListener(JFrame f, Model model, JPanel p){
+    FindEditorListener(JFrame f, Model model, JPanel p, String type){
         System.out.println("hi");
         m = model;
         frame = f;
         panel = p;
+        mode = type;
+
     }
 
     @Override
@@ -39,22 +45,36 @@ public class FindEditorListener implements MouseListener {
             Tile t = m.getTileAt(xy[0], xy[1]);
 
             if(t.isOccupied()){
-                System.out.println("found something");
                GizmoType g =  t.getGizmo().getType();
-               switch (g){
-                   case BALL:
-                       new EditBallDialogue(frame, "Edit", m, t.getGizmo());
-                       break;
-                   case ABSORBER:
-                       new EditAbsorberDialogue(frame, "Edit", m, t.getGizmo());
-                   case FLIPPER:
-                       new EditFlipperDialogue(frame, "Edit", m, t.getGizmo());
-                   default:
-                       String s = g.name().substring(0,g.name().indexOf("_")).toLowerCase();
-                       new EditShapeDialogue(frame, s, "Edit", m, t.getGizmo());
+               if(mode.equals("Edit")){
+                   switch (g){
+                       case BALL:
+                           new EditBallDialogue(frame, "Edit", m, t.getGizmo());
+                           break;
+                       case ABSORBER:
+                           new EditAbsorberDialogue(frame, "Edit", m, t.getGizmo());
+                       case FLIPPER:
+                           new EditFlipperDialogue(frame, "Edit", m, t.getGizmo());
+                       default:
+                           String s = g.name().substring(0,g.name().indexOf("_")).toLowerCase();
+                           new EditShapeDialogue(frame, s, "Edit", m, t.getGizmo());
+                   }
+               }else if(mode.equals("Delete")){
+                   try {
+                       m.deleteGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME));
+                   } catch (GizmoNotFoundException e1) {
+                       e1.printStackTrace();
+                   }
+               }else {
+                   try {
+                       m.rotateGizmoBy_Deg(t.getGizmo().getProperty(GizmoPropertyType.NAME), 90.0);
+                   } catch (GizmoNotFoundException e1) {
+                       e1.printStackTrace();
+                   } catch (GizmoPropertyException e1) {
+                       e1.printStackTrace();
+                   }
                }
             }
-            System.out.println("tile empty");
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
             tileCoordinatesNotValid.printStackTrace();
         }

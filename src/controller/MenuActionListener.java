@@ -55,11 +55,13 @@ public class MenuActionListener implements ActionListener {
                 new EditFlipperDialogue(frame, "Add", controller.getModel(), null);
                 break;
             case "Rotate":
+                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel, "Rotate"));
                 break;
             case "Delete":
+                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel, "Delete"));
                 break;
             case "Edit":
-                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel));
+                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel, "Edit"));
                 break;
             case "Gravity":
                 new GravitySlider(frame, controller.getModel());
