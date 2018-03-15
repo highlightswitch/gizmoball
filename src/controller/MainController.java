@@ -23,7 +23,7 @@ public class MainController implements ActionListener {
         this.model = new Model();
         this.fr = new GameFrame(this);
 
-        this.timer = new Timer(50, this);
+        this.timer = new Timer(25, this);
     }
 
     public IModel getIModel() {

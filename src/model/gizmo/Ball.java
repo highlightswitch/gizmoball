@@ -5,8 +5,6 @@ import physics.Circle;
 import physics.Vect;
 
 import java.awt.*;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -90,7 +88,7 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
         //Start of Definitions
         // \/ \/ \/ \/ \/ \/ \/
 
-        double lengthOfTick = 0.05; // 0.05 = 20 times per second as per Gizmoball
+        double lengthOfTick = 0.025; // 0.025 = 40 times per second as per Gizmoball
 
         double[] currentVelXY = justFired ?
                 new double[]{0, -50}
@@ -124,17 +122,18 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
         if (isCollidingThisTick) {
             //At this point the ball has collided with something
 
-            cd.getCollidingWith().collide();
-
             //If the collision is with an absorber, absorb the ball.
             if (isCollidingWithAbsorberNext) {
                 isAbsorbed = true;
                 collidedAbsorber.setAbsorbedBall(this);
                 cx = cd.getAbsorber().getPosition()[0] + Double.valueOf(cd.getAbsorber().getProperty(GizmoPropertyType.WIDTH)) - 0.5;
                 cy = cd.getAbsorber().getPosition()[1] + Double.valueOf(cd.getAbsorber().getProperty(GizmoPropertyType.HEIGHT)) / 2;
+                cd.getCollidingWith().collide(); // need to collide after absorbing the ball
             } else {
                 //If we get to here, the ball is colliding this tick, and it is not with an absorber
                 //So we set the post-collision velocity, then move the ball for the remaining time with its new velocity
+
+                cd.getCollidingWith().collide();
 
                 newVel = getNewVelocities(velAfterCollisionXY, justFired, lengthOfTick - tuc);
 

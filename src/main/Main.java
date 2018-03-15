@@ -68,6 +68,8 @@ public class Main {
 			for (Absorber ab : absorbers) {
 				model.setGizmoAction(ab.getProperty(GizmoPropertyType.NAME), GizmoActionType.FIRE_FROM_ABSORBER);
 				model.connect(32, TriggerType.KEY_DOWN, ab.getProperty(GizmoPropertyType.NAME)); //Key code 32 = space
+				model.connect(ab.getProperty(GizmoPropertyType.NAME), ab.getProperty(GizmoPropertyType.NAME));
+
 			}
 
 			model.connect(70, TriggerType.KEY_DOWN, leftFlipper.getProperty(GizmoPropertyType.NAME)); //Key code 70 = F
