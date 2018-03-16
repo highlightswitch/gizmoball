@@ -17,7 +17,7 @@ public class EditGizmoListener {
     private int y;
     private HashMap<GizmoPropertyType, String> properties = new HashMap<>();
 
-    public EditGizmoListener(Gizmo g, String position, Color c, String a, String t, Model m){
+    public EditGizmoListener(Gizmo g, String position, Color c, String a, Model m){
         model = m;
         gizmo = g;
 
@@ -49,15 +49,6 @@ public class EditGizmoListener {
                 break;
         }
 
-        switch (t){
-            case "Another Gizmo":
-                break;
-            case "A Key Press":
-                break;
-            case "Ball Collision":
-                break;
-        }
-
         edit();
     }
 
@@ -68,8 +59,9 @@ public class EditGizmoListener {
             properties.put(GizmoPropertyType.ROTATION_DEG, String.valueOf(0));
             properties.put(GizmoPropertyType.CURRENT_COLOUR, color);
             properties.put(GizmoPropertyType.DEFAULT_COLOUR, color);
-            properties.put(GizmoPropertyType.ALT_COLOUR, "");
+            properties.put(GizmoPropertyType.ALT_COLOUR, color);
             model.setAllProperties(gizmo.getProperty(GizmoPropertyType.NAME), properties);
+            model.setGizmoAction(gizmo.getProperty(GizmoPropertyType.NAME), action);
         } catch (GizmoNotFoundException e) {
             e.printStackTrace();
         } catch (GizmoPlacementNotValidException e) {
