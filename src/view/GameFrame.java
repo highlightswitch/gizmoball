@@ -22,15 +22,15 @@ public class GameFrame {
      private JPanel activePanel;
      private JPanel activeBoard;
      private ArrayList<JMenuItem> menuItems;
-     GameView view;
+     private GameView view;
 
     public GameFrame(MainController cont){
         controller = cont;
-        board = new Board(500, 500, cont.getIModel());
         frMain = new JFrame("Gizmoball");
         mTools = new JMenu("Tools");
         top = new JMenuBar();
         menuItems = new ArrayList<>();
+        board = new Board(500, 500, cont.getIModel(), "Run");
 
         JMenu mFile = new JMenu("File");
         JMenu mView = new JMenu("View");
@@ -137,21 +137,27 @@ public class GameFrame {
     }
 
     public void switchToRunView(){
+        board.updateMode("Run");
         this.drawFrame(new RunView(frMain, controller, board));
         frMain.getContentPane().revalidate();
         frMain.getContentPane().repaint();
         this.compressMenu();
         frMain.getJMenuBar().revalidate();
         frMain.getJMenuBar().repaint();
+        frMain.validate();
+        frMain.repaint();
     }
 
     public void switchToBuildView(){
+        board.updateMode("Build");
         this.drawFrame(new BuildView(frMain, controller, board));
         this.extendMenu();
         frMain.getContentPane().revalidate();
         frMain.getContentPane().repaint();
         frMain.getJMenuBar().revalidate();
         frMain.getJMenuBar().repaint();
+        frMain.validate();
+        frMain.repaint();
     }
 
     public void drawFrame(GameView g){
@@ -171,7 +177,7 @@ public class GameFrame {
         mTools.add(rotate);
         mTools.add(edit);
         mTools.add(delete);
-        mTools.addSeparator();
+        //mTools.addSeparator();
         mTools.add(settings);
         top.add(mTools);
     }

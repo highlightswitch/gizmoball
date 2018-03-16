@@ -4,6 +4,7 @@ import model.*;
 import model.gizmo.GizmoActionType;
 import model.gizmo.GizmoType;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class PlaceGizmoListener{
@@ -16,7 +17,7 @@ public class PlaceGizmoListener{
     private int x;
     private int y;
 
-    public PlaceGizmoListener(String gizmo, String position, Color c, String a, String t, Model m){
+    public PlaceGizmoListener(String gizmo, String position, Color c, String a, Model m){
         model = m;
         String name = gizmo;
         color = c.toString();
@@ -62,27 +63,17 @@ public class PlaceGizmoListener{
                 action = GizmoActionType.FIRE_FROM_ABSORBER;
                 break;
         }
-
-        switch (t){
-            case "Another Gizmo":
-                break;
-            case "A Key Press":
-                break;
-            case "Ball Collision":
-                break;
-        }
         place();
     }
 
     private void place() {
         try {
-            model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,""});
+            model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,color});
             model.setGizmoAction(gname, action);
-            //how to trigger: use connect
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
-            e1.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (GizmoNotFoundException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

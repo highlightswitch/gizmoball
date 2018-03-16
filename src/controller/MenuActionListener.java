@@ -6,6 +6,7 @@ import view.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -25,6 +26,7 @@ public class MenuActionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        MouseListener mouse = new FindEditorListener(frame, controller.getModel(), panel, e.getActionCommand());
         switch (e.getActionCommand()){
             case "Load":
                 JFileChooser fileChooser = new JFileChooser();
@@ -36,7 +38,7 @@ public class MenuActionListener implements ActionListener {
                         controller.setModel(fileReader.getModel());
                         controller.switchToRunView();
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Loading failed", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 break;
@@ -47,7 +49,8 @@ public class MenuActionListener implements ActionListener {
                     writer.write(game);
                     writer.close();
                 } catch (IOException ex){
-                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Saving failed", "Error", JOptionPane.ERROR_MESSAGE);
+
                 }
                 break;
             case "Circle":
@@ -65,13 +68,13 @@ public class MenuActionListener implements ActionListener {
                 new EditFlipperDialogue(frame, "Add", controller.getModel(), null);
                 break;
             case "Rotate":
-                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel, "Rotate"));
+                frame.addMouseListener(mouse);
                 break;
             case "Delete":
-                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel, "Delete"));
+                frame.addMouseListener(mouse);
                 break;
             case "Edit":
-                frame.addMouseListener(new FindEditorListener(frame, controller.getModel(), panel, "Edit"));
+                frame.addMouseListener(mouse);
                 break;
             case "Gravity":
                 new GravitySlider(frame, controller.getModel());
@@ -87,6 +90,7 @@ public class MenuActionListener implements ActionListener {
                 controller.stopTimer();
                 break;
             case "Run":
+                controller.startTimer();
                 controller.switchToRunView();
                 break;
         }

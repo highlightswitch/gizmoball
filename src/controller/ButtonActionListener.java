@@ -39,7 +39,7 @@ public class ButtonActionListener implements ActionListener {
             case "Rotate":
             case "Edit":
                 frame.removeMouseListener(add);
-                edit =  new FindEditorListener(frame,model, panel, e.getActionCommand());
+                //edit =  new FindEditorListener(frame,model, panel, e.getActionCommand());
                 frame.addMouseListener(edit);
                 break;
             case "Move":
@@ -53,11 +53,17 @@ public class ButtonActionListener implements ActionListener {
             case "Ball":
                 frame.removeMouseListener(add);
                 frame.removeMouseListener(edit);
-                add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
+                //add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
                 frame.addMouseListener(add);
+            case "Key":
+                //
+                break;
+            case "Connect":
+                //
+                break;
             default:
                 System.out.println("dunno");
-
+                break;
         }
 
 	}

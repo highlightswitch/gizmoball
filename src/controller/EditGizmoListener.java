@@ -5,6 +5,7 @@ import model.gizmo.Gizmo;
 import model.gizmo.GizmoActionType;
 import model.gizmo.GizmoPropertyType;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -17,7 +18,7 @@ public class EditGizmoListener {
     private int y;
     private HashMap<GizmoPropertyType, String> properties = new HashMap<>();
 
-    public EditGizmoListener(Gizmo g, String position, Color c, String a, String t, Model m){
+    public EditGizmoListener(Gizmo g, String position, Color c, String a, Model m){
         model = m;
         gizmo = g;
 
@@ -49,15 +50,6 @@ public class EditGizmoListener {
                 break;
         }
 
-        switch (t){
-            case "Another Gizmo":
-                break;
-            case "A Key Press":
-                break;
-            case "Ball Collision":
-                break;
-        }
-
         edit();
     }
 
@@ -68,14 +60,15 @@ public class EditGizmoListener {
             properties.put(GizmoPropertyType.ROTATION_DEG, String.valueOf(0));
             properties.put(GizmoPropertyType.CURRENT_COLOUR, color);
             properties.put(GizmoPropertyType.DEFAULT_COLOUR, color);
-            properties.put(GizmoPropertyType.ALT_COLOUR, "");
+            properties.put(GizmoPropertyType.ALT_COLOUR, color);
             model.setAllProperties(gizmo.getProperty(GizmoPropertyType.NAME), properties);
+            model.setGizmoAction(gizmo.getProperty(GizmoPropertyType.NAME), action);
         } catch (GizmoNotFoundException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (GizmoPlacementNotValidException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
-            tileCoordinatesNotValid.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -16,7 +16,6 @@ public class EditShapeDialogue {
     String intPosition;
     Color color;
     String cAction;
-    String cTrigger;
     JDialog edit;
 
     public EditShapeDialogue(JFrame fr, String shape, String mode, Model model, Gizmo g){
@@ -25,9 +24,7 @@ public class EditShapeDialogue {
 
         //change to mapping from action
         JLabel action = new JLabel("When the ball collides with this gizmo the gizmo should: ");
-        String[] actions = {"Change Colour", "Rotate", "Activate Another Gizmo", "Do Nothing"};
-        JLabel trigger = new JLabel("This gizmo is triggered by: ");
-        String[] triggers = {"A Key Press", "Another Gizmo", "Ball Collision"};
+        String[] actions = {"Change Colour", "Activate Another Gizmo", "Do Nothing"};
 
         JLabel label = new JLabel();
 
@@ -46,7 +43,7 @@ public class EditShapeDialogue {
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
         JComboBox actionList = new JComboBox(actions);
-        JComboBox triggerList = new JComboBox(triggers);
+
         JLabel pos = new JLabel("Initial position: ");
         JTextField position;
 
@@ -70,9 +67,6 @@ public class EditShapeDialogue {
         panForm.setOpaque(false);
 
         panForm.add(label);
-
-        panForm.add(trigger);
-        panForm.add(triggerList);
         panForm.add(action);
         panForm.add(actionList);
 
@@ -92,8 +86,6 @@ public class EditShapeDialogue {
                 intPosition = position.getText();
                 color = shapeColour.getColor();
                 cAction = actions[actionList.getSelectedIndex()];
-                cTrigger = triggers[triggerList.getSelectedIndex()];
-                //any circle, any square, flipper, absorber, etc
 
                 if(cAction.equals("Activate Another Gizmo")){
                     String[] action = new String[]{"Flipper", "Absorber"};
@@ -101,14 +93,11 @@ public class EditShapeDialogue {
                     JOptionPane.showMessageDialog(fr, gizmos, "Select gizmo to activate", JOptionPane.QUESTION_MESSAGE);
                     cAction = action[gizmos.getSelectedIndex()];
                 }
-                if(cTrigger.equals("A Key Press")){
-                    // start key listener, give user
-                }
 
                 if(mode.equals("Add")){
-                    new PlaceGizmoListener(gizmo, intPosition, color, cAction, cTrigger, model);
+                    new PlaceGizmoListener(gizmo, intPosition, color, cAction, model);
                 } else {
-                    new EditGizmoListener(g, intPosition, color, cAction, cTrigger, model);
+                    new EditGizmoListener(g, intPosition, color, cAction, model);
                 }
 
                 edit.dispose();
