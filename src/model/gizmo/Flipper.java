@@ -25,6 +25,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
     public Flipper(Color colour, Map<GizmoPropertyType, String> properties){
         super(colour, properties);
+        this.setAction(GizmoActionType.FLIP_FLIPPER);
 
         flipSpeed = 0.1;
 
