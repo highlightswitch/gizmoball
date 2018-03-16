@@ -94,7 +94,9 @@ public class GizmoballFileReader {
             case "Move":
                 if(model.checkName(command.get(1)) && checkInt(command.get(2)) && checkInt(command.get(3)) && command.size() == 4){
                     return true;
-                } else {
+                } else if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && checkFloat(command.get(3)) && command.size() == 4) {
+                    return true;
+                }else{
                     return false;
                 }
             case "Connect":
@@ -227,7 +229,11 @@ public class GizmoballFileReader {
             }
                 break;
             case "Move":  try {
-                model.moveGizmo(command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+                if(checkInt(command.get(2))) {
+                    model.moveGizmo(command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
+                } else {
+                    model.moveGizmo(command.get(1), Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)));
+                }
             } catch (GizmoNotFoundException e) {
                 e.printStackTrace();
             }

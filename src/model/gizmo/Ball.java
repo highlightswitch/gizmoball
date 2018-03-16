@@ -45,6 +45,10 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 
 	}
 
+    public void setCx(double val){ cx = val;}
+
+    public void setCy(double val){ cy = val;}
+
     public GizmoType getType(){return type;}
 
     private Vect getVelocity() {

@@ -4,6 +4,7 @@ import model.GizmoballFileReader;
 import view.*;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -27,9 +28,11 @@ public class MenuActionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         MouseListener mouse = new FindEditorListener(frame, controller.getModel(), panel, e.getActionCommand());
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("GIZMO FILES", "gizmo");
+        fileChooser.setFileFilter(filter);
         switch (e.getActionCommand()){
             case "Load":
-                JFileChooser fileChooser = new JFileChooser();
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
@@ -43,14 +46,21 @@ public class MenuActionListener implements ActionListener {
                 }
                 break;
             case "Save":
-                try {
-                    String game = controller.getModel().toString();
-                    BufferedWriter writer = new BufferedWriter(new FileWriter("gizmoball_save"));
-                    writer.write(game);
-                    writer.close();
-                } catch (IOException ex){
-                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Saving failed", "Error", JOptionPane.ERROR_MESSAGE);
-
+                int status = fileChooser.showSaveDialog(null);
+                if (status == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    try {
+                        String fileName = selectedFile.getCanonicalPath();
+                        String game = controller.getModel().toString();
+                        //  if (!fileName.endsWith(".gizmo")) {
+                        //      selectedFile = new File(fileName + ".gizmo");
+                        //  }
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".gizmo"));
+                        writer.write(game);
+                        writer.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
                 break;
             case "Circle":

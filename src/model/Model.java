@@ -306,6 +306,17 @@ public class Model extends Observable implements IModel {
         this.notifyObservers();
 	}
 
+    public void moveGizmo(String name, float x, float y)  throws GizmoNotFoundException, GizmoPlacementNotValidException, TileCoordinatesNotValid {
+        Gizmo gizmo = getGizmoByName(name);
+        if(gizmo.getType() == GizmoType.BALL) {
+            Tile tile = getTileAt((int) x, (int) y);
+            validateGizmoPlacement(gizmo, tile);
+            Ball ball = (Ball) gizmo;
+            ball.setCx(x);
+            ball.setCy(y);
+        }
+    }
+
 	public void rotateGizmoBy_Deg(String gizmoName, double adjustment) throws GizmoNotFoundException, GizmoPropertyException {
 		Gizmo gizmo = getGizmoByName(gizmoName);
 		gizmo.rotateBy_Deg(adjustment);
@@ -474,7 +485,11 @@ public class Model extends Observable implements IModel {
 	private void deleteGizmo(Gizmo gizmo){
 		try {
 			Tile tile = getTileAt((int) gizmo.getPosition()[0], (int) gizmo.getPosition()[1]);
-			tile.removeGizmo();
+			if(!(gizmo.getType() == GizmoType.BALL)){
+				tile.removeGizmo();
+			} else {
+				ball = null;
+			}
 		} catch (TileCoordinatesNotValid e) {
 			//This should never happen
 			e.printStackTrace();
