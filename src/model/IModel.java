@@ -19,6 +19,8 @@ public interface IModel {
 	void rotateGizmoBy_Deg(String gizmoName, double adjustment) throws GizmoNotFoundException, GizmoPropertyException;
 	void rotateGizmoTo_Deg(String gizmoName, double rotationVal) throws GizmoNotFoundException, GizmoPropertyException;
 
+	Gizmo placeBall(double cx, double cy, String[] propertyValues) throws GizmoPlacementNotValidException, TileCoordinatesNotValid;
+
 	String getGizmoProperty(String gizmoName, GizmoPropertyType type) throws GizmoNotFoundException;
 	void setGizmoProperty(String gizmoName, GizmoPropertyType prop, String val) throws GizmoNotFoundException, GizmoPropertyException;
 	void setAllProperties(String gimoName, HashMap<GizmoPropertyType, String> properties) throws GizmoNotFoundException;

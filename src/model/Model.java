@@ -222,32 +222,8 @@ public class Model extends Observable implements IModel {
 	}
 
 	public Gizmo placeGizmo(GizmoType gizmoType, Tile tile, String[] propertyValues) throws GizmoPlacementNotValidException {
-		//If propertyValues is null, set them to the default values
-		if(propertyValues == null){
-			propertyValues = Gizmo.getPropertyDefaults(gizmoType, getAllGizmoNames());
-		}
 
-		//Ensure propertyValues's size matches the number of properties this gizmo has.
-		ArrayList<GizmoPropertyType> propertyTypes = gizmoType.getPropertyTypes();
-		assert propertyTypes.size() == propertyValues.length :
-				"Length of propertyValues array (" + propertyValues.length + ") " +
-						"does not equal the number of " + gizmoType + "'s properties (" + propertyTypes.size() + ").";
-
-		//Create a property to value map
-		Map<GizmoPropertyType, String> properties = new HashMap<>();
-		for(int i = 0; i < propertyTypes.size(); i++){
-			properties.put(propertyTypes.get(i), propertyValues[i]);
-		}
-
-		if(properties.containsKey(GizmoPropertyType.CURRENT_COLOUR)){
-			validateColorString(properties.get(GizmoPropertyType.CURRENT_COLOUR));
-		}
-		if(properties.containsKey(GizmoPropertyType.DEFAULT_COLOUR)){
-			validateColorString(properties.get(GizmoPropertyType.DEFAULT_COLOUR));
-		}
-		if(properties.containsKey(GizmoPropertyType.ALT_COLOUR)){
-			validateColorString(properties.get(GizmoPropertyType.ALT_COLOUR));
-		}
+		Map<GizmoPropertyType, String> properties = getCorrectPropertiesMap(gizmoType, propertyValues);
 
 		Gizmo gizmo = null;
 		switch(gizmoType){
@@ -257,32 +233,41 @@ public class Model extends Observable implements IModel {
 				tile.placeGizmo(gizmo);
 				tickable.add((Flipper) gizmo);
 				collidable.add(gizmo);
+				gizmos.add(gizmo);
+				drawables.add(gizmo);
 				break;
 			case BALL:
-				gizmo = new Ball(this, Color.black, tile.getX(), tile.getY(), properties);
-				validateGizmoPlacement(gizmo, tile);
-				ball = (Ball) gizmo;
-				tickable.add((Ball) gizmo);
+				try {
+					gizmo = placeBall(tile.getX() + 0.5, tile.getY() + 0.5, propertyValues);
+				} catch (TileCoordinatesNotValid e) {
+					//This should never happen
+					e.printStackTrace();
+				}
 				break;
 			case ABSORBER:
 				gizmo = new Absorber(Color.BLACK, properties);
 				validateGizmoPlacement(gizmo, tile);
 				collidable.add(gizmo);
 				tile.placeGizmo(gizmo);
+				gizmos.add(gizmo);
+				drawables.add(gizmo);
 				break;
 			case CIRCLE_BUMPER:
 				gizmo = addBumper(GizmoType.CIRCLE_BUMPER, tile, properties);
+				gizmos.add(gizmo);
+				drawables.add(gizmo);
 				break;
 			case SQUARE_BUMPER:
 				gizmo = addBumper(GizmoType.SQUARE_BUMPER, tile, properties);
+				gizmos.add(gizmo);
+				drawables.add(gizmo);
 				break;
 			case TRIANGLE_BUMPER:
 				gizmo = addBumper(GizmoType.TRIANGLE_BUMPER, tile, properties);
+				gizmos.add(gizmo);
+				drawables.add(gizmo);
 				break;
 		}
-
-		gizmos.add(gizmo);
-		drawables.add(gizmo);
 
 		// Notify observers ... redraw updated view
 		this.setChanged();
@@ -364,41 +349,31 @@ public class Model extends Observable implements IModel {
         this.notifyObservers();
     }
 
-    public Gizmo loadBall(Double x, Double y, String[] propertyValues) throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
+	public Gizmo placeBall(double cx, double cy, String[] propertyValues) throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
 
-    	Tile tile = getTileAt(x.intValue(), y.intValue());
+		Map<GizmoPropertyType, String> properties = getCorrectPropertiesMap(GizmoType.BALL, propertyValues);
+        Ball ball= new Ball(this, Color.black, cx, cy, properties);
+		Set<Tile> ballTiles = getBallTiles(ball);
 
-        //If propertyValues is null, set them to the default values
-        if(propertyValues == null){
-            propertyValues = Gizmo.getPropertyDefaults(GizmoType.BALL, null);
-        }
+        for(Tile t : ballTiles) {
+			validateGizmoPlacement(ball, t);
+		}
 
-        //Ensure propertyValues's size matches the number of properties this gizmo has.
-        ArrayList<GizmoPropertyType> propertyTypes = GizmoType.BALL.getPropertyTypes();
-        assert propertyTypes.size() == propertyValues.length :
-                "Length of propertyValues array (" + propertyValues.length + ") " +
-                        "does not equal the number of " + GizmoType.BALL + "'s properties (" + propertyTypes.size() + ").";
+        this.ball = ball;
+        tickable.add(ball);
+        gizmos.add(ball);
+        drawables.add(ball);
 
-        //Create a property to value map
-        Map<GizmoPropertyType, String> properties = new HashMap<>();
-        for(int i = 0; i < propertyTypes.size(); i++){
-            properties.put(propertyTypes.get(i), propertyValues[i]);
-        }
-
-        Gizmo gizmo = new Ball(this, Color.black, x, y, properties);
-
-        validateGizmoPlacement(gizmo, tile);
-
-        ball = (Ball) gizmo;
-        tickable.add((Ball) gizmo);
-        gizmos.add(gizmo);
-        drawables.add(gizmo);
+        //Set tiles using this ball is placed in to be occupied
+		for(Tile t : ballTiles){
+			t.setOccupied(true);
+		}
 
         // Notify observers ... redraw updated view
         this.setChanged();
         this.notifyObservers();
 
-        return gizmo;
+        return ball;
     }
 
 	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException {
@@ -485,7 +460,7 @@ public class Model extends Observable implements IModel {
 
 	public ArrayList<Drawable> getDebugDrawables() {
 		ArrayList<Drawable> drawables = new ArrayList<>();
-		for(Collidable col : collidable){
+			for(Collidable col : collidable){
 			drawables.add(col.getGameObject());
 		}
 		if(ball != null){
@@ -520,5 +495,68 @@ public class Model extends Observable implements IModel {
 			names.add(g.getProperty(GizmoPropertyType.NAME));
 		}
 		return names;
+	}
+
+	private Set<Tile> getBallTiles(Ball ball) throws GizmoPlacementNotValidException {
+		Set<Tile> ballTiles = new HashSet<>();
+		double[] ballCentre = ball.getCentre();
+		double ballRadius = ball.getRadius();
+
+		//The below gets compass points from the centre on the circumference and gets the tile that point is in.
+		try {
+
+			ballTiles.add(getTileNear(ballCentre[0] - ballRadius, ballCentre[1])); //E
+			ballTiles.add(getTileNear(ballCentre[0] + ballRadius, ballCentre[1])); //W
+			ballTiles.add(getTileNear(ballCentre[0], ballCentre[1] + ballRadius)); //S
+			ballTiles.add(getTileNear(ballCentre[0], ballCentre[1] - ballRadius)); //N
+
+			ballTiles.add(getTileNear(ballCentre[0] - ballRadius * 1/Math.sqrt(2),
+					ballCentre[1] - ballRadius * 1/Math.sqrt(2))); //NE
+			ballTiles.add(getTileNear(ballCentre[0] + ballRadius * 1/Math.sqrt(2),
+					ballCentre[1] - ballRadius * 1/Math.sqrt(2))); //NW
+			ballTiles.add(getTileNear(ballCentre[0] + ballRadius * 1/Math.sqrt(2),
+					ballCentre[1] + ballRadius * 1/Math.sqrt(2))); //SW
+			ballTiles.add(getTileNear(ballCentre[0] - ballRadius * 1/Math.sqrt(2),
+					ballCentre[1] + ballRadius * 1/Math.sqrt(2))); //SE
+
+			System.out.println(Arrays.deepToString(ballTiles.toArray()));
+
+			return ballTiles;
+
+		} catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+			throw new GizmoPlacementNotValidException("Ball is placed in position that is partially or fully off the board");
+		}
+	}
+
+	private Map<GizmoPropertyType, String> getCorrectPropertiesMap(GizmoType gizmoType, String[] propertyValues){
+
+		//If propertyValues is null, set them to the default values
+		if(propertyValues == null){
+			propertyValues = Gizmo.getPropertyDefaults(gizmoType, getAllGizmoNames());
+		}
+
+		//Ensure propertyValues's size matches the number of properties this gizmo has.
+		ArrayList<GizmoPropertyType> propertyTypes = gizmoType.getPropertyTypes();
+		assert propertyTypes.size() == propertyValues.length :
+				"Length of propertyValues array (" + propertyValues.length + ") " +
+						"does not equal the number of " + gizmoType + "'s properties (" + propertyTypes.size() + ").";
+
+		//Create a property to value map
+		Map<GizmoPropertyType, String> properties = new HashMap<>();
+		for(int i = 0; i < propertyTypes.size(); i++){
+			properties.put(propertyTypes.get(i), propertyValues[i]);
+		}
+
+		if(properties.containsKey(GizmoPropertyType.CURRENT_COLOUR)){
+			validateColorString(properties.get(GizmoPropertyType.CURRENT_COLOUR));
+		}
+		if(properties.containsKey(GizmoPropertyType.DEFAULT_COLOUR)){
+			validateColorString(properties.get(GizmoPropertyType.DEFAULT_COLOUR));
+		}
+		if(properties.containsKey(GizmoPropertyType.ALT_COLOUR)){
+			validateColorString(properties.get(GizmoPropertyType.ALT_COLOUR));
+		}
+
+		return properties;
 	}
 }
