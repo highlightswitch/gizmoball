@@ -1,14 +1,13 @@
 package model;
 
-import model.gizmo.Gizmo;
-import model.gizmo.GizmoPropertyException;
-import model.gizmo.GizmoType;
+import model.gizmo.*;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class GizmoballFileReader {
@@ -16,29 +15,36 @@ public class GizmoballFileReader {
     private File file;
     private Model model;
 
-    public GizmoballFileReader(File file) {
+    private final String defaultColour = "[r=255,g=255,b=255]";
+    private final String altColour = "[r=255,g=0,b=0]";
+
+    public GizmoballFileReader(File file) throws MalformedGizmoballFileException {
         model = new Model();
         this.file = file;
 
         readFile();
     }
 
-    private void readFile() {
+    private void readFile() throws MalformedGizmoballFileException {
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                StringTokenizer st = new StringTokenizer(line);
-                ArrayList<String> tokens = new ArrayList<>();
-                while(st.hasMoreTokens()){
-                    tokens.add(st.nextToken());
-                }
-                if(checkLine(tokens)) {
-                    try{
-                        command(tokens);
-                    }catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e){
-                        e.printStackTrace();
+                if (line.length() > 0) {
+                    StringTokenizer st = new StringTokenizer(line);
+                    ArrayList<String> tokens = new ArrayList<>();
+                    while (st.hasMoreTokens()) {
+                        tokens.add(st.nextToken());
+                    }
+                    if (checkLine(tokens)) {
+                        try {
+                            command(tokens);
+                        } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e) {
+                            e.printStackTrace();
+                        } catch (GizmoNotFoundException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -49,6 +55,7 @@ public class GizmoballFileReader {
     }
 
     private boolean checkLine(ArrayList<String> command) {
+        System.out.println(Arrays.deepToString(command.toArray()));
         switch (command.get(0)) {
             case "Square":
             case "Circle":
@@ -86,6 +93,18 @@ public class GizmoballFileReader {
                 }
             case "Move":
                 if(model.checkName(command.get(1)) && checkInt(command.get(2)) && checkInt(command.get(3)) && command.size() == 4){
+                    return true;
+                } else {
+                    return false;
+                }
+            case "Connect":
+                if(model.checkName(command.get(1)) && model.checkName(command.get(2)) && command.size() == 3){
+                    return true;
+                } else {
+                    return false;
+                }
+            case "KeyConnect":
+                if(command.get(1).equals("key") && checkInt(command.get(2)) && model.checkName(command.get(4)) && command.size() == 5){
                     return true;
                 } else {
                     return false;
@@ -128,7 +147,7 @@ public class GizmoballFileReader {
     }
 
 
-    private void command(ArrayList<String> command) throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
+    private void command(ArrayList<String> command) throws GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException, MalformedGizmoballFileException {
         Gizmo gizmo;
         GizmoType type;
         Tile tile;
@@ -137,35 +156,35 @@ public class GizmoballFileReader {
             case "Square":
                 type = GizmoType.SQUARE_BUMPER;
                 tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
-                propertyValues = new String[]{command.get(1), "0"};
+                propertyValues = new String[]{command.get(1), "0", defaultColour, defaultColour, altColour};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Circle":
                 type = GizmoType.CIRCLE_BUMPER;
                 tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
-                propertyValues = new String[]{command.get(1), "0"};
+                propertyValues = new String[]{command.get(1), "0", defaultColour, defaultColour, altColour};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Triangle":
                 type = GizmoType.TRIANGLE_BUMPER;
                 tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
-                propertyValues = new String[]{command.get(1), "0"};
+                propertyValues = new String[]{command.get(1), "0", defaultColour, defaultColour, altColour};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "RightFlipper":
                 type = GizmoType.FLIPPER;
                 tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
-                propertyValues = new String[]{command.get(1), "0", "false"};
+                propertyValues = new String[]{command.get(1), "0", "false", defaultColour, defaultColour, altColour};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "LeftFlipper":
                 type = GizmoType.FLIPPER;
                 tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
-                propertyValues = new String[]{command.get(1), "0", "true"};
+                propertyValues = new String[]{command.get(1), "0", "true", defaultColour, defaultColour, altColour};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
@@ -179,14 +198,14 @@ public class GizmoballFileReader {
 
                 type = GizmoType.ABSORBER;
                 tile = model.getTileAt(x1, y1);
-                propertyValues = new String[]{command.get(1), String.valueOf(w), String.valueOf(h)};
+                propertyValues = new String[]{command.get(1), String.valueOf(w), String.valueOf(h), defaultColour, defaultColour, altColour};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Ball":
                 type = GizmoType.BALL;
                 tile = model.getTileNear ( Double.parseDouble(command.get(2)), Double.parseDouble(command.get(3)));
-                propertyValues = new String[]{command.get(1), command.get(4), command.get(5)};
+                propertyValues = new String[]{command.get(1), command.get(4), command.get(5), defaultColour, defaultColour, altColour };
 
                 model.placeBall(Double.parseDouble(command.get(2)), Double.parseDouble(command.get(3)), propertyValues);
 
@@ -213,9 +232,22 @@ public class GizmoballFileReader {
                 e.printStackTrace();
             }
                 break;
-            case "Connect": //
+            case "Connect":
+                model.connect(command.get(1), command.get(2));
                 break;
-            case "KeyConnect": //
+            case "KeyConnect":
+                TriggerType triggerType;
+                switch (command.get(3)) {
+                    case "up":
+                        triggerType = TriggerType.KEY_UP;
+                        break;
+                    case "down":
+                        triggerType = TriggerType.KEY_DOWN;
+                        break;
+                    default:
+                        throw new MalformedGizmoballFileException("KeyConnection line is malformed");
+                }
+                model.connect(Integer.parseInt(command.get(2)), triggerType, command.get(4));
                 break;
             case "Gravity": try {
                 model.setGravityConstant(Float.parseFloat(command.get(1)));

@@ -135,7 +135,6 @@ public class Model extends Observable implements IModel {
     }
 
 	public void tick(){
-
 	    for(Tickable t : tickable){
 	        t.tick();
         }
@@ -535,6 +534,7 @@ public class Model extends Observable implements IModel {
 			propertyValues = Gizmo.getPropertyDefaults(gizmoType, getAllGizmoNames());
 		}
 
+		//TODO: ensure this works
 		//Ensure propertyValues's size matches the number of properties this gizmo has.
 		ArrayList<GizmoPropertyType> propertyTypes = gizmoType.getPropertyTypes();
 		assert propertyTypes.size() == propertyValues.length :
