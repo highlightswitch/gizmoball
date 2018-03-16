@@ -5,6 +5,7 @@ import model.Model;
 import model.TileCoordinatesNotValid;
 import model.gizmo.GizmoType;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class PlaceAbsorberListener {
@@ -43,7 +44,7 @@ public class PlaceAbsorberListener {
         try {
             model.placeGizmo(GizmoType.ABSORBER,model.getTileAt(sx,sy),new String[] {name, width, height, color, color, ""});
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

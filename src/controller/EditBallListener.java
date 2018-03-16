@@ -4,6 +4,7 @@ import model.*;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -55,11 +56,11 @@ public class EditBallListener {
             model.setAllProperties(gizmo.getProperty(GizmoPropertyType.NAME), properties);
 
         } catch (GizmoNotFoundException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (GizmoPlacementNotValidException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
-            tileCoordinatesNotValid.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

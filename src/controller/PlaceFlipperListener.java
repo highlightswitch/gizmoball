@@ -5,6 +5,7 @@ import model.Model;
 import model.TileCoordinatesNotValid;
 import model.gizmo.GizmoType;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class PlaceFlipperListener {
@@ -50,9 +51,9 @@ public class PlaceFlipperListener {
         try {
             model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(sx,sy), new String[]{name, String.valueOf(0), di,color,color, ""});
         } catch (GizmoPlacementNotValidException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
-            tileCoordinatesNotValid.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -6,6 +6,7 @@ import model.Model;
 import model.TileCoordinatesNotValid;
 import model.gizmo.GizmoType;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class PlaceBallListener {
@@ -50,7 +51,7 @@ public class PlaceBallListener {
             model.placeGizmo(GizmoType.BALL,model.getTileAt(x,y), new String[]{name, vx, vy, color, color, ""});
             // connect one trigger to one action
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
-            e1.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

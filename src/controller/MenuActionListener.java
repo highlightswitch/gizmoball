@@ -38,7 +38,7 @@ public class MenuActionListener implements ActionListener {
                         controller.setModel(fileReader.getModel());
                         controller.switchToRunView();
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Loading failed", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 break;
@@ -49,7 +49,8 @@ public class MenuActionListener implements ActionListener {
                     writer.write(game);
                     writer.close();
                 } catch (IOException ex){
-                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Saving failed", "Error", JOptionPane.ERROR_MESSAGE);
+
                 }
                 break;
             case "Circle":

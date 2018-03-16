@@ -63,20 +63,20 @@ public class FindEditorListener implements MouseListener {
                    try {
                        m.deleteGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME));
                    } catch (GizmoNotFoundException e1) {
-                       e1.printStackTrace();
+                       JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
                    }
                }else {
                    try {
                        m.rotateGizmoBy_Deg(t.getGizmo().getProperty(GizmoPropertyType.NAME), 90.0);
                    } catch (GizmoNotFoundException e1) {
-                       e1.printStackTrace();
+                       JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
                    } catch (GizmoPropertyException e1) {
-                       e1.printStackTrace();
+                       JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
                    }
                }
             }
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
-            tileCoordinatesNotValid.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -4,6 +4,7 @@ import model.*;
 import model.gizmo.GizmoActionType;
 import model.gizmo.GizmoType;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class PlaceGizmoListener{
@@ -70,9 +71,9 @@ public class PlaceGizmoListener{
             model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,color});
             model.setGizmoAction(gname, action);
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
-            e1.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (GizmoNotFoundException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

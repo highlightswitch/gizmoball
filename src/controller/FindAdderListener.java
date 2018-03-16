@@ -49,52 +49,53 @@ public class FindAdderListener implements MouseListener {
                         try {
                             m.placeGizmo(GizmoType.BALL, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
-                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
                     case "Absorber":
                         try {
                             m.placeGizmo(GizmoType.ABSORBER, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
-                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     case "Flipper":
                         try {
                             m.placeGizmo(GizmoType.FLIPPER, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
-                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     case "Circle":
                         try {
                             m.placeGizmo(GizmoType.CIRCLE_BUMPER, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
-                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
                     case "Triangle":
                         try {
                             m.placeGizmo(GizmoType.TRIANGLE_BUMPER, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
-                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
                     case "Square":
                         try {
                             m.placeGizmo(GizmoType.SQUARE_BUMPER, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
-                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
                 }
                 try {
                     t.getGizmo().setProperty(GizmoPropertyType.NAME, name);
                 } catch (GizmoPropertyException e1) {
-                    e1.printStackTrace();
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 }
             System.out.println("tile occupied");
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
-            tileCoordinatesNotValid.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
+
         }
     }
 
