@@ -15,22 +15,20 @@ public class ButtonActionListener implements ActionListener {
     private JFrame frame;
     private Model model;
     private JPanel panel;
-    private FindAdderListener add;
-    private FindEditorListener edit;
+    private AllMouseListeners mouse;
+
     ButtonActionListener(MainController controller, JFrame f, Model m, JPanel p) {
         this.controller = controller;
         frame = f;
         model = m;
         panel = p;
-        edit =  new FindEditorListener(frame,model, panel);
-        add =  new FindAdderListener(frame, model, panel);
+        mouse = new AllMouseListeners(frame, model,panel);
+        frame.addMouseListener(mouse);
 	}
 
     @Override
 	public final void actionPerformed(final ActionEvent e) {
-        add.setType(e.getActionCommand());
-        edit.setType(e.getActionCommand());
-        System.out.println(e.getActionCommand());
+        mouse.setType(e.getActionCommand());
         switch (e.getActionCommand()) {
             case "Start":
                 controller.startTimer();
@@ -43,11 +41,8 @@ public class ButtonActionListener implements ActionListener {
             case "Edit":
             case "Key":
             case "Connect":
-                frame.removeMouseListener(add);
-                frame.addMouseListener(edit);
-                break;
             case "Move":
-                //
+                mouse.setMode("Edit");
                 break;
             case "Circle":
             case "Triangle":
@@ -55,9 +50,7 @@ public class ButtonActionListener implements ActionListener {
             case "Absorber":
             case "Flipper":
             case "Ball":
-                frame.removeMouseListener(add);
-                frame.removeMouseListener(edit);
-                frame.addMouseListener(add);
+                mouse.setMode("Add");
                 break;
             default:
                 break;

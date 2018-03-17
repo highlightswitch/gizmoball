@@ -87,13 +87,13 @@ public class BuildView implements GameView {
         keyTrigger.setMargin(new Insets(0, 0, 0, 0));
         keyTrigger.setContentAreaFilled(false);
         keyTrigger.setActionCommand("Key");
-        buttons.add(keyTrigger);
+        keyTrigger.addActionListener(controller.getActionListener(frame, "Button"));
 
         connectTwo.setBorder(null);
         connectTwo.setMargin(new Insets(0, 0, 0, 0));
         connectTwo.setContentAreaFilled(false);
         connectTwo.setActionCommand("Connect");
-        buttons.add(connectTwo);
+        connectTwo.addActionListener(controller.getActionListener(frame, "Button"));
 
         panControls.add(add);
         panControls.add(rotate);

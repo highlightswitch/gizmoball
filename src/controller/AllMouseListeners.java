@@ -1,46 +1,54 @@
 package controller;
 
-import model.GizmoPlacementNotValidException;
-import model.Model;
-import model.Tile;
-import model.TileCoordinatesNotValid;
+import controller.TriggerKeyListener;
+import model.*;
 import model.gizmo.GizmoPropertyException;
 import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
+import view.EditAbsorberDialogue;
+import view.EditBallDialogue;
+import view.EditFlipperDialogue;
+import view.EditShapeDialogue;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class FindAdderListener implements MouseListener {
+public class AllMouseListeners implements MouseListener {
     private Model m;
     private JFrame frame;
     private JPanel panel;
-    private String type;
+    String listType;
+    String mode;
     String name;
     int id = 0;
 
-    FindAdderListener(JFrame f, Model model, JPanel p){
-        System.out.println("hello");
+    AllMouseListeners(JFrame f, Model model, JPanel p){
         m = model;
         frame = f;
         panel = p;
-        type = "";
+        listType = "";
+        this.mode = "";
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("add Clicked: " + e.getX() + ", " + e.getY());
+        int offsetx = (frame.getWidth() - panel.getWidth())/2;
+        int offsety = (frame.getHeight() - panel.getHeight())/3;
+        int x = e.getX() - offsetx;
+        int y = e.getY() - offsety;
+        int[] xy = getXYNear(x,y);
+
+        System.out.println("Getting tile at: " + xy[0] + ", " +  xy[1]);
+        Tile t = null;
+
         try {
-            int offsetx = (frame.getWidth() - panel.getWidth())/2;
-            int offsety = (frame.getHeight() - panel.getHeight())/3;
-            int x = e.getX() - offsetx;
-            int y = e.getY() - offsety;
-            int[] xy = getXYNear(x,y);
+            t = m.getTileAt(xy[0], xy[1]);
+        } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
-            System.out.println("add Getting tile at: " + xy[0] + ", " +  xy[1]);
-            Tile t = m.getTileAt(xy[0], xy[1]);
-
+        if(mode.equals("Add")){
             if(!t.isOccupied()){
                 name = getType()+ id;
                 id++;
@@ -91,12 +99,47 @@ public class FindAdderListener implements MouseListener {
                 } catch (GizmoPropertyException e1) {
                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        } else{
+            if(t.isOccupied()){
+                GizmoType g =  t.getGizmo().getType();
+                if(getType().equals("Edit")){
+                    switch (g){
+                        case BALL:
+                            new EditBallDialogue(frame, "Edit", m, t.getGizmo());
+                            break;
+                        case ABSORBER:
+                            new EditAbsorberDialogue(frame, "Edit", m, t.getGizmo());
+                        case FLIPPER:
+                            new EditFlipperDialogue(frame, "Edit", m, t.getGizmo());
+                        default:
+                            String s = g.name().substring(0,g.name().indexOf("_")).toLowerCase();
+                            new EditShapeDialogue(frame, s, "Edit", m, t.getGizmo());
+                    }
+                }else if(getType().equals("Delete")){
+                    try {
+                        m.deleteGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME));
+                    } catch (GizmoNotFoundException e1) {
+                        JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }else if (getType().equals("Rotate")){
+                    try {
+                        m.rotateGizmoBy_Deg(t.getGizmo().getProperty(GizmoPropertyType.NAME), 90.0);
+                    } catch (GizmoNotFoundException e1) {
+                        JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (GizmoPropertyException e1) {
+                        JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else if(getType().equals("Key")){
+                    System.out.println("Keeeeey");
+                    JOptionPane.showMessageDialog(frame, "To connect this gizmo to a key, press that key now", "Key Trigger", JOptionPane.INFORMATION_MESSAGE);
+                    new TriggerKeyListener(frame, m, t);
+                }else {
+                    // connect two
                 }
-            System.out.println("tile occupied");
-        } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
-            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
-
+            }
         }
+
     }
 
     @Override
@@ -130,11 +173,19 @@ public class FindAdderListener implements MouseListener {
         }
     }
 
-    public void setType(String t){
-        type = t;
+    public String getType() {
+        return listType;
     }
 
-    public String getType(){
-        return type;
+    public void setType(String t){
+        listType = t;
+    }
+
+    public String getMode(){
+        return mode;
+    }
+
+    public void setMode(String m){
+        mode = m;
     }
 }

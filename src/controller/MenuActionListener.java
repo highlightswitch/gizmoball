@@ -18,13 +18,13 @@ public class MenuActionListener implements ActionListener {
     private MainController controller;
     private JFrame frame;
     private JPanel panel;
-    FindEditorListener mouse;
+    AllMouseListeners mouse;
 
     MenuActionListener(MainController c, JFrame f, JPanel p){
         controller = c;
         frame = f;
         panel = p;
-        mouse = new FindEditorListener(frame, controller.getModel(), panel);
+        mouse = new AllMouseListeners(frame, controller.getModel(), panel);
     }
 
     @Override
@@ -82,6 +82,7 @@ public class MenuActionListener implements ActionListener {
             case "Rotate":
             case "Delete":
             case "Edit":
+                mouse.setMode("Edit");
                 frame.addMouseListener(mouse);
                 break;
             case "Gravity":
