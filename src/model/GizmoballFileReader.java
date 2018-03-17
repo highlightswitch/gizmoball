@@ -2,50 +2,56 @@ package model;
 
 import model.gizmo.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class GizmoballFileReader {
 
-    private File file;
     private Model model;
 
     private final String defaultColour = "[r=255,g=255,b=255]";
     private final String altColour = "[r=255,g=0,b=0]";
 
-    public GizmoballFileReader(File file) throws MalformedGizmoballFileException, TileCoordinatesNotValid, GizmoPropertyException, GizmoNotFoundException, GizmoPlacementNotValidException {
-        model = new Model();
-        this.file = file;
-
-        readFile();
+    public GizmoballFileReader(String str) throws TileCoordinatesNotValid, MalformedGizmoballFileException, GizmoPropertyException, GizmoNotFoundException, GizmoPlacementNotValidException {
+        this.model = new Model();
+        readFile(str);
     }
 
-    private void readFile() throws MalformedGizmoballFileException, GizmoPropertyException, GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException {
+    public GizmoballFileReader(File file) throws MalformedGizmoballFileException, TileCoordinatesNotValid, GizmoPropertyException, GizmoNotFoundException, GizmoPlacementNotValidException {
+        this.model = new Model();
+
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String text = "";
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                if (line.length() > 0) {
-                    StringTokenizer st = new StringTokenizer(line);
-                    ArrayList<String> tokens = new ArrayList<>();
-                    while (st.hasMoreTokens()) {
-                        tokens.add(st.nextToken());
-                    }
-                    if (checkLine(tokens)) {
-                        command(tokens);
-                    }
-                }
+                text += "\n" + line;
             }
-            fileReader.close();
+            readFile(text);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void readFile(String str) throws MalformedGizmoballFileException, GizmoPropertyException, GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException {
+        StringTokenizer fileTokenizer = new StringTokenizer(str, "\n");
+        String line;
+        while (fileTokenizer.hasMoreTokens()) {
+            line = fileTokenizer.nextToken();
+			if (line.length() > 0) {
+				StringTokenizer lineTokenizer = new StringTokenizer(line);
+				ArrayList<String> tokens = new ArrayList<>();
+				while (lineTokenizer.hasMoreTokens()) {
+					tokens.add(lineTokenizer.nextToken());
+				}
+				if (checkLine(tokens)) {
+					command(tokens);
+				}
+			}
+		}
     }
 
     private boolean checkLine(ArrayList<String> command) {
