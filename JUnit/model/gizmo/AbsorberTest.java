@@ -29,8 +29,8 @@ class AbsorberTest {
         model = new Model();
         anchorTile1 = model.getTileAt(9, 10);
         anchorTile2 = model.getTileAt(2, 17);
-        absorber1 = (Absorber) model.placeGizmo(GizmoType.ABSORBER, anchorTile1, new String[]{ "1", "6", "2", "white", "white", "white"});
-        absorber2 = (Absorber) model.placeGizmo(GizmoType.ABSORBER, anchorTile2, new String[]{ "2", "10", "2", "white", "white", "white" });
+        absorber1 = (Absorber) model.placeGizmo(GizmoType.ABSORBER, anchorTile1, new String[]{ "1", "6", "2", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=16,g=219,b=139]"});
+        absorber2 = (Absorber) model.placeGizmo(GizmoType.ABSORBER, anchorTile2, new String[]{ "2", "10", "2", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=16,g=219,b=139]" });
         ball = model.getBall();
     }
 
