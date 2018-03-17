@@ -16,6 +16,7 @@ public class TriggerKeyListener implements KeyListener {
     JFrame frame;
 
     public TriggerKeyListener(JFrame f, Model m, Tile t){
+        System.out.println("triggering");
         tile = t;
         model = m;
         frame = f;
@@ -28,6 +29,7 @@ public class TriggerKeyListener implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println("you pressed a key");
         JOptionPane.showMessageDialog(frame, "The key you are selecting is: " + e.getKeyCode(), "Key Code", JOptionPane.INFORMATION_MESSAGE);
         try {
             model.connect(e.getKeyCode(), TriggerType.valueOf(""),tile.getGizmo().getProperty(GizmoPropertyType.NAME));

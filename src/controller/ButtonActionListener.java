@@ -2,6 +2,7 @@ package controller;
 
 import model.Model;
 import view.EditShapeDialogue;
+import view.GameView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,12 +18,12 @@ public class ButtonActionListener implements ActionListener {
     private JPanel panel;
     private AllMouseListeners mouse;
 
-    ButtonActionListener(MainController controller, JFrame f, Model m, JPanel p) {
+    ButtonActionListener(MainController controller, JFrame f, Model m, JPanel p, GameView view) {
         this.controller = controller;
         frame = f;
         model = m;
         panel = p;
-        mouse = new AllMouseListeners(frame, model,panel);
+        mouse = new AllMouseListeners(frame, model,panel, view);
         frame.addMouseListener(mouse);
 	}
 

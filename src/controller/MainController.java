@@ -66,10 +66,10 @@ public class MainController implements ActionListener {
 
     public ActionListener getActionListener(JFrame frame, String type) {
         if(type.equals("Button")){
-            return new ButtonActionListener(this, frame, model, fr.geActiveBoard());
+            return new ButtonActionListener(this, frame, model, fr.geActiveBoard(), fr.getView());
         }
         else if(type.equals("Menu")){
-            return new MenuActionListener(this, frame, fr.geActiveBoard());
+            return new MenuActionListener(this, frame, fr.geActiveBoard(), fr.getView());
         }
 
         return new ActionListener() {

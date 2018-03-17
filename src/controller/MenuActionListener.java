@@ -20,11 +20,11 @@ public class MenuActionListener implements ActionListener {
     private JPanel panel;
     AllMouseListeners mouse;
 
-    MenuActionListener(MainController c, JFrame f, JPanel p){
+    MenuActionListener(MainController c, JFrame f, JPanel p, GameView v){
         controller = c;
         frame = f;
         panel = p;
-        mouse = new AllMouseListeners(frame, controller.getModel(), panel);
+        mouse = new AllMouseListeners(frame, controller.getModel(), panel, v);
     }
 
     @Override

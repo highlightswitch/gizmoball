@@ -5,10 +5,7 @@ import model.*;
 import model.gizmo.GizmoPropertyException;
 import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
-import view.EditAbsorberDialogue;
-import view.EditBallDialogue;
-import view.EditFlipperDialogue;
-import view.EditShapeDialogue;
+import view.*;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -22,13 +19,16 @@ public class AllMouseListeners implements MouseListener {
     String mode;
     String name;
     int id = 0;
+    Tile t = null;
+    GameView view;
 
-    AllMouseListeners(JFrame f, Model model, JPanel p){
+    AllMouseListeners(JFrame f, Model model, JPanel p, GameView v){
         m = model;
         frame = f;
         panel = p;
         listType = "";
         this.mode = "";
+        view = v;
     }
 
     @Override
@@ -39,16 +39,13 @@ public class AllMouseListeners implements MouseListener {
         int y = e.getY() - offsety;
         int[] xy = getXYNear(x,y);
 
-        System.out.println("Getting tile at: " + xy[0] + ", " +  xy[1]);
-        Tile t = null;
-
         try {
             t = m.getTileAt(xy[0], xy[1]);
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        if(mode.equals("Add")){
+        if(getMode().equals("Add")){
             if(!t.isOccupied()){
                 name = getType()+ id;
                 id++;
@@ -66,12 +63,14 @@ public class AllMouseListeners implements MouseListener {
                         } catch (GizmoPlacementNotValidException e1) {
                             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                         }
+                        break;
                     case "Flipper":
                         try {
                             m.placeGizmo(GizmoType.FLIPPER, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
                             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                         }
+                        break;
                     case "Circle":
                         try {
                             m.placeGizmo(GizmoType.CIRCLE_BUMPER, t, null);
@@ -110,11 +109,14 @@ public class AllMouseListeners implements MouseListener {
                             break;
                         case ABSORBER:
                             new EditAbsorberDialogue(frame, "Edit", m, t.getGizmo());
+                            break;
                         case FLIPPER:
                             new EditFlipperDialogue(frame, "Edit", m, t.getGizmo());
+                            break;
                         default:
                             String s = g.name().substring(0,g.name().indexOf("_")).toLowerCase();
                             new EditShapeDialogue(frame, s, "Edit", m, t.getGizmo());
+                            break;
                     }
                 }else if(getType().equals("Delete")){
                     try {
@@ -131,11 +133,50 @@ public class AllMouseListeners implements MouseListener {
                         JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else if(getType().equals("Key")){
-                    System.out.println("Keeeeey");
-                    JOptionPane.showMessageDialog(frame, "To connect this gizmo to a key, press that key now", "Key Trigger", JOptionPane.INFORMATION_MESSAGE);
-                    new TriggerKeyListener(frame, m, t);
+                    view.setMessage("To connect this gizmo to a key, press that key now");
+                    frame.setFocusable(true);
+                    frame.addKeyListener(new TriggerKeyListener(frame, m, t));
                 }else {
-                    // connect two
+                    view.setMessage("To connect this gizmo to another gizmo click on that gizmo now");
+                    frame.addMouseListener(new MouseListener() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            int offsetx = (frame.getWidth() - panel.getWidth())/2;
+                            int offsety = (frame.getHeight() - panel.getHeight())/3;
+                            int x = e.getX() - offsetx;
+                            int y = e.getY() - offsety;
+                            int[] xy = getXYNear(x,y);
+                            try {
+                                Tile t2 = m.getTileAt(xy[0], xy[1]);
+                                m.connect(t2.getGizmo().getProperty(GizmoPropertyType.NAME), t.getGizmo().getProperty(GizmoPropertyType.NAME));
+                                view.setMessage("Connected to " + t2.getGizmo().getProperty(GizmoPropertyType.NAME));
+                            } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+                                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
+                            } catch (GizmoNotFoundException e1) {
+                                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo not found", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+
+                        }
+                    });
                 }
             }
         }

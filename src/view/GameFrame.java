@@ -198,6 +198,10 @@ public class GameFrame {
         return activeBoard;
     }
 
+    public GameView getView(){
+        return view;
+    }
+
     public void assignActionListeners(){
         for(JMenuItem m: menuItems){
             m.addActionListener(controller.getActionListener(this.frMain,"Menu"));

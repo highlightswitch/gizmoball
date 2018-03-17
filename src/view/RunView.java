@@ -72,4 +72,9 @@ public class RunView implements GameView {
             b.addActionListener(controller.getActionListener(frame, "Button"));
         }
     }
+
+    @Override
+    public void setMessage(String m) {
+        //
+    }
 }
