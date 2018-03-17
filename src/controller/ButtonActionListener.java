@@ -17,7 +17,6 @@ public class ButtonActionListener implements ActionListener {
     private JPanel panel;
     private FindAdderListener add;
     private FindEditorListener edit;
-     //name things !!!!
     ButtonActionListener(MainController controller, JFrame f, Model m, JPanel p) {
         this.controller = controller;
         frame = f;
