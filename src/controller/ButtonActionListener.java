@@ -2,6 +2,7 @@ package controller;
 
 import model.Model;
 import view.EditShapeDialogue;
+import view.GameView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,19 +16,20 @@ public class ButtonActionListener implements ActionListener {
     private JFrame frame;
     private Model model;
     private JPanel panel;
-     //name things !!!!
-    ButtonActionListener(MainController controller, JFrame f, Model m, JPanel p) {
+    private AllMouseListeners mouse;
+
+    ButtonActionListener(MainController controller, JFrame f, Model m, JPanel p, GameView view) {
         this.controller = controller;
         frame = f;
         model = m;
         panel = p;
+        mouse = new AllMouseListeners(frame, model,panel, view);
+        frame.addMouseListener(mouse);
 	}
 
     @Override
 	public final void actionPerformed(final ActionEvent e) {
-        MouseListener edit =  new FindEditorListener(frame,model, panel, e.getActionCommand());
-        MouseListener add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
-        System.out.println(e.getActionCommand());
+        mouse.setType(e.getActionCommand());
         switch (e.getActionCommand()) {
             case "Start":
                 controller.startTimer();
@@ -38,12 +40,10 @@ public class ButtonActionListener implements ActionListener {
             case "Delete":
             case "Rotate":
             case "Edit":
-                frame.removeMouseListener(add);
-                //edit =  new FindEditorListener(frame,model, panel, e.getActionCommand());
-                frame.addMouseListener(edit);
-                break;
+            case "Key":
+            case "Connect":
             case "Move":
-                //
+                mouse.setMode("Edit");
                 break;
             case "Circle":
             case "Triangle":
@@ -51,18 +51,9 @@ public class ButtonActionListener implements ActionListener {
             case "Absorber":
             case "Flipper":
             case "Ball":
-                frame.removeMouseListener(add);
-                frame.removeMouseListener(edit);
-                //add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
-                frame.addMouseListener(add);
-            case "Key":
-                //
-                break;
-            case "Connect":
-                //
+                mouse.setMode("Add");
                 break;
             default:
-                System.out.println("dunno");
                 break;
         }
 

@@ -7,6 +7,7 @@ import model.gizmo.GizmoType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.regex.Pattern;
 
 public class PlaceAbsorberListener {
     private Model model;
@@ -25,24 +26,29 @@ public class PlaceAbsorberListener {
         name = "Absorber" + id;
         id++;
 
-        String spos = start.replace("(", "");
-        spos  = spos.replace(")", "");
-
-        String posXS = spos.substring(0, spos.indexOf(","));
-        String posYS = spos.substring(spos.indexOf(","));
-        posYS = posYS.replace(",", "");
-        sx = Integer.valueOf(posXS);
-        sy = Integer.valueOf(posYS);
-
         width = w;
         height = h;
 
-        place();
+        if(Pattern.matches("\\p{Punct}\\d{1,2}\\p{Punct}\\d{1,2}\\p{Punct}", start)){
+            String spos = start.replace("(", "");
+            spos  = spos.replace(")", "");
+
+            String posXS = spos.substring(0, spos.indexOf(","));
+            String posYS = spos.substring(spos.indexOf(","));
+            posYS = posYS.replace(",", "");
+            sx = Integer.valueOf(posXS);
+            sy = Integer.valueOf(posYS);
+            place();
+        } else{
+            System.out.println("Illegal input format");
+        }
+
+
     }
 
     private void place() {
         try {
-            model.placeGizmo(GizmoType.ABSORBER,model.getTileAt(sx,sy),new String[] {name, width, height, color, color, ""});
+            model.placeGizmo(GizmoType.ABSORBER,model.getTileAt(sx,sy),new String[] {name, width, height, color, color, color});
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
         }

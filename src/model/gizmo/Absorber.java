@@ -14,6 +14,7 @@ public class Absorber extends Gizmo implements Collidable {
 
     public Absorber(Color colour, Map<GizmoPropertyType, String> properties){
         super(colour, properties);
+        this.setAction(GizmoActionType.FIRE_FROM_ABSORBER);
         type = GizmoType.ABSORBER;
     }
 

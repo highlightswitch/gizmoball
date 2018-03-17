@@ -6,6 +6,7 @@ import model.gizmo.GizmoType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.regex.Pattern;
 
 public class PlaceGizmoListener{
     private IModel model;
@@ -38,22 +39,11 @@ public class PlaceGizmoListener{
         gname = name + id;
         id++;
 
-        String pos = position.replace("(", "");
-        pos = pos.replace(")", "");
-
-        String posX = pos.substring(0, pos.indexOf(","));
-        String posY = pos.substring(pos.indexOf(","));
-        posY = posY.replace(",", "");
-        x = Integer.valueOf(posX);
-        y = Integer.valueOf(posY);
-
-
-
         switch (a){
             case "Change Colour":
                 action = GizmoActionType.CHANGE_COLOUR;
                 break;
-            case "Rotate":
+            case "Do Nothing":
                 action = GizmoActionType.PRINT_TO_CONSOLE;
                 break;
             case "Flipper":
@@ -63,7 +53,21 @@ public class PlaceGizmoListener{
                 action = GizmoActionType.FIRE_FROM_ABSORBER;
                 break;
         }
-        place();
+
+        if(Pattern.matches("\\p{Punct}\\d{1,2}\\p{Punct}\\d{1,2}\\p{Punct}", position)){
+            String pos = position.replace("(", "");
+            pos = pos.replace(")", "");
+
+            String posX = pos.substring(0, pos.indexOf(","));
+            String posY = pos.substring(pos.indexOf(","));
+            posY = posY.replace(",", "");
+            x = Integer.valueOf(posX);
+            y = Integer.valueOf(posY);
+            place();
+        } else {
+            System.out.println("Illegal input format");
+        }
+
     }
 
     private void place() {

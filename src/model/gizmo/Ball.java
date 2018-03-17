@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 
-    private final double newRadius = 0.25;
+    private final double radius = 0.25;
 
     private Model model;
 
@@ -29,12 +29,12 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 
 
     // x, y coordinates and x,y velocity
-    public Ball(Model model, Color colour, double xTile, double yTile, Map<GizmoPropertyType, String> properties) {
+    public Ball(Model model, Color colour, double cx, double cy, Map<GizmoPropertyType, String> properties) {
         super(colour, properties);
         this.model = model;
 
-        this.cx = xTile + 0.5;
-        this.cy = yTile + 0.5;
+        this.cx = cx;
+        this.cy = cy;
 
         justFired = false;
         isAbsorbed = false;
@@ -44,6 +44,10 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 		type = GizmoType.BALL;
 
 	}
+
+    public void setCx(double val){ cx = val;}
+
+    public void setCy(double val){ cy = val;}
 
     public GizmoType getType(){return type;}
 
@@ -261,9 +265,17 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
         cy = cy + (yVel * time);
     }
 
+    public double getRadius(){
+        return radius;
+    }
+
+    public double[] getCentre(){
+        return new double[]{cx,cy};
+    }
+
     @Override
     public GameObject getPrototypeGameObject() {
-        Circle[] circles = { new Circle(0.5,0.5, newRadius) };
+        Circle[] circles = { new Circle(0.5,0.5, radius) };
         return new MovingGameObject(null, circles, 1.0);
     }
 
@@ -302,7 +314,7 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 
     @Override
     public String toString(){
-	    return "Radius is: " + newRadius + " x is: " + cx + " y is: " + cy;
+	    return "Radius is: " + radius + " x is: " + cx + " y is: " + cy;
     }
 
 }

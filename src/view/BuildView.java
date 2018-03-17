@@ -13,6 +13,7 @@ public class BuildView implements GameView {
     JFrame frame;
     JPanel panBuild;
     JPanel panBoard;
+    JLabel message;
     JPopupMenu allShapes;
     ArrayList<AbstractButton> buttons = new ArrayList<>();
     MainController controller;
@@ -87,13 +88,13 @@ public class BuildView implements GameView {
         keyTrigger.setMargin(new Insets(0, 0, 0, 0));
         keyTrigger.setContentAreaFilled(false);
         keyTrigger.setActionCommand("Key");
-        buttons.add(keyTrigger);
+        keyTrigger.addActionListener(controller.getActionListener(frame, "Button"));
 
         connectTwo.setBorder(null);
         connectTwo.setMargin(new Insets(0, 0, 0, 0));
         connectTwo.setContentAreaFilled(false);
         connectTwo.setActionCommand("Connect");
-        buttons.add(connectTwo);
+        connectTwo.addActionListener(controller.getActionListener(frame, "Button"));
 
         panControls.add(add);
         panControls.add(rotate);
@@ -110,13 +111,18 @@ public class BuildView implements GameView {
 
         panGrid.add(b);
 
+        JPanel updates = new JPanel();
+        message = new JLabel("Keep an eye on this space for updates!");
+        updates.add(message);
+        updates.setOpaque(false);
+
+
         panGrid.setOpaque(false);
         panBoard = panGrid;
-        System.out.println("board panel: " + panGrid.hashCode());
-        System.out.println("returned board: " + panBoard.hashCode());
 
         panBuild.setLayout(new BorderLayout());
-        panBuild.add(panGrid, BorderLayout.CENTER);
+        panBuild.add(panGrid, BorderLayout.PAGE_START);
+        panBuild.add(updates, BorderLayout.CENTER);
         panBuild.add(panControls, BorderLayout.SOUTH);
     }
 
@@ -204,6 +210,12 @@ public class BuildView implements GameView {
         for(AbstractButton b: buttons){
             b.addActionListener(controller.getActionListener(frame, "Button"));
         }
+    }
+
+    public void setMessage(String m){
+        message.setText(m);
+        frame.revalidate();
+        frame.repaint();
     }
 
 }

@@ -1,7 +1,7 @@
 package controller;
 
-import model.IModel;
-import model.Model;
+import model.*;
+import model.gizmo.GizmoPropertyException;
 import model.gizmo.TriggerType;
 import view.GameFrame;
 
@@ -16,6 +16,8 @@ public class MainController implements ActionListener {
 
     private KeyListener keyListener;
     private Timer timer;
+
+    private String buildModeSave = "";
 
     public MainController(){
         keyListener = new MagicKeyListener(this);
@@ -47,11 +49,22 @@ public class MainController implements ActionListener {
     }
 
     void switchToRunView(){
+        //fr.assignActionListeners();
+//        this.buildModeSave = model.toString(); //TODO: after saving is finished, enable this and remove the test string below
+        this.buildModeSave = "Square s1 5 5\nCircle c1 3 3\nBall b1 3 1 0 0";
         fr.switchToRunView();
     }
 
     void switchToBuildView(){
-        //setModel(new Model());
+       // fr.assignActionListeners();
+        if(!buildModeSave.equals("")){
+            try {
+                GizmoballFileReader fileReader = new GizmoballFileReader(buildModeSave);
+                this.setModel(fileReader.getModel());
+            } catch (TileCoordinatesNotValid | MalformedGizmoballFileException | GizmoPropertyException | GizmoPlacementNotValidException | GizmoNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
         fr.switchToBuildView();
     }
 
@@ -64,12 +77,11 @@ public class MainController implements ActionListener {
     }
 
     public ActionListener getActionListener(JFrame frame, String type) {
-
         if(type.equals("Button")){
-            return new ButtonActionListener(this, frame, model, fr.geActiveBoard());
+            return new ButtonActionListener(this, frame, model, fr.geActiveBoard(), fr.getView());
         }
         else if(type.equals("Menu")){
-            return new MenuActionListener(this, frame, fr.geActiveBoard());
+            return new MenuActionListener(this, frame, fr.geActiveBoard(), fr.getView());
         }
 
         return new ActionListener() {

@@ -8,6 +8,7 @@ import model.gizmo.GizmoType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.regex.Pattern;
 
 public class PlaceBallListener {
     private IModel model;
@@ -26,29 +27,36 @@ public class PlaceBallListener {
         color = c.toString();
         color = color.substring(color.indexOf("["));
 
-        String pos = position.replace("(", "");
-        pos = pos.replace(")", "");
+        if(Pattern.matches("\\p{Punct}\\d{1,2}\\p{Punct}\\d{1,2}\\p{Punct}", position)){
+            String pos = position.replace("(", "");
+            pos = pos.replace(")", "");
 
-        String posX = pos.substring(0, pos.indexOf(","));
-        String posY = pos.substring(pos.indexOf(","));
-        posY = posY.replace(",", "");
-        x = Integer.valueOf(posX);
-        y = Integer.valueOf(posY);
+            String posX = pos.substring(0, pos.indexOf(","));
+            String posY = pos.substring(pos.indexOf(","));
+            posY = posY.replace(",", "");
+            x = Integer.valueOf(posX);
+            y = Integer.valueOf(posY);
+        }else {
+            System.out.println("Illegal input format");
+        }
 
-        String vel = velocity.replace("(", "");
-        vel = vel.replace(")", "");
+        if(Pattern.matches("\\p{Punct}\\d{1,2}\\p{Punct}\\d{1,2}\\p{Punct}", velocity)){
+            String vel = velocity.replace("(", "");
+            vel = vel.replace(")", "");
 
-        vx = vel.substring(0, vel.indexOf(","));
-        vy = vel.substring(vel.indexOf(","));
-        vy = vy.replace(",", "");
-
-        place();
+            vx = vel.substring(0, vel.indexOf(","));
+            vy = vel.substring(vel.indexOf(","));
+            vy = vy.replace(",", "");
+            place();
+        }else {
+            System.out.println("Illegal input format");
+        }
     }
 
     private void place(){
         try {
             System.out.println(color); // [r=51,g=0,b=153]
-            model.placeGizmo(GizmoType.BALL,model.getTileAt(x,y), new String[]{name, vx, vy, color, color, ""});
+            model.placeGizmo(GizmoType.BALL,model.getTileAt(x,y), new String[]{name, vx, vy, color, color,color});
             // connect one trigger to one action
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
