@@ -18,14 +18,14 @@ public class FindEditorListener implements MouseListener {
     private Model m;
     private JFrame frame;
     private JPanel panel;
-    String mode;
+    String type;
 
-    FindEditorListener(JFrame f, Model model, JPanel p, String type){
+    FindEditorListener(JFrame f, Model model, JPanel p){
         System.out.println("hi");
         m = model;
         frame = f;
         panel = p;
-        mode = type;
+        type = "";
 
     }
 
@@ -35,10 +35,8 @@ public class FindEditorListener implements MouseListener {
         try {
             int offsetx = (frame.getWidth() - panel.getWidth())/2;
             int offsety = (frame.getHeight() - panel.getHeight())/3;
-
             int x = e.getX() - offsetx;
             int y = e.getY() - offsety;
-
             int[] xy = getXYNear(x,y);
 
             System.out.println("Getting tile at: " + xy[0] + ", " +  xy[1]);
@@ -46,7 +44,7 @@ public class FindEditorListener implements MouseListener {
 
             if(t.isOccupied()){
                GizmoType g =  t.getGizmo().getType();
-               if(mode.equals("Edit")){
+               if(getType().equals("Edit")){
                    switch (g){
                        case BALL:
                            new EditBallDialogue(frame, "Edit", m, t.getGizmo());
@@ -59,13 +57,13 @@ public class FindEditorListener implements MouseListener {
                            String s = g.name().substring(0,g.name().indexOf("_")).toLowerCase();
                            new EditShapeDialogue(frame, s, "Edit", m, t.getGizmo());
                    }
-               }else if(mode.equals("Delete")){
+               }else if(getType().equals("Delete")){
                    try {
                        m.deleteGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME));
                    } catch (GizmoNotFoundException e1) {
                        JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
                    }
-               }else {
+               }else if (getType().equals("Rotate")){
                    try {
                        m.rotateGizmoBy_Deg(t.getGizmo().getProperty(GizmoPropertyType.NAME), 90.0);
                    } catch (GizmoNotFoundException e1) {
@@ -73,6 +71,11 @@ public class FindEditorListener implements MouseListener {
                    } catch (GizmoPropertyException e1) {
                        JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
                    }
+               } else if(getType().equals("Key")){
+                   JOptionPane.showMessageDialog(frame, "To connect this gizmo to a key, press that key now", "Key Trigger", JOptionPane.INFORMATION_MESSAGE);
+                   new TriggerKeyListener(frame, m, t);
+               }else {
+                   // connect two
                }
             }
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
@@ -109,5 +112,13 @@ public class FindEditorListener implements MouseListener {
         }else {
             return new int[]{0,0};
         }
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String t){
+        type = t;
     }
 }

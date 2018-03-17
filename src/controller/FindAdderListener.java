@@ -20,12 +20,12 @@ public class FindAdderListener implements MouseListener {
     String name;
     int id = 0;
 
-    FindAdderListener(JFrame f, Model model, JPanel p, String t){
+    FindAdderListener(JFrame f, Model model, JPanel p){
         System.out.println("hello");
         m = model;
         frame = f;
         panel = p;
-        type = t;
+        type = "";
     }
 
     @Override
@@ -42,9 +42,9 @@ public class FindAdderListener implements MouseListener {
             Tile t = m.getTileAt(xy[0], xy[1]);
 
             if(!t.isOccupied()){
-                name = type + id;
+                name = getType()+ id;
                 id++;
-                switch (type){
+                switch (getType()){
                     case "Ball":
                         try {
                             m.placeGizmo(GizmoType.BALL, t, null);
@@ -128,5 +128,13 @@ public class FindAdderListener implements MouseListener {
         }else {
             return new int[]{0,0};
         }
+    }
+
+    public void setType(String t){
+        type = t;
+    }
+
+    public String getType(){
+        return type;
     }
 }

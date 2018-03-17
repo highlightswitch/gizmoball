@@ -15,18 +15,22 @@ public class ButtonActionListener implements ActionListener {
     private JFrame frame;
     private Model model;
     private JPanel panel;
+    private FindAdderListener add;
+    private FindEditorListener edit;
      //name things !!!!
     ButtonActionListener(MainController controller, JFrame f, Model m, JPanel p) {
         this.controller = controller;
         frame = f;
         model = m;
         panel = p;
+        edit =  new FindEditorListener(frame,model, panel);
+        add =  new FindAdderListener(frame, model, panel);
 	}
 
     @Override
 	public final void actionPerformed(final ActionEvent e) {
-        MouseListener edit =  new FindEditorListener(frame,model, panel, e.getActionCommand());
-        MouseListener add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
+        add.setType(e.getActionCommand());
+        edit.setType(e.getActionCommand());
         System.out.println(e.getActionCommand());
         switch (e.getActionCommand()) {
             case "Start":
@@ -38,8 +42,9 @@ public class ButtonActionListener implements ActionListener {
             case "Delete":
             case "Rotate":
             case "Edit":
+            case "Key":
+            case "Connect":
                 frame.removeMouseListener(add);
-                //edit =  new FindEditorListener(frame,model, panel, e.getActionCommand());
                 frame.addMouseListener(edit);
                 break;
             case "Move":
@@ -53,16 +58,9 @@ public class ButtonActionListener implements ActionListener {
             case "Ball":
                 frame.removeMouseListener(add);
                 frame.removeMouseListener(edit);
-                //add =  new FindAdderListener(frame, model, panel, e.getActionCommand());
                 frame.addMouseListener(add);
-            case "Key":
-                //
-                break;
-            case "Connect":
-                //
                 break;
             default:
-                System.out.println("dunno");
                 break;
         }
 

@@ -53,7 +53,7 @@ public class PlaceGizmoListener{
             case "Change Colour":
                 action = GizmoActionType.CHANGE_COLOUR;
                 break;
-            case "Rotate":
+            case "Do Nothing":
                 action = GizmoActionType.PRINT_TO_CONSOLE;
                 break;
             case "Flipper":

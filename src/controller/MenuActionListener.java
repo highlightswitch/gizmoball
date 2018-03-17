@@ -18,16 +18,18 @@ public class MenuActionListener implements ActionListener {
     private MainController controller;
     private JFrame frame;
     private JPanel panel;
+    FindEditorListener mouse;
 
     MenuActionListener(MainController c, JFrame f, JPanel p){
         controller = c;
         frame = f;
         panel = p;
+        mouse = new FindEditorListener(frame, controller.getModel(), panel);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        MouseListener mouse = new FindEditorListener(frame, controller.getModel(), panel, e.getActionCommand());
+        mouse.setType(e.getActionCommand());
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("GIZMO FILES", "gizmo");
         fileChooser.setFileFilter(filter);
@@ -78,11 +80,7 @@ public class MenuActionListener implements ActionListener {
                 new EditFlipperDialogue(frame, "Add", controller.getModel(), null);
                 break;
             case "Rotate":
-                frame.addMouseListener(mouse);
-                break;
             case "Delete":
-                frame.addMouseListener(mouse);
-                break;
             case "Edit":
                 frame.addMouseListener(mouse);
                 break;

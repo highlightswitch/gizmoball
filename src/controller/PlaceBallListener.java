@@ -48,7 +48,7 @@ public class PlaceBallListener {
     private void place(){
         try {
             System.out.println(color); // [r=51,g=0,b=153]
-            model.placeGizmo(GizmoType.BALL,model.getTileAt(x,y), new String[]{name, vx, vy, color, color, ""});
+            model.placeGizmo(GizmoType.BALL,model.getTileAt(x,y), new String[]{name, vx, vy, color, color,color});
             // connect one trigger to one action
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);

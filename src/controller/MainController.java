@@ -47,11 +47,12 @@ public class MainController implements ActionListener {
     }
 
     void switchToRunView(){
+        //fr.assignActionListeners();
         fr.switchToRunView();
     }
 
     void switchToBuildView(){
-        //setModel(new Model());
+       // fr.assignActionListeners();
         fr.switchToBuildView();
     }
 
@@ -64,7 +65,6 @@ public class MainController implements ActionListener {
     }
 
     public ActionListener getActionListener(JFrame frame, String type) {
-
         if(type.equals("Button")){
             return new ButtonActionListener(this, frame, model, fr.geActiveBoard());
         }
