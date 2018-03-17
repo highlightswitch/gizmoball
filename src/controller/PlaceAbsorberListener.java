@@ -7,6 +7,7 @@ import model.gizmo.GizmoType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.regex.Pattern;
 
 public class PlaceAbsorberListener {
     private Model model;
@@ -25,19 +26,24 @@ public class PlaceAbsorberListener {
         name = "Absorber" + id;
         id++;
 
-        String spos = start.replace("(", "");
-        spos  = spos.replace(")", "");
-
-        String posXS = spos.substring(0, spos.indexOf(","));
-        String posYS = spos.substring(spos.indexOf(","));
-        posYS = posYS.replace(",", "");
-        sx = Integer.valueOf(posXS);
-        sy = Integer.valueOf(posYS);
-
         width = w;
         height = h;
 
-        place();
+        if(Pattern.matches("\\p{Punct}\\d{1,2}\\p{Punct}\\d{1,2}\\p{Punct}", start)){
+            String spos = start.replace("(", "");
+            spos  = spos.replace(")", "");
+
+            String posXS = spos.substring(0, spos.indexOf(","));
+            String posYS = spos.substring(spos.indexOf(","));
+            posYS = posYS.replace(",", "");
+            sx = Integer.valueOf(posXS);
+            sy = Integer.valueOf(posYS);
+            place();
+        } else{
+            System.out.println("Illegal input format");
+        }
+
+
     }
 
     private void place() {

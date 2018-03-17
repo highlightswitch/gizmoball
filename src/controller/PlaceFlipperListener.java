@@ -7,6 +7,7 @@ import model.gizmo.GizmoType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.regex.Pattern;
 
 public class PlaceFlipperListener {
     private Model model;
@@ -26,24 +27,25 @@ public class PlaceFlipperListener {
         name = "Flipper" + id;
         id++;
 
-        String spos = pos.replace("(", "");
-        spos  = spos.replace(")", "");
-
-        String posXS = spos.substring(0, spos.indexOf(","));
-        String posYS = spos.substring(spos.indexOf(","));
-        posYS = posYS.replace(",", "");
-        sx = Integer.valueOf(posXS);
-        sy = Integer.valueOf(posYS);
-
         if(direction.equals("Left")){
             di = "true";
         } else {
             di = "false";
         }
 
+        if(Pattern.matches("\\p{Punct}\\d{1,2}\\p{Punct}\\d{1,2}\\p{Punct}", pos)){
+            String spos = pos.replace("(", "");
+            spos  = spos.replace(")", "");
 
-
-        place();
+            String posXS = spos.substring(0, spos.indexOf(","));
+            String posYS = spos.substring(spos.indexOf(","));
+            posYS = posYS.replace(",", "");
+            sx = Integer.valueOf(posXS);
+            sy = Integer.valueOf(posYS);
+            place();
+        } else{
+            System.out.println("Illegal input format");
+        }
 
     }
 
