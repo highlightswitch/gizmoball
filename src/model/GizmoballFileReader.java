@@ -18,14 +18,14 @@ public class GizmoballFileReader {
     private final String defaultColour = "[r=255,g=255,b=255]";
     private final String altColour = "[r=255,g=0,b=0]";
 
-    public GizmoballFileReader(File file) throws MalformedGizmoballFileException {
+    public GizmoballFileReader(File file) throws MalformedGizmoballFileException, TileCoordinatesNotValid, GizmoPropertyException, GizmoNotFoundException, GizmoPlacementNotValidException {
         model = new Model();
         this.file = file;
 
         readFile();
     }
 
-    private void readFile() throws MalformedGizmoballFileException {
+    private void readFile() throws MalformedGizmoballFileException, GizmoPropertyException, GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException {
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -38,13 +38,7 @@ public class GizmoballFileReader {
                         tokens.add(st.nextToken());
                     }
                     if (checkLine(tokens)) {
-                        try {
-                            command(tokens);
-                        } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e) {
-                            e.printStackTrace();
-                        } catch (GizmoNotFoundException e) {
-                            e.printStackTrace();
-                        }
+                        command(tokens);
                     }
                 }
             }
@@ -111,6 +105,21 @@ public class GizmoballFileReader {
                 } else {
                     return false;
                 }
+            case "Action":
+                if(model.checkName(command.get(1)) && ( command.get(2).equals("CHANGE_COLOUR") || command.get(2).equals("FLIP_FLIPPER") || command.get(2).equals("FIRE_FROM_ABSORBER")) && command.size() == 3){
+                    return true;
+                } else {
+                    return false;
+                }
+            case "Colour":
+                if(model.checkName(command.get(1)) && command.size() == 11){
+                    for(int i = 2; i < command.size(); i++)
+                        if(!checkInt(command.get(i)))
+                            return false;
+                    return true;
+                } else {
+                    return false;
+                }
             case "Gravity":
 //                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
 //                    return true;
@@ -149,7 +158,7 @@ public class GizmoballFileReader {
     }
 
 
-    private void command(ArrayList<String> command) throws GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException, MalformedGizmoballFileException {
+    private void command(ArrayList<String> command) throws GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException, MalformedGizmoballFileException, GizmoPropertyException {
         Gizmo gizmo;
         GizmoType type;
         Tile tile;
@@ -205,38 +214,21 @@ public class GizmoballFileReader {
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Ball":
-                type = GizmoType.BALL;
-                tile = model.getTileNear ( Double.parseDouble(command.get(2)), Double.parseDouble(command.get(3)));
                 propertyValues = new String[]{command.get(1), command.get(4), command.get(5), defaultColour, defaultColour, altColour };
-
                 model.placeBall(Double.parseDouble(command.get(2)), Double.parseDouble(command.get(3)), propertyValues);
-
-              //  model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Rotate":
-                try {
-                    model.rotateGizmoBy_Deg(command.get(1), 90);
-                } catch (GizmoNotFoundException e) {
-                    e.printStackTrace();
-                } catch (GizmoPropertyException e) {
-                    e.printStackTrace();
-                }
+                model.rotateGizmoBy_Deg(command.get(1), 90);
                 break;
-            case "Delete": try {
+            case "Delete":
                 model.deleteGizmo(command.get(1));
-            } catch (GizmoNotFoundException e) {
-                e.printStackTrace();
-            }
                 break;
-            case "Move":  try {
+            case "Move":
                 if(checkInt(command.get(2))) {
                     model.moveGizmo(command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
                 } else {
                     model.moveGizmo(command.get(1), Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)));
                 }
-            } catch (GizmoNotFoundException e) {
-                e.printStackTrace();
-            }
                 break;
             case "Connect":
                 model.connect(command.get(1), command.get(2));
@@ -254,6 +246,46 @@ public class GizmoballFileReader {
                         throw new MalformedGizmoballFileException("KeyConnection line is malformed");
                 }
                 model.connect(Integer.parseInt(command.get(2)), triggerType, command.get(4));
+                break;
+            case "Action":
+                GizmoActionType actionType;
+                switch (command.get(2)){
+                    case "CHANGE_COLOUR":
+                        actionType = GizmoActionType.CHANGE_COLOUR;
+                        break;
+                    case "FLIP_FLIPPER":
+                        actionType = GizmoActionType.FLIP_FLIPPER;
+                        break;
+                    case "FIRE_FROM_ABSORBER":
+                        actionType = GizmoActionType.FIRE_FROM_ABSORBER;
+                        break;
+                    default:
+                        throw new MalformedGizmoballFileException("Action type is malformed");
+                }
+                model.setGizmoAction(command.get(1), actionType);
+                break;
+            case "Colour":
+                String cr = command.get(3);
+                String cg = command.get(4);
+                String cb = command.get(5);
+                String currentColour = "[r="+cr+",g="+cg+",b="+cb+"]";
+
+                String dr = command.get(5);
+                String dg = command.get(6);
+                String db = command.get(7);
+                String defaultColour = "[r="+dr+",g="+dg+",b="+db+"]";
+
+                String ar = command.get(3);
+                String ag = command.get(4);
+                String ab = command.get(5);
+                String altColour = "[r="+ar+",g="+ag+",b="+ab+"]";
+
+                System.out.println("before " + model.getGizmoProperty(command.get(1), GizmoPropertyType.CURRENT_COLOUR));
+
+                model.setGizmoProperty(command.get(1), GizmoPropertyType.CURRENT_COLOUR, currentColour);
+                model.setGizmoProperty(command.get(1), GizmoPropertyType.DEFAULT_COLOUR, defaultColour);
+                model.setGizmoProperty(command.get(1), GizmoPropertyType.ALT_COLOUR, altColour);
+                System.out.println(model.getGizmoProperty(command.get(1), GizmoPropertyType.CURRENT_COLOUR));
                 break;
             case "Gravity": try {
                 model.setGravityConstant(Float.parseFloat(command.get(1)));
