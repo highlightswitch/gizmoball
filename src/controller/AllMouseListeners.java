@@ -164,7 +164,7 @@ public class AllMouseListeners implements MouseListener {
                             } catch (GizmoNotFoundException e1) {
                                 JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo not found", "Error", JOptionPane.ERROR_MESSAGE);
                             } catch (GizmoPlacementNotValidException e1) {
-                                e1.printStackTrace();
+                                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                             }
                         }
 
