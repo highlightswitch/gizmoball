@@ -127,20 +127,17 @@ public class GizmoballFileReader {
                     return false;
                 }
             case "Gravity":
-//                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-                return true;
+                if(checkFloat(command.get(1)) && command.size() == 2){
+                    return true;
+                } else {
+                    return false;
+                }
             case "Friction":
-                //check friction format
-//                if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && command.size() == 2){
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-                return true;
+                if(checkFloat(command.get(1)) && checkFloat(command.get(2)) && command.size() == 3){
+                   return true;
+               } else {
+                    return false;
+                }
             default: return false;
         }
     }
