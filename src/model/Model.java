@@ -72,11 +72,6 @@ public class Model extends Observable implements IModel {
                 }
             }
         }
-   //     if(gizmos.size() != 0){
-      //      for (Gizmo gizmo: gizmos) {
-    //            game = game + gizmo.toString() + "\n";
-    //        }
-     //   }
         game = game + "Gravity " + gravityConstant + "\n";
         game = game + "Friction " + frictionConstants[0] + " " + frictionConstants[1] + "\n";
         return game;
