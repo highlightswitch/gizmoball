@@ -31,7 +31,6 @@ class BallTest {
 
     @Test
     void findAnnexedTiles() throws Exception {
-
     }
 
     @Test
@@ -42,11 +41,38 @@ class BallTest {
     }
 
     @Test
+    public void moveTo() throws  Exception {
+        ball.moveTo(10, 11);
+        double[] position = {10, 11};
+        assertTrue(ball.getPosition()[0] == position[0]);
+        assertTrue(ball.getPosition()[1] == position[1]);
+    }
+
+    @Test
+    public void isTilePlacable() throws Exception {
+        assertFalse(ball.isTilePlacable());
+    }
+
+    @Test
     public void fire_moveBall() throws Exception {
     }
 
     @Test
     public void moveBall() throws Exception {
+
+    }
+
+    @Test
+    public void getRadius() throws  Exception {
+        assertEquals(ball.getRadius(), 0.25);
+    }
+
+    @Test
+    public void getCentre() throws  Exception{
+        double[] v = new double[]{15.5, 1.5};
+        double[] v1 = ball.getCentre();
+        assertEquals(v[0], v1[0]);
+        assertEquals(v[1], v1[1]);
 
     }
 
@@ -89,9 +115,5 @@ class BallTest {
             assertEquals(data.getCirclesData().get(i)[1], (circle.get(i)[1]));
             assertEquals(data.getCirclesData().get(i)[2], (circle.get(i)[2]));
         }
-    }
-
-    @Test
-    public void tick() throws Exception {
     }
 }

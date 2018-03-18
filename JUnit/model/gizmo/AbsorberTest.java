@@ -35,6 +35,11 @@ class AbsorberTest {
     }
 
     @Test
+    void isTilePlacable() {
+        assertTrue(absorber1.isTilePlacable());
+    }
+
+    @Test
     void findAnnexedTilesTrue() {
         ArrayList<Tile> tiles = new ArrayList<>();
 
