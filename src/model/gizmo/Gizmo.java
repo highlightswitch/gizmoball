@@ -62,8 +62,8 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
             case TRIANGLE_BUMPER:
                 return "Triangle" + " " + getProperty(GizmoPropertyType.NAME) + " " + anchorTile.getX() + " " + anchorTile.getY();
             case ABSORBER:
-                double x2 = anchorTile.getX() + Double.parseDouble(getProperty(GizmoPropertyType.WIDTH));
-                double y2 = anchorTile.getY() + Double.parseDouble(getProperty(GizmoPropertyType.HEIGHT));
+                int x2 = anchorTile.getX() + Integer.parseInt(getProperty(GizmoPropertyType.WIDTH));
+                int y2 = anchorTile.getY() + Integer.parseInt(getProperty(GizmoPropertyType.HEIGHT));
                 return "Absorber" + " " + getProperty(GizmoPropertyType.NAME) + " " + anchorTile.getX() + " " + anchorTile.getY() + " " + x2 + " " + y2;
                 default: return "Something's gone horribly wrong.";
         }

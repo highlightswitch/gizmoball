@@ -38,6 +38,11 @@ class BumperTest {
     }
 
     @Test
+    void isTilePlacable() {
+        assertTrue(circle.isTilePlacable());
+    }
+
+    @Test
     void findAnnexedTiles() {
     }
 
