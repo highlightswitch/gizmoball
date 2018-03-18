@@ -214,8 +214,8 @@ public class BuildView implements GameView {
 
     public void setMessage(String m){
         message.setText(m);
-        frame.revalidate();
-        frame.repaint();
+        message.revalidate();
+        message.repaint();
     }
 
 }

@@ -8,6 +8,7 @@ import model.gizmo.GizmoType;
 import view.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -132,6 +133,52 @@ public class AllMouseListeners implements MouseListener {
                     } catch (GizmoPropertyException e1) {
                         JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
                     }
+                }else if(getType().equals("Move")){
+                    view.setMessage("Drag and drop to move " + t.getGizmo().getProperty(GizmoPropertyType.NAME));
+                    frame.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    frame.addMouseListener(new MouseListener() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
+                            int offsetx = (frame.getWidth() - panel.getWidth())/2;
+                            int offsety = (frame.getHeight() - panel.getHeight())/3;
+                            int x = e.getX() - offsetx;
+                            int y = e.getY() - offsety;
+                            int[] xy = getXYNear(x,y);
+
+                            try {
+                                Tile t2 = m.getTileAt(xy[0], xy[1]);
+                                m.moveGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2);
+                                frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                            } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+                                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
+                            } catch (GizmoNotFoundException e1) {
+                                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo not found", "Error", JOptionPane.ERROR_MESSAGE);
+                            } catch (GizmoPlacementNotValidException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+
+                        }
+                    });
+
                 } else if(getType().equals("Key")){
                     view.setMessage("To connect this gizmo to a key, press that key now");
                     frame.setFocusable(true);
