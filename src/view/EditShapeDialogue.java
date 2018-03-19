@@ -24,7 +24,7 @@ public class EditShapeDialogue {
 
         //change to mapping from action
         JLabel action = new JLabel("When the ball collides with this gizmo the gizmo should: ");
-        String[] actions = {"Change Colour", "Activate Another Gizmo", "Do Nothing"};
+        String[] actions = {"Change Colour", "Do Nothing"};
 
         JLabel label = new JLabel();
 
@@ -86,13 +86,6 @@ public class EditShapeDialogue {
                 intPosition = position.getText();
                 color = shapeColour.getColor();
                 cAction = actions[actionList.getSelectedIndex()];
-
-                if(cAction.equals("Activate Another Gizmo")){
-                    String[] action = new String[]{"Flipper", "Absorber"};
-                    JComboBox gizmos = new JComboBox(action);
-                    JOptionPane.showMessageDialog(fr, gizmos, "Select gizmo to activate", JOptionPane.QUESTION_MESSAGE);
-                    cAction = action[gizmos.getSelectedIndex()];
-                }
 
                 if(mode.equals("Add")){
                     new PlaceGizmoListener(gizmo, intPosition, color, cAction, model);

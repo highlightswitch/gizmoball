@@ -40,6 +40,10 @@ public class MainController implements ActionListener {
         fr.setModel(model);
     }
 
+    String getBuildModeSave(){
+        return buildModeSave;
+    }
+
     void startTimer() {
         timer.start();
     }
@@ -50,8 +54,7 @@ public class MainController implements ActionListener {
 
     void switchToRunView(){
         //fr.assignActionListeners();
-//        this.buildModeSave = model.toString(); //TODO: after saving is finished, enable this and remove the test string below
-        this.buildModeSave = "Square s1 5 5\nCircle c1 3 3\nBall b1 3 1 0 0";
+        this.buildModeSave = model.toString();
         fr.switchToRunView();
     }
 
