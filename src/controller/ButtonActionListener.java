@@ -32,8 +32,8 @@ public class ButtonActionListener implements ActionListener {
             case "Key":
             case "Connect":
             case "Move":
-                mouse.setMode("Edit");
                 frame.addMouseListener(mouse);
+                mouse.setMode("Edit");
                 System.out.println("In " + mouse.getMode() + " mode");
                 break;
             case "Circle":
@@ -42,8 +42,8 @@ public class ButtonActionListener implements ActionListener {
             case "Absorber":
             case "Flipper":
             case "Ball":
-                mouse.setMode("Add");
                 frame.addMouseListener(mouse);
+                mouse.setMode("Add");
                 System.out.println("In  " + mouse.getMode() + " mode");
                 break;
             default:
