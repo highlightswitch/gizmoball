@@ -7,6 +7,7 @@ import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
 import view.*;
 
+import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -133,7 +134,6 @@ public class AllMouseListeners implements MouseListener {
                 switch (getType()){
                     case "Ball":
                         try {
-
                             m.placeGizmo(GizmoType.BALL, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
                             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
@@ -258,6 +258,7 @@ public class AllMouseListeners implements MouseListener {
     }
 
     public int[] getXYNear(double x, double y){
+        System.out.println("Calculating tiles");
         Double px = Math.floor(x/25) - 1;
         Double py = Math.floor(y/25) - 1;
 
@@ -269,10 +270,12 @@ public class AllMouseListeners implements MouseListener {
     }
 
     public String getType() {
+        System.out.println("return button " + listType);
         return listType;
     }
 
     public void setType(String t){
+        System.out.println("controller says button is " + t);
         listType = t;
     }
 

@@ -29,7 +29,6 @@ public class ButtonActionListener implements ActionListener {
 
     @Override
 	public final void actionPerformed(final ActionEvent e) {
-        mouse.setType(e.getActionCommand());
         System.out.println("action preformed on " + e.getActionCommand());
         switch (e.getActionCommand()) {
             case "Start":
@@ -45,6 +44,7 @@ public class ButtonActionListener implements ActionListener {
             case "Connect":
             case "Move":
                 mouse.setMode("Edit");
+                mouse.setType(e.getActionCommand());
                 System.out.println("In " + mouse.getMode() + " mode");
                 break;
             case "Circle":
@@ -54,6 +54,7 @@ public class ButtonActionListener implements ActionListener {
             case "Flipper":
             case "Ball":
                 mouse.setMode("Add");
+                mouse.setType(e.getActionCommand());
                 System.out.println("In  " + mouse.getMode() + " mode");
                 break;
             default:

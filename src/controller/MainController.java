@@ -18,6 +18,8 @@ public class MainController implements ActionListener {
     private Timer timer;
     private String buildModeSave = "";
     private ArrayList<ActionListener> actionListeners = new ArrayList<>();
+    ActionListener button;
+    ActionListener menu;
 
     public MainController(){
         keyListener = new MagicKeyListener(this);
@@ -25,6 +27,8 @@ public class MainController implements ActionListener {
         fr = new GameFrame(this);
         this.timer = new Timer(25, this);
         fr.assignActionListeners();
+        button =  new ButtonActionListener(this, fr.getFrame(), model, fr.geActiveBoard(), fr.getView());
+        menu =  new MenuActionListener(this, fr.getFrame(), fr.geActiveBoard(), fr.getView());
     }
 
     public IModel getIModel() {
@@ -79,20 +83,18 @@ public class MainController implements ActionListener {
         model.keyEventTriggered(keyCode, trigger);
     }
 
-    public ActionListener getActionListener(JFrame frame, String type) {
+    public ActionListener getActionListener(String type) {
         if(type.equals("Button")){
-            ActionListener b = new ButtonActionListener(this, frame, model, fr.geActiveBoard(), fr.getView());
-            System.out.println("main controller adds: " + b.toString());
-            actionListeners.add(b);
+            System.out.println("main controller adds: " + button.toString());
+            actionListeners.add(button);
             System.out.println("Currently " + actionListeners.size() + " action listeners are added");
-            return b;
+            return button;
         }
         else if(type.equals("Menu")){
-            ActionListener m = new MenuActionListener(this, frame, fr.geActiveBoard(), fr.getView());
-            System.out.println("main controller adds: " + m.toString());
-            actionListeners.add(m);
+            System.out.println("main controller adds: " + menu.toString());
+            actionListeners.add(menu);
             System.out.println("Currently " + actionListeners.size() + " action listeners are added");
-            return m;
+            return menu;
         }
 
         return (e -> System.out.println("Cannot find type"));
