@@ -175,7 +175,6 @@ public class GameFrame {
         frMain.setVisible(true);
 
         frMain.addKeyListener(controller.getKeyListener());
-        frMain.addMouseListener(controller.getMouseListener());
 
         frMain.setMinimumSize(new Dimension(550,650));
         frMain.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -201,6 +200,11 @@ public class GameFrame {
 
     public JPanel geActiveBoard(){
         return activeBoard;
+    }
+
+    //I'm unsure why geActiveBoard exists. Left it in for now
+    public Board getActualBoard(){
+        return board;
     }
 
     public GameView getView(){

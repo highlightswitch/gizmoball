@@ -3,12 +3,15 @@ package controller;
 import model.*;
 import model.gizmo.GizmoPropertyException;
 import model.gizmo.TriggerType;
+import view.Board;
 import view.GameFrame;
+import view.GameView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 
 public class MainController implements ActionListener {
 
@@ -21,7 +24,7 @@ public class MainController implements ActionListener {
     private ButtonActionListener button;
     private MenuActionListener menu;
 
-    private AllMouseListeners mouseListener;
+    private MouseHandler mouseHandler;
 
     public MainController(){
         keyListener = new MagicKeyListener(this);
@@ -30,10 +33,11 @@ public class MainController implements ActionListener {
         fr = new GameFrame(this);
         this.timer = new Timer(25, this);
 
-        this.mouseListener = new AllMouseListeners(this, fr.getFrame(), fr.geActiveBoard(), this.fr.getView());
+        this.mouseHandler = new MouseHandler(this, fr.getFrame());
         menu = new MenuActionListener(this, fr.getFrame());
         button = new ButtonActionListener(this);
         fr.assignActionListeners();
+        this.updateMouseListener();
 
     }
 
@@ -50,12 +54,24 @@ public class MainController implements ActionListener {
         fr.setModel(model);
     }
 
+    GameView getView(){
+        return fr.getView();
+    }
+
     String getBuildModeSave(){
         return buildModeSave;
     }
 
-    public AllMouseListeners getMouseListener() {
-        return mouseListener;
+    MouseHandler getMouseHandler() {
+        return mouseHandler;
+    }
+
+    void updateMouseListener(){
+        Board board = fr.getActualBoard();
+        for(MouseListener m : board.getMouseListeners()){
+            board.removeMouseListener(m);
+        }
+        board.addMouseListener(mouseHandler.getCurrentListener());
     }
 
     void startTimer() {

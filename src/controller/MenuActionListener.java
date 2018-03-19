@@ -24,7 +24,7 @@ public class MenuActionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        AllMouseListeners mouse = controller.getMouseListener();
+        MouseHandler mouse = controller.getMouseHandler();
 
         mouse.setType(e.getActionCommand());
 
