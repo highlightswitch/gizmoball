@@ -138,6 +138,7 @@ public class GameFrame {
     public void switchToRunView(){
         board.updateMode("Run");
         this.drawFrame(new RunView(frMain, controller, board));
+        this.assignActionListeners();
         frMain.getContentPane().revalidate();
         frMain.getContentPane().repaint();
         this.compressMenu();
@@ -150,6 +151,7 @@ public class GameFrame {
     public void switchToBuildView(){
         board.updateMode("Build");
         this.drawFrame(new BuildView(frMain, controller, board));
+        this.assignActionListeners();
         this.extendMenu();
         frMain.getContentPane().revalidate();
         frMain.getContentPane().repaint();
@@ -161,6 +163,9 @@ public class GameFrame {
 
     private void drawFrame(GameView g){
         //open running view by default then user can change to build view
+
+        this.view = g;
+
         activePanel = g.getPanel();
         activeBoard = g.getBoard();
 
