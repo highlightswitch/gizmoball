@@ -1,7 +1,6 @@
 package view;
 
 import controller.MainController;
-import controller.MenuActionListener;
 import model.IModel;
 
 import javax.swing.*;
@@ -164,10 +163,14 @@ public class GameFrame {
         //open running view by default then user can change to build view
         activePanel = g.getPanel();
         activeBoard = g.getBoard();
+
         frMain.setContentPane(activePanel);
         frMain.setJMenuBar(top);
         frMain.setVisible(true);
+
         frMain.addKeyListener(controller.getKeyListener());
+        frMain.addMouseListener(controller.getMouseListener());
+        
         frMain.setMinimumSize(new Dimension(550,650));
         frMain.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }

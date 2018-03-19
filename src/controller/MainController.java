@@ -50,7 +50,7 @@ public class MainController implements ActionListener {
         return buildModeSave;
     }
 
-    AllMouseListeners getMouseListener() {
+    public AllMouseListeners getMouseListener() {
         return mouseListener;
     }
 
@@ -79,6 +79,7 @@ public class MainController implements ActionListener {
             }
         }
         fr.switchToBuildView();
+        timer.stop();
     }
 
     public KeyListener getKeyListener() {
@@ -91,7 +92,7 @@ public class MainController implements ActionListener {
 
     public ActionListener getActionListener(JFrame frame, String type) {
         if(type.equals("Button")){
-            ActionListener b = new ButtonActionListener(this, frame);
+            ActionListener b = new ButtonActionListener(this);
             System.out.println("main controller adds: " + b.toString());
             actionListeners.add(b);
             System.out.println("Currently " + actionListeners.size() + " action listeners are added");

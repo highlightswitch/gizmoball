@@ -24,11 +24,15 @@ public class MenuActionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         AllMouseListeners mouse = controller.getMouseListener();
+
         mouse.setType(e.getActionCommand());
+
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("GIZMO FILES", "gizmo");
         fileChooser.setFileFilter(filter);
+
         switch (e.getActionCommand()){
             case "Load":
                 int returnValue = fileChooser.showOpenDialog(null);
@@ -80,7 +84,6 @@ public class MenuActionListener implements ActionListener {
             case "Delete":
             case "Edit":
                 mouse.setMode("Edit");
-                frame.addMouseListener(mouse);
                 break;
             case "Gravity":
                 new GravitySlider(frame, controller.getModel());
