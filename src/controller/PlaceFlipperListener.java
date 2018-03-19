@@ -1,7 +1,7 @@
 package controller;
 
 import model.GizmoPlacementNotValidException;
-import model.Model;
+import model.IModel;
 import model.TileCoordinatesNotValid;
 import model.gizmo.GizmoType;
 
@@ -10,7 +10,8 @@ import java.awt.*;
 import java.util.regex.Pattern;
 
 public class PlaceFlipperListener {
-    private Model model;
+
+    private MainController controller;
     private int sx;
     private int sy;
     private String di;
@@ -18,8 +19,9 @@ public class PlaceFlipperListener {
     private int id = 0;
     private String color;
 
-    public PlaceFlipperListener(String pos, String direction, Color c, Model m){
-        model = m;
+    public PlaceFlipperListener(MainController controller, String pos, String direction, Color c){
+
+        this.controller = controller;
 
         color = c.toString();
         color = color.substring(color.indexOf("["));
@@ -51,6 +53,7 @@ public class PlaceFlipperListener {
 
     private void place() {
         try {
+            IModel model = controller.getIModel();
             model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(sx,sy), new String[]{name, String.valueOf(0), di,color,color, color});
         } catch (GizmoPlacementNotValidException e) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);

@@ -1,8 +1,8 @@
 package view;
 
 import controller.EditFlipperListener;
+import controller.MainController;
 import controller.PlaceFlipperListener;
-import model.Model;
 import model.gizmo.Gizmo;
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class EditFlipperDialogue {
     private String orient;
     private Color color;
 
-    public EditFlipperDialogue(JFrame f, String mode, Model m, Gizmo g){
+    public EditFlipperDialogue(MainController controller, JFrame f, String mode, Gizmo g){
         JLabel label = new JLabel();
         label.setIcon(new ImageIcon(getClass().getResource("/Images/fillFlipperSmall.png")));
         label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -69,9 +69,9 @@ public class EditFlipperDialogue {
                 orient = direction[di.getSelectedIndex()];
                 color = shapeColour.getColor();
                 if(mode.equals("Add")){
-                    new PlaceFlipperListener(intPosition,orient,color,m);
+                    new PlaceFlipperListener(controller, intPosition, orient, color);
                 }else {
-                    new EditFlipperListener(g, intPosition, orient, color, m );
+                    new EditFlipperListener(controller, g, intPosition, orient, color);
                 }
                 edit.dispose();
             }

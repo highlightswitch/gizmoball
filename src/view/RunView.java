@@ -5,7 +5,6 @@ import controller.MainController;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class RunView implements GameView {
 
@@ -74,7 +73,6 @@ public class RunView implements GameView {
     public void setAllButtonListeners(){
         for(JButton b: buttons){
             b.addActionListener(controller.getActionListener("Button"));
-            System.out.println(Arrays.toString(b.getActionListeners()));
         }
     }
 

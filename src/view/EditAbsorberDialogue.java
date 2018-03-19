@@ -1,8 +1,8 @@
 package view;
 
 import controller.EditAbsorberListener;
+import controller.MainController;
 import controller.PlaceAbsorberListener;
-import model.Model;
 import model.gizmo.Gizmo;
 
 import javax.swing.*;
@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EditAbsorberDialogue {
+
     private JPanel panDI;
     private JDialog edit;
     private String startPosition;
@@ -18,7 +19,7 @@ public class EditAbsorberDialogue {
     private String heightS;
     private Color color;
 
-    public EditAbsorberDialogue(JFrame f, String mode, Model m, Gizmo g){
+    public EditAbsorberDialogue(MainController controller, JFrame f, String mode, Gizmo g){
         JLabel label = new JLabel();
         label.setIcon(new ImageIcon(getClass().getResource("/Images/fillRectangleSmall.png")));
         label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -66,9 +67,9 @@ public class EditAbsorberDialogue {
                 heightS = height.getText();
                 color = shapeColour.getColor();
                 if(mode.equals("Add")){
-                    new PlaceAbsorberListener(startPosition, widthS, heightS, color, m);
+                    new PlaceAbsorberListener(controller, startPosition, widthS, heightS, color);
                 } else {
-                    new EditAbsorberListener(g, startPosition, widthS, heightS, color, m);
+                    new EditAbsorberListener(controller, g, startPosition, widthS, heightS, color);
                 }
                 edit.dispose();
             }

@@ -1,8 +1,8 @@
 package view;
 
 import controller.EditGizmoListener;
+import controller.MainController;
 import controller.PlaceGizmoListener;
-import model.Model;
 import model.gizmo.Gizmo;
 
 import javax.swing.*;
@@ -18,7 +18,11 @@ public class EditShapeDialogue {
     private String cAction;
     private JDialog edit;
 
-    public EditShapeDialogue(JFrame fr, String shape, String mode, Model model, Gizmo g){
+    private MainController controller;
+
+    public EditShapeDialogue(MainController controller, JFrame fr, String shape, String mode, Gizmo g){
+        this.controller = controller;
+
         gizmo = shape;
         System.out.println(gizmo);
 
@@ -88,9 +92,9 @@ public class EditShapeDialogue {
                 cAction = actions[actionList.getSelectedIndex()];
 
                 if(mode.equals("Add")){
-                    new PlaceGizmoListener(gizmo, intPosition, color, cAction, model);
+                    new PlaceGizmoListener(controller, gizmo, intPosition, color, cAction);
                 } else {
-                    new EditGizmoListener(g, intPosition, color, cAction, model);
+                    new EditGizmoListener(controller, g, intPosition, color, cAction);
                 }
 
                 edit.dispose();

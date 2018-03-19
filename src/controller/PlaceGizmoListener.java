@@ -9,7 +9,9 @@ import java.awt.*;
 import java.util.regex.Pattern;
 
 public class PlaceGizmoListener{
-    private IModel model;
+
+    private MainController controller;
+
     private GizmoType g;
     private String gname;
     private int id = 0;
@@ -18,8 +20,8 @@ public class PlaceGizmoListener{
     private int x;
     private int y;
 
-    public PlaceGizmoListener(String gizmoName, String position, Color c, String a, Model m){
-        model = m;
+    public PlaceGizmoListener(MainController controller, String gizmoName, String position, Color c, String a){
+        this.controller = controller;
         color = c.toString();
         color = color.substring(color.indexOf("["));
 
@@ -71,6 +73,7 @@ public class PlaceGizmoListener{
 
     private void place() {
         try {
+            IModel model = controller.getIModel();
             model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,color});
             model.setGizmoAction(gname, action);
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {

@@ -2,7 +2,6 @@ package controller;
 
 import model.GizmoPlacementNotValidException;
 import model.IModel;
-import model.Model;
 import model.TileCoordinatesNotValid;
 import model.gizmo.GizmoType;
 
@@ -11,7 +10,8 @@ import java.awt.*;
 import java.util.regex.Pattern;
 
 public class PlaceBallListener {
-    private IModel model;
+
+    private MainController controller;
     private String color;
     private String name;
     private int id;
@@ -20,8 +20,7 @@ public class PlaceBallListener {
     private String vx;
     private String vy;
 
-    public PlaceBallListener(String position, String velocity, Color c, Model m){
-        model = m;
+    public PlaceBallListener(MainController controller, String position, String velocity, Color c){
         name = "Ball" + id;
         id++;
         color = c.toString();
@@ -55,6 +54,7 @@ public class PlaceBallListener {
 
     private void place(){
         try {
+            IModel model = controller.getIModel();
             System.out.println(color); // [r=51,g=0,b=153]
             model.placeGizmo(GizmoType.BALL,model.getTileAt(x,y), new String[]{name, vx, vy, color, color,color});
             // connect one trigger to one action

@@ -9,7 +9,8 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class EditAbsorberListener {
-    private IModel model;
+
+    private MainController controller;
     private Gizmo gizmo;
     private String color;
     private String width;
@@ -18,8 +19,8 @@ public class EditAbsorberListener {
     private int y;
     private HashMap<GizmoPropertyType, String> properties = new HashMap<>();
 
-    public EditAbsorberListener(Gizmo g, String start, String w, String h, Color c, Model m){
-        model = m;
+    public EditAbsorberListener(MainController controller, Gizmo g, String start, String w, String h, Color c){
+        this.controller = controller;
         gizmo = g;
 
         color = c.toString();
@@ -42,6 +43,7 @@ public class EditAbsorberListener {
 
     private void edit() {
         try {
+            IModel model = controller.getIModel();
             model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
             properties.put(GizmoPropertyType.NAME, gizmo.getProperty(GizmoPropertyType.NAME));
             properties.put(GizmoPropertyType.WIDTH, width);

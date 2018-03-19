@@ -1,7 +1,7 @@
 package controller;
 
 import model.GizmoPlacementNotValidException;
-import model.Model;
+import model.IModel;
 import model.TileCoordinatesNotValid;
 import model.gizmo.GizmoType;
 
@@ -10,7 +10,8 @@ import java.awt.*;
 import java.util.regex.Pattern;
 
 public class PlaceAbsorberListener {
-    private Model model;
+
+    private MainController controller;
     private int sx;
     private int sy;
     private String width;
@@ -19,8 +20,8 @@ public class PlaceAbsorberListener {
     private int id = 0;
     private String color;
 
-    public PlaceAbsorberListener(String start, String w, String h, Color c, Model m){
-        model = m;
+    public PlaceAbsorberListener(MainController controller, String start, String w, String h, Color c){
+
         color = c.toString();
         color = color.substring(color.indexOf("["));
         name = "Absorber" + id;
@@ -48,6 +49,7 @@ public class PlaceAbsorberListener {
 
     private void place() {
         try {
+            IModel model = controller.getIModel();
             model.placeGizmo(GizmoType.ABSORBER,model.getTileAt(sx,sy),new String[] {name, width, height, color, color, color});
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);

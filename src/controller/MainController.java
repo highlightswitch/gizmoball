@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 
 public class MainController implements ActionListener {
 
@@ -22,7 +21,6 @@ public class MainController implements ActionListener {
     private ButtonActionListener button;
     private MenuActionListener menu;
 
-    private ArrayList<ActionListener> actionListeners = new ArrayList<>();
     private AllMouseListeners mouseListener;
 
     public MainController(){
@@ -32,7 +30,7 @@ public class MainController implements ActionListener {
         fr = new GameFrame(this);
         this.timer = new Timer(25, this);
 
-        this.mouseListener = new AllMouseListeners(fr.getFrame(), model, fr.geActiveBoard(), this.fr.getView());
+        this.mouseListener = new AllMouseListeners(this, fr.getFrame(), fr.geActiveBoard(), this.fr.getView());
         menu = new MenuActionListener(this, fr.getFrame());
         button = new ButtonActionListener(this);
         fr.assignActionListeners();
@@ -96,15 +94,9 @@ public class MainController implements ActionListener {
 
     public ActionListener getActionListener(String type) {
         if(type.equals("Button")){
-            System.out.println("main controller adds: " + button.toString());
-            actionListeners.add(button);
-            System.out.println("Currently " + actionListeners.size() + " action listeners are added");
             return button;
         }
         else if(type.equals("Menu")){
-            System.out.println("main controller adds: " + menu.toString());
-            actionListeners.add(menu);
-            System.out.println("Currently " + actionListeners.size() + " action listeners are added");
             return menu;
         }
 

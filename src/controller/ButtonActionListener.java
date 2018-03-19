@@ -17,7 +17,6 @@ public class ButtonActionListener implements ActionListener {
         AllMouseListeners mouse = controller.getMouseListener();
 
         mouse.setType(e.getActionCommand());
-        System.out.println("action preformed on " + e.getActionCommand());
         switch (e.getActionCommand()) {
             case "Start":
                 controller.startTimer();

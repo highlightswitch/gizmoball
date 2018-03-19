@@ -10,7 +10,8 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class EditGizmoListener {
-    private IModel model;
+
+    private MainController controller;
     private Gizmo gizmo;
     private String color;
     private GizmoActionType action;
@@ -18,8 +19,8 @@ public class EditGizmoListener {
     private int y;
     private HashMap<GizmoPropertyType, String> properties = new HashMap<>();
 
-    public EditGizmoListener(Gizmo g, String position, Color c, String a, Model m){
-        model = m;
+    public EditGizmoListener(MainController controller, Gizmo g, String position, Color c, String a){
+        this.controller = controller;
         gizmo = g;
 
         color = c.toString();
@@ -55,6 +56,7 @@ public class EditGizmoListener {
 
     public void edit(){
         try {
+            IModel model = controller.getIModel();
             model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
             properties.put(GizmoPropertyType.NAME, gizmo.getProperty(GizmoPropertyType.NAME));
             properties.put(GizmoPropertyType.ROTATION_DEG, String.valueOf(0));

@@ -206,7 +206,6 @@ public class BuildView implements GameView {
     @Override
     public void setAllButtonListeners() {
         for(AbstractButton b: buttons){
-            System.out.println("build view adding listener to: " + b.getActionCommand());
             b.addActionListener(controller.getActionListener("Button"));
         }
     }

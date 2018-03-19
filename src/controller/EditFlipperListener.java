@@ -9,7 +9,8 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class EditFlipperListener {
-    private IModel model;
+
+    private MainController controller;
     private Gizmo gizmo;
     private String color;
     private String di;
@@ -17,8 +18,9 @@ public class EditFlipperListener {
     private int y;
     private HashMap<GizmoPropertyType, String> properties = new HashMap<>();
 
-    public EditFlipperListener(Gizmo g, String position, String direction, Color c, Model m){
-        model = m;
+    public EditFlipperListener(MainController controller, Gizmo g, String position, String direction, Color c){
+
+        this.controller = controller;
         gizmo = g;
 
         color = c.toString();
@@ -45,6 +47,7 @@ public class EditFlipperListener {
 
     private void edit() {
         try {
+            IModel model = controller.getIModel();
             model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
             properties.put(GizmoPropertyType.NAME, gizmo.getProperty(GizmoPropertyType.NAME));
             properties.put(GizmoPropertyType.ROTATION_DEG, String.valueOf(0));

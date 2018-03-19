@@ -13,7 +13,8 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class AllMouseListeners implements MouseListener {
-    private Model m;
+
+    private MainController controller;
     private JFrame frame;
     private JPanel panel;
     private String listType;
@@ -26,8 +27,8 @@ public class AllMouseListeners implements MouseListener {
     private final MouseListener moveListener;
     private final MouseListener connectListener;
 
-    AllMouseListeners(JFrame f, Model model, JPanel p, GameView v){
-        m = model;
+    AllMouseListeners(MainController controller, JFrame f, JPanel p, GameView v){
+        this.controller = controller;
         frame = f;
         panel = p;
         listType = "";
@@ -49,6 +50,7 @@ public class AllMouseListeners implements MouseListener {
                 int[] xy = getXYNear(x,y);
 
                 try {
+                    IModel m = controller.getIModel();
                     Tile t2 = m.getTileAt(xy[0], xy[1]);
                     m.moveGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2);
                     frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -80,6 +82,7 @@ public class AllMouseListeners implements MouseListener {
                 int y = e.getY() - offsety;
                 int[] xy = getXYNear(x,y);
                 try {
+                    IModel m = controller.getIModel();
                     Tile t2 = m.getTileAt(xy[0], xy[1]);
                     m.connect(t2.getGizmo().getProperty(GizmoPropertyType.NAME), t.getGizmo().getProperty(GizmoPropertyType.NAME));
                     view.setMessage("Connected to " + t2.getGizmo().getProperty(GizmoPropertyType.NAME));
@@ -117,6 +120,7 @@ public class AllMouseListeners implements MouseListener {
         int[] xy = getXYNear(x,y);
 
         try {
+            IModel m = controller.getIModel();
             t = m.getTileAt(xy[0], xy[1]);
             System.out.println("Getting tile at (" + xy[0] + "," + xy[1] + ")");
 
@@ -132,7 +136,7 @@ public class AllMouseListeners implements MouseListener {
                 switch (getType()){
                     case "Ball":
                         try {
-
+                            IModel m = controller.getIModel();
                             m.placeGizmo(GizmoType.BALL, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
                             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
@@ -140,6 +144,7 @@ public class AllMouseListeners implements MouseListener {
                         break;
                     case "Absorber":
                         try {
+                            IModel m = controller.getIModel();
                             m.placeGizmo(GizmoType.ABSORBER, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
                             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
@@ -147,6 +152,7 @@ public class AllMouseListeners implements MouseListener {
                         break;
                     case "Flipper":
                         try {
+                            IModel m = controller.getIModel();
                             m.placeGizmo(GizmoType.FLIPPER, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
                             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
@@ -154,6 +160,7 @@ public class AllMouseListeners implements MouseListener {
                         break;
                     case "Circle":
                         try {
+                            IModel m = controller.getIModel();
                             m.placeGizmo(GizmoType.CIRCLE_BUMPER, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
                             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
@@ -161,6 +168,7 @@ public class AllMouseListeners implements MouseListener {
                         break;
                     case "Triangle":
                         try {
+                            IModel m = controller.getIModel();
                             m.placeGizmo(GizmoType.TRIANGLE_BUMPER, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
                             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
@@ -168,6 +176,7 @@ public class AllMouseListeners implements MouseListener {
                         break;
                     case "Square":
                         try {
+                            IModel m = controller.getIModel();
                             m.placeGizmo(GizmoType.SQUARE_BUMPER, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
                             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
@@ -188,27 +197,29 @@ public class AllMouseListeners implements MouseListener {
                 if(getType().equals("Edit")){
                     switch (g){
                         case BALL:
-                            new EditBallDialogue(frame, "Edit", m, t.getGizmo());
+                            new EditBallDialogue(controller, frame, "Edit", t.getGizmo());
                             break;
                         case ABSORBER:
-                            new EditAbsorberDialogue(frame, "Edit", m, t.getGizmo());
+                            new EditAbsorberDialogue(controller, frame, "Edit", t.getGizmo());
                             break;
                         case FLIPPER:
-                            new EditFlipperDialogue(frame, "Edit", m, t.getGizmo());
+                            new EditFlipperDialogue(controller, frame, "Edit", t.getGizmo());
                             break;
                         default:
                             String s = g.name().substring(0,g.name().indexOf("_")).toLowerCase();
-                            new EditShapeDialogue(frame, s, "Edit", m, t.getGizmo());
+                            new EditShapeDialogue(controller, frame, s, "Edit", t.getGizmo());
                             break;
                     }
                 }else if(getType().equals("Delete")){
                     try {
+                        IModel m = controller.getIModel();
                         m.deleteGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME));
                     } catch (GizmoNotFoundException e1) {
                         JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }else if (getType().equals("Rotate")){
                     try {
+                        IModel m = controller.getIModel();
                         m.rotateGizmoBy_Deg(t.getGizmo().getProperty(GizmoPropertyType.NAME), 90.0);
                     } catch (GizmoNotFoundException e1) {
                         JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
@@ -226,7 +237,7 @@ public class AllMouseListeners implements MouseListener {
                 } else if(getType().equals("Key")){
                     view.setMessage("To connect this gizmo to a key, press that key now");
                     frame.setFocusable(true);
-                    frame.addKeyListener(new TriggerKeyListener(frame, m, t));
+                    frame.addKeyListener(new TriggerKeyListener(controller, frame, t));
                 }else {
                     view.setMessage("To connect this gizmo to another gizmo click on that gizmo now");
                     frame.addMouseListener(connectListener);

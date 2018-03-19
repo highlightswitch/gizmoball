@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class GameFrame {
+
      private JFrame frMain;
      private JMenuBar top;
      private JMenu mTools;
@@ -151,8 +152,8 @@ public class GameFrame {
     public void switchToBuildView(){
         board.updateMode("Build");
         this.drawFrame(new BuildView(frMain, controller, board));
-        this.assignActionListeners();
         this.extendMenu();
+        this.assignActionListeners();
         frMain.getContentPane().revalidate();
         frMain.getContentPane().repaint();
         frMain.getJMenuBar().revalidate();
@@ -208,7 +209,8 @@ public class GameFrame {
 
     public void assignActionListeners(){
         for(JMenuItem m: menuItems){
-            m.addActionListener(controller.getActionListener("Menu"));
+            if(m.getActionListeners().length == 0)
+                m.addActionListener(controller.getActionListener("Menu"));
         }
         view.setAllButtonListeners();
     }
