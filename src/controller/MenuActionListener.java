@@ -16,18 +16,15 @@ public class MenuActionListener implements ActionListener {
 
     private MainController controller;
     private JFrame frame;
-    private JPanel panel;
-    AllMouseListeners mouse;
 
-    MenuActionListener(MainController c, JFrame f, JPanel p, GameView v){
-        controller = c;
-        frame = f;
-        panel = p;
-        mouse = new AllMouseListeners(frame, controller.getModel(), panel, v);
+    MenuActionListener(MainController controller, JFrame frame){
+        this.controller = controller;
+        this.frame = frame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        AllMouseListeners mouse = controller.getMouseListener();
         mouse.setType(e.getActionCommand());
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("GIZMO FILES", "gizmo");

@@ -19,12 +19,18 @@ public class MainController implements ActionListener {
     private String buildModeSave = "";
     private ArrayList<ActionListener> actionListeners = new ArrayList<>();
 
+    private AllMouseListeners mouseListener;
+
     public MainController(){
         keyListener = new MagicKeyListener(this);
+
         this.model = new Model();
         fr = new GameFrame(this);
         this.timer = new Timer(25, this);
         fr.assignActionListeners();
+
+        this.mouseListener = new AllMouseListeners(fr.getFrame(), model, fr.geActiveBoard(), this.fr.getView());
+
     }
 
     public IModel getIModel() {
@@ -42,6 +48,10 @@ public class MainController implements ActionListener {
 
     String getBuildModeSave(){
         return buildModeSave;
+    }
+
+    AllMouseListeners getMouseListener() {
+        return mouseListener;
     }
 
     void startTimer() {
@@ -81,14 +91,14 @@ public class MainController implements ActionListener {
 
     public ActionListener getActionListener(JFrame frame, String type) {
         if(type.equals("Button")){
-            ActionListener b = new ButtonActionListener(this, frame, model, fr.geActiveBoard(), fr.getView());
+            ActionListener b = new ButtonActionListener(this, frame);
             System.out.println("main controller adds: " + b.toString());
             actionListeners.add(b);
             System.out.println("Currently " + actionListeners.size() + " action listeners are added");
             return b;
         }
         else if(type.equals("Menu")){
-            ActionListener m = new MenuActionListener(this, frame, fr.geActiveBoard(), fr.getView());
+            ActionListener m = new MenuActionListener(this, frame);
             System.out.println("main controller adds: " + m.toString());
             actionListeners.add(m);
             System.out.println("Currently " + actionListeners.size() + " action listeners are added");
