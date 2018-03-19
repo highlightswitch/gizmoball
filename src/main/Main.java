@@ -28,7 +28,7 @@ public class Main {
 
 		IModel model = cont.getIModel();
 
-		test(model);
+		//test(model);
 	}
 
 	@SuppressWarnings("Duplicates")

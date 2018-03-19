@@ -16,7 +16,7 @@ public class ButtonActionListener implements ActionListener {
     private JFrame frame;
     private Model model;
     private JPanel panel;
-    private AllMouseListeners mouse;
+    private final AllMouseListeners mouse;
 
     ButtonActionListener(MainController controller, JFrame f, Model m, JPanel p, GameView view) {
         this.controller = controller;
@@ -30,6 +30,7 @@ public class ButtonActionListener implements ActionListener {
     @Override
 	public final void actionPerformed(final ActionEvent e) {
         mouse.setType(e.getActionCommand());
+        System.out.println("action preformed on " + e.getActionCommand());
         switch (e.getActionCommand()) {
             case "Start":
                 controller.startTimer();
@@ -44,6 +45,7 @@ public class ButtonActionListener implements ActionListener {
             case "Connect":
             case "Move":
                 mouse.setMode("Edit");
+                System.out.println("In " + mouse.getMode() + " mode");
                 break;
             case "Circle":
             case "Triangle":
@@ -52,6 +54,7 @@ public class ButtonActionListener implements ActionListener {
             case "Flipper":
             case "Ball":
                 mouse.setMode("Add");
+                System.out.println("In  " + mouse.getMode() + " mode");
                 break;
             default:
                 break;

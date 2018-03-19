@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class AllMouseListeners implements MouseListener {
     private Model m;
@@ -22,6 +23,9 @@ public class AllMouseListeners implements MouseListener {
     int id = 0;
     Tile t = null;
     GameView view;
+    ArrayList<MouseListener> ms = new ArrayList<>();
+    final MouseListener moveListener;
+    final MouseListener connectListener;
 
     AllMouseListeners(JFrame f, Model model, JPanel p, GameView v){
         m = model;
@@ -30,10 +34,83 @@ public class AllMouseListeners implements MouseListener {
         listType = "";
         this.mode = "";
         view = v;
+        moveListener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) { }
+
+            @Override
+            public void mousePressed(MouseEvent e) { }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                int offsetx = (frame.getWidth() - panel.getWidth())/2;
+                int offsety = (frame.getHeight() - panel.getHeight())/3;
+                int x = e.getX() - offsetx;
+                int y = e.getY() - offsety;
+                int[] xy = getXYNear(x,y);
+
+                try {
+                    Tile t2 = m.getTileAt(xy[0], xy[1]);
+                    m.moveGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2);
+                    frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (GizmoNotFoundException e1) {
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo not found", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (GizmoPlacementNotValidException e1) {
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "You cannot place this Gizmo here", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) { }
+
+            @Override
+            public void mouseExited(MouseEvent e) { }
+        };
+
+        ms.add(this);
+        ms.add(moveListener);
+
+        connectListener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int offsetx = (frame.getWidth() - panel.getWidth())/2;
+                int offsety = (frame.getHeight() - panel.getHeight())/3;
+                int x = e.getX() - offsetx;
+                int y = e.getY() - offsety;
+                int[] xy = getXYNear(x,y);
+                try {
+                    Tile t2 = m.getTileAt(xy[0], xy[1]);
+                    m.connect(t2.getGizmo().getProperty(GizmoPropertyType.NAME), t.getGizmo().getProperty(GizmoPropertyType.NAME));
+                    view.setMessage("Connected to " + t2.getGizmo().getProperty(GizmoPropertyType.NAME));
+                } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (GizmoNotFoundException e1) {
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo not found", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) { }
+
+            @Override
+            public void mouseReleased(MouseEvent e) { }
+
+            @Override
+            public void mouseEntered(MouseEvent e) { }
+
+            @Override
+            public void mouseExited(MouseEvent e) { }
+        };
+        ms.add(connectListener);
+        System.out.println("Mouse listeners called, currently " + ms.size() + " listeners exist");
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        System.out.println("current mouse mode " + getMode() + "!");
+
         int offsetx = (frame.getWidth() - panel.getWidth())/2;
         int offsety = (frame.getHeight() - panel.getHeight())/3;
         int x = e.getX() - offsetx;
@@ -42,6 +119,8 @@ public class AllMouseListeners implements MouseListener {
 
         try {
             t = m.getTileAt(xy[0], xy[1]);
+            System.out.println("Getting tile at (" + xy[0] + "," + xy[1] + ")");
+
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -50,9 +129,11 @@ public class AllMouseListeners implements MouseListener {
             if(!t.isOccupied()){
                 name = getType()+ id;
                 id++;
+                System.out.println("Adding " + getType());
                 switch (getType()){
                     case "Ball":
                         try {
+
                             m.placeGizmo(GizmoType.BALL, t, null);
                         } catch (GizmoPlacementNotValidException e1) {
                             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
@@ -99,6 +180,8 @@ public class AllMouseListeners implements MouseListener {
                 } catch (GizmoPropertyException e1) {
                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                System.out.println("Gizmo occupied");
             }
         } else{
             if(t.isOccupied()){
@@ -136,48 +219,10 @@ public class AllMouseListeners implements MouseListener {
                 }else if(getType().equals("Move")){
                     view.setMessage("Drag and drop to move " + t.getGizmo().getProperty(GizmoPropertyType.NAME));
                     frame.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                    frame.addMouseListener(new MouseListener() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-
-                        }
-
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-
-                        }
-
-                        @Override
-                        public void mouseReleased(MouseEvent e) {
-                            int offsetx = (frame.getWidth() - panel.getWidth())/2;
-                            int offsety = (frame.getHeight() - panel.getHeight())/3;
-                            int x = e.getX() - offsetx;
-                            int y = e.getY() - offsety;
-                            int[] xy = getXYNear(x,y);
-
-                            try {
-                                Tile t2 = m.getTileAt(xy[0], xy[1]);
-                                m.moveGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2);
-                                frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                            } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
-                                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
-                            } catch (GizmoNotFoundException e1) {
-                                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo not found", "Error", JOptionPane.ERROR_MESSAGE);
-                            } catch (GizmoPlacementNotValidException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-
-                        }
-                    });
+                    for (MouseListener mousel : frame.getMouseListeners()){
+                        frame.removeMouseListener(mousel);
+                    }
+                    frame.addMouseListener(moveListener);
 
                 } else if(getType().equals("Key")){
                     view.setMessage("To connect this gizmo to a key, press that key now");
@@ -185,45 +230,7 @@ public class AllMouseListeners implements MouseListener {
                     frame.addKeyListener(new TriggerKeyListener(frame, m, t));
                 }else {
                     view.setMessage("To connect this gizmo to another gizmo click on that gizmo now");
-                    frame.addMouseListener(new MouseListener() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            int offsetx = (frame.getWidth() - panel.getWidth())/2;
-                            int offsety = (frame.getHeight() - panel.getHeight())/3;
-                            int x = e.getX() - offsetx;
-                            int y = e.getY() - offsety;
-                            int[] xy = getXYNear(x,y);
-                            try {
-                                Tile t2 = m.getTileAt(xy[0], xy[1]);
-                                m.connect(t2.getGizmo().getProperty(GizmoPropertyType.NAME), t.getGizmo().getProperty(GizmoPropertyType.NAME));
-                                view.setMessage("Connected to " + t2.getGizmo().getProperty(GizmoPropertyType.NAME));
-                            } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
-                                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
-                            } catch (GizmoNotFoundException e1) {
-                                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo not found", "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
-
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-
-                        }
-
-                        @Override
-                        public void mouseReleased(MouseEvent e) {
-
-                        }
-
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-
-                        }
-                    });
+                    frame.addMouseListener(connectListener);
                 }
             }
         }

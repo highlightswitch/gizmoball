@@ -9,15 +9,15 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class MainController implements ActionListener {
     private Model model;
     private GameFrame fr;
-
     private KeyListener keyListener;
     private Timer timer;
-
     private String buildModeSave = "";
+    private ArrayList<ActionListener> actionListeners = new ArrayList<>();
 
     public MainController(){
         keyListener = new MagicKeyListener(this);
@@ -78,18 +78,21 @@ public class MainController implements ActionListener {
 
     public ActionListener getActionListener(JFrame frame, String type) {
         if(type.equals("Button")){
-            return new ButtonActionListener(this, frame, model, fr.geActiveBoard(), fr.getView());
+            ActionListener b = new ButtonActionListener(this, frame, model, fr.geActiveBoard(), fr.getView());
+            System.out.println("main controller adds: " + b.toString());
+            actionListeners.add(b);
+            System.out.println("Currently " + actionListeners.size() + " action listeners are added");
+            return b;
         }
         else if(type.equals("Menu")){
-            return new MenuActionListener(this, frame, fr.geActiveBoard(), fr.getView());
+            ActionListener m = new MenuActionListener(this, frame, fr.geActiveBoard(), fr.getView());
+            System.out.println("main controller adds: " + m.toString());
+            actionListeners.add(m);
+            System.out.println("Currently " + actionListeners.size() + " action listeners are added");
+            return m;
         }
 
-        return new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               //
-           }
-        };
+        return (e -> System.out.println("Cannot find type"));
     }
 
     @Override
