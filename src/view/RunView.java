@@ -12,11 +12,13 @@ public class RunView implements GameView {
     private JPanel panGame;
     private JPanel panBoard;
     private MainController controller;
-    private ArrayList<JButton> buttons = new ArrayList<>();
+    private ArrayList<JButton> buttons;
 
     RunView(JFrame frame, MainController controller, Board board){
         this.controller = controller;
         this.frame = frame;
+
+        this.buttons  = new ArrayList<>();
 
         panGame = new JPanel();
         panGame.setBackground(Color.PINK);
@@ -70,7 +72,7 @@ public class RunView implements GameView {
 
     public void setAllButtonListeners(){
         for(JButton b: buttons){
-            b.addActionListener(controller.getActionListener(frame, "Button"));
+            b.addActionListener(controller.getActionListener("Button"));
         }
     }
 
