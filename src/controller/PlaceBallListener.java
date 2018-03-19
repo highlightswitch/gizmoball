@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class PlaceBallListener {
     private IModel model;
-    String color;
+    private String color;
     private String name;
     private int id;
     private int x;

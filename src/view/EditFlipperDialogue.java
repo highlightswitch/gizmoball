@@ -1,7 +1,6 @@
 package view;
 
 import controller.EditFlipperListener;
-import controller.PlaceBallListener;
 import controller.PlaceFlipperListener;
 import model.Model;
 import model.gizmo.Gizmo;
@@ -12,11 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EditFlipperDialogue {
-    JPanel panDI;
-    JDialog edit;
-    String intPosition;
-    String orient;
-    Color color;
+    private JPanel panDI;
+    private JDialog edit;
+    private String intPosition;
+    private String orient;
+    private Color color;
 
     public EditFlipperDialogue(JFrame f, String mode, Model m, Gizmo g){
         JLabel label = new JLabel();
@@ -36,7 +35,7 @@ public class EditFlipperDialogue {
 
         JLabel label2 = new JLabel("Select flipper direction: ");
         String[] direction = {"Left", "Right"};
-        JComboBox di = new JComboBox(direction);
+        JComboBox<String> di = new JComboBox<>(direction);
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;

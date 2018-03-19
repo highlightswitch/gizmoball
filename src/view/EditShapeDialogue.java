@@ -11,12 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EditShapeDialogue {
-    JPanel panDI;
-    String gizmo;
-    String intPosition;
-    Color color;
-    String cAction;
-    JDialog edit;
+    private JPanel panDI;
+    private String gizmo;
+    private String intPosition;
+    private Color color;
+    private String cAction;
+    private JDialog edit;
 
     public EditShapeDialogue(JFrame fr, String shape, String mode, Model model, Gizmo g){
         gizmo = shape;
@@ -42,7 +42,7 @@ public class EditShapeDialogue {
 
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JComboBox actionList = new JComboBox(actions);
+        JComboBox<String> actionList = new JComboBox<>(actions);
 
         JLabel pos = new JLabel("Initial position: ");
         JTextField position;

@@ -12,9 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class FrictionSlider {
-    JDialog friction;
-    double newXFriction;
-    double newYFriction;
+
+    private JDialog friction;
+    private double newXFriction;
+    private double newYFriction;
+
     public FrictionSlider(JFrame f, IModel m){
         JLabel label = new JLabel("Drag slider to change friction on the x axis: ");
         JSlider sx = new JSlider(JSlider.HORIZONTAL, 0, 50, 25);

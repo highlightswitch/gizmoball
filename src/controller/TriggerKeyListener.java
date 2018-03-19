@@ -11,11 +11,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class TriggerKeyListener implements KeyListener {
-    Model model;
-    Tile tile;
-    JFrame frame;
+    private Model model;
+    private Tile tile;
+    private JFrame frame;
 
-    public TriggerKeyListener(JFrame f, Model m, Tile t){
+    TriggerKeyListener(JFrame f, Model m, Tile t){
         System.out.println("triggering");
         tile = t;
         model = m;

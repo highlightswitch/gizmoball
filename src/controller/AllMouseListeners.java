@@ -1,6 +1,5 @@
 package controller;
 
-import controller.TriggerKeyListener;
 import model.*;
 import model.gizmo.GizmoPropertyException;
 import model.gizmo.GizmoPropertyType;
@@ -17,15 +16,15 @@ public class AllMouseListeners implements MouseListener {
     private Model m;
     private JFrame frame;
     private JPanel panel;
-    String listType;
-    String mode;
-    String name;
-    int id = 0;
-    Tile t = null;
-    GameView view;
-    ArrayList<MouseListener> ms = new ArrayList<>();
-    final MouseListener moveListener;
-    final MouseListener connectListener;
+    private String listType;
+    private String mode;
+    private String name;
+    private int id = 0;
+    private Tile t = null;
+    private GameView view;
+    private ArrayList<MouseListener> ms = new ArrayList<>();
+    private final MouseListener moveListener;
+    private final MouseListener connectListener;
 
     AllMouseListeners(JFrame f, Model model, JPanel p, GameView v){
         m = model;

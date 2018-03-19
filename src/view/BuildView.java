@@ -1,22 +1,20 @@
 package view;
 
 import controller.AddPopupListener;
-import controller.DragDropListener;
 import controller.MainController;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class BuildView implements GameView {
-    JFrame frame;
-    JPanel panBuild;
-    JPanel panBoard;
-    JLabel message;
-    JPopupMenu allShapes;
-    ArrayList<AbstractButton> buttons = new ArrayList<>();
-    MainController controller;
+    private JFrame frame;
+    private JPanel panBuild;
+    private JPanel panBoard;
+    private JLabel message;
+    private JPopupMenu allShapes;
+    private ArrayList<AbstractButton> buttons = new ArrayList<>();
+    private MainController controller;
 
     public BuildView(JFrame fr, MainController c, Board b) {
         frame = fr;
@@ -127,7 +125,7 @@ public class BuildView implements GameView {
     }
 
 
-    public void drawPopupMenu() {
+    private void drawPopupMenu() {
         allShapes = new JPopupMenu();
         ImageIcon circleGizmo = (new ImageIcon(getClass().getResource("/Images/fillCircleSmall.png")));
         ImageIcon triangleGizmo = (new ImageIcon(getClass().getResource("/Images/fillTriangleSmall.png")));

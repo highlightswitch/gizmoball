@@ -159,7 +159,7 @@ public class GameFrame {
         frMain.repaint();
     }
 
-    public void drawFrame(GameView g){
+    private void drawFrame(GameView g){
         //open running view by default then user can change to build view
         activePanel = g.getPanel();
         activeBoard = g.getBoard();
@@ -170,12 +170,12 @@ public class GameFrame {
 
         frMain.addKeyListener(controller.getKeyListener());
         frMain.addMouseListener(controller.getMouseListener());
-        
+
         frMain.setMinimumSize(new Dimension(550,650));
         frMain.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void extendMenu(){
+    private void extendMenu(){
         mTools.add(add);
         mTools.add(rotate);
         mTools.add(edit);
@@ -185,16 +185,12 @@ public class GameFrame {
         top.add(mTools);
     }
 
-    public void compressMenu(){
+    private void compressMenu(){
         top.remove(mTools);
     }
 
     public JFrame getFrame() {
         return frMain;
-    }
-
-    public JPanel getActivePanel() {
-        return activePanel;
     }
 
     public JPanel geActiveBoard(){

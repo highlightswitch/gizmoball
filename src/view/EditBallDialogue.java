@@ -11,11 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EditBallDialogue {
-    JPanel panDI;
-    JDialog edit;
-    String intPosition;
-    String intVelocity;
-    Color color;
+    private JPanel panDI;
+    private JDialog edit;
+    private String intPosition;
+    private String intVelocity;
+    private Color color;
 
     public EditBallDialogue(JFrame f, String mode, Model m, Gizmo g){
 

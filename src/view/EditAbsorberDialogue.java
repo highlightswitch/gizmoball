@@ -2,7 +2,6 @@ package view;
 
 import controller.EditAbsorberListener;
 import controller.PlaceAbsorberListener;
-import controller.PlaceBallListener;
 import model.Model;
 import model.gizmo.Gizmo;
 
@@ -12,12 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EditAbsorberDialogue {
-    JPanel panDI;
-    JDialog edit;
-    String startPosition;
-    String widthS;
-    String heightS;
-    Color color;
+    private JPanel panDI;
+    private JDialog edit;
+    private String startPosition;
+    private String widthS;
+    private String heightS;
+    private Color color;
 
     public EditAbsorberDialogue(JFrame f, String mode, Model m, Gizmo g){
         JLabel label = new JLabel();

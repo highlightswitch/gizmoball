@@ -18,13 +18,12 @@ public class PlaceGizmoListener{
     private int x;
     private int y;
 
-    public PlaceGizmoListener(String gizmo, String position, Color c, String a, Model m){
+    public PlaceGizmoListener(String gizmoName, String position, Color c, String a, Model m){
         model = m;
-        String name = gizmo;
         color = c.toString();
         color = color.substring(color.indexOf("["));
 
-        switch (name){
+        switch (gizmoName){
             case "Circle":
                 g = GizmoType.CIRCLE_BUMPER;
                 break;
@@ -36,7 +35,7 @@ public class PlaceGizmoListener{
                 break;
         }
 
-        gname = name + id;
+        gname = gizmoName + id;
         id++;
 
         switch (a){

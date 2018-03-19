@@ -12,8 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GravitySlider {
-    JDialog gravity;
-    double newGravity;
+    private JDialog gravity;
+    private double newGravity;
 
     public GravitySlider(JFrame f, IModel m){
         JLabel label = new JLabel("Drag slider to change gravity: ");
