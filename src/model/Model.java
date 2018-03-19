@@ -370,7 +370,7 @@ public class Model extends Observable implements IModel {
 
         //Set tiles using this ball is placed in to be occupied
 		for(Tile t : ballTiles){
-			t.setOccupied(true);
+			t.setOccupiedBy(ball);
 		}
 
         // Notify observers ... redraw updated view

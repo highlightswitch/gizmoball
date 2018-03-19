@@ -77,13 +77,13 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
     private void setAnnexedTiles(Tile[] tiles){
         annexedTiles = tiles;
         for(Tile t : annexedTiles){
-            t.setOccupied(true);
+            t.setOccupiedBy(this);
         }
     }
 
     private void removeAnnexedTiles(){
         for(Tile t : annexedTiles){
-            t.setOccupied(false);
+            t.setOccupiedBy(null);
         }
         annexedTiles = null;
     }

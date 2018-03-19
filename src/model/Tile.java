@@ -40,8 +40,9 @@ public class Tile {
         return occupied;
     }
 
-    public void setOccupied(boolean bool){
-        occupied = bool;
+    public void setOccupiedBy(Gizmo gizmo){
+        this.gizmo = gizmo;
+        occupied = gizmo != null;
     }
 
     void placeGizmo(Gizmo gizmo){
