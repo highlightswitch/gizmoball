@@ -1,6 +1,5 @@
 package controller;
 
-import model.GizmoballFileReader;
 import view.*;
 
 import javax.swing.*;
@@ -39,8 +38,7 @@ public class MenuActionListener implements ActionListener {
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
                     try {
-                        GizmoballFileReader fileReader = new GizmoballFileReader(selectedFile);
-                        controller.setModel(fileReader.getModel());
+                        controller.setModel(LoadingHandler.fileToModel(selectedFile));
                         controller.switchToRunView();
                     } catch (Exception ex) {
 

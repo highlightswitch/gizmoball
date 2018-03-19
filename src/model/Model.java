@@ -98,7 +98,7 @@ public class Model extends Observable implements IModel {
 		throw new GizmoNotFoundException("Cannot find gizmo with name: " + name);
     }
 
-	boolean checkName(String name){
+	public boolean checkName(String name){
     	if(name.equals("OuterWalls")){
     	    return false;
         }

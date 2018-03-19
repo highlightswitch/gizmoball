@@ -74,8 +74,7 @@ public class MainController implements ActionListener {
     void switchToBuildView(){
         if(!buildModeSave.equals("")){
             try {
-                GizmoballFileReader fileReader = new GizmoballFileReader(buildModeSave);
-                this.setModel(fileReader.getModel());
+                this.setModel(LoadingHandler.stringToModel(buildModeSave));
             } catch (TileCoordinatesNotValid | MalformedGizmoballFileException | GizmoPropertyException | GizmoPlacementNotValidException | GizmoNotFoundException e) {
                 e.printStackTrace();
             }
