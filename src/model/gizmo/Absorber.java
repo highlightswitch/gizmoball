@@ -101,6 +101,7 @@ public class Absorber extends Gizmo implements Collidable {
 
     @Override
     public void setAction(GizmoActionType type) {
+        this.actionType = type;
         if (type == GizmoActionType.FIRE_FROM_ABSORBER) {
             action = this::action_fireBall;
         } else {

@@ -2,6 +2,7 @@ package model;
 
 import model.gizmo.*;
 import model.util.DualKeyMap;
+import model.util.GizmoMaths;
 
 import java.awt.*;
 import java.util.*;
@@ -54,27 +55,78 @@ public class Model extends Observable implements IModel {
 
 	}
 
-	public String getBallName(){
-    	return ball.getProperty(GizmoPropertyType.NAME);
-	}
-
 	public String toString(){
-        String game = "";
+
+        StringBuilder game = new StringBuilder();
+
         for (Gizmo gizmo: gizmos) {
-            game = game + gizmo.toString() + "\n";
-            if(!(gizmo.getType() == GizmoType.BALL)) {
-                if(!(gizmo.getType() == GizmoType.ABSORBER)) {
-                    double rotation = Double.parseDouble(gizmo.getProperty(GizmoPropertyType.ROTATION_DEG));
-                    rotation = rotation / 90;
-                    for (int i = 0; i < rotation; i++) {
-                        game = game + "Rotate" + " " + gizmo.getProperty(GizmoPropertyType.NAME) + "\n";
-                    }
-                }
+
+        	//Gizmo creation
+            game.append(gizmo.toString()).append("\n");
+
+            //Gizmo rotation
+            if( gizmo.getType() != GizmoType.BALL && gizmo.getType() != GizmoType.ABSORBER) {
+            	double rotation = Double.parseDouble(gizmo.getProperty(GizmoPropertyType.ROTATION_DEG));
+				rotation = rotation / 90;
+				for (int i = 0; i < rotation; i++) {
+					game.append("Rotate").append(" ")
+							.append(gizmo.getProperty(GizmoPropertyType.NAME)).append("\n");
+				}
             }
+
+            //Gizmo action
+			game.append("Action").append(" ")
+					.append(gizmo.getActionType()).append("\n");
+
+			//Gizmo connections
+			for(Triggerable t : gizmo.getConnections()){
+				Gizmo g = (Gizmo) t;
+				game.append("Connect").append(" ")
+						.append(gizmo.getProperty(GizmoPropertyType.NAME)).append(" ")
+						.append(g.getProperty(GizmoPropertyType.NAME)).append("\n");
+			}
+
+			//Gizmo colour
+			int[] c = GizmoMaths.colourStringParser(gizmo.getProperty(GizmoPropertyType.CURRENT_COLOUR));
+			int[] d = GizmoMaths.colourStringParser(gizmo.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
+			int[] a = GizmoMaths.colourStringParser(gizmo.getProperty(GizmoPropertyType.ALT_COLOUR));
+			game.append("Colour").append(" ")
+					.append(gizmo.getProperty(GizmoPropertyType.NAME)).append(" ")
+					.append(c[0]).append(" ").append(c[1]).append(" ").append(c[2]).append("")
+					.append(d[0]).append(" ").append(d[1]).append(" ").append(d[2]).append("")
+					.append(a[0]).append(" ").append(a[1]).append(" ").append(a[2]).append("\n");
+
         }
-        game = game + "Gravity " + gravityConstant + "\n";
-        game = game + "Friction " + frictionConstants[0] + " " + frictionConstants[1] + "\n";
-        return game;
+
+        //Key connections
+		//TODO: make less hacky :)
+		Set<KeyEventTriggerable> values;
+        for(int i = 0; i < 223; i++){
+        	if(keyEventTriggerMap.containsKey(i, TriggerType.KEY_DOWN)) {
+				values = keyEventTriggerMap.get(i, TriggerType.KEY_DOWN);
+				for(KeyEventTriggerable val : values){
+					Gizmo g = ((Gizmo) val);
+        			game.append("KeyConnect").append(" ").append("key").append(i).append(" ")
+							.append("down").append(" ").append(g.getProperty(GizmoPropertyType.NAME));
+				}
+        	}
+			if(keyEventTriggerMap.containsKey(i, TriggerType.KEY_UP)) {
+				values = keyEventTriggerMap.get(i, TriggerType.KEY_UP);
+				for(KeyEventTriggerable val : values){
+					Gizmo g = ((Gizmo) val);
+					game.append("KeyConnect").append(" ").append("key").append(i).append(" ")
+							.append("up").append(" ").append(g.getProperty(GizmoPropertyType.NAME));
+				}
+			}
+		}
+
+        //Gravity and friction
+        game.append("Gravity ").append(gravityConstant).append("\n");
+        game.append("Friction ").append(frictionConstants[0]).append(" ").append(frictionConstants[1]).append("\n");
+
+
+        return game.toString();
+        
     }
 
 	public ArrayList<Collidable> getCollidable() {

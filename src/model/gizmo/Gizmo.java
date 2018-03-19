@@ -157,6 +157,7 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
 
     @Override
     public void setAction(GizmoActionType type){
+        this.actionType = type;
         if(type == GizmoActionType.CHANGE_COLOUR){
             action = this::action_changeColour;
         } else if(type == GizmoActionType.PRINT_TO_CONSOLE){

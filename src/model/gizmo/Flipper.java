@@ -227,6 +227,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
     @Override
     public void setAction(GizmoActionType type) {
+        this.actionType = type;
         if (type == GizmoActionType.FLIP_FLIPPER) {
             action = this::action_moveFlipper;
         } else {
