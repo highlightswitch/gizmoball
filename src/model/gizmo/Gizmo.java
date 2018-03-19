@@ -52,7 +52,7 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
                 }
             case BALL:
                 Ball ball = (Ball) this;
-                double [] pos = ball.getPosition();
+                double [] pos = ball.getCentre();
                 //Name, Vel_X, Vel_Y
                 return "Ball" + " " + getProperty(GizmoPropertyType.NAME) + " " + pos[0] + " " + pos[1] + " " + getProperty(GizmoPropertyType.VEL_X) + " " + getProperty(GizmoPropertyType.VEL_Y);
             case CIRCLE_BUMPER:

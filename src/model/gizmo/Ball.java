@@ -311,10 +311,4 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
         }
 
     }
-
-    @Override
-    public String toString(){
-	    return "Radius is: " + radius + " x is: " + cx + " y is: " + cy;
-    }
-
 }

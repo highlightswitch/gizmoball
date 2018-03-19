@@ -43,6 +43,7 @@ public class MenuActionListener implements ActionListener {
                         controller.setModel(fileReader.getModel());
                         controller.switchToRunView();
                     } catch (Exception ex) {
+
                         JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Loading failed", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
@@ -54,9 +55,9 @@ public class MenuActionListener implements ActionListener {
                     try {
                         String fileName = selectedFile.getCanonicalPath();
                         String game = controller.getModel().toString();
-                        //  if (!fileName.endsWith(".gizmo")) {
-                        //      selectedFile = new File(fileName + ".gizmo");
-                        //  }
+                          if (!fileName.endsWith(".gizmo")) {
+                              selectedFile = new File(fileName + ".gizmo");
+                          }
                         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".gizmo"));
                         writer.write(game);
                         writer.close();
