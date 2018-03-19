@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -54,11 +53,11 @@ public class MenuActionListener implements ActionListener {
                     File selectedFile = fileChooser.getSelectedFile();
                     try {
                         String fileName = selectedFile.getCanonicalPath();
-                        String game = controller.getModel().toString();
+                        String game = controller.getBuildModeSave();
                           if (!fileName.endsWith(".gizmo")) {
-                              selectedFile = new File(fileName + ".gizmo");
+                              fileName = fileName + ".gizmo";
                           }
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".gizmo"));
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
                         writer.write(game);
                         writer.close();
                     } catch (IOException ex) {
