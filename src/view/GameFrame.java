@@ -204,7 +204,7 @@ public class GameFrame {
 
     public void assignActionListeners(){
         for(JMenuItem m: menuItems){
-            m.addActionListener(controller.getActionListener("Menu"));
+            m.addActionListener(controller.getActionListener(this.frMain,"Menu"));
         }
         view.setAllButtonListeners();
     }

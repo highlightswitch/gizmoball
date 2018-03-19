@@ -69,7 +69,7 @@ public class RunView implements GameView {
 
     public void setAllButtonListeners(){
         for(JButton b: buttons){
-            b.addActionListener(controller.getActionListener("Button"));
+            b.addActionListener(controller.getActionListener(frame, "Button"));
         }
     }
 
