@@ -124,7 +124,6 @@ public class Model extends Observable implements IModel {
         game.append("Gravity ").append(gravityConstant).append("\n");
         game.append("Friction ").append(frictionConstants[0]).append(" ").append(frictionConstants[1]).append("\n");
 
-
         return game.toString();
         
     }
