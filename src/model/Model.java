@@ -230,9 +230,9 @@ public class Model extends Observable implements IModel {
 			throw new ModelPropertyException("Friction values cannot be set to " + Arrays.toString(arr));
 	}
 
-	private void validateGravityValue(double val) throws ModelPropertyException {
+	/*private void validateGravityValue(double val) throws ModelPropertyException {
 		//Any gravity is fine...
-	}
+	}*/
 
 	private void validateColorString(String str){
 
@@ -472,6 +472,16 @@ public class Model extends Observable implements IModel {
 		trigger.removeAllActors();
 	}
 
+	public Triggerable[] getAllTriggers(String triggerName) throws GizmoNotFoundException{
+        Triggerable trigger = getGizmoByName(triggerName);
+        //Triggerable[] t =
+        //keyEventTriggerMap.get(triggerName)
+        for(Triggerable t : trigger.getAllActors()){
+          //  t.getActionType()  want all connections names
+        }
+	    return trigger.getAllActors();
+    }
+
 	public void disconnect(int keyCode, TriggerType type, String actorName) throws GizmoNotFoundException {
 		Triggerable actor = getGizmoByName(actorName);
 
@@ -484,6 +494,10 @@ public class Model extends Observable implements IModel {
 		if(keyEventTriggerMap.containsKey(keyCode, type)){
 			keyEventTriggerMap.remove(keyCode, type);
 		}
+	}
+
+	public void disconnectAllTriggers(){
+			keyEventTriggerMap.clear();
 	}
 
 	public double[] getFrictionConstants(){
@@ -500,7 +514,7 @@ public class Model extends Observable implements IModel {
 	}
 
 	public void setGravityConstant(double val) throws ModelPropertyException {
-		validateGravityValue(val);
+		//validateGravityValue(val);
 		this.gravityConstant = val;
 	}
 

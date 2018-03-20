@@ -53,6 +53,10 @@ public abstract class Triggerable implements KeyEventTriggerable {
 		connectedTriggerables.clear();
 	}
 
+	public Triggerable[] getAllActors() {
+		return connectedTriggerables.toArray(new Triggerable[connectedTriggerables.size()]);
+	}
+
 	public void keyDown(){
 		doAction();
 	}

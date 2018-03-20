@@ -107,6 +107,8 @@ public class MenuActionListener implements ActionListener {
             case "Run":
                 controller.switchToRunView();
                 break;
+            case "Remove":
+                controller.getIModel().disconnectAllTriggers();
         }
     }
 }

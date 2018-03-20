@@ -3,7 +3,9 @@ package view;
 import controller.EditGizmoListener;
 import controller.MainController;
 import controller.PlaceGizmoListener;
+import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
+import model.gizmo.GizmoPropertyType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,9 +20,9 @@ public class EditShapeDialogue {
     private Color altc;
     private String cAction;
     private JDialog edit;
+    private JList triggers;
 
     public EditShapeDialogue(MainController controller, JFrame fr, String shape, String mode, Gizmo g){
-
         gizmo = shape;
 
         //change to mapping from action
@@ -56,6 +58,17 @@ public class EditShapeDialogue {
             position = new JTextField("(0,0)");
         }
 
+        JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
+        if(g != null) {
+            try {
+                triggers = new JList(controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME)));
+            } catch (GizmoNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            triggers = new JList();
+        }
+
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
         shapeColour.setOpaque(false);
@@ -73,6 +86,9 @@ public class EditShapeDialogue {
 
         panForm.add(pos);
         panForm.add(position);
+
+        panForm.add(lbtrig);
+        panForm.add(triggers);
 
         panShape.add(panForm);
         panShape.add(shapeColour);
