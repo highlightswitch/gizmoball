@@ -1,9 +1,12 @@
 package controller;
 
+import model.GizmoNotFoundException;
 import model.GizmoPlacementNotValidException;
 import model.IModel;
 import model.TileCoordinatesNotValid;
+import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
+import model.gizmo.TriggerType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,8 +54,11 @@ public class PlaceAbsorberListener {
         try {
             IModel model = controller.getIModel();
             model.placeGizmo(GizmoType.ABSORBER,model.getTileAt(sx,sy),new String[] {name, width, height, color, color, color});
+            model.connect(32, TriggerType.KEY_DOWN, name);
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (GizmoNotFoundException e) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Could not find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
