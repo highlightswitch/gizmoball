@@ -112,8 +112,13 @@ public class GameFrame {
         friction.setActionCommand("Friction");
         menuItems.add(friction);
 
+        JMenuItem rmtriggers = new JMenuItem("Remove All Trigger");
+        rmtriggers.setActionCommand("Remove");
+        menuItems.add(rmtriggers);
+
         settings.add(gravity);
         settings.add(friction);
+        settings.add(rmtriggers);
 
         delete = new JMenuItem("Delete");
         delete.setActionCommand("Delete");

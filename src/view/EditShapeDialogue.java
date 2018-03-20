@@ -3,15 +3,14 @@ package view;
 import controller.EditGizmoListener;
 import controller.MainController;
 import controller.PlaceGizmoListener;
+import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
+import model.gizmo.GizmoPropertyType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EditShapeDialogue {
-    private JPanel panDI;
     private String gizmo;
     private String intPosition;
     private Color color;
@@ -20,7 +19,6 @@ public class EditShapeDialogue {
     private JDialog edit;
 
     public EditShapeDialogue(MainController controller, JFrame fr, String shape, String mode, Gizmo g){
-
         gizmo = shape;
 
         //change to mapping from action
@@ -56,6 +54,35 @@ public class EditShapeDialogue {
             position = new JTextField("(" + (int)g.getPosition()[0] + "," + (int)g.getPosition()[1] + ")");
         }
 
+        JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
+
+        //TODO: Should this not be a list of strings? -EB
+        JList<Gizmo> triggers = new JList<>();
+        DefaultListModel<Gizmo> triggerModel = new DefaultListModel<>();
+
+        if(g != null) {
+            try {
+                for(Gizmo n : controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME))){
+                    triggerModel.addElement(n);
+                }
+            } catch (GizmoNotFoundException e) {
+                JOptionPane.showMessageDialog(fr, "Gizmo not found");
+            }
+        }
+        triggers.setModel(triggerModel);
+        triggers.setLayoutOrientation(JList.VERTICAL);
+        triggers.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        triggers.setVisibleRowCount(3);
+
+        JScrollPane listScroller = new JScrollPane(triggers);
+        JButton rmconnection = new JButton("Delete Connection");
+        rmconnection.addActionListener(e-> {
+            for(int i : triggers.getSelectedIndices()){
+                //controller.getIModel().disconnect(g.getProperty((GizmoPropertyType.NAME)), triggerModel.get(i));
+                triggerModel.remove(i);
+            }
+        });
+
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
         shapeColour.setOpaque(false);
@@ -74,6 +101,10 @@ public class EditShapeDialogue {
         panForm.add(pos);
         panForm.add(position);
 
+        panForm.add(lbtrig);
+        panForm.add(listScroller);
+        panForm.add(rmconnection);
+
         panShape.add(panForm);
         panShape.add(shapeColour);
         panShape.setOpaque(false);
@@ -81,9 +112,7 @@ public class EditShapeDialogue {
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
-        ok.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        ok.addActionListener( e -> {
                 intPosition = position.getText();
                 color = shapeColour.getColor();
                 cAction = actions[actionList.getSelectedIndex()];
@@ -102,13 +131,13 @@ public class EditShapeDialogue {
                 }
 
                 edit.dispose();
-            }
+
         });
 
         panControls.add(ok);
         panControls.setOpaque(false);
 
-        panDI = new JPanel();
+        JPanel panDI = new JPanel();
         panDI.add(panShape);
         panDI.add(panControls);
         panDI.setBackground(Color.ORANGE);
@@ -116,7 +145,7 @@ public class EditShapeDialogue {
 
         edit =  new JDialog(fr, "Gizmo", true);
         edit.setContentPane(panDI);
-        edit.setMinimumSize(new Dimension(900,350));
+        edit.setMinimumSize(new Dimension(900,450));
         edit.setVisible(true);
     }
 }

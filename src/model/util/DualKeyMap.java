@@ -2,6 +2,9 @@ package model.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DualKeyMap<K,L,V>{
 
@@ -21,6 +24,14 @@ public class DualKeyMap<K,L,V>{
 		return map.get(key);
 	}
 
+	public Set<String> get(V v){
+		return map.entrySet()
+				.stream()
+				.filter(entry -> Objects.equals(v, entry.getValue()))
+				.map(Map.Entry::getKey)
+				.collect(Collectors.toSet());
+	}
+
 	public void remove(K k, L l){
 		String key = k.hashCode() + "_" + l.hashCode();
 		map.remove(key);
@@ -33,6 +44,10 @@ public class DualKeyMap<K,L,V>{
 
 	public int size(){
 		return map.size();
+	}
+
+	public void clear(){
+		map.clear();
 	}
 
 }
