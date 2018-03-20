@@ -29,8 +29,9 @@ public  class Board extends JPanel implements Observer {
 		height = h;
 		iModel = m;
 		this.mode = mode;
-		this.setOpaque(false);
-		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		this.setOpaque(true);
+		this.setBackground(Color.ORANGE);
+//		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 	}
 
 	// Fix onscreen size
@@ -52,6 +53,9 @@ public  class Board extends JPanel implements Observer {
 
 		Graphics2D g2 = (Graphics2D) g;
 
+//		g.setColor(Color.BLACK);
+//		g2.drawLine(0,height, width, height-1 );
+
 		ArrayList<Drawable> drawableObjects = iModel.getDrawables();
 		for(Drawable drawable : drawableObjects) {
 			DrawingData data = drawable.getDrawingData();
@@ -61,14 +65,19 @@ public  class Board extends JPanel implements Observer {
         if(getMode().equals("Build")) {
             g2.setColor(Color.WHITE);
             g2.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{10.0f}, 0.0f));
-            //g2.setStroke(new BasicStroke(2.0f));
-            for (int i = 0; i <= 20; i++) {
+
+            for (int i = 0; i < 20; i++) {
                 g2.drawLine(i * 25, 0, i * 25, width);
             }
-            for (int i = 0; i <= 20; i++) {
+            for (int i = 0; i < 20; i++) {
                 g2.drawLine(0, i * 25, height, i * 25);
             }
-        }
+
+			g2.drawLine(20 * 25 -1, 0, 20 * 25 -1, width);
+			g2.drawLine(0, 20 * 25 -1, height, 20 * 25 -1);
+
+
+		}
 
 		//If debug mode is on, draw the GameObjects as well
 		if(Main.debugMode){
