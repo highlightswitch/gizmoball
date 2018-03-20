@@ -53,9 +53,7 @@ public  class Board extends JPanel implements Observer {
 		super.paintComponent(g);
 
 		Graphics2D g2 = (Graphics2D) g;
-
-//		g.setColor(Color.BLACK);
-//		g2.drawLine(0,height, width, height-1 );
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		ArrayList<Drawable> drawableObjects = iModel.getDrawables();
 		for(Drawable drawable : drawableObjects) {
@@ -92,7 +90,6 @@ public  class Board extends JPanel implements Observer {
 	}
 
 	private void draw(DrawingData data, Graphics2D g2, boolean fill){
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		if(data != null){
 			//If the data exists, loop through and draw the polygons and circles of this shape
 

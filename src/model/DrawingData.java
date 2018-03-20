@@ -56,7 +56,7 @@ public class DrawingData {
 		return rgb == null ? 0 : rgb[1];
 	}
 	public int getBlueValue(){
-		return rgb == null ? 0 : rgb[1];
+		return rgb == null ? 0 : rgb[2];
 	}
 
 	public DrawingData translate(double[] translation){
