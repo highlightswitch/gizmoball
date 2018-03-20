@@ -8,7 +8,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class BuildView implements GameView {
-    private JFrame frame;
     private JPanel panBuild;
     private JPanel panBoard;
     private JLabel message;
@@ -17,7 +16,6 @@ public class BuildView implements GameView {
     private MainController controller;
 
     public BuildView(JFrame fr, MainController c, Board b) {
-        frame = fr;
         panBuild = new JPanel();
         panBuild.setBackground(Color.ORANGE);
         controller = c;
@@ -110,7 +108,7 @@ public class BuildView implements GameView {
         panGrid.add(b);
 
         JPanel updates = new JPanel();
-        message = new JLabel("Keep an eye on this space for updates!");
+        message = new JLabel("<html> <span style ='color: white; font-size:12px'>Keep an eye on this space for updates!</span></html>");
         updates.add(message);
         updates.setOpaque(false);
 
