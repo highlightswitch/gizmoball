@@ -15,13 +15,11 @@ public class EditShapeDialogue {
     private String gizmo;
     private String intPosition;
     private Color color;
+    private Color altc;
     private String cAction;
     private JDialog edit;
 
-    private MainController controller;
-
     public EditShapeDialogue(MainController controller, JFrame fr, String shape, String mode, Gizmo g){
-        this.controller = controller;
 
         gizmo = shape;
         System.out.println(gizmo);
@@ -91,10 +89,17 @@ public class EditShapeDialogue {
                 color = shapeColour.getColor();
                 cAction = actions[actionList.getSelectedIndex()];
 
+                if(cAction.equals("Change Colour")){
+                    JColorChooser alt = new JColorChooser();
+                    alt.setPreviewPanel(new JPanel());
+                    JOptionPane.showMessageDialog(fr, alt, "Alternative Color", JOptionPane.QUESTION_MESSAGE);
+                    altc = alt.getColor();
+                }
+
                 if(mode.equals("Add")){
-                    new PlaceGizmoListener(controller, gizmo, intPosition, color, cAction);
+                    new PlaceGizmoListener(controller, gizmo, intPosition, color, altc, cAction);
                 } else {
-                    new EditGizmoListener(controller, g, intPosition, color, cAction);
+                    new EditGizmoListener(controller, g, intPosition, color, altc, cAction);
                 }
 
                 edit.dispose();

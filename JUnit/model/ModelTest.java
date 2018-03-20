@@ -38,6 +38,11 @@ class ModelTest {
     }
 
     @Test
+    void getBallName() {
+        //assertEquals(m.getBallName(), "Ball");
+    }
+
+    @Test
     void getCollidable() {
         Walls walls = new Walls(0, 0, 20, 20);
         ArrayList<Collidable> collidable = new ArrayList<>();

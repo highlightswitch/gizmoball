@@ -14,17 +14,34 @@ public class EditGizmoListener {
     private MainController controller;
     private Gizmo gizmo;
     private String color;
+    private String alt;
+    private boolean colorChange;
     private GizmoActionType action;
     private int x;
     private int y;
     private HashMap<GizmoPropertyType, String> properties = new HashMap<>();
 
-    public EditGizmoListener(MainController controller, Gizmo g, String position, Color c, String a){
+    public EditGizmoListener(MainController controller, Gizmo g, String position, Color c, Color altc, String a){
         this.controller = controller;
         gizmo = g;
 
+        switch (a){
+            case "Change Colour":
+                colorChange = true;
+                action = GizmoActionType.CHANGE_COLOUR;
+                break;
+            case "Do Nothing":
+                action = GizmoActionType.PRINT_TO_CONSOLE;
+                break;
+        }
+
         color = c.toString();
         color = color.substring(color.indexOf("["));
+
+        if(colorChange){
+            alt = altc.toString();
+            alt = alt.substring(alt.indexOf("["));
+        }
 
         String pos = position.replace("(", "");
         pos = pos.replace(")", "");
@@ -35,34 +52,27 @@ public class EditGizmoListener {
         x = Integer.valueOf(posX);
         y = Integer.valueOf(posY);
 
-
-        switch (a){
-            case "Change Colour":
-                action = GizmoActionType.CHANGE_COLOUR;
-                break;
-            case "Rotate":
-                action = GizmoActionType.PRINT_TO_CONSOLE;
-                break;
-            case "Flipper":
-                action = GizmoActionType.FLIP_FLIPPER;
-                break;
-            case "Absorber":
-                action = GizmoActionType.FIRE_FROM_ABSORBER;
-                break;
-        }
-
         edit();
     }
 
     public void edit(){
         try {
             IModel model = controller.getIModel();
-            model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
+            if(gizmo.getPosition()[0] == x && gizmo.getPosition()[1] == y){
+                //
+            } else {
+                model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
+            }
             properties.put(GizmoPropertyType.NAME, gizmo.getProperty(GizmoPropertyType.NAME));
             properties.put(GizmoPropertyType.ROTATION_DEG, String.valueOf(0));
             properties.put(GizmoPropertyType.CURRENT_COLOUR, color);
             properties.put(GizmoPropertyType.DEFAULT_COLOUR, color);
-            properties.put(GizmoPropertyType.ALT_COLOUR, color);
+            if(colorChange){
+                properties.put(GizmoPropertyType.ALT_COLOUR, alt);
+            } else {
+                properties.put(GizmoPropertyType.ALT_COLOUR, color);
+            }
+
             model.setAllProperties(gizmo.getProperty(GizmoPropertyType.NAME), properties);
             model.setGizmoAction(gizmo.getProperty(GizmoPropertyType.NAME), action);
         } catch (GizmoNotFoundException e) {

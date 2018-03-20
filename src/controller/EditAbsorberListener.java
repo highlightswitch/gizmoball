@@ -44,13 +44,17 @@ public class EditAbsorberListener {
     private void edit() {
         try {
             IModel model = controller.getIModel();
-            model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
+            if(gizmo.getPosition()[0] == x && gizmo.getPosition()[1] == y){
+                //
+            } else {
+                model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
+            }
             properties.put(GizmoPropertyType.NAME, gizmo.getProperty(GizmoPropertyType.NAME));
             properties.put(GizmoPropertyType.WIDTH, width);
             properties.put(GizmoPropertyType.HEIGHT, height);
             properties.put(GizmoPropertyType.CURRENT_COLOUR, color);
             properties.put(GizmoPropertyType.DEFAULT_COLOUR, color);
-            properties.put(GizmoPropertyType.ALT_COLOUR, "");
+            properties.put(GizmoPropertyType.ALT_COLOUR, color);
             model.setAllProperties(gizmo.getProperty(GizmoPropertyType.NAME), properties);
         } catch (GizmoNotFoundException e) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
