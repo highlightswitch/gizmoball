@@ -34,7 +34,7 @@ public class GameFrame {
         mTools = new JMenu("Tools");
         top = new JMenuBar();
         menuItems = new ArrayList<>();
-        board = new Board(500, 500, cont.getIModel(), "Run");
+        board = new Board(500, 500, cont.getIModel(), "Build");
 
         JMenu mFile = new JMenu("File");
         JMenu mView = new JMenu("View");
@@ -133,7 +133,7 @@ public class GameFrame {
         top.add(mFile);
         top.add(mView);
 
-        view = new RunView(frMain, controller, board);
+        view = new BuildView(frMain, controller, board);
         activePanel = view.getPanel();
         activeBoard = view.getBoard();
 
@@ -147,9 +147,7 @@ public class GameFrame {
     public void switchToRunView(){
         board.updateMode("Run");
         this.drawFrame(new RunView(frMain, controller, board));
-
         this.assignActionListeners();
-
         frMain.getContentPane().revalidate();
         frMain.getContentPane().repaint();
 

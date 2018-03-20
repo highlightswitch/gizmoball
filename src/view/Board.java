@@ -30,7 +30,6 @@ public  class Board extends JPanel implements Observer {
 		iModel = m;
 		this.mode = mode;
 		this.setOpaque(false);
-//		this.setBackground(Color.ORANGE);
 		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 	}
 
