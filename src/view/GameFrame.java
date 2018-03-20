@@ -24,6 +24,9 @@ public class GameFrame {
      private ArrayList<JMenuItem> menuItems;
      private GameView view;
 
+    private JMenuItem runViewMenuItem;
+    private JMenuItem buildViewMenuItem;
+
     public GameFrame(MainController cont){
         controller = cont;
         frMain = new JFrame("Gizmoball");
@@ -47,13 +50,13 @@ public class GameFrame {
         quit.setActionCommand("Quit");
         menuItems.add(quit);
 
-        JMenuItem run = new JMenuItem("Run View");
-        run.setActionCommand("Run");
-        menuItems.add(run);
+        runViewMenuItem = new JMenuItem("Run View");
+        runViewMenuItem.setActionCommand("Run");
+        menuItems.add(runViewMenuItem);
 
-        JMenuItem build = new JMenuItem("Build View");
-        build.setActionCommand("Build");
-        menuItems.add(build);
+        buildViewMenuItem = new JMenuItem("Build View");
+        buildViewMenuItem.setActionCommand("Build");
+        menuItems.add(buildViewMenuItem);
 
         add = new JMenu("Add a Gizmo");
         JMenu shape = new JMenu("Add a Shape");
@@ -119,8 +122,8 @@ public class GameFrame {
         mFile.add(save);
         mFile.add(quit);
 
-        mView.add(run);
-        mView.add(build);
+        mView.add(runViewMenuItem);
+        mView.add(buildViewMenuItem);
 
         top.add(mFile);
         top.add(mView);
@@ -139,10 +142,17 @@ public class GameFrame {
     public void switchToRunView(){
         board.updateMode("Run");
         this.drawFrame(new RunView(frMain, controller, board));
+
         this.assignActionListeners();
+
         frMain.getContentPane().revalidate();
         frMain.getContentPane().repaint();
+
         this.compressMenu();
+
+        runViewMenuItem.setVisible(false);
+        buildViewMenuItem.setVisible(true);
+
         frMain.getJMenuBar().revalidate();
         frMain.getJMenuBar().repaint();
         frMain.validate();
@@ -152,8 +162,12 @@ public class GameFrame {
     public void switchToBuildView(){
         board.updateMode("Build");
         this.drawFrame(new BuildView(frMain, controller, board));
+
         this.extendMenu();
+        runViewMenuItem.setVisible(true);
+        buildViewMenuItem.setVisible(false);
         this.assignActionListeners();
+
         frMain.getContentPane().revalidate();
         frMain.getContentPane().repaint();
         frMain.getJMenuBar().revalidate();
