@@ -42,7 +42,7 @@ class FlipperTest {
     }
 
     @Test
-    void findAnnexedTiles() {
+    void findAnnexedTiles() throws TileCoordinatesNotValid {
         ArrayList<Tile> tiles = new ArrayList<>();
 
         tiles.add(anchorTile1.getNeighbour(1, 1));
@@ -145,7 +145,7 @@ class FlipperTest {
     }
 
     @Test
-    void getGameObject() {
+    void getGameObject() throws TileCoordinatesNotValid {
         leftFlipper.setAnchorTile(anchorTile1);
         GameObject gameObject = leftFlipper.getPrototypeGameObject();
 

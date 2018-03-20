@@ -47,7 +47,7 @@ class BumperTest {
     }
 
     @Test
-    void getGameObject() {
+    void getGameObject() throws TileCoordinatesNotValid {
         circle.setAnchorTile(anchorTileCircle);
         triangle.setAnchorTile(anchorTileTriangle);
         square.setAnchorTile(anchorTileSquare);

@@ -40,7 +40,7 @@ class AbsorberTest {
     }
 
     @Test
-    void findAnnexedTilesTrue() {
+    void findAnnexedTilesTrue() throws TileCoordinatesNotValid {
         ArrayList<Tile> tiles = new ArrayList<>();
 
         tiles.add(anchorTile1.getNeighbour(1, 1));
@@ -59,7 +59,7 @@ class AbsorberTest {
     }
 
     @Test
-    void findAnnexedTilesFalse() {
+    void findAnnexedTilesFalse() throws TileCoordinatesNotValid {
         ArrayList<Tile> tiles = new ArrayList<>();
 
         tiles.add(anchorTile1.getNeighbour(1, 1));
@@ -107,7 +107,7 @@ class AbsorberTest {
     }
 
     @Test
-    void getGameObject() {
+    void getGameObject() throws TileCoordinatesNotValid {
         absorber1.setAnchorTile(anchorTile1);
         GameObject gameObject = absorber1.getPrototypeGameObject();
 

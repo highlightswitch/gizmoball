@@ -67,7 +67,7 @@ class GizmoTest {
     }
 
     @Test
-    void rotateBy_Deg() throws GizmoPropertyException {
+    void rotateBy_Deg() throws GizmoPropertyException, GizmoNotRotatableException {
         double rotation = Double.valueOf(gizmo1.getProperty(GizmoPropertyType.ROTATION_DEG));
         rotation = (rotation + 90) % 360;
         gizmo1.setProperty(GizmoPropertyType.ROTATION_DEG, String.valueOf(90));
@@ -78,7 +78,7 @@ class GizmoTest {
     }
 
     @Test
-    void rotateTo_Deg() throws GizmoPropertyException {
+    void rotateTo_Deg() throws GizmoPropertyException, GizmoNotRotatableException {
         gizmo1.rotateTo_Deg(180);
         assertEquals(gizmo1.getProperty(GizmoPropertyType.ROTATION_DEG), "180.0");
 
