@@ -3,7 +3,10 @@ package view;
 import controller.EditFlipperListener;
 import controller.MainController;
 import controller.PlaceFlipperListener;
+import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
+import model.gizmo.GizmoPropertyType;
+import model.gizmo.Triggerable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,6 +40,33 @@ public class EditFlipperDialogue {
         String[] direction = {"Left", "Right"};
         JComboBox<String> di = new JComboBox<>(direction);
 
+        JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
+
+        JList<model.gizmo.Triggerable> triggers = new JList<>();
+        DefaultListModel<model.gizmo.Triggerable> triggerModel = new DefaultListModel<>();
+        if(g != null) {
+            try {
+                for(Triggerable n : controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME))){
+                    triggerModel.addElement(n);
+                }
+            } catch (GizmoNotFoundException e) {
+                JOptionPane.showMessageDialog(f, "Gizmo not found");
+            }
+        }
+        triggers.setModel(triggerModel);
+        triggers.setLayoutOrientation(JList.VERTICAL);
+        triggers.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        triggers.setVisibleRowCount(3);
+
+        JScrollPane listScroller = new JScrollPane(triggers);
+        JButton rmconnection = new JButton("Delete Connection");
+        rmconnection.addActionListener(e-> {
+            for(int i : triggers.getSelectedIndices()){
+                //controller.getIModel().disconnect(g.getProperty((GizmoPropertyType.NAME)), triggerModel.get(i));
+                triggerModel.remove(i);
+            }
+        });
+
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
         shapeColour.setOpaque(false);
@@ -53,6 +83,9 @@ public class EditFlipperDialogue {
         panForm.add(position);
         panForm.add(label2);
         panForm.add(di);
+        panForm.add(lbtrig);
+        panForm.add(listScroller);
+        panForm.add(rmconnection);
 
         panShape.add(panForm);
         panShape.add(shapeColour);
@@ -89,7 +122,7 @@ public class EditFlipperDialogue {
 
         edit =  new JDialog(f, "Flipper", true);
         edit.setContentPane(panDI);
-        edit.setMinimumSize(new Dimension(900,350));
+        edit.setMinimumSize(new Dimension(1000,450));
         edit.setVisible(true);
     }
 }

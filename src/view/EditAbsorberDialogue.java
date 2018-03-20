@@ -3,7 +3,10 @@ package view;
 import controller.EditAbsorberListener;
 import controller.MainController;
 import controller.PlaceAbsorberListener;
+import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
+import model.gizmo.GizmoPropertyType;
+import model.gizmo.Triggerable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,13 +28,57 @@ public class EditAbsorberDialogue {
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel spos = new JLabel("Start position (top left): ");
-        JTextField sposition = new JTextField("(0,0)");
+
+        JTextField sposition;
+
+        if(g != null){
+            Double x = g.getPosition()[0] ;
+            Double y = g.getPosition()[1] ;
+            sposition = new JTextField("(" + x.intValue() + "," + y.intValue() + ")");
+        }else {
+            sposition = new JTextField("(0,0)");
+        }
+
+        JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
+        JList<model.gizmo.Triggerable> triggers = new JList<>();
+        DefaultListModel<model.gizmo.Triggerable> triggerModel = new DefaultListModel<>();
+        if(g != null) {
+            try {
+                for(Triggerable n : controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME))){
+                    triggerModel.addElement(n);
+                }
+            } catch (GizmoNotFoundException e) {
+                JOptionPane.showMessageDialog(f, "Gizmo not found");
+            }
+        }
+        triggers.setModel(triggerModel);
+        triggers.setLayoutOrientation(JList.VERTICAL);
+        triggers.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        triggers.setVisibleRowCount(3);
+
+        JScrollPane listScroller = new JScrollPane(triggers);
+        JButton rmconnection = new JButton("Delete Connection");
+        rmconnection.addActionListener(e-> {
+            for(int i : triggers.getSelectedIndices()){
+                //controller.getIModel().disconnect(g.getProperty((GizmoPropertyType.NAME)), triggerModel.get(i));
+                triggerModel.remove(i);
+            }
+        });
 
         JLabel w = new JLabel("Width: ");
-        JTextField width = new JTextField();
+
+        JTextField width;
 
         JLabel h = new JLabel("Height: ");
-        JTextField height = new JTextField();
+        JTextField height;
+
+        if(g != null){
+            width = new JTextField(g.getProperty(GizmoPropertyType.WIDTH));
+            height = new JTextField(g.getProperty(GizmoPropertyType.HEIGHT));
+        }else {
+            width = new JTextField();
+            height = new JTextField();
+        }
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
@@ -51,6 +98,9 @@ public class EditAbsorberDialogue {
         panForm.add(width);
         panForm.add(h);
         panForm.add(height);
+        panForm.add(lbtrig);
+        panForm.add(listScroller);
+        panForm.add(rmconnection);
 
         panShape.add(panForm);
         panShape.add(shapeColour);
@@ -59,9 +109,7 @@ public class EditAbsorberDialogue {
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
-        ok.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        ok.addActionListener( e -> {
                 startPosition = sposition.getText();
                 widthS  = width.getText();
                 heightS = height.getText();
@@ -72,7 +120,6 @@ public class EditAbsorberDialogue {
                     new EditAbsorberListener(controller, g, startPosition, widthS, heightS, color);
                 }
                 edit.dispose();
-            }
         });
 
         panControls.add(ok);
@@ -84,7 +131,7 @@ public class EditAbsorberDialogue {
         panDI.setLayout(new BoxLayout(panDI, BoxLayout.Y_AXIS));
         edit =  new JDialog(f, "Ball", true);
         edit.setContentPane(panDI);
-        edit.setMinimumSize(new Dimension(900,350));
+        edit.setMinimumSize(new Dimension(1000,350));
         edit.setVisible(true);
     }
 }

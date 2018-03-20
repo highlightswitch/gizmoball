@@ -54,9 +54,7 @@ public class EditBallDialogue {
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
-        ok.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        ok.addActionListener( e -> {
                 intPosition = position.getText();
                 intVelocity = velcoity.getText();
                 color = shapeColour.getColor();
@@ -66,7 +64,6 @@ public class EditBallDialogue {
                     new EditBallListener(controller, g, intPosition, intVelocity, color);
                 }
                 edit.dispose();
-            }
         });
 
         panControls.add(ok);

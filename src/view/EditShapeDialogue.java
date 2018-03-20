@@ -144,7 +144,7 @@ public class EditShapeDialogue {
 
         edit =  new JDialog(fr, "Gizmo", true);
         edit.setContentPane(panDI);
-        edit.setMinimumSize(new Dimension(900,450));
+        edit.setMinimumSize(new Dimension(1000,450));
         edit.setVisible(true);
     }
 }
