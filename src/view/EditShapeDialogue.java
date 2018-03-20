@@ -9,18 +9,14 @@ import model.gizmo.GizmoPropertyType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EditShapeDialogue {
-    private JPanel panDI;
     private String gizmo;
     private String intPosition;
     private Color color;
     private Color altc;
     private String cAction;
     private JDialog edit;
-    private JList triggers;
 
     public EditShapeDialogue(MainController controller, JFrame fr, String shape, String mode, Gizmo g){
         gizmo = shape;
@@ -59,17 +55,25 @@ public class EditShapeDialogue {
         }
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
+
+        JList<model.gizmo.Triggerable> triggers = new JList<>();
+
         if(g != null) {
             try {
-                triggers = new JList(controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME)));
+                triggers = new JList<>(controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME)));
             } catch (GizmoNotFoundException e) {
                 e.printStackTrace();
             }
-        } else {
-            triggers = new JList();
         }
 
         triggers.setLayoutOrientation(JList.VERTICAL);
+        triggers.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        triggers.setVisibleRowCount(3);
+        triggers.addListSelectionListener(e -> {
+            //do something
+        });
+
+        JScrollPane listScroller = new JScrollPane(triggers);
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
@@ -90,7 +94,7 @@ public class EditShapeDialogue {
         panForm.add(position);
 
         panForm.add(lbtrig);
-        panForm.add(triggers);
+        panForm.add(listScroller);
 
         panShape.add(panForm);
         panShape.add(shapeColour);
@@ -99,9 +103,7 @@ public class EditShapeDialogue {
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
-        ok.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        ok.addActionListener( e -> {
                 intPosition = position.getText();
                 color = shapeColour.getColor();
                 cAction = actions[actionList.getSelectedIndex()];
@@ -120,13 +122,13 @@ public class EditShapeDialogue {
                 }
 
                 edit.dispose();
-            }
+
         });
 
         panControls.add(ok);
         panControls.setOpaque(false);
 
-        panDI = new JPanel();
+        JPanel panDI = new JPanel();
         panDI.add(panShape);
         panDI.add(panControls);
         panDI.setBackground(Color.ORANGE);
@@ -134,7 +136,7 @@ public class EditShapeDialogue {
 
         edit =  new JDialog(fr, "Gizmo", true);
         edit.setContentPane(panDI);
-        edit.setMinimumSize(new Dimension(900,350));
+        edit.setMinimumSize(new Dimension(900,450));
         edit.setVisible(true);
     }
 }
