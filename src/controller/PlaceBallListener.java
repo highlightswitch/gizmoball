@@ -37,7 +37,7 @@ public class PlaceBallListener {
             x = Integer.valueOf(posX);
             y = Integer.valueOf(posY);
         }else {
-            System.out.println("Illegal input format");
+            controller.getView().setMessage("Illegal input format");
         }
 
         if(Pattern.matches("\\p{Punct}\\d{1,2}\\p{Punct}\\d{1,2}\\p{Punct}", velocity)){
@@ -49,7 +49,7 @@ public class PlaceBallListener {
             vy = vy.replace(",", "");
             place();
         }else {
-            System.out.println("Illegal input format");
+            controller.getView().setMessage("Illegal input format");
         }
     }
 

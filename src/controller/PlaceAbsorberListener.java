@@ -44,7 +44,7 @@ public class PlaceAbsorberListener {
             sy = Integer.valueOf(posYS);
             place();
         } else{
-            System.out.println("Illegal input format");
+            controller.getView().setMessage("Illegal input format");
         }
 
 

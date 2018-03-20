@@ -242,7 +242,6 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 
     @Override
     public void doAction() {
-        System.out.println("Ball Action");
     }
 
     @Override

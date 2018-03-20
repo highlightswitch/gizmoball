@@ -288,12 +288,12 @@ class LoadingHandler {
                 String ab = command.get(5);
                 String altColour = "[r="+ar+",g="+ag+",b="+ab+"]";
 
-                System.out.println("before " + model.getGizmoProperty(command.get(1), GizmoPropertyType.CURRENT_COLOUR));
+                //System.out.println("before " + model.getGizmoProperty(command.get(1), GizmoPropertyType.CURRENT_COLOUR));
 
                 model.setGizmoProperty(command.get(1), GizmoPropertyType.CURRENT_COLOUR, currentColour);
                 model.setGizmoProperty(command.get(1), GizmoPropertyType.DEFAULT_COLOUR, defaultColour);
                 model.setGizmoProperty(command.get(1), GizmoPropertyType.ALT_COLOUR, altColour);
-                System.out.println(model.getGizmoProperty(command.get(1), GizmoPropertyType.CURRENT_COLOUR));
+                //System.out.println(model.getGizmoProperty(command.get(1), GizmoPropertyType.CURRENT_COLOUR));
                 break;
             case "Gravity": try {
                 model.setGravityConstant(Float.parseFloat(command.get(1)));
