@@ -30,11 +30,6 @@ class GizmoTest {
         gizmo1 = model.placeGizmo(GizmoType.CIRCLE_BUMPER, anchorTile1, null);
     }
 
-//    @Test
-//    void getColour() {
-//        assertEquals(gizmo.getColour(), "[r=255,g=255,b=255]");
-//    }
-
     @Test
     void getType() {
         assertEquals(gizmo.getType(), GizmoType.ABSORBER);

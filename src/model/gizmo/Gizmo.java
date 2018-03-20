@@ -22,10 +22,6 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
         this.colour = colour;
     }
 
-    public Color getColour() {
-        return colour;
-    }
-
     public GizmoType getType(){return type;}
 
     public String getProperty(GizmoPropertyType prop){

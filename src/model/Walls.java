@@ -69,4 +69,13 @@ public class Walls implements Collidable {
 	public void collide(){
 
 	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		Walls walls = (Walls) obj;
+		return xpos1 == walls.xpos1 && xpos2 == walls.xpos2 && ypos1 == walls.ypos1 && ypos2 == walls.ypos2;
+	}
 }

@@ -27,7 +27,7 @@ class CollisionDetailsTest {
 
     @Test
     public void getTuc() {
-        assertEquals(0.5, cd.getTuc(), 0);
+        assertEquals(0.5, cd.getTuc());
     }
 
     @Test
@@ -40,4 +40,10 @@ class CollisionDetailsTest {
         assertEquals(a, cd.getAbsorber());
     }
 
+    @Test
+    public void getCollidingWith() {
+        cd.setCollidingWith(a);
+
+        assertEquals(cd.getCollidingWith(), a);
+    }
 }
