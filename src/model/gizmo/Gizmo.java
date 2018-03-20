@@ -65,7 +65,7 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
         }
     }
 
-    public void setAnchorTile(Tile anchorTile) {
+    public void setAnchorTile(Tile anchorTile) throws TileCoordinatesNotValid {
         this.anchorTile = anchorTile;
         setAnnexedTiles(findAnnexedTiles(anchorTile));
     }
@@ -102,21 +102,29 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
         return Math.toRadians(Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG)));
     }
 
-    public void rotateBy_Deg(double val) throws GizmoPropertyException {
-        double rotation = Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG));
-        rotation = (rotation + val) % 360;
-        rotateTo_Deg(rotation);
+    public void rotateBy_Deg(double val) throws GizmoPropertyException, GizmoNotRotatableException{
+        if(getProperty(GizmoPropertyType.ROTATION_DEG) != null){
+            double rotation = Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG));
+            rotation = (rotation + val) % 360;
+            rotateTo_Deg(rotation);
+        }else {
+            throw new GizmoNotRotatableException("You cannot rotate this gizmo type");
+        }
     }
 
-    public void rotateTo_Deg(double val) throws GizmoPropertyException {
-        setProperty(GizmoPropertyType.ROTATION_DEG, String.valueOf(val));
+    public void rotateTo_Deg(double val) throws GizmoPropertyException, GizmoNotRotatableException {
+        if(getProperty(GizmoPropertyType.ROTATION_DEG) != null){
+            setProperty(GizmoPropertyType.ROTATION_DEG, String.valueOf(val));
+        } else{
+           throw new GizmoNotRotatableException("You cannot rotate this gizmo type");
+        }
     }
 
     public DrawingData getDrawingData(){
         return this.getGizmoDrawingData().translate(getPosition());
     }
 
-    public abstract Tile[] findAnnexedTiles(Tile anchorTile);
+    public abstract Tile[] findAnnexedTiles(Tile anchorTile) throws TileCoordinatesNotValid;
 
     public abstract GameObject getPrototypeGameObject();
     public abstract GameObject getGameObject();

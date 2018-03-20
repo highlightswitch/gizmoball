@@ -28,7 +28,7 @@ public class Absorber extends Gizmo implements Collidable {
     }
 
     @Override
-    public Tile[] findAnnexedTiles(Tile anchorTile) {
+    public Tile[] findAnnexedTiles(Tile anchorTile) throws TileCoordinatesNotValid {
 
         double width = Double.valueOf(this.getProperty(GizmoPropertyType.WIDTH));
         double height = Double.valueOf(this.getProperty(GizmoPropertyType.HEIGHT));

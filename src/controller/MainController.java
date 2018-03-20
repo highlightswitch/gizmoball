@@ -1,6 +1,7 @@
 package controller;
 
 import model.*;
+import model.gizmo.GizmoNotRotatableException;
 import model.gizmo.GizmoPropertyException;
 import model.gizmo.TriggerType;
 import view.Board;
@@ -92,6 +93,8 @@ public class MainController implements ActionListener {
             try {
                 this.setModel(LoadingHandler.stringToModel(buildModeSave));
             } catch (TileCoordinatesNotValid | MalformedGizmoballFileException | GizmoPropertyException | GizmoPlacementNotValidException | GizmoNotFoundException e) {
+                e.printStackTrace();
+            } catch (GizmoNotRotatableException e) {
                 e.printStackTrace();
             }
         }

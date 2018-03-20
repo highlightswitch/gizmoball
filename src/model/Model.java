@@ -200,7 +200,7 @@ public class Model extends Observable implements IModel {
 			throw new TileCoordinatesNotValid("Invalid coordinates: (" + coordX + "_" + coordY + ").");
 	}
 
-	private void validateGizmoPlacement(Gizmo gizmo, Tile tile) throws GizmoPlacementNotValidException {
+	private void validateGizmoPlacement(Gizmo gizmo, Tile tile) throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
 
 		//Get a list of all occupied tiles
 		ArrayList<Tile> occupiedTiles = new ArrayList<>();
@@ -265,7 +265,7 @@ public class Model extends Observable implements IModel {
 		return getTileAt((int)coordX, (int)coordY);
 	}
 
-	public Gizmo placeGizmo(GizmoType gizmoType, Tile tile, String[] propertyValues) throws GizmoPlacementNotValidException {
+	public Gizmo placeGizmo(GizmoType gizmoType, Tile tile, String[] propertyValues) throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
 
 		Map<GizmoPropertyType, String> properties = getCorrectPropertiesMap(gizmoType, propertyValues);
 
@@ -326,7 +326,7 @@ public class Model extends Observable implements IModel {
 		deleteGizmo(gizmo);
 	}
 
-	public void moveGizmo(String gizmoName, Tile newTile) throws GizmoNotFoundException, GizmoPlacementNotValidException{
+	public void moveGizmo(String gizmoName, Tile newTile) throws GizmoNotFoundException, GizmoPlacementNotValidException, TileCoordinatesNotValid {
 		Gizmo gizmo = getGizmoByName(gizmoName);
 		validateGizmoPlacement(gizmo, newTile);
 
@@ -362,14 +362,14 @@ public class Model extends Observable implements IModel {
         }
     }
 
-	public void rotateGizmoBy_Deg(String gizmoName, double adjustment) throws GizmoNotFoundException, GizmoPropertyException {
+	public void rotateGizmoBy_Deg(String gizmoName, double adjustment) throws GizmoNotFoundException, GizmoPropertyException, GizmoNotRotatableException {
 		Gizmo gizmo = getGizmoByName(gizmoName);
 		gizmo.rotateBy_Deg(adjustment);
         this.setChanged();
         this.notifyObservers();
 	}
 
-	public void rotateGizmoTo_Deg(String gizmoName, double rotationVal) throws GizmoNotFoundException, GizmoPropertyException{
+	public void rotateGizmoTo_Deg(String gizmoName, double rotationVal) throws GizmoNotFoundException, GizmoPropertyException, GizmoNotRotatableException {
 		Gizmo gizmo = getGizmoByName(gizmoName);
 		gizmo.rotateTo_Deg(rotationVal);
         this.setChanged();
@@ -431,7 +431,7 @@ public class Model extends Observable implements IModel {
         return ball;
     }
 
-	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException {
+	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
 		Bumper bumper = new Bumper(Color.black, gizmoType, properties);
 		validateGizmoPlacement(bumper, tile);
 		collidable.add(bumper);

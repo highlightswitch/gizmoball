@@ -32,7 +32,7 @@ public class Main {
 	}
 
 	@SuppressWarnings("Duplicates")
-	private static IModel test(IModel model) {
+	private static IModel test(IModel model) throws GizmoNotRotatableException {
 
 		try {
 			Gizmo ball = model.placeGizmo(GizmoType.BALL, model.getTileAt(15, 1), null);
@@ -119,6 +119,8 @@ public class Main {
 				cornerTriangle.rotateTo_Deg(90);
 				t.rotateBy_Deg(180);
 			} catch (GizmoPropertyException e) {
+				e.printStackTrace();
+			} catch (GizmoNotRotatableException e) {
 				e.printStackTrace();
 			}
 
@@ -229,6 +231,8 @@ public class Main {
 		} catch (GizmoNotFoundException e) {
 			e.printStackTrace();
 		} catch (GizmoPropertyException e) {
+			e.printStackTrace();
+		} catch (GizmoNotRotatableException e) {
 			e.printStackTrace();
 		}
 

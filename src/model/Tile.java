@@ -27,13 +27,8 @@ public class Tile {
         return new int[]{x, y};
     }
 
-    public Tile getNeighbour(int xOff, int yOff){
-        try {
-            return model.getTileAt(x+xOff, y+yOff);
-        } catch (TileCoordinatesNotValid e) {
-            e.printStackTrace();
-        }
-        return null;
+    public Tile getNeighbour(int xOff, int yOff) throws TileCoordinatesNotValid {
+        return model.getTileAt(x+xOff, y+yOff);
     }
 
     public boolean isOccupied(){
@@ -45,7 +40,7 @@ public class Tile {
         occupied = gizmo != null;
     }
 
-    void placeGizmo(Gizmo gizmo){
+    void placeGizmo(Gizmo gizmo) throws TileCoordinatesNotValid {
         this.gizmo = gizmo;
         this.gizmo.setAnchorTile(this);
         occupied = true;

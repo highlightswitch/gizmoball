@@ -1,6 +1,7 @@
 package controller;
 
 import model.*;
+import model.gizmo.GizmoNotRotatableException;
 import model.gizmo.GizmoPropertyException;
 import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
@@ -59,7 +60,7 @@ public class MouseHandler {
                                 try {
                                     IModel m = controller.getIModel();
                                     m.placeGizmo(GizmoType.BALL, t, null);
-                                } catch (GizmoPlacementNotValidException e1) {
+                                } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
@@ -67,7 +68,7 @@ public class MouseHandler {
                                 try {
                                     IModel m = controller.getIModel();
                                     m.placeGizmo(GizmoType.ABSORBER, t, new String[]{"Absorber", "5", "1", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]"});
-                                } catch (GizmoPlacementNotValidException e1) {
+                                } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
@@ -75,7 +76,7 @@ public class MouseHandler {
                                 try {
                                     IModel m = controller.getIModel();
                                     m.placeGizmo(GizmoType.FLIPPER, t, null);
-                                } catch (GizmoPlacementNotValidException e1) {
+                                } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
@@ -83,7 +84,7 @@ public class MouseHandler {
                                 try {
                                     IModel m = controller.getIModel();
                                     m.placeGizmo(GizmoType.CIRCLE_BUMPER, t, null);
-                                } catch (GizmoPlacementNotValidException e1) {
+                                } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
@@ -91,7 +92,7 @@ public class MouseHandler {
                                 try {
                                     IModel m = controller.getIModel();
                                     m.placeGizmo(GizmoType.TRIANGLE_BUMPER, t, null);
-                                } catch (GizmoPlacementNotValidException e1) {
+                                } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
@@ -99,7 +100,7 @@ public class MouseHandler {
                                 try {
                                     IModel m = controller.getIModel();
                                     m.placeGizmo(GizmoType.SQUARE_BUMPER, t, null);
-                                } catch (GizmoPlacementNotValidException e1) {
+                                } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
@@ -149,6 +150,8 @@ public class MouseHandler {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
                                 } catch (GizmoPropertyException e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
+                                } catch (GizmoNotRotatableException e1){
+
                                 }
                                 break;
                             case "Move":

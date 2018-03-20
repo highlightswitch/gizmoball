@@ -15,7 +15,7 @@ class LoadingHandler {
     private static final String DEFAULT_COLOUR = "[r=255,g=255,b=255]";
     private static final String ALT_COLOUR = "[r=255,g=0,b=0]";
 
-    static Model stringToModel(String str) throws TileCoordinatesNotValid, MalformedGizmoballFileException, GizmoPropertyException, GizmoNotFoundException, GizmoPlacementNotValidException {
+    static Model stringToModel(String str) throws TileCoordinatesNotValid, MalformedGizmoballFileException, GizmoPropertyException, GizmoNotFoundException, GizmoPlacementNotValidException, GizmoNotRotatableException {
         return readFile(str);
 
     }
@@ -34,10 +34,13 @@ class LoadingHandler {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        } catch (GizmoNotRotatableException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
-    private static Model readFile(String str) throws MalformedGizmoballFileException, GizmoPropertyException, GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException {
+    private static Model readFile(String str) throws MalformedGizmoballFileException, GizmoPropertyException, GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException, GizmoNotRotatableException {
 
         Model model = new Model();
 
@@ -166,7 +169,7 @@ class LoadingHandler {
     }
 
 
-    private static Model command(Model model, ArrayList<String> command) throws GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException, MalformedGizmoballFileException, GizmoPropertyException {
+    private static Model command(Model model, ArrayList<String> command) throws GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException, MalformedGizmoballFileException, GizmoPropertyException, GizmoNotRotatableException {
         GizmoType type;
         Tile tile;
         String[] propertyValues;

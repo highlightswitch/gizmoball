@@ -66,7 +66,7 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     }
 
     @Override
-    public Tile[] findAnnexedTiles(Tile anchorTile) {
+    public Tile[] findAnnexedTiles(Tile anchorTile) throws TileCoordinatesNotValid {
 
         //The below means that the flipper occupies 2 tiles
         // in the x and y directions (ie a 2x2 square).
