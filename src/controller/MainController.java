@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 public class MainController implements ActionListener {
 
     private Model model;
+    private String mode;
     private GameFrame fr;
     private KeyListener keyListener;
     private Timer timer;
@@ -28,8 +29,8 @@ public class MainController implements ActionListener {
     private MouseHandler mouseHandler;
 
     public MainController(){
-        keyListener = new MagicKeyListener(this);
 
+        keyListener = new MagicKeyListener(this);
         this.model = new Model();
         fr = new GameFrame(this);
         this.timer = new Timer(25, this);
