@@ -132,7 +132,7 @@ class ModelTest {
     }
 
     @Test
-    void rotateGizmoBy_Deg() throws GizmoNotFoundException, GizmoPropertyException, TileCoordinatesNotValid, GizmoPlacementNotValidException {
+    void rotateGizmoBy_Deg() throws GizmoNotFoundException, GizmoPropertyException, TileCoordinatesNotValid, GizmoPlacementNotValidException, GizmoNotRotatableException {
         double val = 90.0;
         double rotation = Double.valueOf(flipper.getProperty(GizmoPropertyType.ROTATION_DEG));
         rotation = (rotation + val) % 360;

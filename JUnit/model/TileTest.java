@@ -41,7 +41,7 @@ class TileTest {
     }
 
     @Test
-    public void getNeighbour() {
+    public void getNeighbour() throws TileCoordinatesNotValid {
         assertEquals(10, t.getNeighbour(3,0).getX());
     }
 
@@ -51,7 +51,7 @@ class TileTest {
     }
 
     @Test
-    public void setOccupied() {
+    public void setOccupied() throws TileCoordinatesNotValid {
         g  = new Bumper(Color.WHITE, GizmoType.TRIANGLE_BUMPER, new HashMap<>());
         t.placeGizmo(g);
         assertEquals(true, t.isOccupied());
@@ -59,7 +59,7 @@ class TileTest {
 
 
     @Test
-    public void removeGizmo() {
+    public void removeGizmo() throws TileCoordinatesNotValid {
         g  = new Bumper(Color.WHITE, GizmoType.TRIANGLE_BUMPER, new HashMap<>());
         t.placeGizmo(g);
         t.removeGizmo();
@@ -67,14 +67,14 @@ class TileTest {
     }
 
     @Test
-    public void placeGizmo() {
+    public void placeGizmo() throws TileCoordinatesNotValid {
         g = new Bumper(Color.ORANGE, GizmoType.CIRCLE_BUMPER, new HashMap<>());
         t.placeGizmo(g);
         assertEquals(GizmoType.CIRCLE_BUMPER, t.getGizmo().getType());
     }
 
     @Test
-    public void placeGizmoOccupied() {
+    public void placeGizmoOccupied() throws TileCoordinatesNotValid {
         g = new Bumper(Color.ORANGE, GizmoType.CIRCLE_BUMPER, new HashMap<>());
         t.placeGizmo(g);
         assertThrows(Exception.class, () -> t.placeGizmo(g));
