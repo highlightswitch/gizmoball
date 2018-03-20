@@ -21,7 +21,7 @@ public class PlaceAbsorberListener {
     private String color;
 
     public PlaceAbsorberListener(MainController controller, String start, String w, String h, Color c){
-
+        this.controller = controller;
         color = c.toString();
         color = color.substring(color.indexOf("["));
         name = "Absorber" + id;
