@@ -6,6 +6,7 @@ import controller.PlaceGizmoListener;
 import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
+import model.gizmo.Triggerable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,23 +58,29 @@ public class EditShapeDialogue {
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
 
         JList<model.gizmo.Triggerable> triggers = new JList<>();
-
+        DefaultListModel<model.gizmo.Triggerable> triggerModel = new DefaultListModel<>();
         if(g != null) {
             try {
-                triggers = new JList<>(controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME)));
+                for(Triggerable n : controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME))){
+                    triggerModel.addElement(n);
+                }
             } catch (GizmoNotFoundException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(fr, "Gizmo not found");
             }
         }
-
+        triggers.setModel(triggerModel);
         triggers.setLayoutOrientation(JList.VERTICAL);
         triggers.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         triggers.setVisibleRowCount(3);
-        triggers.addListSelectionListener(e -> {
-            //do something
-        });
 
         JScrollPane listScroller = new JScrollPane(triggers);
+        JButton rmconnection = new JButton("Delete Connection");
+        rmconnection.addActionListener(e-> {
+            for(int i : triggers.getSelectedIndices()){
+                //controller.getIModel().disconnect(g.getProperty((GizmoPropertyType.NAME)), triggerModel.get(i));
+                triggerModel.remove(i);
+            }
+        });
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
@@ -95,6 +102,7 @@ public class EditShapeDialogue {
 
         panForm.add(lbtrig);
         panForm.add(listScroller);
+        panForm.add(rmconnection);
 
         panShape.add(panForm);
         panShape.add(shapeColour);
