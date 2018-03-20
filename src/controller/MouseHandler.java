@@ -1,10 +1,7 @@
 package controller;
 
 import model.*;
-import model.gizmo.GizmoNotRotatableException;
-import model.gizmo.GizmoPropertyException;
-import model.gizmo.GizmoPropertyType;
-import model.gizmo.GizmoType;
+import model.gizmo.*;
 import view.*;
 
 import javax.swing.*;
@@ -24,9 +21,10 @@ public class MouseHandler {
     private final MouseListener defaultListener;
     private final MouseListener moveListener;
     private final MouseListener connectListener;
+    private MainController controller;
 
     MouseHandler(MainController controller, JFrame frame){
-
+        this.controller = controller;
         listType = "";
         this.mode = "";
 
@@ -164,7 +162,6 @@ public class MouseHandler {
                             case "Key":
                                 controller.getView().setMessage("Press key to connect that key to " + t.getGizmo().getProperty(GizmoPropertyType.NAME));
                                 frame.setFocusable(true);
-                                //frame.addKeyListener(new TriggerKeyListener(controller, frame, t));
                                 frame.addKeyListener(new MagicKeyListener(controller));
                                 break;
                             case "Connect":
@@ -300,5 +297,14 @@ public class MouseHandler {
 
     void setMode(String m){
         mode = m;
+    }
+
+    public void connectToKeyCode(int keyCode){
+        try {
+            IModel model = controller.getIModel();
+            model.connect(keyCode, TriggerType.KEY_DOWN,t.getGizmo().getProperty(GizmoPropertyType.NAME));
+        } catch (GizmoNotFoundException e1) {
+            e1.printStackTrace();
+        }
     }
 }

@@ -1,9 +1,12 @@
 package controller;
 
+import model.GizmoNotFoundException;
 import model.GizmoPlacementNotValidException;
 import model.IModel;
 import model.TileCoordinatesNotValid;
+import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
+import model.gizmo.TriggerType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,10 +58,14 @@ public class PlaceFlipperListener {
         try {
             IModel model = controller.getIModel();
             model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(sx,sy), new String[]{name, String.valueOf(0), di,color,color, color});
+            model.connect(71, TriggerType.KEY_DOWN, name); //Key code 71 = G
+            model.connect(70, TriggerType.KEY_UP, name); //Key code 70 = F
         } catch (GizmoPlacementNotValidException e) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (GizmoNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

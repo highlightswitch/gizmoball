@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import model.gizmo.GizmoNotRotatableException;
 import model.gizmo.GizmoPropertyException;
+import model.gizmo.GizmoPropertyType;
 import model.gizmo.TriggerType;
 import view.Board;
 import view.GameFrame;
@@ -40,6 +41,8 @@ public class MainController implements ActionListener {
         button = new ButtonActionListener(this);
         fr.assignActionListeners();
         this.updateMouseListener();
+
+        mode = "Build";
 
         switchToBuildView();
 
@@ -93,6 +96,7 @@ public class MainController implements ActionListener {
     void switchToRunView(){
         this.buildModeSave = model.toString();
         fr.switchToRunView();
+        mode = "Run";
     }
 
     void switchToBuildView(){
@@ -106,6 +110,7 @@ public class MainController implements ActionListener {
             }
         }
         fr.switchToBuildView();
+        mode = "Build";
         timer.stop();
     }
 
@@ -114,7 +119,13 @@ public class MainController implements ActionListener {
     }
 
     void keyEventTriggered(int keyCode, TriggerType trigger) {
-        model.keyEventTriggered(keyCode, trigger);
+        if(mode.equals("Build")){
+            System.out.println("you pressed a key");
+            JOptionPane.showMessageDialog(fr.getFrame(), "The key you are selecting is: " + keyCode, "Key Code", JOptionPane.INFORMATION_MESSAGE);
+            mouseHandler.connectToKeyCode(keyCode);
+        } else {
+            model.keyEventTriggered(keyCode, trigger);
+        }
     }
 
     public ActionListener getActionListener(String type) {
