@@ -17,6 +17,7 @@ public class GameFrame {
      private JMenuItem edit;
      private JMenu settings;
      private JMenuItem delete;
+     private JMenuItem clearBoard;
      private MainController controller;
      private Board board;
      private JPanel activePanel;
@@ -118,6 +119,10 @@ public class GameFrame {
         delete.setActionCommand("Delete");
         menuItems.add(delete);
 
+        clearBoard = new JMenuItem("Clear Board");
+        clearBoard.setActionCommand("Clear");
+        menuItems.add(clearBoard);
+
         mFile.add(load);
         mFile.add(save);
         mFile.add(quit);
@@ -201,6 +206,7 @@ public class GameFrame {
         mTools.add(delete);
         //mTools.addSeparator();
         mTools.add(settings);
+        mTools.add(clearBoard);
         top.add(mTools);
     }
 

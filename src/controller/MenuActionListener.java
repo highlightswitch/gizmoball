@@ -89,6 +89,9 @@ public class MenuActionListener implements ActionListener {
             case "Friction":
                 new FrictionSlider(frame, controller.getModel());
                 break;
+            case "Clear":
+                controller.clearModel();
+                break;
             case "Quit":
                 System.exit(0);
                 break;

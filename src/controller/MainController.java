@@ -57,6 +57,10 @@ public class MainController implements ActionListener {
         fr.setModel(model);
     }
 
+    public void clearModel(){
+        this.setModel(new Model());
+    }
+
     GameView getView(){
         return fr.getView();
     }

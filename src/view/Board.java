@@ -42,6 +42,7 @@ public  class Board extends JPanel implements Observer {
 	public void setModel(IModel model){
 		iModel = model;
 		iModel.addObserver(this);
+		repaint();
 	}
 
 	public IModel getModel(){
