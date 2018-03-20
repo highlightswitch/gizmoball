@@ -16,14 +16,32 @@ public class PlaceGizmoListener{
     private String gname;
     private int id = 0;
     private String color;
+    private String alt;
     private GizmoActionType action;
+    private boolean colorChange;
     private int x;
     private int y;
 
-    public PlaceGizmoListener(MainController controller, String gizmoName, String position, Color c, String a){
+    public PlaceGizmoListener(MainController controller, String gizmoName, String position, Color c, Color altc,  String a){
         this.controller = controller;
+
+        switch (a){
+            case "Change Colour":
+                colorChange =  true;
+                action = GizmoActionType.CHANGE_COLOUR;
+                break;
+            case "Do Nothing":
+                action = GizmoActionType.PRINT_TO_CONSOLE;
+                break;
+        }
+
         color = c.toString();
         color = color.substring(color.indexOf("["));
+
+        if(colorChange){
+            alt = altc.toString();
+            alt = alt.substring(alt.indexOf("["));
+        }
 
         switch (gizmoName){
             case "Circle":
@@ -39,21 +57,6 @@ public class PlaceGizmoListener{
 
         gname = gizmoName + id;
         id++;
-
-        switch (a){
-            case "Change Colour":
-                action = GizmoActionType.CHANGE_COLOUR;
-                break;
-            case "Do Nothing":
-                action = GizmoActionType.PRINT_TO_CONSOLE;
-                break;
-            case "Flipper":
-                action = GizmoActionType.FLIP_FLIPPER;
-                break;
-            case "Absorber":
-                action = GizmoActionType.FIRE_FROM_ABSORBER;
-                break;
-        }
 
         if(Pattern.matches("\\p{Punct}\\d{1,2}\\p{Punct}\\d{1,2}\\p{Punct}", position)){
             String pos = position.replace("(", "");
@@ -74,7 +77,11 @@ public class PlaceGizmoListener{
     private void place() {
         try {
             IModel model = controller.getIModel();
-            model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,color});
+            if(colorChange){
+                model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,alt});
+            }else{
+                model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,color});
+            }
             model.setGizmoAction(gname, action);
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e1) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
