@@ -92,8 +92,8 @@ public class Model extends Observable implements IModel {
 			int[] a = GizmoMaths.colourStringParser(gizmo.getProperty(GizmoPropertyType.ALT_COLOUR));
 			game.append("Colour").append(" ")
 					.append(gizmo.getProperty(GizmoPropertyType.NAME)).append(" ")
-					.append(c[0]).append(" ").append(c[1]).append(" ").append(c[2]).append("")
-					.append(d[0]).append(" ").append(d[1]).append(" ").append(d[2]).append("")
+					.append(c[0]).append(" ").append(c[1]).append(" ").append(c[2]).append(" ")
+					.append(d[0]).append(" ").append(d[1]).append(" ").append(d[2]).append(" ")
 					.append(a[0]).append(" ").append(a[1]).append(" ").append(a[2]).append("\n");
 
         }
