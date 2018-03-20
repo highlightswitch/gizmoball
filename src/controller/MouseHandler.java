@@ -66,7 +66,7 @@ public class MouseHandler {
                             case "Absorber":
                                 try {
                                     IModel m = controller.getIModel();
-                                    m.placeGizmo(GizmoType.ABSORBER, t, null);
+                                    m.placeGizmo(GizmoType.ABSORBER, t, new String[]{"Absorber", "5", "1", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]"});
                                 } catch (GizmoPlacementNotValidException e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
@@ -163,9 +163,11 @@ public class MouseHandler {
                                 frame.setFocusable(true);
                                 frame.addKeyListener(new TriggerKeyListener(controller, frame, t));
                                 break;
-                            default:
+                            case "Connect":
+                                System.out.println("connecting");
                                 controller.getView().setMessage("To connect this gizmo to another gizmo click on that gizmo now");
                                 currentListener = connectListener;
+                                controller.updateMouseListener();
                                 break;
                         }
                     }
@@ -228,7 +230,7 @@ public class MouseHandler {
         connectListener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                System.out.println("connecting");
                 int x = e.getX();
                 int y = e.getY();
                 int[] xy = getXYNear(x,y);
