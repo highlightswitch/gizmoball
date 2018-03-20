@@ -164,8 +164,7 @@ public class MouseHandler {
                                 frame.addKeyListener(new TriggerKeyListener(controller, frame, t));
                                 break;
                             case "Connect":
-                                System.out.println("connecting");
-                                controller.getView().setMessage("To connect this gizmo to another gizmo click on that gizmo now");
+                                controller.getView().setMessage("To connect this gizmo to another gizmo drag the mouse over to that gizmo now");
                                 currentListener = connectListener;
                                 controller.updateMouseListener();
                                 break;
@@ -229,8 +228,13 @@ public class MouseHandler {
 
         connectListener = new MouseListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("connecting");
+            public void mouseClicked(MouseEvent e) { }
+
+            @Override
+            public void mousePressed(MouseEvent e) { }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
                 int[] xy = getXYNear(x,y);
@@ -240,18 +244,14 @@ public class MouseHandler {
                     Tile t2 = m.getTileAt(xy[0], xy[1]);
                     m.connect(t2.getGizmo().getProperty(GizmoPropertyType.NAME), t.getGizmo().getProperty(GizmoPropertyType.NAME));
                     controller.getView().setMessage("Connected to " + t2.getGizmo().getProperty(GizmoPropertyType.NAME));
+                    currentListener = defaultListener;
+                    controller.updateMouseListener();
                 } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (GizmoNotFoundException e1) {
                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo not found", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-
-            @Override
-            public void mousePressed(MouseEvent e) { }
-
-            @Override
-            public void mouseReleased(MouseEvent e) { }
 
             @Override
             public void mouseEntered(MouseEvent e) { }
