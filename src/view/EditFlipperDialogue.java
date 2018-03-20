@@ -33,7 +33,7 @@ public class EditFlipperDialogue {
             Double y = g.getPosition()[1] ;
             position = new JTextField("(" + x.intValue() + "," + y.intValue() + ")");
         }else {
-            position = new JTextField("(0,0)");
+            position = new JTextField("(" + (int)g.getPosition()[0] + "," + (int)g.getPosition()[1] + ")");
         }
 
         JLabel label2 = new JLabel("Select flipper direction: ");

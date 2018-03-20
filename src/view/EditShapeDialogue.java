@@ -6,7 +6,6 @@ import controller.PlaceGizmoListener;
 import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
-import model.gizmo.Triggerable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,16 +51,18 @@ public class EditShapeDialogue {
             Double y = g.getPosition()[1] ;
             position = new JTextField("(" + x.intValue() + "," + y.intValue() + ")");
         }else {
-            position = new JTextField("(0,0)");
+            position = new JTextField("(" + (int)g.getPosition()[0] + "," + (int)g.getPosition()[1] + ")");
         }
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
 
-        JList<model.gizmo.Triggerable> triggers = new JList<>();
-        DefaultListModel<model.gizmo.Triggerable> triggerModel = new DefaultListModel<>();
+        //TODO: Should this not be a list of strings? -EB
+        JList<Gizmo> triggers = new JList<>();
+        DefaultListModel<Gizmo> triggerModel = new DefaultListModel<>();
+
         if(g != null) {
             try {
-                for(Triggerable n : controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME))){
+                for(Gizmo n : controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME))){
                     triggerModel.addElement(n);
                 }
             } catch (GizmoNotFoundException e) {

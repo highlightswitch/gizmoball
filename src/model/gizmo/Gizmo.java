@@ -1,13 +1,16 @@
 package model.gizmo;
 
 import model.*;
+import model.util.Procedure;
 import physics.Vect;
 
 import java.awt.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-public abstract class Gizmo extends Triggerable implements Collidable, Drawable {
+public abstract class Gizmo implements Collidable, Drawable {
 
     private Color colour;
     private Tile anchorTile;
@@ -20,6 +23,10 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
     Gizmo(Color colour, Map<GizmoPropertyType, String> props){
         properties = props;
         this.colour = colour;
+
+        connectedGizmos = new HashSet<>();
+        setAction(GizmoActionType.CHANGE_COLOUR);
+
     }
 
     public GizmoType getType(){return type;}
@@ -154,11 +161,63 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
 
     @Override
     public void collide(){
-        super.trigger();
+        trigger();
     }
 
 
-    @Override
+    //Triggering/Action things...
+
+
+    private Set<Gizmo> connectedGizmos;
+    protected GizmoActionType actionType;
+    protected Procedure action;
+
+    public GizmoActionType getActionType() {
+        return actionType;
+    }
+
+    public Set<Gizmo> getConnections(){
+        return connectedGizmos;
+    }
+
+    void trigger(){
+        triggerAllConnected();
+    }
+
+    private void triggerAllConnected(){
+        for(Gizmo g : connectedGizmos){
+            g.doAction();
+        }
+    }
+
+    public void doAction(){
+        action.invoke();
+    }
+
+    public void addActor(Gizmo actor){
+        connectedGizmos.add(actor);
+    }
+
+    public void removeActor(Gizmo actor){
+        connectedGizmos.remove(actor);
+    }
+
+    public void removeAllActors(){
+        connectedGizmos.clear();
+    }
+
+    public Gizmo[] getAllActors() {
+        return connectedGizmos.toArray(new Gizmo[connectedGizmos.size()]);
+    }
+
+    public void keyDown(){
+        doAction();
+    }
+
+    public void keyUp(){
+        doAction();
+    }
+
     public void setAction(GizmoActionType type){
         this.actionType = type;
         if(type == GizmoActionType.CHANGE_COLOUR){
@@ -190,6 +249,10 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
     private void action_printToConsole(){
         System.out.println( this.getProperty(GizmoPropertyType.NAME) + " activated");
     }
+
+
+
+
 
 
     public static String[] getPropertyDefaults(GizmoType type, List<String> usedNames){

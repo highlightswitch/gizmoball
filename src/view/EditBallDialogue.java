@@ -5,6 +5,7 @@ import controller.MainController;
 import controller.PlaceBallListener;
 import model.Model;
 import model.gizmo.Gizmo;
+import model.gizmo.GizmoPropertyType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,10 +26,11 @@ public class EditBallDialogue {
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel pos = new JLabel("Initial position: ");
-        JTextField position = new JTextField("(0,0)");
+        JTextField position = new JTextField("(" + (int)g.getPosition()[0] + "," + (int)g.getPosition()[1] + ")");
 
         JLabel vel = new JLabel("Initial velocity: ");
-        JTextField velcoity = new JTextField("(0,0)");
+        JTextField velocity = new JTextField("(" +  g.getProperty(GizmoPropertyType.VEL_X) + "," +  g.getProperty(GizmoPropertyType.VEL_Y) + ")");
+
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
@@ -45,7 +47,7 @@ public class EditBallDialogue {
         panForm.add(pos);
         panForm.add(position);
         panForm.add(vel);
-        panForm.add(velcoity);
+        panForm.add(velocity);
 
         panShape.add(panForm);
         panShape.add(shapeColour);
@@ -56,7 +58,7 @@ public class EditBallDialogue {
 
         ok.addActionListener( e -> {
                 intPosition = position.getText();
-                intVelocity = velcoity.getText();
+                intVelocity = velocity.getText();
                 color = shapeColour.getColor();
                 if(mode.equals("Add")){
                     new PlaceBallListener(controller, intPosition, intVelocity, color);
