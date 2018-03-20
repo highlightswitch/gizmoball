@@ -162,12 +162,12 @@ public class MouseHandler {
 
                                 break;
                             case "Key":
-                                controller.getView().setMessage("To connect this gizmo to a key, press that key now");
+                                controller.getView().setMessage("Press key to connect that key to " + t.getGizmo().getProperty(GizmoPropertyType.NAME));
                                 frame.setFocusable(true);
                                 frame.addKeyListener(new TriggerKeyListener(controller, frame, t));
                                 break;
                             case "Connect":
-                                controller.getView().setMessage("To connect this gizmo to another gizmo drag the mouse over to that gizmo now");
+                                controller.getView().setMessage("Connect " + t.getGizmo().getProperty(GizmoPropertyType.NAME) + " to...");
                                 currentListener = connectListener;
                                 controller.updateMouseListener();
                                 break;

@@ -79,8 +79,15 @@ public class MenuActionListener implements ActionListener {
                 new EditFlipperDialogue(controller, frame, "Add", null);
                 break;
             case "Rotate":
+                controller.getView().setMessage("Click the gizmo you want to rotate");
+                mouse.setMode("Edit");
+                break;
             case "Delete":
+                controller.getView().setMessage("Click the gizmo you want to delete");
+                mouse.setMode("Edit");
+                break;
             case "Edit":
+                controller.getView().setMessage("Click the gizmo you want to edit");
                 mouse.setMode("Edit");
                 break;
             case "Gravity":
