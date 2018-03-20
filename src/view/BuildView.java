@@ -108,7 +108,7 @@ public class BuildView implements GameView {
         panGrid.add(b);
 
         JPanel updates = new JPanel();
-        message = new JLabel("<html> <span style ='color: white; font-size:12px'>Keep an eye on this space for updates!</span></html>");
+        message = new JLabel("<html><span style ='color: white; font-size:12px'>" + "Keep an eye on this space for updates!" +  "</span></html>");
         updates.add(message);
         updates.setOpaque(false);
 
@@ -209,7 +209,7 @@ public class BuildView implements GameView {
     }
 
     public void setMessage(String m){
-        message.setText(m);
+        message.setText("<html><span style ='color: white; font-size:12px'>" + m + "</span></html>");
         message.revalidate();
         message.repaint();
     }

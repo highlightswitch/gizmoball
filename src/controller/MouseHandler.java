@@ -206,7 +206,11 @@ public class MouseHandler {
                 try {
                     IModel m = controller.getIModel();
                     Tile t2 = m.getTileAt(xy[0], xy[1]);
-                    m.moveGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2);
+                    if(t.equals(t2)){
+                        //
+                    } else{
+                        m.moveGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2);
+                    }
                     frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     currentListener = defaultListener;
                     controller.updateMouseListener();
