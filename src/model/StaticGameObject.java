@@ -31,4 +31,8 @@ public class StaticGameObject extends GameObject {
         return Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ballVelocity, reflectionCoefficient);
     }
 
+    @Override
+    public GameObject clone() {
+        return new StaticGameObject(getLines(), getCircles(), reflectionCoefficient);
+    }
 }

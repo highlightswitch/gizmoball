@@ -4,11 +4,21 @@ import controller.MainController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class RunView implements GameView {
-    JPanel panGame;
 
-    public RunView(MainController c, Board b){
+    private JFrame frame;
+    private JPanel panGame;
+    private JPanel panBoard;
+    private MainController controller;
+    private ArrayList<JButton> buttons;
+
+    RunView(JFrame frame, MainController controller, Board board){
+        this.controller = controller;
+        this.frame = frame;
+
+        this.buttons  = new ArrayList<>();
 
         panGame = new JPanel();
         panGame.setBackground(Color.PINK);
@@ -20,7 +30,8 @@ public class RunView implements GameView {
         play.setIcon(new ImageIcon(getClass().getResource("/Images/fillPlaySmall.png")));
         stop.setBorder(null);
         stop.setMargin(new Insets(0, 0, 0, 0));
-        stop.addActionListener(c.getActionListener("Button"));
+        buttons.add(stop);
+
         stop.setContentAreaFilled(false);
         stop.setActionCommand("Stop");
 
@@ -28,7 +39,7 @@ public class RunView implements GameView {
         play.setMargin(new Insets(0, 0, 0, 0));
         play.setContentAreaFilled(false);
         play.setActionCommand("Start");
-        play.addActionListener(c.getActionListener("Button"));
+        buttons.add(play);
 
         //Need to do this so that the key listener works properly.
         play.setFocusable(false);
@@ -40,8 +51,10 @@ public class RunView implements GameView {
         panControls.setOpaque(false);
 
         JPanel panGrid = new JPanel();
-        panGrid.add(b);
+        panGrid.add(board);
         panGrid.setOpaque(false);
+
+        panBoard = panGrid;
 
         panGame.setLayout(new BorderLayout());
         panGame.add(panGrid, BorderLayout.CENTER);
@@ -50,5 +63,21 @@ public class RunView implements GameView {
 
     public JPanel getPanel() {
         return panGame;
+    }
+
+    @Override
+    public JPanel getBoard() {
+        return panBoard;
+    }
+
+    public void setAllButtonListeners(){
+        for(JButton b: buttons){
+            b.addActionListener(controller.getActionListener("Button"));
+        }
+    }
+
+    @Override
+    public void setMessage(String m) {
+        //
     }
 }

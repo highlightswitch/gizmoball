@@ -1,5 +1,7 @@
 package model;
 
+import model.util.GizmoMaths;
+
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +14,9 @@ public class DrawingData {
 
 	//An array list of cx,cy,r data of the circles that create a drawable object
 	private ArrayList<Double[]> circlesData;
+
+	//The colour of the drawable object
+	private int[] rgb;
 
 	public DrawingData(){
 		polygonsData = new ArrayList<>();
@@ -32,12 +37,26 @@ public class DrawingData {
 		circlesData.add(c);
 	}
 
+	public void setColour(String rgbString){
+		this.rgb = GizmoMaths.colourStringParser(rgbString);
+	}
+
 	public ArrayList<ArrayList<Double[]>> getPolygonsData() {
 		return polygonsData;
 	}
 
 	public ArrayList<Double[]> getCirclesData() {
 		return circlesData;
+	}
+
+	public int getRedValue(){
+		return rgb == null ? 0 : rgb[0];
+	}
+	public int getGreenValue(){
+		return rgb == null ? 0 : rgb[1];
+	}
+	public int getBlueValue(){
+		return rgb == null ? 0 : rgb[1];
 	}
 
 	public DrawingData translate(double[] translation){
@@ -135,5 +154,15 @@ public class DrawingData {
 
 		return sb.toString();
 	}
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null || getClass() != obj.getClass())
+//			return false;
+//		DrawingData data = (DrawingData) obj;
+//		return polygonsData == data.polygonsData && circlesData == data.circlesData;
+//	}
 
 }

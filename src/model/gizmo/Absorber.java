@@ -6,15 +6,21 @@ import physics.LineSegment;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Absorber extends Gizmo implements Collidable {
 
     private Ball absorbedBall;
 
-    public Absorber(Color colour, String name){
-        super(name, colour);
-        properties.put(GizmoPropertyType.WIDTH, "20");
-        properties.put(GizmoPropertyType.HEIGHT, "1");
+    public Absorber(Color colour, Map<GizmoPropertyType, String> properties){
+        super(colour, properties);
+        this.setAction(GizmoActionType.FIRE_FROM_ABSORBER);
+        type = GizmoType.ABSORBER;
+    }
+
+    @Override
+    public boolean isTilePlacable() {
+        return true;
     }
 
     void setAbsorbedBall (Ball ball) {
@@ -22,10 +28,29 @@ public class Absorber extends Gizmo implements Collidable {
     }
 
     @Override
+    public Tile[] findAnnexedTiles(Tile anchorTile) {
+
+        double width = Double.valueOf(this.getProperty(GizmoPropertyType.WIDTH));
+        double height = Double.valueOf(this.getProperty(GizmoPropertyType.HEIGHT));
+        ArrayList<Tile> tiles = new ArrayList<>();
+
+        for(int xOff = 0; xOff < width; xOff++)
+            for (int yOff = 0; yOff < height; yOff++)
+                if(!(xOff == 0 && yOff ==0))
+                    tiles.add(anchorTile.getNeighbour(xOff, yOff));
+
+        Tile[] arr = new Tile[tiles.size()];
+        return tiles.toArray(arr);
+
+    }
+
+    public GizmoType getType(){return type;}
+
+    @Override
     public GameObject getPrototypeGameObject() {
-        
-        double width = Double.valueOf(properties.get(GizmoPropertyType.WIDTH));
-        double height = Double.valueOf(properties.get(GizmoPropertyType.HEIGHT));
+
+        double width = Double.valueOf(this.getProperty(GizmoPropertyType.WIDTH));
+        double height = Double.valueOf(this.getProperty(GizmoPropertyType.HEIGHT));
 
         LineSegment[] lines = {
                 new LineSegment(0, 0, 0, height),
@@ -43,25 +68,23 @@ public class Absorber extends Gizmo implements Collidable {
                 new Circle(width, height, 0)
         };
 
-        GameObject gameObject = new StaticGameObject(lines, circles, 1);
-
-        return gameObject;
+        return new StaticGameObject(lines, circles, 1);
     }
 
     public GameObject getGameObject(){return getPrototypeGameObject().translate(getPosition());}
 
-    public boolean isAbsorber() {return true;}
-
     @Override
-    public void rotate() {
-
+    public Object clone() {
+        return super.clone();
     }
+
+    public boolean isAbsorber() {return true;}
 
     @Override
     public DrawingData getGizmoDrawingData() {
 
-        double width = Double.valueOf(properties.get(GizmoPropertyType.WIDTH));
-        double height = Double.valueOf(properties.get(GizmoPropertyType.HEIGHT));
+        double width = Double.valueOf(getProperty(GizmoPropertyType.WIDTH));
+        double height = Double.valueOf(getProperty(GizmoPropertyType.HEIGHT));
 
         DrawingData data = new DrawingData();
         ArrayList<Double[]> squarePoly = new ArrayList<>();
@@ -71,25 +94,27 @@ public class Absorber extends Gizmo implements Collidable {
         squarePoly.add(new Double[]{0.0 , height}); //SE
         data.addPolygon(squarePoly);
 
+        data.setColour(getProperty(GizmoPropertyType.CURRENT_COLOUR));
+
         return data;
     }
 
     @Override
-    public void genericTrigger() {
-        //Empty...
+    public void setAction(GizmoActionType type) {
+        this.actionType = type;
+        if (type == GizmoActionType.FIRE_FROM_ABSORBER) {
+            action = this::action_fireBall;
+        } else {
+            super.setAction(type);
+        }
     }
 
-    @Override
-    public void keyDown() {
-    	if(absorbedBall != null) {
-			absorbedBall.fire(this);
-			absorbedBall = null;
-		}
+    private void action_fireBall(){
+        if(absorbedBall != null) {
+            absorbedBall.fire(this);
+            absorbedBall = null;
+        }
     }
 
-    @Override
-    public void keyUp() {
-        //Empty...
-    }
 
 }

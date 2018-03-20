@@ -1,7 +1,5 @@
 package controller;
 
-import model.gizmo.TriggerType;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +14,9 @@ public class ButtonActionListener implements ActionListener {
     @Override
 	public final void actionPerformed(final ActionEvent e) {
 
+        MouseHandler mouseHandler = controller.getMouseHandler();
+
+        mouseHandler.setType(e.getActionCommand());
         switch (e.getActionCommand()) {
             case "Start":
                 controller.startTimer();
@@ -23,20 +24,25 @@ public class ButtonActionListener implements ActionListener {
             case "Stop":
                 controller.stopTimer();
                 break;
-            case "Tick":
-                controller.getModel().getBall().moveBall(null);
-                break;
             case "Delete":
-                //
-                break;
             case "Rotate":
-                //
-                break;
             case "Edit":
-                //
-                break;
+            case "Key":
+            case "Connect":
             case "Move":
-                //
+                mouseHandler.setMode("Edit");
+                System.out.println("In " + mouseHandler.getMode() + " mode");
+                break;
+            case "Circle":
+            case "Triangle":
+            case "Square":
+            case "Absorber":
+            case "Flipper":
+            case "Ball":
+                mouseHandler.setMode("Add");
+                System.out.println("In  " + mouseHandler.getMode() + " mode");
+                break;
+            default:
                 break;
         }
 

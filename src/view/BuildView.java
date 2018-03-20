@@ -1,32 +1,53 @@
 package view;
 
-import controller.*;
+import controller.AddPopupListener;
+import controller.MainController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class BuildView implements GameView {
-    JFrame frame;
-    JPanel panBuild;
-    JPopupMenu allShapes;
+    private JPanel panBuild;
+    private JPanel panBoard;
+    private JLabel message;
+    private JPopupMenu allShapes;
+    private ArrayList<AbstractButton> buttons = new ArrayList<>();
+    private MainController controller;
 
     public BuildView(JFrame fr, MainController c, Board b) {
-        frame = fr;
         panBuild = new JPanel();
         panBuild.setBackground(Color.ORANGE);
+        controller = c;
 
         JPanel panControls = new JPanel();
-        JButton add = new JButton();
-        JButton rotate = new JButton();
-        JButton delete = new JButton();
-        JButton edit = new JButton();
-        JButton pointer = new JButton();
+        JToggleButton add = new JToggleButton();
+        JToggleButton rotate = new JToggleButton();
+        JToggleButton delete = new JToggleButton();
+        JToggleButton edit = new JToggleButton();
+        JToggleButton pointer = new JToggleButton();
+        JToggleButton keyTrigger = new JToggleButton();
+        JToggleButton connectTwo = new JToggleButton();
 
         add.setIcon(new ImageIcon(getClass().getResource("/Images/fillAddSmall.png")));
         rotate.setIcon(new ImageIcon(getClass().getResource("/Images/fillRotateSmall.png")));
         delete.setIcon(new ImageIcon(getClass().getResource("/Images/fillDeleteSmall.png")));
         edit.setIcon(new ImageIcon(getClass().getResource("/Images/fillEditSmall.png")));
         pointer.setIcon(new ImageIcon(getClass().getResource("/Images/fillPointerSmall.png")));
+        keyTrigger.setIcon(new ImageIcon(getClass().getResource("/Images/fillKeySmall.png")));
+        connectTwo.setIcon(new ImageIcon(getClass().getResource("/Images/borderConnectSmall.png")));
+
+        rotate.setActionCommand("Rotate");
+        rotate.addActionListener(c.getActionListener("Button"));
+
+        delete.setActionCommand("Delete");
+        delete.addActionListener(c.getActionListener("Button"));
+
+        edit.setActionCommand("Edit");
+        edit.addActionListener(c.getActionListener("Button"));
+
+        pointer.setActionCommand("Move");
+        pointer.addActionListener(c.getActionListener("Button"));
 
         add.setBorder(null);
         add.setMargin(new Insets(0, 0, 0, 0));
@@ -38,82 +59,134 @@ public class BuildView implements GameView {
         rotate.setBorder(null);
         rotate.setMargin(new Insets(0, 0, 0, 0));
         rotate.setContentAreaFilled(false);
+        rotate.setActionCommand("Rotate");
+        buttons.add(rotate);
 
         delete.setBorder(null);
         delete.setMargin(new Insets(0, 0, 0, 0));
         delete.setContentAreaFilled(false);
+        delete.setActionCommand("Delete");
+        buttons.add(delete);
 
         edit.setBorder(null);
         edit.setMargin(new Insets(0, 0, 0, 0));
         edit.setContentAreaFilled(false);
+        edit.setActionCommand("Edit");
+        buttons.add(edit);
 
         pointer.setBorder(null);
         pointer.setMargin(new Insets(0, 0, 0, 0));
         pointer.setContentAreaFilled(false);
+        pointer.setActionCommand("Move");
+        buttons.add(pointer);
+
+        keyTrigger.setBorder(null);
+        keyTrigger.setMargin(new Insets(0, 0, 0, 0));
+        keyTrigger.setContentAreaFilled(false);
+        keyTrigger.setActionCommand("Key");
+        keyTrigger.addActionListener(controller.getActionListener("Button"));
+
+        connectTwo.setBorder(null);
+        connectTwo.setMargin(new Insets(0, 0, 0, 0));
+        connectTwo.setContentAreaFilled(false);
+        connectTwo.setActionCommand("Connect");
+        connectTwo.addActionListener(controller.getActionListener("Button"));
 
         panControls.add(add);
         panControls.add(rotate);
         panControls.add(delete);
         panControls.add(edit);
         panControls.add(pointer);
+        panControls.add(keyTrigger);
+        panControls.add(connectTwo);
+
         panControls.setOpaque(false);
         panControls.setLayout(new FlowLayout());
 
-        JPanel panGrid = new JPanel(new GridLayout(20, 20));
+        JPanel panGrid = new JPanel();
+
+        panGrid.add(b);
+
+        JPanel updates = new JPanel();
+        message = new JLabel("<html><span style ='color: white; font-size:12px'>" + "Keep an eye on this space for updates!" +  "</span></html>");
+        updates.add(message);
+        updates.setOpaque(false);
+
+
         panGrid.setOpaque(false);
-        panGrid.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
-        for (int i = 0; i < (20 * 20); i++) {
-            final JLabel label = new JLabel();
-            label.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-            panGrid.add(label);
-        }
-
-        //panGrid.add(b);
+        panBoard = panGrid;
 
         panBuild.setLayout(new BorderLayout());
-        panBuild.add(panGrid, BorderLayout.CENTER);
+        panBuild.add(panGrid, BorderLayout.PAGE_START);
+        panBuild.add(updates, BorderLayout.CENTER);
         panBuild.add(panControls, BorderLayout.SOUTH);
     }
 
 
-    public void drawPopupMenu() {
+    private void drawPopupMenu() {
         allShapes = new JPopupMenu();
+        ImageIcon circleGizmo = (new ImageIcon(getClass().getResource("/Images/fillCircleSmall.png")));
+        ImageIcon triangleGizmo = (new ImageIcon(getClass().getResource("/Images/fillTriangleSmall.png")));
+        ImageIcon squareGizmo = (new ImageIcon(getClass().getResource("/Images/fillSquareSmall.png")));
+        ImageIcon absorberGizmo = (new ImageIcon(getClass().getResource("/Images/fillRectangleSmall.png")));
+        ImageIcon flipperGizmo = (new ImageIcon(getClass().getResource("/Images/fillFlipperSmall.png")));
+        ImageIcon ballGizmo =  (new ImageIcon(getClass().getResource("/Images/borderBallSmall.png")));
 
-        JMenuItem circleGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillCircleSmall.png")));
-        JMenuItem triangleGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillTriangleSmall.png")));
-        JMenuItem squareGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillSquareSmall.png")));
-        JMenuItem absorberGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillRectangleSmall.png")));
-        JMenuItem flipperGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/fillFlipperSmall.png")));
-        JMenuItem ballGizmo = new JMenuItem(new ImageIcon(getClass().getResource("/Images/borderBallSmall.png")));
+        JButton circleGizmoButton = new JButton();
+        circleGizmoButton.setIcon(circleGizmo);
+        circleGizmoButton.setPreferredSize(new Dimension(50,50));
+        circleGizmoButton.setMargin(new Insets(0, 0, 0, 0));
+        circleGizmoButton.setContentAreaFilled(false);
+        circleGizmoButton.setActionCommand("Circle");
+        circleGizmoButton.addActionListener(controller.getActionListener("Button"));
 
-        circleGizmo.setContentAreaFilled(false);
-        triangleGizmo.setContentAreaFilled(false);
-        squareGizmo.setContentAreaFilled(false);
-        absorberGizmo.setContentAreaFilled(false);
-        flipperGizmo.setContentAreaFilled(false);
-        ballGizmo.setContentAreaFilled(false);
+        JButton triangleGizmoButton = new JButton();
+        triangleGizmoButton.setIcon(triangleGizmo);
+        triangleGizmoButton.setPreferredSize(new Dimension(50,50));
+        triangleGizmoButton.setMargin(new Insets(0, 0, 0, 0));
+        triangleGizmoButton.setContentAreaFilled(false);
+        triangleGizmoButton.setActionCommand("Triangle");
+        triangleGizmoButton.addActionListener(controller.getActionListener("Button"));
 
-        /*DragDropListener li = new DragDropListener();
-        circleGizmo.addMouseListener(li);
-        circleGizmo.setTransferHandler(new TransferHandler("icon"));
-        triangleGizmo.addMouseListener(li);
-        triangleGizmo.setTransferHandler(new TransferHandler("icon"));
-        squareGizmo.addMouseListener(li);
-        squareGizmo.setTransferHandler(new TransferHandler("icon"));
-        absorberGizmo.addMouseListener(li);
-        absorberGizmo.setTransferHandler(new TransferHandler("icon"));
-        ballGizmo.addMouseListener(li);
-        ballGizmo.setTransferHandler(new TransferHandler("icon"));
-        flipperGizmo.addMouseListener(li);
-        flipperGizmo.setTransferHandler(new TransferHandler("icon"));*/
+        JButton squareGizmoButton = new JButton();
+        squareGizmoButton.setIcon(squareGizmo);
+        squareGizmoButton.setPreferredSize(new Dimension(50,50));
+        squareGizmoButton.setMargin(new Insets(0, 0, 0, 0));
+        squareGizmoButton.setContentAreaFilled(false);
+        squareGizmoButton.setActionCommand("Square");
+        squareGizmoButton.addActionListener(controller.getActionListener("Button"));
 
-        allShapes.add(circleGizmo);
-        allShapes.add(triangleGizmo);
-        allShapes.add(squareGizmo);
-        allShapes.add(flipperGizmo);
-        allShapes.add(ballGizmo);
-        allShapes.add(absorberGizmo);
+        JButton absorberGizmoButton = new JButton();
+        absorberGizmoButton.setIcon(absorberGizmo);
+        absorberGizmoButton.setPreferredSize(new Dimension(50,50));
+        absorberGizmoButton.setMargin(new Insets(0, 0, 0, 0));
+        absorberGizmoButton.setContentAreaFilled(false);
+        absorberGizmoButton.setActionCommand("Absorber");
+        absorberGizmoButton.addActionListener(controller.getActionListener("Button"));
+
+        JButton flipperGizmoButton = new JButton();
+        flipperGizmoButton.setIcon(flipperGizmo);
+        flipperGizmoButton.setPreferredSize(new Dimension(50,50));
+        flipperGizmoButton.setMargin(new Insets(0, 0, 0, 0));
+        flipperGizmoButton.setContentAreaFilled(false);
+        flipperGizmoButton.setActionCommand("Flipper");
+        flipperGizmoButton.addActionListener(controller.getActionListener("Button"));
+
+        JButton ballGizmoButton = new JButton();
+        ballGizmoButton.setIcon(ballGizmo);
+        ballGizmoButton.setPreferredSize(new Dimension(50,50));
+        ballGizmoButton.setMargin(new Insets(0, 0, 0, 0));
+        ballGizmoButton.setContentAreaFilled(false);
+        ballGizmoButton.setActionCommand("Ball");
+        ballGizmoButton.addActionListener(controller.getActionListener("Button"));
+
+        allShapes.add(circleGizmoButton);
+        allShapes.add(triangleGizmoButton);
+        allShapes.add(squareGizmoButton);
+        allShapes.add(absorberGizmoButton);
+        allShapes.add(flipperGizmoButton);
+        allShapes.add(ballGizmoButton);
+
         allShapes.setBackground(Color.WHITE);
         allShapes.setLayout(new FlowLayout());
     }
@@ -122,5 +195,24 @@ public class BuildView implements GameView {
     public JPanel getPanel() {
         return panBuild;
     }
+
+    @Override
+    public JPanel getBoard() {
+        return panBoard;
+    }
+
+    @Override
+    public void setAllButtonListeners() {
+        for(AbstractButton b: buttons){
+            b.addActionListener(controller.getActionListener("Button"));
+        }
+    }
+
+    public void setMessage(String m){
+        message.setText("<html><span style ='color: white; font-size:12px'>" + m + "</span></html>");
+        message.revalidate();
+        message.repaint();
+    }
+
 }
 

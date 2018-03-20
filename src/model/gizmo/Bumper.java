@@ -1,9 +1,6 @@
 package model.gizmo;
 
-import model.Collidable;
-import model.DrawingData;
-import model.GameObject;
-import model.StaticGameObject;
+import model.*;
 import physics.Angle;
 import physics.Circle;
 import physics.LineSegment;
@@ -11,26 +8,36 @@ import physics.Vect;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Bumper extends Gizmo implements Collidable{
 
-    public Bumper(Color colour, String name, GizmoType type){
-        super(name, colour);
+    public Bumper(Color colour, GizmoType type, Map<GizmoPropertyType, String> properties){
+        super(colour, properties);
         this.type = type;
     }
 
-    private double rotationInRadians(){
-        return Math.toRadians(Double.valueOf(getProperty(GizmoPropertyType.ROTATION_DEG)));
+    @Override
+    public boolean isTilePlacable() {
+        return true;
+    }
+
+    @Override
+    public Tile[] findAnnexedTiles(Tile anchorTile) {
+        return new Tile[0];
     }
 
     @Override
     public GameObject getGameObject() {
         return getPrototypeGameObject()
-                .rotateAroundPointByAngle( new Vect(0.5,0.5), new Angle(rotationInRadians()) )
+                .rotateAroundPointByAngle( new Vect(0.5,0.5), new Angle(getCurrentRotationInRadians()) )
                 .translate(getPosition());
     }
 
-    public GizmoType getGizmoType(){return type;}
+    @Override
+    public Object clone() {
+        return super.clone();
+    }
 
     @Override
     public boolean isAbsorber() {
@@ -121,26 +128,11 @@ public class Bumper extends Gizmo implements Collidable{
                 break;
         }
 
-        data.rotateAroundPivotByRadians(new double[]{0.5, 0.5}, rotationInRadians());
+        data.rotateAroundPivotByRadians(new double[]{0.5, 0.5}, getCurrentRotationInRadians());
+
+        data.setColour(getProperty(GizmoPropertyType.CURRENT_COLOUR));
 
         return data;
     }
-
-    @Override
-    public void keyDown() {
-
-    }
-
-    @Override
-    public void keyUp() {
-
-    }
-
-    @Override
-    public void genericTrigger() {
-
-    }
-
-
 
 }

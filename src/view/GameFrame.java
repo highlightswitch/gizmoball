@@ -1,49 +1,119 @@
 package view;
 
 import controller.MainController;
-import model.Model;
+import model.IModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GameFrame {
+
      private JFrame frMain;
      private JMenuBar top;
      private JMenu mTools;
-     private Model model;
+     private JMenu add;
+     private JMenuItem rotate;
+     private JMenuItem edit;
+     private JMenu settings;
+     private JMenuItem delete;
      private MainController controller;
      private Board board;
+     private JPanel activePanel;
+     private JPanel activeBoard;
+     private ArrayList<JMenuItem> menuItems;
+     private GameView view;
 
-    public GameFrame(Model m){
-        model = m;
-        board = new Board(500, 500, model);
-        controller = new MainController(model, this, board);
+    public GameFrame(MainController cont){
+        controller = cont;
         frMain = new JFrame("Gizmoball");
         mTools = new JMenu("Tools");
         top = new JMenuBar();
+        menuItems = new ArrayList<>();
+        board = new Board(500, 500, cont.getIModel(), "Run");
 
         JMenu mFile = new JMenu("File");
         JMenu mView = new JMenu("View");
 
         JMenuItem load = new JMenuItem("Load");
         load.setActionCommand("Load");
-        load.addActionListener(controller.getActionListener("Menu"));
+        menuItems.add(load);
 
         JMenuItem save = new JMenuItem("Save");
         save.setActionCommand("Save");
-        save.addActionListener(controller.getActionListener("Menu"));
+        menuItems.add(save);
 
         JMenuItem quit = new JMenuItem("Quit");
         quit.setActionCommand("Quit");
-        quit.addActionListener(controller.getActionListener("Menu"));
+        menuItems.add(quit);
 
         JMenuItem run = new JMenuItem("Run View");
         run.setActionCommand("Run");
-        run.addActionListener(controller.getActionListener("Menu"));
+        menuItems.add(run);
 
         JMenuItem build = new JMenuItem("Build View");
         build.setActionCommand("Build");
-        build.addActionListener(controller.getActionListener("Menu"));
+        menuItems.add(build);
+
+        add = new JMenu("Add a Gizmo");
+        JMenu shape = new JMenu("Add a Shape");
+
+        JMenuItem circle = new JMenuItem("Circle");
+        circle.setActionCommand("Circle");
+        menuItems.add(circle);
+
+        JMenuItem square = new JMenuItem("Square");
+        square.setActionCommand("Square");
+        menuItems.add(square);
+
+        JMenuItem triangle = new JMenuItem("Triangle");
+        triangle.setActionCommand("Triangle");
+        menuItems.add(triangle);
+
+        shape.add(circle);
+        shape.add(square);
+        shape.add(triangle);
+
+        JMenuItem ball = new JMenuItem("Add a Ball");
+        ball.setActionCommand("Ball");
+        menuItems.add(ball);
+
+        JMenuItem absorber = new JMenuItem("Add an Absorber");
+        absorber.setActionCommand("Absorber");
+        menuItems.add(absorber);
+
+        JMenuItem flipper  = new JMenuItem("Add a Flipper");
+        flipper.setActionCommand("Flipper");
+        menuItems.add(flipper);
+
+        add.add(shape);
+        add.add(ball);
+        add.add(absorber);
+        add.add(flipper);
+
+        rotate = new JMenuItem("Rotate");
+        rotate.setActionCommand("Rotate");
+        menuItems.add(rotate);
+
+        edit = new JMenuItem("Edit");
+        edit.setActionCommand("Edit");
+        menuItems.add(edit);
+
+        settings = new JMenu("Settings");
+        JMenuItem gravity = new JMenuItem("Change Gravity");
+        gravity.setActionCommand("Gravity");
+        menuItems.add(gravity);
+
+        JMenuItem friction = new JMenuItem("Change Friction");
+        friction.setActionCommand("Friction");
+        menuItems.add(friction);
+
+        settings.add(gravity);
+        settings.add(friction);
+
+        delete = new JMenuItem("Delete");
+        delete.setActionCommand("Delete");
+        menuItems.add(delete);
 
         mFile.add(load);
         mFile.add(save);
@@ -55,65 +125,72 @@ public class GameFrame {
         top.add(mFile);
         top.add(mView);
 
-        GameView view = new RunView(controller, board);
+        view = new RunView(frMain, controller, board);
+        activePanel = view.getPanel();
+        activeBoard = view.getBoard();
 
         drawFrame(view);
     }
 
-    public void setModel(Model model){
-        this.model = model;
+    public void setModel(IModel model){
+        this.board.setModel(model);
     }
 
+    public void switchToRunView(){
+        board.updateMode("Run");
+        this.drawFrame(new RunView(frMain, controller, board));
+        this.assignActionListeners();
+        frMain.getContentPane().revalidate();
+        frMain.getContentPane().repaint();
+        this.compressMenu();
+        frMain.getJMenuBar().revalidate();
+        frMain.getJMenuBar().repaint();
+        frMain.validate();
+        frMain.repaint();
+    }
 
-    public void drawFrame(GameView g){
+    public void switchToBuildView(){
+        board.updateMode("Build");
+        this.drawFrame(new BuildView(frMain, controller, board));
+        this.extendMenu();
+        this.assignActionListeners();
+        frMain.getContentPane().revalidate();
+        frMain.getContentPane().repaint();
+        frMain.getJMenuBar().revalidate();
+        frMain.getJMenuBar().repaint();
+        frMain.validate();
+        frMain.repaint();
+    }
+
+    private void drawFrame(GameView g){
         //open running view by default then user can change to build view
-        frMain.setContentPane(g.getPanel());
+
+        this.view = g;
+
+        activePanel = g.getPanel();
+        activeBoard = g.getBoard();
+
+        frMain.setContentPane(activePanel);
         frMain.setJMenuBar(top);
         frMain.setVisible(true);
+
         frMain.addKeyListener(controller.getKeyListener());
+
         frMain.setMinimumSize(new Dimension(550,650));
         frMain.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void extendMenu(){
-        JMenu add = new JMenu("add a gizmo");
-        JMenu shape = new JMenu("add a shape");
-        JMenuItem circle = new JMenuItem("circle");
-        JMenuItem square = new JMenuItem("square");
-        JMenuItem triangle = new JMenuItem("triangle");
-        shape.add(circle);
-        shape.add(square);
-        shape.add(triangle);
-
-        JMenuItem ball = new JMenuItem("add a ball");
-        JMenuItem absorber = new JMenuItem("add an absorber");
-
-        add.add(shape);
-        add.add(ball);
-        add.add(absorber);
-
-        JMenuItem rotate = new JMenuItem("rotate");
-        JMenuItem edit = new JMenuItem("edit");
-
-        JMenu settings = new JMenu("settings");
-        JMenuItem gravity = new JMenuItem("change gravity");
-        JMenuItem friction = new JMenuItem("change friction");
-        settings.add(gravity);
-        settings.add(friction);
-
-        JMenuItem delete = new JMenuItem("delete");
-
+    private void extendMenu(){
         mTools.add(add);
         mTools.add(rotate);
         mTools.add(edit);
         mTools.add(delete);
-        mTools.addSeparator();
+        //mTools.addSeparator();
         mTools.add(settings);
-
         top.add(mTools);
     }
 
-    public void compressMenu(){
+    private void compressMenu(){
         top.remove(mTools);
     }
 
@@ -121,4 +198,24 @@ public class GameFrame {
         return frMain;
     }
 
+    public JPanel geActiveBoard(){
+        return activeBoard;
+    }
+
+    //I'm unsure why geActiveBoard exists. Left it in for now
+    public Board getActualBoard(){
+        return board;
+    }
+
+    public GameView getView(){
+        return view;
+    }
+
+    public void assignActionListeners(){
+        for(JMenuItem m: menuItems){
+            if(m.getActionListeners().length == 0)
+                m.addActionListener(controller.getActionListener("Menu"));
+        }
+        view.setAllButtonListeners();
+    }
 }

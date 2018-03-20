@@ -94,7 +94,7 @@ public class MagicKeyListener implements KeyListener {
      * additional key release events (the third option given in the
      * class overview is disabled).
      */
-    public MagicKeyListener(KeyListener adaptee)
+    private MagicKeyListener(KeyListener adaptee)
     {
         this(adaptee, false);
     }
@@ -108,7 +108,7 @@ public class MagicKeyListener implements KeyListener {
      *
      * @effects creates a new MagicKeyListener.
      */
-    public MagicKeyListener(KeyListener adaptee, boolean assumeAllReleased)
+    private MagicKeyListener(KeyListener adaptee, boolean assumeAllReleased)
     {
         if (adaptee == null) throw new IllegalArgumentException();
         this.adaptee = adaptee;
@@ -116,8 +116,8 @@ public class MagicKeyListener implements KeyListener {
     }
 
     private final KeyListener adaptee;
-    private final Set<Integer> real = new HashSet<Integer>();
-    private final Set<Integer> announced = new HashSet<Integer>();
+    private final Set<Integer> real = new HashSet<>();
+    private final Set<Integer> announced = new HashSet<>();
     private final boolean assumeAllReleased;
 
     //
@@ -139,7 +139,7 @@ public class MagicKeyListener implements KeyListener {
      */
     private static Integer marker(KeyEvent e)
     {
-        return new Integer(e.getKeyCode());
+        return e.getKeyCode();
     }
 
     /**
@@ -152,7 +152,7 @@ public class MagicKeyListener implements KeyListener {
         int id = e.getID();
         long when = e.getWhen();
         int modifiers = e.getModifiers();
-        int keyCode = marker.intValue();
+        int keyCode = marker;
         char keyChar = e.getKeyChar();
 
         return new KeyEvent(source, id, when, modifiers, keyCode, keyChar);

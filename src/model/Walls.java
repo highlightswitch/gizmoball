@@ -1,8 +1,9 @@
 package model;
 
-import java.util.ArrayList;
-
 import physics.LineSegment;
+import physics.Vect;
+
+import java.util.ArrayList;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
@@ -25,7 +26,7 @@ public class Walls implements Collidable {
 	}
 
 	private ArrayList<LineSegment> getLineSegments() {
-		ArrayList<LineSegment> ls = new ArrayList<LineSegment>();
+		ArrayList<LineSegment> ls = new ArrayList<>();
 		LineSegment l1 = new LineSegment(xpos1, ypos1, xpos2, ypos1);
 		LineSegment l2 = new LineSegment(xpos1, ypos1, xpos1, ypos2);
 		LineSegment l3 = new LineSegment(xpos2, ypos1, xpos2, ypos2);
@@ -45,7 +46,36 @@ public class Walls implements Collidable {
 	}
 
 	@Override
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
 	public boolean isAbsorber() {
 		return false;
+	}
+
+	@Override
+	public CollisionDetails timeUntilCollisionWithBall(GameObject ballGO, Vect ballVelocity) {
+		return this.getGameObject().timeUntilCollisionWithBall(ballGO, ballVelocity);
+	}
+
+	@Override
+	public void collide(){
+
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		Walls walls = (Walls) obj;
+		return xpos1 == walls.xpos1 && xpos2 == walls.xpos2 && ypos1 == walls.ypos1 && ypos2 == walls.ypos2;
 	}
 }

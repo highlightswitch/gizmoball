@@ -1,43 +1,78 @@
 package controller;
 
-import model.Model;
+import model.*;
+import model.gizmo.GizmoPropertyException;
 import model.gizmo.TriggerType;
 import view.Board;
-import view.BuildView;
 import view.GameFrame;
-import view.RunView;
+import view.GameView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 
 public class MainController implements ActionListener {
-    private GameFrame fr;
-    private Board board;
-    private Timer timer;
-    private Model model;
-    private KeyListener keyListener;
 
-    public MainController(Model model, GameFrame frame, Board b){
-        fr = frame;
-        board = b;
-        this.model = model;
+    private Model model;
+    private GameFrame fr;
+    private KeyListener keyListener;
+    private Timer timer;
+    private String buildModeSave = "";
+
+    private ButtonActionListener button;
+    private MenuActionListener menu;
+
+    private MouseHandler mouseHandler;
+
+    public MainController(){
         keyListener = new MagicKeyListener(this);
-        this.timer = new Timer(50, this);
+
+        this.model = new Model();
+        fr = new GameFrame(this);
+        this.timer = new Timer(25, this);
+
+        this.mouseHandler = new MouseHandler(this, fr.getFrame());
+        menu = new MenuActionListener(this, fr.getFrame());
+        button = new ButtonActionListener(this);
+        fr.assignActionListeners();
+        this.updateMouseListener();
+
     }
 
-    //TODO: This is only here for testing purposes.
-    //I'm pretty sure everything that needs the model already has it
-    public Model getModel() {
+    public IModel getIModel() {
         return model;
     }
 
-    public Board getBoard(){ return board; }
+    Model getModel(){
+        return model;
+    }
 
-    public void setModel(Model newModel) { model = newModel; }
+    public void setModel(Model newModel) {
+        model = newModel;
+        fr.setModel(model);
+    }
 
-    public GameFrame getGameFrame() { return fr;}
+    GameView getView(){
+        return fr.getView();
+    }
+
+    String getBuildModeSave(){
+        return buildModeSave;
+    }
+
+    MouseHandler getMouseHandler() {
+        return mouseHandler;
+    }
+
+    void updateMouseListener(){
+        Board board = fr.getActualBoard();
+        for(MouseListener m : board.getMouseListeners()){
+            board.removeMouseListener(m);
+        }
+        board.addMouseListener(mouseHandler.getCurrentListener());
+    }
 
     void startTimer() {
         timer.start();
@@ -47,26 +82,21 @@ public class MainController implements ActionListener {
         timer.stop();
     }
 
-    void refreshView(){
-
-    }
-
     void switchToRunView(){
-        fr.drawFrame(new RunView( this, board));
-        fr.getFrame().getContentPane().revalidate();
-        fr.getFrame().getContentPane().repaint();
-        fr.compressMenu();
-        fr.getFrame().getJMenuBar().revalidate();
-        fr.getFrame().getJMenuBar().repaint();
+        this.buildModeSave = model.toString();
+        fr.switchToRunView();
     }
 
     void switchToBuildView(){
-        fr.drawFrame(new BuildView(fr.getFrame(), this, board));
-        fr.extendMenu();
-        fr.getFrame().getContentPane().revalidate();
-        fr.getFrame().getContentPane().repaint();
-        fr.getFrame().getJMenuBar().revalidate();
-        fr.getFrame().getJMenuBar().repaint();
+        if(!buildModeSave.equals("")){
+            try {
+                this.setModel(LoadingHandler.stringToModel(buildModeSave));
+            } catch (TileCoordinatesNotValid | MalformedGizmoballFileException | GizmoPropertyException | GizmoPlacementNotValidException | GizmoNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        fr.switchToBuildView();
+        timer.stop();
     }
 
     public KeyListener getKeyListener() {
@@ -78,20 +108,14 @@ public class MainController implements ActionListener {
     }
 
     public ActionListener getActionListener(String type) {
-
         if(type.equals("Button")){
-            return new ButtonActionListener(this);
+            return button;
         }
         else if(type.equals("Menu")){
-            return new MenuActionListener(this);
+            return menu;
         }
 
-        return new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               //
-           }
-        };
+        return (e -> System.out.println("Cannot find type"));
     }
 
     @Override

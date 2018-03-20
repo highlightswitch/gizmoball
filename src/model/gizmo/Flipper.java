@@ -1,9 +1,7 @@
 package model.gizmo;
 
-import model.Collidable;
-import model.DrawingData;
-import model.GameObject;
-import model.StaticGameObject;
+import model.*;
+import model.util.GizmoMaths;
 import physics.Angle;
 import physics.Circle;
 import physics.LineSegment;
@@ -11,6 +9,7 @@ import physics.Vect;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Flipper extends Gizmo implements Tickable, Collidable {
 
@@ -19,38 +18,70 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     private final double length = 2;
     private final double width = 0.5;
 
-    private boolean isLeftFlipper;
     private double currentMovement;
     private double flipPos;
-    Angle rotation = Angle.RAD_PI_OVER_TWO;
 
-    public Flipper(Color colour, String name, boolean isLeft){
-        super(name, colour);
+   // protected GizmoType type;
 
-        setIsLeft(isLeft);
+    public Flipper(Color colour, Map<GizmoPropertyType, String> properties){
+        super(colour, properties);
+        this.setAction(GizmoActionType.FLIP_FLIPPER);
+
+        flipSpeed = 0.1;
 
         flipPos = 0;
         currentMovement = 0;
-
+        type = GizmoType.FLIPPER;
     }
 
-    private void setIsLeft(boolean isLeft){
-        isLeftFlipper = isLeft;
-        flipSpeed = isLeftFlipper ? 0.1 : -0.1;
+    public GizmoType getType(){return type;}
+
+    @Override
+    public boolean isTilePlacable() {
+        return true;
+    }
+
+    private boolean isLeftFlipper(){
+        return Boolean.valueOf(getProperty(GizmoPropertyType.IS_LEFT_ORIENTATED));
     }
 
     private void moveFlipper(){
-        flipPos = isLeftFlipper ?
-                clamp(flipPos + currentMovement, isLeftFlipper ? 0 : -1, isLeftFlipper ? 1 : 0)
-                :
-                clamp(flipPos + currentMovement, -1, 0);
+        flipPos = GizmoMaths.clamp(flipPos + currentMovement, 0, 1);
     }
 
+    private boolean isMovingUp(){
+        return currentMovement > 0;
+    }
 
-    private double clamp(double val, double min, double max){
-        if(val < min) return min;
-        if(val > max) return max;
-        return val;
+    private boolean isMovingDown(){
+        return currentMovement < 0;
+    }
+
+    private void setMovingUp(){
+        currentMovement = flipSpeed;
+    }
+
+    private void setMovingDown(){
+        currentMovement = -1* flipSpeed;
+    }
+
+    @Override
+    public Tile[] findAnnexedTiles(Tile anchorTile) {
+
+        //The below means that the flipper occupies 2 tiles
+        // in the x and y directions (ie a 2x2 square).
+        double width = 2;
+        double height = 2;
+        ArrayList<Tile> tiles = new ArrayList<>();
+
+        for(int xOff = 0; xOff < width; xOff++)
+            for (int yOff = 0; yOff < height; yOff++)
+                if(!(xOff == 0 && yOff ==0))
+                    tiles.add(anchorTile.getNeighbour(xOff, yOff));
+
+        Tile[] arr = new Tile[tiles.size()];
+        return tiles.toArray(arr);
+
     }
 
     @Override
@@ -58,8 +89,9 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
 
         LineSegment[] lines;
         Circle[] circles;
+        GameObject gameObject;
 
-        if(isLeftFlipper) {
+        if(isLeftFlipper()) {
 
             lines = new LineSegment[] {
                     new LineSegment(0, width / 2, 0, length - width / 2),
@@ -76,6 +108,24 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
                     new Circle(width, width/2, 0),
                     new Circle(width, length - width/2, 0)
             };
+
+            double angularVelocity = 0.0;
+            if(flipPos > 0.0 && flipPos < 1.0)
+                angularVelocity = currentMovement < 0 ? Math.toRadians(180) : -1 * Math.toRadians(180);
+
+            gameObject = new RotatingGameObject(
+                    lines,
+                    circles,
+                    0.95,
+                    new Vect(width/2, width/2),
+                    angularVelocity
+            );
+
+            gameObject.rotateAroundPointByAngle(
+                    new Vect(width/2, width/2),
+                    new Angle(Math.toRadians(-90 * flipPos))
+            );
+
         } else{
 
             lines = new LineSegment[] {
@@ -94,27 +144,37 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
                     new Circle(2, length - width/2, 0)
             };
 
+            double angularVelocity = 0.0;
+            if(flipPos > 0.0 && flipPos < 1.0)
+                angularVelocity = currentMovement < 0 ? Math.toRadians(180) : -1 * Math.toRadians(180);
+            gameObject = new RotatingGameObject(
+                    lines,
+                    circles,
+                    0.95,
+                    new Vect(width/2, width/2),
+                    angularVelocity
+            );
+
+            gameObject.rotateAroundPointByAngle(
+                    new Vect(2 - width/2, width/2),
+                    new Angle( Math.toRadians(90 * flipPos))
+            );
+
         }
 
-        GameObject gameObject = new StaticGameObject(lines, circles, 0.95);
-
-        //TODO: Get Rotating Game Objects working with the ball.
-//        double angularVelocity = 0.0;
-//        if(flipPos > 0.0 && flipPos < 1.0)
-//            angularVelocity = currentMovement < 0 ? Math.toRadians(180) : -1 * Math.toRadians(180);
-//        GameObject gameObject = new RotatingGameObject(lines, circles, 0.95, new Vect(width/2, 0), angularVelocity );
-
-        gameObject.rotateAroundPointByAngle(
-                isLeftFlipper ? new Vect(width/2, width/2) : new Vect(2 - width/2, width/2),
-                new Angle(Math.toRadians(-90 * flipPos))
-        );
+//        GameObject gameObject = new StaticGameObject(lines, circles, 0.95);
 
         return gameObject;
     }
 
     @Override
     public GameObject getGameObject() {
-        return getPrototypeGameObject(). /* rotateAroundPointByAngle( new Vect(0,0), rotation ) . */ translate(getPosition());
+        return getPrototypeGameObject().rotateAroundPointByAngle( new Vect(1,1),  new Angle(getCurrentRotationInRadians())).translate(getPosition());
+    }
+
+    @Override
+    public Object clone() {
+        return super.clone();
     }
 
     @Override
@@ -122,15 +182,11 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
         return false;
     }
 
-    public void rotate() {
-        rotation = rotation.plus(Angle.DEG_90);
-    }
-
     @Override
     public DrawingData getGizmoDrawingData() {
         DrawingData data = new DrawingData();
 
-        if(isLeftFlipper) {
+        if(isLeftFlipper()) {
             ArrayList<Double[]> poly = new ArrayList<>();
             poly.add(new Double[]{0.0, width / 2}); // NW
             poly.add(new Double[]{0.0, length - width / 2}); // SW
@@ -153,8 +209,12 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
             data.addCircle(new Double[]{2 - width / 2, width / 2, width / 2});
             data.addCircle(new Double[]{2 - width / 2, length - width / 2, width / 2});
 
-            data.rotateAroundPivotByRadians(new double[]{2 - width/2, width/2}, Math.toRadians(-90 * flipPos));
+            data.rotateAroundPivotByRadians(new double[]{2 - width/2, width/2}, Math.toRadians(90 * flipPos));
         }
+
+        data.rotateAroundPivotByRadians(new int[]{1,1}, getCurrentRotationInRadians());
+
+        data.setColour(getProperty(GizmoPropertyType.CURRENT_COLOUR));
 
         return data;
     }
@@ -164,18 +224,29 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
         moveFlipper();
     }
 
-    @Override
-    public void keyDown() {
-        currentMovement = flipSpeed;
-    }
 
     @Override
-    public void keyUp() {
-        currentMovement = -1 * flipSpeed;
+    public void setAction(GizmoActionType type) {
+        this.actionType = type;
+        if (type == GizmoActionType.FLIP_FLIPPER) {
+            action = this::action_moveFlipper;
+        } else {
+            super.setAction(type);
+        }
     }
 
-    @Override
-    public void genericTrigger() {
-        //Empty...
+    private void action_moveFlipper(){
+        if(isMovingDown() && flipPos != 0){
+            setMovingUp();
+        } else if(isMovingUp() && flipPos != 1) {
+            setMovingDown();
+        } else if(flipPos == 0){
+            setMovingUp();
+        } else if(flipPos == 1){
+            setMovingDown();
+        } else {
+            System.err.println("action_MoveFlipper: This should never happen");
+        }
     }
+
 }

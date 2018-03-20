@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * A GameObject is a collection of LineSegments and Circles that
  * represent the physical properties an object in the game.
  */
-public abstract class GameObject implements Drawable {
+public abstract class GameObject implements Drawable, Cloneable {
 
     private LineSegment[] lines;
     private Circle[] circles;
@@ -29,6 +29,9 @@ public abstract class GameObject implements Drawable {
     public Circle[] getCircles() {
         return circles;
     }
+
+    @Override
+    public abstract GameObject clone();
 
     /**
      * This method moves increases the x-y positions of each component of the object by the given amount.
@@ -95,8 +98,9 @@ public abstract class GameObject implements Drawable {
         return data;
     }
 
-    public CollisionDetails timeUntilGameObjectCollision(Circle ballCircle, Vect ballVelocity) {
+    public CollisionDetails timeUntilCollisionWithBall(GameObject ball, Vect ballVelocity) {
 
+        Circle ballCircle = ball.getCircles()[0];
         double shortestTime = Double.MAX_VALUE;
         double time;
         Vect newVelocity = new Vect(0, 0);
@@ -120,7 +124,6 @@ public abstract class GameObject implements Drawable {
         return new CollisionDetails(shortestTime, newVelocity);
 
     }
-
     protected abstract double timeUntilLineCollision(LineSegment line, Circle ballCircle, Vect ballVelocity);
     protected abstract Vect velocityOfLineCollision(LineSegment line, Circle ballCircle, Vect ballVelocity);
 
