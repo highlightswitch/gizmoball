@@ -4,6 +4,7 @@ import controller.EditAbsorberListener;
 import controller.MainController;
 import controller.PlaceAbsorberListener;
 import model.gizmo.Gizmo;
+import model.gizmo.GizmoPropertyType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,13 +26,14 @@ public class EditAbsorberDialogue {
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel spos = new JLabel("Start position (top left): ");
-        JTextField sposition = new JTextField("(0,0)");
+        JTextField sposition = new JTextField("(" + (int)g.getPosition()[0] + "," + (int)g.getPosition()[1] + ")");
+
 
         JLabel w = new JLabel("Width: ");
-        JTextField width = new JTextField();
+        JTextField width = new JTextField(g.getProperty(GizmoPropertyType.WIDTH));
 
         JLabel h = new JLabel("Height: ");
-        JTextField height = new JTextField();
+        JTextField height = new JTextField(g.getProperty(GizmoPropertyType.HEIGHT));
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;

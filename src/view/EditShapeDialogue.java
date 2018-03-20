@@ -53,7 +53,7 @@ public class EditShapeDialogue {
             Double y = g.getPosition()[1] ;
             position = new JTextField("(" + x.intValue() + "," + y.intValue() + ")");
         }else {
-            position = new JTextField("(0,0)");
+            position = new JTextField("(" + (int)g.getPosition()[0] + "," + (int)g.getPosition()[1] + ")");
         }
 
         JColorChooser shapeColour = new JColorChooser();
