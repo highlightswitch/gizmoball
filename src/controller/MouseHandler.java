@@ -246,7 +246,7 @@ public class MouseHandler {
                 try {
                     IModel m = controller.getIModel();
                     Tile t2 = m.getTileAt(xy[0], xy[1]);
-                    m.connect(t2.getGizmo().getProperty(GizmoPropertyType.NAME), t.getGizmo().getProperty(GizmoPropertyType.NAME));
+                    m.connect(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2.getGizmo().getProperty(GizmoPropertyType.NAME));
                     controller.getView().setMessage("Connected to " + t2.getGizmo().getProperty(GizmoPropertyType.NAME));
                     currentListener = defaultListener;
                     controller.updateMouseListener();

@@ -69,6 +69,8 @@ public class EditShapeDialogue {
             triggers = new JList();
         }
 
+        triggers.setLayoutOrientation(JList.VERTICAL);
+
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
         shapeColour.setOpaque(false);
