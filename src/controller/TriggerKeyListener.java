@@ -1,7 +1,7 @@
 package controller;
 
 import model.GizmoNotFoundException;
-import model.Model;
+import model.IModel;
 import model.Tile;
 import model.gizmo.GizmoPropertyType;
 import model.gizmo.TriggerType;
@@ -11,14 +11,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class TriggerKeyListener implements KeyListener {
-    Model model;
-    Tile tile;
-    JFrame frame;
 
-    public TriggerKeyListener(JFrame f, Model m, Tile t){
+    private MainController controller;
+    private Tile tile;
+    private JFrame frame;
+
+    TriggerKeyListener(MainController controller, JFrame f, Tile t){
         System.out.println("triggering");
+        this.controller = controller;
         tile = t;
-        model = m;
         frame = f;
     }
 
@@ -32,6 +33,7 @@ public class TriggerKeyListener implements KeyListener {
         System.out.println("you pressed a key");
         JOptionPane.showMessageDialog(frame, "The key you are selecting is: " + e.getKeyCode(), "Key Code", JOptionPane.INFORMATION_MESSAGE);
         try {
+            IModel model = controller.getIModel();
             model.connect(e.getKeyCode(), TriggerType.valueOf(""),tile.getGizmo().getProperty(GizmoPropertyType.NAME));
         } catch (GizmoNotFoundException e1) {
             e1.printStackTrace();

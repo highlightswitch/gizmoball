@@ -48,7 +48,7 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
                 }
             case BALL:
                 Ball ball = (Ball) this;
-                double [] pos = ball.getPosition();
+                double [] pos = ball.getCentre();
                 //Name, Vel_X, Vel_Y
                 return "Ball" + " " + getProperty(GizmoPropertyType.NAME) + " " + pos[0] + " " + pos[1] + " " + getProperty(GizmoPropertyType.VEL_X) + " " + getProperty(GizmoPropertyType.VEL_Y);
             case CIRCLE_BUMPER:
@@ -73,13 +73,13 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
     private void setAnnexedTiles(Tile[] tiles){
         annexedTiles = tiles;
         for(Tile t : annexedTiles){
-            t.setOccupied(true);
+            t.setOccupiedBy(this);
         }
     }
 
     private void removeAnnexedTiles(){
         for(Tile t : annexedTiles){
-            t.setOccupied(false);
+            t.setOccupiedBy(null);
         }
         annexedTiles = null;
     }
@@ -153,6 +153,7 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
 
     @Override
     public void setAction(GizmoActionType type){
+        this.actionType = type;
         if(type == GizmoActionType.CHANGE_COLOUR){
             action = this::action_changeColour;
         } else if(type == GizmoActionType.PRINT_TO_CONSOLE){

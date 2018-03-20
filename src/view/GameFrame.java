@@ -1,7 +1,6 @@
 package view;
 
 import controller.MainController;
-import controller.MenuActionListener;
 import model.IModel;
 
 import javax.swing.*;
@@ -9,6 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class GameFrame {
+
      private JFrame frMain;
      private JMenuBar top;
      private JMenu mTools;
@@ -139,6 +139,7 @@ public class GameFrame {
     public void switchToRunView(){
         board.updateMode("Run");
         this.drawFrame(new RunView(frMain, controller, board));
+        this.assignActionListeners();
         frMain.getContentPane().revalidate();
         frMain.getContentPane().repaint();
         this.compressMenu();
@@ -152,6 +153,7 @@ public class GameFrame {
         board.updateMode("Build");
         this.drawFrame(new BuildView(frMain, controller, board));
         this.extendMenu();
+        this.assignActionListeners();
         frMain.getContentPane().revalidate();
         frMain.getContentPane().repaint();
         frMain.getJMenuBar().revalidate();
@@ -160,19 +162,25 @@ public class GameFrame {
         frMain.repaint();
     }
 
-    public void drawFrame(GameView g){
+    private void drawFrame(GameView g){
         //open running view by default then user can change to build view
+
+        this.view = g;
+
         activePanel = g.getPanel();
         activeBoard = g.getBoard();
+
         frMain.setContentPane(activePanel);
         frMain.setJMenuBar(top);
         frMain.setVisible(true);
+
         frMain.addKeyListener(controller.getKeyListener());
+
         frMain.setMinimumSize(new Dimension(550,650));
         frMain.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void extendMenu(){
+    private void extendMenu(){
         mTools.add(add);
         mTools.add(rotate);
         mTools.add(edit);
@@ -182,7 +190,7 @@ public class GameFrame {
         top.add(mTools);
     }
 
-    public void compressMenu(){
+    private void compressMenu(){
         top.remove(mTools);
     }
 
@@ -190,12 +198,13 @@ public class GameFrame {
         return frMain;
     }
 
-    public JPanel getActivePanel() {
-        return activePanel;
-    }
-
     public JPanel geActiveBoard(){
         return activeBoard;
+    }
+
+    //I'm unsure why geActiveBoard exists. Left it in for now
+    public Board getActualBoard(){
+        return board;
     }
 
     public GameView getView(){
@@ -204,7 +213,8 @@ public class GameFrame {
 
     public void assignActionListeners(){
         for(JMenuItem m: menuItems){
-            m.addActionListener(controller.getActionListener(this.frMain,"Menu"));
+            if(m.getActionListeners().length == 0)
+                m.addActionListener(controller.getActionListener("Menu"));
         }
         view.setAllButtonListeners();
     }

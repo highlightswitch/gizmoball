@@ -94,17 +94,13 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 
     private void moveBall(Absorber absorber) {
 
-        //=====================
-        //Start of Definitions
-        // \/ \/ \/ \/ \/ \/ \/
-
         double lengthOfTick = 0.025; // 0.025 = 40 times per second as per Gizmoball
 
-        double[] currentVelXY = justFired ?
-                new double[]{0, -50}
-                : new double[]{getVelocity().x(), getVelocity().y()}; // Balls velocity in the last tick
-        setVelocity(currentVelXY[0], currentVelXY[1]);
+        //Apply Friction and Gravity
+        double[] newVel = getNewVelocities(new double[]{getVelocity().x(), getVelocity().y()}, justFired, lengthOfTick);
+        setVelocity(newVel[0], newVel[1]);
 
+        //Get time until collision
         CollisionDetails cd = timeUntilCollision(absorber);
         double tuc = cd.getTuc(); //ie Time Until Collision
         double[] velAfterCollisionXY = new double[]{cd.getVelocity().x(), cd.getVelocity().y()};
@@ -113,17 +109,6 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 
         boolean isCollidingThisTick = tuc < lengthOfTick;
         double timeMoving = isCollidingThisTick ? tuc : lengthOfTick;
-
-        // /\ /\ /\ /\ /\ /\ /\
-        //End of Definitions
-        //=====================
-
-        //=====================
-        //Start of Calculation
-        // \/ \/ \/ \/ \/ \/ \/
-
-        //Get the new XY velocities of the ball during
-        double[] newVel = getNewVelocities(currentVelXY, justFired, timeMoving);
 
         //Set the balls new velocity and move the ball for the correct amount of time
         setVelocity(newVel[0], newVel[1]);
@@ -158,9 +143,6 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
         if (justFired)
             justFired = false;
 
-        // /\ /\ /\ /\ /\ /\ /\
-        //End of Calculations
-        //=====================
     }
 
 //    private double[] getNewVelocities(double[] currentVelXY, boolean justFired, double timeMoving) {
@@ -311,10 +293,4 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
         }
 
     }
-
-    @Override
-    public String toString(){
-	    return "Radius is: " + radius + " x is: " + cx + " y is: " + cy;
-    }
-
 }

@@ -3,28 +3,42 @@ package controller;
 import model.*;
 import model.gizmo.GizmoPropertyException;
 import model.gizmo.TriggerType;
+import view.Board;
 import view.GameFrame;
+import view.GameView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 
 public class MainController implements ActionListener {
+
     private Model model;
     private GameFrame fr;
-
     private KeyListener keyListener;
     private Timer timer;
-
     private String buildModeSave = "";
+
+    private ButtonActionListener button;
+    private MenuActionListener menu;
+
+    private MouseHandler mouseHandler;
 
     public MainController(){
         keyListener = new MagicKeyListener(this);
+
         this.model = new Model();
         fr = new GameFrame(this);
         this.timer = new Timer(25, this);
+
+        this.mouseHandler = new MouseHandler(this, fr.getFrame());
+        menu = new MenuActionListener(this, fr.getFrame());
+        button = new ButtonActionListener(this);
         fr.assignActionListeners();
+        this.updateMouseListener();
+
     }
 
     public IModel getIModel() {
@@ -40,6 +54,26 @@ public class MainController implements ActionListener {
         fr.setModel(model);
     }
 
+    GameView getView(){
+        return fr.getView();
+    }
+
+    String getBuildModeSave(){
+        return buildModeSave;
+    }
+
+    MouseHandler getMouseHandler() {
+        return mouseHandler;
+    }
+
+    void updateMouseListener(){
+        Board board = fr.getActualBoard();
+        for(MouseListener m : board.getMouseListeners()){
+            board.removeMouseListener(m);
+        }
+        board.addMouseListener(mouseHandler.getCurrentListener());
+    }
+
     void startTimer() {
         timer.start();
     }
@@ -49,23 +83,20 @@ public class MainController implements ActionListener {
     }
 
     void switchToRunView(){
-        //fr.assignActionListeners();
-//        this.buildModeSave = model.toString(); //TODO: after saving is finished, enable this and remove the test string below
-        this.buildModeSave = "Square s1 5 5\nCircle c1 3 3\nBall b1 3 1 0 0";
+        this.buildModeSave = model.toString();
         fr.switchToRunView();
     }
 
     void switchToBuildView(){
-       // fr.assignActionListeners();
         if(!buildModeSave.equals("")){
             try {
-                GizmoballFileReader fileReader = new GizmoballFileReader(buildModeSave);
-                this.setModel(fileReader.getModel());
+                this.setModel(LoadingHandler.stringToModel(buildModeSave));
             } catch (TileCoordinatesNotValid | MalformedGizmoballFileException | GizmoPropertyException | GizmoPlacementNotValidException | GizmoNotFoundException e) {
                 e.printStackTrace();
             }
         }
         fr.switchToBuildView();
+        timer.stop();
     }
 
     public KeyListener getKeyListener() {
@@ -76,20 +107,15 @@ public class MainController implements ActionListener {
         model.keyEventTriggered(keyCode, trigger);
     }
 
-    public ActionListener getActionListener(JFrame frame, String type) {
+    public ActionListener getActionListener(String type) {
         if(type.equals("Button")){
-            return new ButtonActionListener(this, frame, model, fr.geActiveBoard(), fr.getView());
+            return button;
         }
         else if(type.equals("Menu")){
-            return new MenuActionListener(this, frame, fr.geActiveBoard(), fr.getView());
+            return menu;
         }
 
-        return new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               //
-           }
-        };
+        return (e -> System.out.println("Cannot find type"));
     }
 
     @Override

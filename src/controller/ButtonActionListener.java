@@ -1,35 +1,22 @@
 package controller;
 
-import model.Model;
-import view.EditShapeDialogue;
-import view.GameView;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
 
 public class ButtonActionListener implements ActionListener {
 
     private MainController controller;
-    private JFrame frame;
-    private Model model;
-    private JPanel panel;
-    private AllMouseListeners mouse;
 
-    ButtonActionListener(MainController controller, JFrame f, Model m, JPanel p, GameView view) {
+    ButtonActionListener(MainController controller) {
         this.controller = controller;
-        frame = f;
-        model = m;
-        panel = p;
-        mouse = new AllMouseListeners(frame, model,panel, view);
-        frame.addMouseListener(mouse);
 	}
 
     @Override
 	public final void actionPerformed(final ActionEvent e) {
-        mouse.setType(e.getActionCommand());
+
+        MouseHandler mouseHandler = controller.getMouseHandler();
+
+        mouseHandler.setType(e.getActionCommand());
         switch (e.getActionCommand()) {
             case "Start":
                 controller.startTimer();
@@ -43,7 +30,8 @@ public class ButtonActionListener implements ActionListener {
             case "Key":
             case "Connect":
             case "Move":
-                mouse.setMode("Edit");
+                mouseHandler.setMode("Edit");
+                System.out.println("In " + mouseHandler.getMode() + " mode");
                 break;
             case "Circle":
             case "Triangle":
@@ -51,7 +39,8 @@ public class ButtonActionListener implements ActionListener {
             case "Absorber":
             case "Flipper":
             case "Ball":
-                mouse.setMode("Add");
+                mouseHandler.setMode("Add");
+                System.out.println("In  " + mouseHandler.getMode() + " mode");
                 break;
             default:
                 break;

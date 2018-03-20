@@ -1,6 +1,7 @@
 package view;
 
 import controller.EditBallListener;
+import controller.MainController;
 import controller.PlaceBallListener;
 import model.Model;
 import model.gizmo.Gizmo;
@@ -11,13 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EditBallDialogue {
-    JPanel panDI;
-    JDialog edit;
-    String intPosition;
-    String intVelocity;
-    Color color;
+    private JPanel panDI;
+    private JDialog edit;
+    private String intPosition;
+    private String intVelocity;
+    private Color color;
 
-    public EditBallDialogue(JFrame f, String mode, Model m, Gizmo g){
+    public EditBallDialogue(MainController controller, JFrame f, String mode, Gizmo g){
 
         JLabel label = new JLabel();
         label.setIcon(new ImageIcon(getClass().getResource("/Images/borderBallSmall.png")));
@@ -60,9 +61,9 @@ public class EditBallDialogue {
                 intVelocity = velcoity.getText();
                 color = shapeColour.getColor();
                 if(mode.equals("Add")){
-                    new PlaceBallListener(intPosition, intVelocity, color, m);
+                    new PlaceBallListener(controller, intPosition, intVelocity, color);
                 }else {
-                    new EditBallListener(g, intPosition, intVelocity, color, m);
+                    new EditBallListener(controller, g, intPosition, intVelocity, color);
                 }
                 edit.dispose();
             }

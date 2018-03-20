@@ -31,4 +31,8 @@ public class DualKeyMap<K,L,V>{
 		return map.containsKey(key);
 	}
 
+	public int size(){
+		return map.size();
+	}
+
 }

@@ -1,8 +1,8 @@
 package view;
 
 import controller.EditGizmoListener;
+import controller.MainController;
 import controller.PlaceGizmoListener;
-import model.Model;
 import model.gizmo.Gizmo;
 
 import javax.swing.*;
@@ -11,20 +11,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EditShapeDialogue {
-    JPanel panDI;
-    String gizmo;
-    String intPosition;
-    Color color;
-    String cAction;
-    JDialog edit;
+    private JPanel panDI;
+    private String gizmo;
+    private String intPosition;
+    private Color color;
+    private String cAction;
+    private JDialog edit;
 
-    public EditShapeDialogue(JFrame fr, String shape, String mode, Model model, Gizmo g){
+    private MainController controller;
+
+    public EditShapeDialogue(MainController controller, JFrame fr, String shape, String mode, Gizmo g){
+        this.controller = controller;
+
         gizmo = shape;
         System.out.println(gizmo);
 
         //change to mapping from action
         JLabel action = new JLabel("When the ball collides with this gizmo the gizmo should: ");
-        String[] actions = {"Change Colour", "Activate Another Gizmo", "Do Nothing"};
+        String[] actions = {"Change Colour", "Do Nothing"};
 
         JLabel label = new JLabel();
 
@@ -42,7 +46,7 @@ public class EditShapeDialogue {
 
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JComboBox actionList = new JComboBox(actions);
+        JComboBox<String> actionList = new JComboBox<>(actions);
 
         JLabel pos = new JLabel("Initial position: ");
         JTextField position;
@@ -87,17 +91,10 @@ public class EditShapeDialogue {
                 color = shapeColour.getColor();
                 cAction = actions[actionList.getSelectedIndex()];
 
-                if(cAction.equals("Activate Another Gizmo")){
-                    String[] action = new String[]{"Flipper", "Absorber"};
-                    JComboBox gizmos = new JComboBox(action);
-                    JOptionPane.showMessageDialog(fr, gizmos, "Select gizmo to activate", JOptionPane.QUESTION_MESSAGE);
-                    cAction = action[gizmos.getSelectedIndex()];
-                }
-
                 if(mode.equals("Add")){
-                    new PlaceGizmoListener(gizmo, intPosition, color, cAction, model);
+                    new PlaceGizmoListener(controller, gizmo, intPosition, color, cAction);
                 } else {
-                    new EditGizmoListener(g, intPosition, color, cAction, model);
+                    new EditGizmoListener(controller, g, intPosition, color, cAction);
                 }
 
                 edit.dispose();

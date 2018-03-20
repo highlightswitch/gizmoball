@@ -8,19 +8,26 @@ import java.util.Set;
 public abstract class Triggerable implements KeyEventTriggerable {
 
 	private Set<Triggerable> connectedTriggerables;
-	protected Procedure action;
+	GizmoActionType actionType;
+	Procedure action;
 
-	private boolean keyDown;
 
 	Triggerable(){
 		connectedTriggerables = new HashSet<>();
 		setAction(GizmoActionType.CHANGE_COLOUR);
 	}
 
+	public GizmoActionType getActionType() {
+		return actionType;
+	}
+
 	public abstract void setAction(GizmoActionType type);
 
+	public Set<Triggerable> getConnections(){
+		return connectedTriggerables;
+	}
+
 	void trigger(){
-//		this.doAction();
 		triggerAllConnected();
 	}
 

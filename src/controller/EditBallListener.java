@@ -9,7 +9,8 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class EditBallListener {
-    private IModel model;
+
+    private MainController controller;
     private Gizmo gizmo;
     private String color;
     private String vx;
@@ -17,8 +18,10 @@ public class EditBallListener {
     private int x;
     private int y;
     private HashMap<GizmoPropertyType, String> properties = new HashMap<>();
-    public EditBallListener(Gizmo g, String position, String velocity, Color c, Model m){
-        model = m;
+
+    public EditBallListener(MainController controller, Gizmo g, String position, String velocity, Color c){
+
+        this.controller = controller;
         gizmo = g;
 
         color = c.toString();
@@ -46,6 +49,7 @@ public class EditBallListener {
 
     private void edit() {
         try {
+            IModel model = controller.getIModel();
             model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
             properties.put(GizmoPropertyType.NAME, gizmo.getProperty(GizmoPropertyType.NAME));
             properties.put(GizmoPropertyType.VEL_X, vx);

@@ -1,42 +1,46 @@
-package model;
+package controller;
 
+import model.*;
 import model.gizmo.*;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class GizmoballFileReader {
+class LoadingHandler {
 
-    private Model model;
+    private static final String DEFAULT_COLOUR = "[r=255,g=255,b=255]";
+    private static final String ALT_COLOUR = "[r=255,g=0,b=0]";
 
-    private final String defaultColour = "[r=255,g=255,b=255]";
-    private final String altColour = "[r=255,g=0,b=0]";
+    static Model stringToModel(String str) throws TileCoordinatesNotValid, MalformedGizmoballFileException, GizmoPropertyException, GizmoNotFoundException, GizmoPlacementNotValidException {
+        return readFile(str);
 
-    public GizmoballFileReader(String str) throws TileCoordinatesNotValid, MalformedGizmoballFileException, GizmoPropertyException, GizmoNotFoundException, GizmoPlacementNotValidException {
-        this.model = new Model();
-        readFile(str);
     }
 
-    public GizmoballFileReader(File file) throws MalformedGizmoballFileException, TileCoordinatesNotValid, GizmoPropertyException, GizmoNotFoundException, GizmoPlacementNotValidException {
-        this.model = new Model();
-
+    static Model fileToModel(File file) throws TileCoordinatesNotValid, MalformedGizmoballFileException, GizmoPropertyException, GizmoNotFoundException, GizmoPlacementNotValidException {
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String text = "";
+            StringBuilder text = new StringBuilder();
             String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                text += "\n" + line;
-            }
-            readFile(text);
+            while ((line = bufferedReader.readLine()) != null)
+                text.append("\n").append(line);
+
+            return readFile(text.toString());
+
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
-    private void readFile(String str) throws MalformedGizmoballFileException, GizmoPropertyException, GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException {
+    private static Model readFile(String str) throws MalformedGizmoballFileException, GizmoPropertyException, GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException {
+
+        Model model = new Model();
+
         StringTokenizer fileTokenizer = new StringTokenizer(str, "\n");
         String line;
         while (fileTokenizer.hasMoreTokens()) {
@@ -47,34 +51,35 @@ public class GizmoballFileReader {
 				while (lineTokenizer.hasMoreTokens()) {
 					tokens.add(lineTokenizer.nextToken());
 				}
-				if (checkLine(tokens)) {
-					command(tokens);
+				if (checkLine(model, tokens)) {
+					model = command(model, tokens);
 				}
 			}
 		}
+
+		return model;
     }
 
-    private boolean checkLine(ArrayList<String> command) {
-        System.out.println(Arrays.deepToString(command.toArray()));
+    private static boolean checkLine(Model model, ArrayList<String> command) {
         switch (command.get(0)) {
             case "Square":
             case "Circle":
             case "Triangle":
             case "RightFlipper":
             case "LeftFlipper":
-                if(!model.checkName(command.get(1)) && checkInt(command.get(2)) && checkInt(command.get(3)) && command.size() == 4){
+                if(!model.checkName(command.get(1)) && stringIsInt(command.get(2)) && stringIsInt(command.get(3)) && command.size() == 4){
                     return true;
                 } else {
                     return false;
                 }
             case "Absorber":
-                if(!model.checkName(command.get(1)) && checkInt(command.get(2)) && checkInt(command.get(3)) && checkInt(command.get(4)) && checkInt(command.get(5)) && Integer.parseInt(command.get(2)) < Integer.parseInt(command.get(4)) && Integer.parseInt(command.get(3)) < Integer.parseInt(command.get(5)) && command.size() == 6){
+                if(!model.checkName(command.get(1)) && stringIsInt(command.get(2)) && stringIsInt(command.get(3)) && stringIsInt(command.get(4)) && stringIsInt(command.get(5)) && Integer.parseInt(command.get(2)) < Integer.parseInt(command.get(4)) && Integer.parseInt(command.get(3)) < Integer.parseInt(command.get(5)) && command.size() == 6){
                     return true;
                 } else {
                     return false;
                 }
             case "Ball":
-                if(!model.checkName(command.get(1)) && checkFloat(command.get(2)) && checkFloat(command.get(3)) && checkFloat(command.get(4)) && checkFloat(command.get(5)) && command.size() == 6){
+                if(!model.checkName(command.get(1)) && stringIsFloat(command.get(2)) && stringIsFloat(command.get(3)) && stringIsFloat(command.get(4)) && stringIsFloat(command.get(5)) && command.size() == 6){
                     return true;
                 } else {
                     return false;
@@ -92,9 +97,9 @@ public class GizmoballFileReader {
                     return false;
                 }
             case "Move":
-                if(model.checkName(command.get(1)) && checkInt(command.get(2)) && checkInt(command.get(3)) && command.size() == 4){
+                if(model.checkName(command.get(1)) && stringIsInt(command.get(2)) && stringIsInt(command.get(3)) && command.size() == 4){
                     return true;
-                } else if(model.checkName(command.get(1)) && checkFloat(command.get(2)) && checkFloat(command.get(3)) && command.size() == 4) {
+                } else if(model.checkName(command.get(1)) && stringIsFloat(command.get(2)) && stringIsFloat(command.get(3)) && command.size() == 4) {
                     return true;
                 }else{
                     return false;
@@ -106,7 +111,7 @@ public class GizmoballFileReader {
                     return false;
                 }
             case "KeyConnect":
-                if(command.get(1).equals("key") && checkInt(command.get(2)) && model.checkName(command.get(4)) && command.size() == 5){
+                if(command.get(1).equals("key") && stringIsInt(command.get(2)) && model.checkName(command.get(4)) && command.size() == 5){
                     return true;
                 } else {
                     return false;
@@ -120,20 +125,20 @@ public class GizmoballFileReader {
             case "Colour":
                 if(model.checkName(command.get(1)) && command.size() == 11){
                     for(int i = 2; i < command.size(); i++)
-                        if(!checkInt(command.get(i)))
+                        if(!stringIsInt(command.get(i)))
                             return false;
                     return true;
                 } else {
                     return false;
                 }
             case "Gravity":
-                if(checkFloat(command.get(1)) && command.size() == 2){
+                if(stringIsFloat(command.get(1)) && command.size() == 2){
                     return true;
                 } else {
                     return false;
                 }
             case "Friction":
-                if(checkFloat(command.get(1)) && checkFloat(command.get(2)) && command.size() == 3){
+                if(stringIsFloat(command.get(1)) && stringIsFloat(command.get(2)) && command.size() == 3){
                    return true;
                } else {
                     return false;
@@ -142,7 +147,7 @@ public class GizmoballFileReader {
         }
     }
 
-    private boolean checkInt(String string){
+    private static boolean stringIsInt(String string){
         try {
             Integer.parseInt(string);
         } catch (NumberFormatException e) {
@@ -151,7 +156,7 @@ public class GizmoballFileReader {
         return true;
     }
 
-    private boolean checkFloat(String string){
+    private static boolean stringIsFloat(String string){
         try {
             Float.parseFloat(string);
         } catch (NumberFormatException e) {
@@ -161,8 +166,7 @@ public class GizmoballFileReader {
     }
 
 
-    private void command(ArrayList<String> command) throws GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException, MalformedGizmoballFileException, GizmoPropertyException {
-        Gizmo gizmo;
+    private static Model command(Model model, ArrayList<String> command) throws GizmoPlacementNotValidException, TileCoordinatesNotValid, GizmoNotFoundException, MalformedGizmoballFileException, GizmoPropertyException {
         GizmoType type;
         Tile tile;
         String[] propertyValues;
@@ -170,35 +174,35 @@ public class GizmoballFileReader {
             case "Square":
                 type = GizmoType.SQUARE_BUMPER;
                 tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
-                propertyValues = new String[]{command.get(1), "0", defaultColour, defaultColour, altColour};
+                propertyValues = new String[]{command.get(1), "0", DEFAULT_COLOUR, DEFAULT_COLOUR, ALT_COLOUR};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Circle":
                 type = GizmoType.CIRCLE_BUMPER;
                 tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
-                propertyValues = new String[]{command.get(1), "0", defaultColour, defaultColour, altColour};
+                propertyValues = new String[]{command.get(1), "0", DEFAULT_COLOUR, DEFAULT_COLOUR, ALT_COLOUR};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Triangle":
                 type = GizmoType.TRIANGLE_BUMPER;
                 tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
-                propertyValues = new String[]{command.get(1), "0", defaultColour, defaultColour, altColour};
+                propertyValues = new String[]{command.get(1), "0", DEFAULT_COLOUR, DEFAULT_COLOUR, ALT_COLOUR};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "RightFlipper":
                 type = GizmoType.FLIPPER;
                 tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
-                propertyValues = new String[]{command.get(1), "0", "false", defaultColour, defaultColour, altColour};
+                propertyValues = new String[]{command.get(1), "0", "false", DEFAULT_COLOUR, DEFAULT_COLOUR, ALT_COLOUR};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "LeftFlipper":
                 type = GizmoType.FLIPPER;
                 tile = model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3)));
-                propertyValues = new String[]{command.get(1), "0", "true", defaultColour, defaultColour, altColour};
+                propertyValues = new String[]{command.get(1), "0", "true", DEFAULT_COLOUR, DEFAULT_COLOUR, ALT_COLOUR};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
@@ -212,12 +216,12 @@ public class GizmoballFileReader {
 
                 type = GizmoType.ABSORBER;
                 tile = model.getTileAt(x1, y1);
-                propertyValues = new String[]{command.get(1), String.valueOf(w), String.valueOf(h), defaultColour, defaultColour, altColour};
+                propertyValues = new String[]{command.get(1), String.valueOf(w), String.valueOf(h), DEFAULT_COLOUR, DEFAULT_COLOUR, ALT_COLOUR};
 
                 model.placeGizmo(type, tile, propertyValues);
                 break;
             case "Ball":
-                propertyValues = new String[]{command.get(1), command.get(4), command.get(5), defaultColour, defaultColour, altColour };
+                propertyValues = new String[]{command.get(1), command.get(4), command.get(5), DEFAULT_COLOUR, DEFAULT_COLOUR, ALT_COLOUR};
                 model.placeBall(Double.parseDouble(command.get(2)), Double.parseDouble(command.get(3)), propertyValues);
                 break;
             case "Rotate":
@@ -227,7 +231,7 @@ public class GizmoballFileReader {
                 model.deleteGizmo(command.get(1));
                 break;
             case "Move":
-                if(checkInt(command.get(2))) {
+                if(stringIsInt(command.get(2))) {
                     model.moveGizmo(command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
                 } else {
                     model.moveGizmo(command.get(1), Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)));
@@ -308,9 +312,7 @@ public class GizmoballFileReader {
             }
                 break;
         }
-    }
 
-    public Model getModel() {
         return model;
     }
 }

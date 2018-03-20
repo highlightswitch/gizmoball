@@ -1,13 +1,11 @@
 package controller;
 
-import model.GizmoballFileReader;
 import view.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,32 +15,33 @@ public class MenuActionListener implements ActionListener {
 
     private MainController controller;
     private JFrame frame;
-    private JPanel panel;
-    AllMouseListeners mouse;
 
-    MenuActionListener(MainController c, JFrame f, JPanel p, GameView v){
-        controller = c;
-        frame = f;
-        panel = p;
-        mouse = new AllMouseListeners(frame, controller.getModel(), panel, v);
+    MenuActionListener(MainController controller, JFrame frame){
+        this.controller = controller;
+        this.frame = frame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        MouseHandler mouse = controller.getMouseHandler();
+
         mouse.setType(e.getActionCommand());
+
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("GIZMO FILES", "gizmo");
         fileChooser.setFileFilter(filter);
+
         switch (e.getActionCommand()){
             case "Load":
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
                     try {
-                        GizmoballFileReader fileReader = new GizmoballFileReader(selectedFile);
-                        controller.setModel(fileReader.getModel());
+                        controller.setModel(LoadingHandler.fileToModel(selectedFile));
                         controller.switchToRunView();
                     } catch (Exception ex) {
+
                         JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Loading failed", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
@@ -53,11 +52,11 @@ public class MenuActionListener implements ActionListener {
                     File selectedFile = fileChooser.getSelectedFile();
                     try {
                         String fileName = selectedFile.getCanonicalPath();
-                        String game = controller.getModel().toString();
-                        //  if (!fileName.endsWith(".gizmo")) {
-                        //      selectedFile = new File(fileName + ".gizmo");
-                        //  }
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".gizmo"));
+                        String game = controller.getBuildModeSave();
+                          if (!fileName.endsWith(".gizmo")) {
+                              fileName = fileName + ".gizmo";
+                          }
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
                         writer.write(game);
                         writer.close();
                     } catch (IOException ex) {
@@ -68,22 +67,21 @@ public class MenuActionListener implements ActionListener {
             case "Circle":
             case "Square":
             case "Triangle":
-                new EditShapeDialogue(frame, e.getActionCommand(), "Add", controller.getModel(), null);
+                new EditShapeDialogue(controller, frame, e.getActionCommand(), "Add", null);
                 break;
             case "Ball":
-                new EditBallDialogue(frame, "Add", controller.getModel(), null);
+                new EditBallDialogue(controller, frame, "Add", null);
                 break;
             case "Absorber":
-                new EditAbsorberDialogue(frame, "Add", controller.getModel(), null);
+                new EditAbsorberDialogue(controller, frame, "Add", null);
                 break;
             case "Flipper":
-                new EditFlipperDialogue(frame, "Add", controller.getModel(), null);
+                new EditFlipperDialogue(controller, frame, "Add", null);
                 break;
             case "Rotate":
             case "Delete":
             case "Edit":
                 mouse.setMode("Edit");
-                frame.addMouseListener(mouse);
                 break;
             case "Gravity":
                 new GravitySlider(frame, controller.getModel());
@@ -96,10 +94,8 @@ public class MenuActionListener implements ActionListener {
                 break;
             case "Build":
                 controller.switchToBuildView();
-                controller.stopTimer();
                 break;
             case "Run":
-                controller.startTimer();
                 controller.switchToRunView();
                 break;
         }

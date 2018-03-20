@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -140,11 +139,11 @@ public  class Board extends JPanel implements Observer {
 		return AffineTransform.getScaleInstance(25, 25).createTransformedShape(shape);
 	}
 
-	public void updateMode(String m){
+	void updateMode(String m){
         mode = m;
     }
 
-    public String getMode(){
+    private String getMode(){
 	    return mode;
     }
 
