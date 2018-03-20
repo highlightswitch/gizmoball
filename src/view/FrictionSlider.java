@@ -61,7 +61,6 @@ public class FrictionSlider {
                     new SetFriction(m, newXFriction, newYFriction);
                     friction.dispose();
                 } catch (ModelPropertyException e1) {
-                    e1.printStackTrace();
                 }
             }
         });

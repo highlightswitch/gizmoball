@@ -284,8 +284,6 @@ public class Model extends Observable implements IModel {
 				try {
 					gizmo = placeBall(tile.getX() + 0.5, tile.getY() + 0.5, propertyValues);
 				} catch (TileCoordinatesNotValid e) {
-					//This should never happen
-					e.printStackTrace();
 				}
 				break;
 			case ABSORBER:
@@ -336,8 +334,6 @@ public class Model extends Observable implements IModel {
 				Tile oldTile = getTileAt((int) gizmo.getPosition()[0], (int) gizmo.getPosition()[1]);
 				oldTile.removeGizmo();
 			} catch (TileCoordinatesNotValid e) {
-				//This should never happen
-				e.printStackTrace();
 			}
 
 			newTile.placeGizmo(gizmo);
@@ -396,7 +392,6 @@ public class Model extends Observable implements IModel {
             try {
                 g.setProperty(p,v);
             } catch (GizmoPropertyException e) {
-                e.printStackTrace();
             }
         });
 
@@ -536,8 +531,6 @@ public class Model extends Observable implements IModel {
 				ball = null;
 			}
 		} catch (TileCoordinatesNotValid e) {
-			//This should never happen
-			e.printStackTrace();
 		}
 
 		tickable.remove(gizmo);
@@ -577,8 +570,6 @@ public class Model extends Observable implements IModel {
 					ballCentre[1] + ballRadius * 1/Math.sqrt(2))); //SW
 			ballTiles.add(getTileNear(ballCentre[0] - ballRadius * 1/Math.sqrt(2),
 					ballCentre[1] + ballRadius * 1/Math.sqrt(2))); //SE
-
-			System.out.println(Arrays.deepToString(ballTiles.toArray()));
 
 			return ballTiles;
 

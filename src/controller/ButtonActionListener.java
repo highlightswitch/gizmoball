@@ -47,7 +47,6 @@ public class ButtonActionListener implements ActionListener {
             case "Move":
                 controller.getView().setMessage("Click and drag gizmo to new tile");
                 mouseHandler.setMode("Edit");
-                System.out.println("In " + mouseHandler.getMode() + " mode");
                 break;
             case "Circle":
                 controller.getView().setMessage("Click on tile to add Circle");
@@ -72,7 +71,6 @@ public class ButtonActionListener implements ActionListener {
             case "Ball":
                 controller.getView().setMessage("Click on tile to add Ball");
                 mouseHandler.setMode("Add");
-                System.out.println("In  " + mouseHandler.getMode() + " mode");
                 break;
             default:
                 break;

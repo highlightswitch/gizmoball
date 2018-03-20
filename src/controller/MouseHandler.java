@@ -151,7 +151,6 @@ public class MouseHandler {
                                 } catch (GizmoPropertyException e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
                                 } catch (GizmoNotRotatableException e1){
-
                                 }
                                 break;
                             case "Move":

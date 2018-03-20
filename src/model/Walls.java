@@ -50,7 +50,6 @@ public class Walls implements Collidable {
 		try {
 			return super.clone();
 		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
 		}
 		return null;
 	}

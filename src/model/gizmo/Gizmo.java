@@ -134,7 +134,6 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
         try {
             return super.clone();
         } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
         }
         return null;
     }
@@ -173,7 +172,6 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
     }
 
     private void action_changeColour(){
-//        System.out.println("colour changed");
         try {
             String currentColour = getProperty(GizmoPropertyType.CURRENT_COLOUR);
             String defaultColour = getProperty(GizmoPropertyType.DEFAULT_COLOUR);
@@ -235,8 +233,6 @@ public abstract class Gizmo extends Triggerable implements Collidable, Drawable 
                 sb.append("_");
                 sb.append(arr[arr.length-1]);
                 newName = sb.toString();
-
-                System.out.println(newName);
             }
             propVals[0] = newName;
         }

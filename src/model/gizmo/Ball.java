@@ -60,8 +60,6 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
             setProperty(GizmoPropertyType.VEL_X, String.valueOf(xv));
             setProperty(GizmoPropertyType.VEL_Y, String.valueOf(yv));
         } catch (GizmoPropertyException e) {
-            //This should never be thrown anyway...
-            e.printStackTrace();
         }
     }
 
@@ -144,45 +142,6 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
             justFired = false;
 
     }
-
-//    private double[] getNewVelocities(double[] currentVelXY, boolean justFired, double timeMoving) {
-//        //If the ball is just fired,
-//        // return a representation of the ball being fired upwards.
-//        // Else
-//        // return the currentVelocity with friction and gravity applied to it.
-//
-//        double[] velocity = new double[]{};
-//        Double n = Double.POSITIVE_INFINITY;
-//
-//
-//        if (justFired) {
-//            velocity = new double[]{0, -50};
-//        } else {
-//            if (!isStopped) {
-//                if (!justStarted) {
-//                    double[] val = applyGravityToVelocities(applyFrictionToVelocities(currentVelXY, timeMoving), timeMoving);
-//                    System.out.println(val[1]);
-//                    System.out.println(currentVelXY[1]);
-//                    if (Math.ceil(val[1]*1000000000)/1000000000 == Math.ceil(currentVelXY[1]*1000000000)/1000000000
-//                            &&
-//                            Math.ceil(val[0]*1000000000)/1000000000 == Math.ceil(currentVelXY[0]*1000000000)/1000000000) {
-//                        isStopped = true;
-//                        velocity = new double[]{currentVelXY[0], currentVelXY[1]};
-//                    } else {
-//                        velocity = val;
-//                    }
-//                } else {
-//                    justStarted = false;
-//                    velocity = applyGravityToVelocities(
-//                            applyFrictionToVelocities(currentVelXY, timeMoving),
-//                            timeMoving);
-//                }
-//            }
-//        }
-//
-//        return velocity;
-//    }
-
 
     private double[] getNewVelocities(double[] currentVelXY, boolean justFired, double timeMoving){
         //If the ball is just fired,

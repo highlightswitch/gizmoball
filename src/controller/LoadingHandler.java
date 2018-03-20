@@ -32,10 +32,8 @@ class LoadingHandler {
             return readFile(text.toString());
 
         } catch (IOException e) {
-            e.printStackTrace();
             return null;
         } catch (GizmoNotRotatableException e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -300,7 +298,6 @@ class LoadingHandler {
             case "Gravity": try {
                 model.setGravityConstant(Float.parseFloat(command.get(1)));
             } catch (ModelPropertyException e){
-                e.printStackTrace();
             }
                 break;
             case "Friction": try {
@@ -311,7 +308,6 @@ class LoadingHandler {
                         }
                 );
             } catch (ModelPropertyException e){
-                e.printStackTrace();
             }
                 break;
         }

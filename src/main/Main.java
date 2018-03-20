@@ -27,8 +27,6 @@ public class Main {
 		MainController cont = new MainController();
 
 		IModel model = cont.getIModel();
-
-		//test(model);
 	}
 
 	@SuppressWarnings("Duplicates")
@@ -51,7 +49,6 @@ public class Main {
 			try {
 				cornerTriangle.rotateTo_Deg(90);
 			} catch (GizmoPropertyException e) {
-				e.printStackTrace();
 			}
 
 			List<Absorber> absorbers = new ArrayList<>();
@@ -91,7 +88,6 @@ public class Main {
 			return model;
 
 		} catch (GizmoNotFoundException e) {
-			e.printStackTrace();
 		}
 
 		return null;
@@ -119,9 +115,7 @@ public class Main {
 				cornerTriangle.rotateTo_Deg(90);
 				t.rotateBy_Deg(180);
 			} catch (GizmoPropertyException e) {
-				e.printStackTrace();
 			} catch (GizmoNotRotatableException e) {
-				e.printStackTrace();
 			}
 
 			List<Absorber> absorbers = new ArrayList<>();
@@ -156,9 +150,7 @@ public class Main {
 			return model;
 
 		} catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e) {
-			e.printStackTrace();
 		} catch (GizmoNotFoundException e) {
-			e.printStackTrace();
 		}
 
 		return null;
@@ -225,15 +217,10 @@ public class Main {
 
 
 		} catch (GizmoPlacementNotValidException e) {
-			e.printStackTrace();
 		} catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
-			tileCoordinatesNotValid.printStackTrace();
 		} catch (GizmoNotFoundException e) {
-			e.printStackTrace();
 		} catch (GizmoPropertyException e) {
-			e.printStackTrace();
 		} catch (GizmoNotRotatableException e) {
-			e.printStackTrace();
 		}
 
 

@@ -60,7 +60,6 @@ public class MenuActionListener implements ActionListener {
                         writer.write(game);
                         writer.close();
                     } catch (IOException ex) {
-                        ex.printStackTrace();
                     }
                 }
                 break;

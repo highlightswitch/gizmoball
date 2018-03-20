@@ -22,7 +22,6 @@ public class EditShapeDialogue {
     public EditShapeDialogue(MainController controller, JFrame fr, String shape, String mode, Gizmo g){
 
         gizmo = shape;
-        System.out.println(gizmo);
 
         //change to mapping from action
         JLabel action = new JLabel("When the ball collides with this gizmo the gizmo should: ");

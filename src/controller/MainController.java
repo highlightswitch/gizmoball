@@ -100,9 +100,7 @@ public class MainController implements ActionListener {
             try {
                 this.setModel(LoadingHandler.stringToModel(buildModeSave));
             } catch (TileCoordinatesNotValid | MalformedGizmoballFileException | GizmoPropertyException | GizmoPlacementNotValidException | GizmoNotFoundException e) {
-                e.printStackTrace();
             } catch (GizmoNotRotatableException e) {
-                e.printStackTrace();
             }
         }
         fr.switchToBuildView();

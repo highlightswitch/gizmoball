@@ -25,7 +25,6 @@ public class TriggerKeyListener implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -36,12 +35,10 @@ public class TriggerKeyListener implements KeyListener {
             IModel model = controller.getIModel();
             model.connect(e.getKeyCode(), TriggerType.valueOf(""),tile.getGizmo().getProperty(GizmoPropertyType.NAME));
         } catch (GizmoNotFoundException e1) {
-            e1.printStackTrace();
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
     }
 }

@@ -59,7 +59,6 @@ public class EditGizmoListener {
         try {
             IModel model = controller.getIModel();
             if(gizmo.getPosition()[0] == x && gizmo.getPosition()[1] == y){
-                //
             } else {
                 model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
             }

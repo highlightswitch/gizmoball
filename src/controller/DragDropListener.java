@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 
     public class DragDropListener extends MouseAdapter {
         public DragDropListener() {
-
         }
 
         public void mousePressed(MouseEvent e) {

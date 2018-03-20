@@ -15,6 +15,5 @@ public class AddPopupListener extends MouseAdapter {
     }
 
     public void mouseReleased(MouseEvent e) {
-        //
     }
 }
