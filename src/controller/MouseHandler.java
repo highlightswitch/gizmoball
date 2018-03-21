@@ -65,16 +65,23 @@ public class MouseHandler {
                                 try {
                                     IModel m = controller.getIModel();
                                     m.placeGizmo(GizmoType.ABSORBER, t, new String[]{"Absorber", "5", "1", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]"});
+                                    m.connect(32, TriggerType.KEY_DOWN,  t.getGizmo().getProperty(GizmoPropertyType.NAME)); //space bar
                                 } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
+                                } catch (GizmoNotFoundException e1) {
+                                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo is not found", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
                             case "Flipper":
                                 try {
                                     IModel m = controller.getIModel();
                                     m.placeGizmo(GizmoType.FLIPPER, t, null);
+                                    m.connect(71, TriggerType.KEY_DOWN, t.getGizmo().getProperty(GizmoPropertyType.NAME)); //Key code 71 = G
+                                    m.connect(70, TriggerType.KEY_UP,  t.getGizmo().getProperty(GizmoPropertyType.NAME)); //Key code 70 = F
                                 } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
+                                } catch (GizmoNotFoundException e1) {
+                                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo is not found", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
                             case "Circle":
