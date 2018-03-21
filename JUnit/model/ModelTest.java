@@ -96,7 +96,7 @@ class ModelTest {
     }
 
     @Test
-    void deleteGizmo() throws GizmoNotFoundException {
+    void deleteGizmo() throws GizmoNotFoundException, TileCoordinatesNotValid {
         for (Drawable dr : draw) {
             d.add((Drawable) dr);
         }

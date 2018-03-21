@@ -295,10 +295,8 @@ class LoadingHandler {
                 model.setGizmoProperty(command.get(1), GizmoPropertyType.ALT_COLOUR, altColour);
                 //System.out.println(model.getGizmoProperty(command.get(1), GizmoPropertyType.CURRENT_COLOUR));
                 break;
-            case "Gravity": try {
+            case "Gravity":
                 model.setGravityConstant(Float.parseFloat(command.get(1)));
-            } catch (ModelPropertyException e){
-            }
                 break;
             case "Friction": try {
                 model.setFrictionConstants(

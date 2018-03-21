@@ -282,10 +282,7 @@ public class Model extends Observable implements IModel {
 				drawables.add(gizmo);
 				break;
 			case BALL:
-				try {
-					gizmo = placeBall(tile.getX() + 0.5, tile.getY() + 0.5, propertyValues);
-				} catch (TileCoordinatesNotValid e) {
-				}
+			    gizmo = placeBall(tile.getX() + 0.5, tile.getY() + 0.5, propertyValues);
 				break;
 			case ABSORBER:
 				gizmo = new Absorber(Color.BLACK, properties);
@@ -320,7 +317,7 @@ public class Model extends Observable implements IModel {
 
 	}
 
-	public void deleteGizmo(String gizmoName) throws GizmoNotFoundException{
+	public void deleteGizmo(String gizmoName) throws GizmoNotFoundException, TileCoordinatesNotValid {
 		Gizmo gizmo = getGizmoByName(gizmoName);
 		deleteGizmo(gizmo);
 	}
@@ -331,11 +328,8 @@ public class Model extends Observable implements IModel {
 
 		if (gizmo.isTilePlacable()) {
 
-			try {
-				Tile oldTile = getTileAt((int) gizmo.getPosition()[0], (int) gizmo.getPosition()[1]);
-				oldTile.removeGizmo();
-			} catch (TileCoordinatesNotValid e) {
-			}
+		    Tile oldTile = getTileAt((int) gizmo.getPosition()[0], (int) gizmo.getPosition()[1]);
+		    oldTile.removeGizmo();
 
 			newTile.placeGizmo(gizmo);
 			gizmo.setAnchorTile(newTile);
@@ -393,6 +387,7 @@ public class Model extends Observable implements IModel {
             try {
                 g.setProperty(p,v);
             } catch (GizmoPropertyException e) {
+                e.printStackTrace();
             }
         });
 
@@ -508,7 +503,7 @@ public class Model extends Observable implements IModel {
 	}
 
 	//Stop key being connected to any gizmo
-	public void disconnectAll(int keyCode, TriggerType type) throws GizmoNotFoundException{
+	public void disconnectAll(int keyCode, TriggerType type){
 		KeyTriggerPair pair = new KeyTriggerPair(keyCode, type);
 
 		if(keyEventTriggerMap.containsK(pair)){
@@ -533,7 +528,7 @@ public class Model extends Observable implements IModel {
 		frictionConstants = arr;
 	}
 
-	public void setGravityConstant(double val) throws ModelPropertyException {
+	public void setGravityConstant(double val) {
 		//validateGravityValue(val);
 		this.gravityConstant = val;
 	}
@@ -556,17 +551,13 @@ public class Model extends Observable implements IModel {
 
 	//Helpers:
 
-	private void deleteGizmo(Gizmo gizmo){
-		try {
-			Tile tile = getTileAt((int) gizmo.getPosition()[0], (int) gizmo.getPosition()[1]);
-			if(!(gizmo.getType() == GizmoType.BALL)){
-				tile.removeGizmo();
-			} else {
-				ball = null;
-			}
-		} catch (TileCoordinatesNotValid e) {
-		}
-
+	private void deleteGizmo(Gizmo gizmo) throws TileCoordinatesNotValid {
+        Tile tile = getTileAt((int) gizmo.getPosition()[0], (int) gizmo.getPosition()[1]);
+        if(!(gizmo.getType() == GizmoType.BALL)){
+            tile.removeGizmo();
+        } else {
+            ball = null;
+        }
 		tickable.remove(gizmo);
 		collidable.remove(gizmo);
 		drawables.remove(gizmo);

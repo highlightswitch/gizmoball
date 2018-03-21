@@ -142,6 +142,8 @@ public class MouseHandler {
                                     m.deleteGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME));
                                 } catch (GizmoNotFoundException e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find gizmo", "Error", JOptionPane.ERROR_MESSAGE);
+                                } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+                                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Coordinates not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
                             case "Rotate":

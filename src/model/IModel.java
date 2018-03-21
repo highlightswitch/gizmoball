@@ -14,7 +14,7 @@ public interface IModel {
 	Tile getTileNear(double coordX, double coordY) throws TileCoordinatesNotValid;
 
 	Gizmo placeGizmo(GizmoType gt, Tile t, String[] propertyValues) throws GizmoPlacementNotValidException, TileCoordinatesNotValid;
-	void deleteGizmo(String gizmoName) throws GizmoNotFoundException;
+	void deleteGizmo(String gizmoName) throws GizmoNotFoundException, TileCoordinatesNotValid;
 	void moveGizmo(String gizmoName, Tile newTile) throws GizmoNotFoundException, GizmoPlacementNotValidException, TileCoordinatesNotValid;
 	void rotateGizmoBy_Deg(String gizmoName, double adjustment) throws GizmoNotFoundException, GizmoPropertyException, GizmoNotRotatableException;
 	void rotateGizmoTo_Deg(String gizmoName, double rotationVal) throws GizmoNotFoundException, GizmoPropertyException, GizmoNotRotatableException;
