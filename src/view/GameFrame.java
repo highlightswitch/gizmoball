@@ -148,7 +148,7 @@ public class GameFrame {
 
     public void switchToRunView(){
         board.updateMode("Run");
-        this.drawFrame(new RunView(frMain, controller, board));
+        this.drawFrame(new RunView(controller, board));
         this.assignActionListeners();
         frMain.getContentPane().revalidate();
         frMain.getContentPane().repaint();
@@ -206,7 +206,6 @@ public class GameFrame {
         mTools.add(rotate);
         mTools.add(edit);
         mTools.add(delete);
-        //mTools.addSeparator();
         mTools.add(settings);
         mTools.add(clearBoard);
         top.add(mTools);

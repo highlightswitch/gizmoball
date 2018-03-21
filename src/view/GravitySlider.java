@@ -5,11 +5,7 @@ import model.IModel;
 import model.ModelPropertyException;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GravitySlider {
     private JDialog gravity;
@@ -25,28 +21,20 @@ public class GravitySlider {
         s.setPaintLabels(true);
         s.setOpaque(false);
 
-        s.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                newGravity = s.getValue();
-            }
-        });
+        s.addChangeListener(e -> newGravity = s.getValue());
 
         JPanel content = new JPanel();
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
-        ok.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new SetGravity(m, newGravity);
-                } catch (ModelPropertyException e1) {
-                    JOptionPane.showMessageDialog(f, "You cannot modify this property");
-                }
-                gravity.dispose();
-            }
-        });
+        ok.addActionListener(e -> {
+			try {
+				new SetGravity(m, newGravity);
+			} catch (ModelPropertyException e1) {
+				JOptionPane.showMessageDialog(f, "You cannot modify this property");
+			}
+			gravity.dispose();
+		});
 
         panControls.add(ok);
         panControls.setOpaque(false);

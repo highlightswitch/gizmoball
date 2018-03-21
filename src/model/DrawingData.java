@@ -150,7 +150,7 @@ public class DrawingData {
 		sb.append("Circles \n");
 		for (Double[] doubles : circlesData){
 			sb.append("    ");
-			sb.append(doubles[0] + " " + doubles[1] + " " + doubles[2] + "\n");
+			sb.append(doubles[0]).append(" ").append(doubles[1]).append(" ").append(doubles[2]).append("\n");
 		}
 		sb.append("\n");
 		sb.append("Polygons \n");
@@ -158,21 +158,11 @@ public class DrawingData {
 			sb.append("    Poly \n");
 			for (Double[] doubles : poly){
 				sb.append("        ");
-				sb.append(doubles[0] + " " + doubles[1] + "\n");
+				sb.append(doubles[0]).append(" ").append(doubles[1]).append("\n");
 			}
 		}
 
 		return sb.toString();
 	}
-
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (obj == null || getClass() != obj.getClass())
-//			return false;
-//		DrawingData data = (DrawingData) obj;
-//		return polygonsData == data.polygonsData && circlesData == data.circlesData;
-//	}
 
 }

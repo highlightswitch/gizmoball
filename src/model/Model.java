@@ -142,11 +142,7 @@ public class Model extends Observable implements IModel {
 		return ball;
 	}
 
-	public Tile[][] getTiles(){
-        return tiles;
-    }
-
-	Gizmo getGizmoByName(String name) throws GizmoNotFoundException {
+	private Gizmo getGizmoByName(String name) throws GizmoNotFoundException {
 		for (Gizmo gizmo : gizmos) {
 			if (gizmo.getProperty(GizmoPropertyType.NAME).equals(name)) {
 				return gizmo;
@@ -238,10 +234,6 @@ public class Model extends Observable implements IModel {
 			throw new ModelPropertyException("Friction values cannot be set to " + Arrays.toString(arr));
 	}
 
-	/*private void validateGravityValue(double val) throws ModelPropertyException {
-		//Any gravity is fine...
-	}*/
-
 	private void validateColorString(String str){
 
 		if (str.length() >= 13 && str.length() <= 19) {
@@ -280,7 +272,7 @@ public class Model extends Observable implements IModel {
 		Gizmo gizmo = null;
 		switch(gizmoType){
 			case FLIPPER:
-				gizmo = new Flipper(null, properties);
+				gizmo = new Flipper(properties);
 				validateGizmoPlacement(gizmo, tile);
 				tile.placeGizmo(gizmo);
 				tickable.add((Flipper) gizmo);
@@ -297,7 +289,7 @@ public class Model extends Observable implements IModel {
 					throw new GizmoPlacementNotValidException("Cannot place multiple balls");
 				break;
 			case ABSORBER:
-				gizmo = new Absorber(Color.BLACK, properties);
+				gizmo = new Absorber(properties);
 				validateGizmoPlacement(gizmo, tile);
 				collidable.add(gizmo);
 				tile.placeGizmo(gizmo);
@@ -421,7 +413,7 @@ public class Model extends Observable implements IModel {
 	public Gizmo placeBall(double cx, double cy, String[] propertyValues) throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
 
 		Map<GizmoPropertyType, String> properties = getCorrectPropertiesMap(GizmoType.BALL, propertyValues);
-        Ball ball= new Ball(this, Color.black, cx, cy, properties);
+        Ball ball= new Ball(this, cx, cy, properties);
 		Set<Tile> ballTiles;
         try{
 			ballTiles = getBallTiles(ball);
@@ -451,7 +443,7 @@ public class Model extends Observable implements IModel {
     }
 
 	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
-		Bumper bumper = new Bumper(Color.black, gizmoType, properties);
+		Bumper bumper = new Bumper(gizmoType, properties);
 		validateGizmoPlacement(bumper, tile);
 		collidable.add(bumper);
 		tile.placeGizmo(bumper);

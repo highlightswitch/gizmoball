@@ -15,7 +15,7 @@ public class BuildView implements GameView {
     private ArrayList<AbstractButton> buttons = new ArrayList<>();
     private MainController controller;
 
-    public BuildView(JFrame fr, MainController c, Board b) {
+    BuildView(JFrame fr, MainController c, Board b) {
         panBuild = new JPanel();
         panBuild.setBackground(Color.ORANGE);
         controller = c;
@@ -160,11 +160,6 @@ public class BuildView implements GameView {
     @Override
     public JPanel getPanel() {
         return panBuild;
-    }
-
-    @Override
-    public JPanel getBoard() {
-        return panBoard;
     }
 
     @Override
