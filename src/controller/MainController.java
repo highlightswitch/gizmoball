@@ -116,6 +116,7 @@ public class MainController implements ActionListener {
     }
 
     void keyEventTriggered(int keyCode, TriggerType trigger) {
+        System.out.println("Key event triggered");
         if(mode.equals("Build")){
             System.out.println("you pressed a key");
             JOptionPane.showMessageDialog(fr.getFrame(), "The key you are selecting is: " + keyCode, "Key Code", JOptionPane.INFORMATION_MESSAGE);

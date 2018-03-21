@@ -176,6 +176,7 @@ public class BuildView implements GameView {
 
     private void setButtonSettings(){
         for(AbstractButton b: buttons){
+            //b.setFocusable(false);
             b.setBorder(null);
             b.setMargin(new Insets(0, 0, 0, 0));
             b.setContentAreaFilled(false);
