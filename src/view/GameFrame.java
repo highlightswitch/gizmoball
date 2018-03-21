@@ -110,7 +110,7 @@ public class GameFrame {
         friction.setActionCommand("Friction");
         menuItems.add(friction);
 
-        JMenuItem rmtriggers = new JMenuItem("Remove All Trigger");
+        JMenuItem rmtriggers = new JMenuItem("Remove All Triggers");
         rmtriggers.setActionCommand("Remove");
         menuItems.add(rmtriggers);
 
@@ -160,7 +160,6 @@ public class GameFrame {
 
         //Do this so that keyListener works
         frMain.requestFocus();
-
         frMain.getJMenuBar().revalidate();
         frMain.getJMenuBar().repaint();
         frMain.validate();
