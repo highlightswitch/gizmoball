@@ -38,6 +38,8 @@ public class EditFlipperDialogue {
         JLabel label2 = new JLabel("Select flipper direction: ");
         String[] direction = {"Left", "Right"};
         JComboBox<String> di = new JComboBox<>(direction);
+        if(g != null)
+            di.setSelectedIndex(Boolean.valueOf(g.getProperty(GizmoPropertyType.IS_LEFT_ORIENTATED)) ? 0 : 1);
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
         JList<String> triggers = new JList<>();
