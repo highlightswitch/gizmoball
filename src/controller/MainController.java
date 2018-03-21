@@ -41,8 +41,6 @@ public class MainController implements ActionListener {
         fr.assignActionListeners();
         this.updateMouseListener();
 
-        switchToBuildView();
-
     }
 
     public IModel getIModel() {
