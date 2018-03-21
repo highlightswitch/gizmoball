@@ -2,19 +2,18 @@ package model.gizmo;
 
 public class KeyTriggerPair {
 
-	private final int keyCode;
-	private final TriggerType triggerType;
+	public final int keyCode;
+	public final TriggerType triggerType;
 
 	public KeyTriggerPair(int keyCode, TriggerType triggerType){
 		this.keyCode = keyCode;
 		this.triggerType = triggerType;
 	}
 
-	public int getKeyCode() {
-		return keyCode;
-	}
-
-	public TriggerType getTriggerType() {
-		return triggerType;
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof KeyTriggerPair &&
+				this.keyCode == ((KeyTriggerPair) obj).keyCode &&
+				this.triggerType == ((KeyTriggerPair) obj).triggerType;
 	}
 }

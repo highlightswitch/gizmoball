@@ -1,8 +1,8 @@
 package model;
 
 import model.gizmo.*;
-import model.util.DualKeyMap;
 import model.util.GizmoMaths;
+import model.util.ManyToManyMap;
 
 import java.awt.*;
 import java.util.*;
@@ -25,7 +25,7 @@ public class Model extends Observable implements IModel {
 
 	private Ball ball;
 
-    private DualKeyMap<Integer, TriggerType, Set<Gizmo>> keyEventTriggerMap;
+    private ManyToManyMap<KeyTriggerPair, Gizmo> keyEventTriggerMap;
 
 	private ArrayList<Tickable> tickable;
     private ArrayList<Collidable> collidable;
@@ -44,7 +44,7 @@ public class Model extends Observable implements IModel {
 
 		Walls walls = new Walls(0, 0, 20, 20);
 
-        keyEventTriggerMap = new DualKeyMap<>();
+        keyEventTriggerMap = new ManyToManyMap<>();
 
 		tickable = new ArrayList<>();
 		drawables = new ArrayList<>();
@@ -99,25 +99,25 @@ public class Model extends Observable implements IModel {
 
         //Key connections
 		//TODO: make less hacky :)
-		Set<Gizmo> values;
-        for(int i = 0; i < 223; i++){
-        	if(keyEventTriggerMap.containsKey(i, TriggerType.KEY_DOWN)) {
-				values = keyEventTriggerMap.get(i, TriggerType.KEY_DOWN);
-				for(Gizmo val : values){
-					Gizmo g = ((Gizmo) val);
-        			game.append("KeyConnect").append(" ").append("key").append(i).append(" ")
-							.append("down").append(" ").append(g.getProperty(GizmoPropertyType.NAME));
-				}
-        	}
-			if(keyEventTriggerMap.containsKey(i, TriggerType.KEY_UP)) {
-				values = keyEventTriggerMap.get(i, TriggerType.KEY_UP);
-				for(Gizmo val : values){
-					Gizmo g = ((Gizmo) val);
-					game.append("KeyConnect").append(" ").append("key").append(i).append(" ")
-							.append("up").append(" ").append(g.getProperty(GizmoPropertyType.NAME));
-				}
-			}
-		}
+//		Set<Gizmo> values;
+//        for(int i = 0; i < 223; i++){
+//        	if(keyEventTriggerMap.containsK(new KeyTriggerPair(i, TriggerType.KEY_UP))) {
+//				values = keyEventTriggerMap.get(i, TriggerType.KEY_DOWN);
+//				for(Gizmo val : values){
+//					Gizmo g = ((Gizmo) val);
+//        			game.append("KeyConnect").append(" ").append("key").append(i).append(" ")
+//							.append("down").append(" ").append(g.getProperty(GizmoPropertyType.NAME));
+//				}
+//        	}
+//			if(keyEventTriggerMap.containsK(new KeyTriggerPair(i, TriggerType.KEY_UP))) {
+//				values = keyEventTriggerMap.get(i, TriggerType.KEY_UP);
+//				for(Gizmo val : values){
+//					Gizmo g = ((Gizmo) val);
+//					game.append("KeyConnect").append(" ").append("key").append(i).append(" ")
+//							.append("up").append(" ").append(g.getProperty(GizmoPropertyType.NAME));
+//				}
+//			}
+//		}
 
         //Gravity and friction
         game.append("Gravity ").append(gravityConstant).append("\n");
@@ -162,17 +162,18 @@ public class Model extends Observable implements IModel {
 
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 
-		if(keyEventTriggerMap.containsKey(keyCode, trigger)){
-			Set<Gizmo> set = keyEventTriggerMap.get(keyCode, trigger);
-			for(Gizmo gizmo : set) {
-				switch (trigger) {
-					case KEY_DOWN:
-						gizmo.keyDown();
-						break;
-					case KEY_UP:
-						gizmo.keyUp();
-						break;
-				}
+		KeyTriggerPair pair = new KeyTriggerPair(keyCode, trigger);
+		System.out.println("model.keyEventTriggered");
+		Set<Gizmo> connectedGizmos = keyEventTriggerMap.getV(pair);
+
+		for(Gizmo gizmo : connectedGizmos) {
+			switch (trigger) {
+				case KEY_DOWN:
+					gizmo.keyDown();
+					break;
+				case KEY_UP:
+					gizmo.keyUp();
+					break;
 			}
 		}
 
@@ -448,14 +449,7 @@ public class Model extends Observable implements IModel {
 
 	public void connect(int keyCode, TriggerType type, String actorName) throws GizmoNotFoundException {
 		Gizmo actor = getGizmoByName(actorName);
-
-		if(keyEventTriggerMap.containsKey(keyCode, type)){
-			keyEventTriggerMap.get(keyCode, type).add(actor);
-		} else {
-			Set<Gizmo> set = new HashSet<>();
-			set.add(actor);
-			keyEventTriggerMap.put(keyCode, type, set);
-		}
+		keyEventTriggerMap.put(new KeyTriggerPair(keyCode, type), actor);
 	}
 
 	public void disconnect(String triggerName, String actorName) throws GizmoNotFoundException {
@@ -481,17 +475,27 @@ public class Model extends Observable implements IModel {
 	    return trigger.getAllActors();
     }
 
+    public Set<KeyTriggerPair> getConnectedKeys(String actorName) throws GizmoNotFoundException {
+		Gizmo actor = getGizmoByName(actorName);
+		return keyEventTriggerMap.getK(actor);
+	}
+
+	//Stop key being connected to this gizmo and gizmo being connected to this key
 	public void disconnect(int keyCode, TriggerType type, String actorName) throws GizmoNotFoundException {
 		Gizmo actor = getGizmoByName(actorName);
+		KeyTriggerPair pair = new KeyTriggerPair(keyCode, type);
 
-		if(keyEventTriggerMap.containsKey(keyCode, type)){
-			keyEventTriggerMap.get(keyCode, type).remove(actor);
+		if(keyEventTriggerMap.containsK(pair)){
+			keyEventTriggerMap.remove(pair, actor);
 		}
 	}
 
+	//Stop key being connected to any gizmo
 	public void disconnectAll(int keyCode, TriggerType type) throws GizmoNotFoundException{
-		if(keyEventTriggerMap.containsKey(keyCode, type)){
-			keyEventTriggerMap.remove(keyCode, type);
+		KeyTriggerPair pair = new KeyTriggerPair(keyCode, type);
+
+		if(keyEventTriggerMap.containsK(pair)){
+			keyEventTriggerMap.removeAllV(pair);
 		}
 	}
 

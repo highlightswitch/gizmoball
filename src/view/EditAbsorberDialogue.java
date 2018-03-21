@@ -6,12 +6,9 @@ import controller.PlaceAbsorberListener;
 import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
-import model.gizmo.Triggerable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EditAbsorberDialogue {
 
@@ -40,11 +37,11 @@ public class EditAbsorberDialogue {
         }
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
-        JList<model.gizmo.Triggerable> triggers = new JList<>();
-        DefaultListModel<model.gizmo.Triggerable> triggerModel = new DefaultListModel<>();
+        JList<Gizmo> triggers = new JList<>();
+        DefaultListModel<Gizmo> triggerModel = new DefaultListModel<>();
         if(g != null) {
             try {
-                for(Triggerable n : controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME))){
+                for(Gizmo n : controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME))){
                     triggerModel.addElement(n);
                 }
             } catch (GizmoNotFoundException e) {

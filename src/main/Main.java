@@ -27,6 +27,18 @@ public class Main {
 		MainController cont = new MainController();
 
 		IModel model = cont.getIModel();
+
+		try {
+			Gizmo l = model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(5,5), null);
+			model.connect(32, TriggerType.KEY_DOWN, l.getProperty(GizmoPropertyType.NAME));
+			model.connect(32, TriggerType.KEY_UP, l.getProperty(GizmoPropertyType.NAME));
+		} catch (GizmoPlacementNotValidException e) {
+			e.printStackTrace();
+		} catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+			tileCoordinatesNotValid.printStackTrace();
+		} catch (GizmoNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@SuppressWarnings("Duplicates")
