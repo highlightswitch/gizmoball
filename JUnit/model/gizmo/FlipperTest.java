@@ -45,6 +45,8 @@ class FlipperTest {
     void findAnnexedTiles() throws TileCoordinatesNotValid {
         ArrayList<Tile> tiles = new ArrayList<>();
 
+        tiles.add(anchorTile1.getNeighbour(0, 1));
+        tiles.add(anchorTile1.getNeighbour(1, 0));
         tiles.add(anchorTile1.getNeighbour(1, 1));
 
         Tile[] arr = new Tile[tiles.size()];
@@ -52,7 +54,7 @@ class FlipperTest {
 
         Tile[] arr1 = leftFlipper.findAnnexedTiles(anchorTile1);
 
-        for (int i = 0; i < arr.length; i++)
+        for (int i = 0; i < arr1.length; i++)
             assertTrue(arr[i].equals(arr1[i]));
     }
 

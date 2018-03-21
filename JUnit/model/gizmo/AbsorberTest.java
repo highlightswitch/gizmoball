@@ -43,10 +43,16 @@ class AbsorberTest {
     void findAnnexedTilesTrue() throws TileCoordinatesNotValid {
         ArrayList<Tile> tiles = new ArrayList<>();
 
+        tiles.add(anchorTile1.getNeighbour(0, 1));
+        tiles.add(anchorTile1.getNeighbour(1, 0));
         tiles.add(anchorTile1.getNeighbour(1, 1));
+        tiles.add(anchorTile1.getNeighbour(2, 0));
         tiles.add(anchorTile1.getNeighbour(2, 1));
+        tiles.add(anchorTile1.getNeighbour(3, 0));
         tiles.add(anchorTile1.getNeighbour(3, 1));
+        tiles.add(anchorTile1.getNeighbour(4, 0));
         tiles.add(anchorTile1.getNeighbour(4, 1));
+        tiles.add(anchorTile1.getNeighbour(5, 0));
         tiles.add(anchorTile1.getNeighbour(5, 1));
 
         Tile[] arr = new Tile[tiles.size()];
