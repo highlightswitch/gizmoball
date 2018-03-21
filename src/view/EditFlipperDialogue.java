@@ -41,7 +41,7 @@ public class EditFlipperDialogue {
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
 
-        JList<model.gizmo.Triggerable> triggers = new JList<>();
+      /*  JList<model.gizmo.Triggerable> triggers = new JList<>();
         DefaultListModel<model.gizmo.Triggerable> triggerModel = new DefaultListModel<>();
         if(g != null) {
             try {
@@ -64,7 +64,7 @@ public class EditFlipperDialogue {
                 //controller.getIModel().disconnect(g.getProperty((GizmoPropertyType.NAME)), triggerModel.get(i));
                 triggerModel.remove(i);
             }
-        });
+        });*/
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
@@ -83,8 +83,8 @@ public class EditFlipperDialogue {
         panForm.add(label2);
         panForm.add(di);
         panForm.add(lbtrig);
-        panForm.add(listScroller);
-        panForm.add(rmconnection);
+        //panForm.add(listScroller);
+       // panForm.add(rmconnection);
 
         panShape.add(panForm);
         panShape.add(shapeColour);

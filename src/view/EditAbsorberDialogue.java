@@ -38,7 +38,7 @@ public class EditAbsorberDialogue {
         }
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
-        JList<model.gizmo.Triggerable> triggers = new JList<>();
+        /*JList<model.gizmo.Triggerable> triggers = new JList<>();
         DefaultListModel<model.gizmo.Triggerable> triggerModel = new DefaultListModel<>();
         if(g != null) {
             try {
@@ -61,7 +61,7 @@ public class EditAbsorberDialogue {
                 //controller.getIModel().disconnect(g.getProperty((GizmoPropertyType.NAME)), triggerModel.get(i));
                 triggerModel.remove(i);
             }
-        });
+        });*/
 
         JLabel w = new JLabel("Width: ");
 
@@ -97,8 +97,8 @@ public class EditAbsorberDialogue {
         panForm.add(h);
         panForm.add(height);
         panForm.add(lbtrig);
-        panForm.add(listScroller);
-        panForm.add(rmconnection);
+        //panForm.add(listScroller);
+       // panForm.add(rmconnection);
 
         panShape.add(panForm);
         panShape.add(shapeColour);
