@@ -31,7 +31,7 @@ public class PlaceGizmoListener{
                 action = GizmoActionType.CHANGE_COLOUR;
                 break;
             case "Do Nothing":
-                action = GizmoActionType.PRINT_TO_CONSOLE;
+                action = GizmoActionType.DO_NOTHING;
                 break;
         }
 

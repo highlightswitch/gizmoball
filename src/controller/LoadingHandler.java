@@ -226,9 +226,9 @@ class LoadingHandler {
                 model.setGizmoAction(command.get(1), actionType);
                 break;
             case "Colour":
-                String cr = command.get(3);
-                String cg = command.get(4);
-                String cb = command.get(5);
+                String cr = command.get(2);
+                String cg = command.get(3);
+                String cb = command.get(4);
                 String currentColour = "[r="+cr+",g="+cg+",b="+cb+"]";
 
                 String dr = command.get(5);
@@ -236,9 +236,9 @@ class LoadingHandler {
                 String db = command.get(7);
                 String defaultColour = "[r="+dr+",g="+dg+",b="+db+"]";
 
-                String ar = command.get(3);
-                String ag = command.get(4);
-                String ab = command.get(5);
+                String ar = command.get(8);
+                String ag = command.get(9);
+                String ab = command.get(10);
                 String altColour = "[r="+ar+",g="+ag+",b="+ab+"]";
 
                 //System.out.println("before " + model.getGizmoProperty(command.get(1), GizmoPropertyType.CURRENT_COLOUR));

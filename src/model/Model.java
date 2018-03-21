@@ -61,6 +61,8 @@ public class Model extends Observable implements IModel {
 
         for (Gizmo gizmo: gizmos) {
 
+        	String gizmoName = gizmo.getProperty(GizmoPropertyType.NAME);
+
         	//Gizmo creation
             game.append(gizmo.toString()).append("\n");
 
@@ -70,12 +72,13 @@ public class Model extends Observable implements IModel {
 				rotation = rotation / 90;
 				for (int i = 0; i < rotation; i++) {
 					game.append("Rotate").append(" ")
-							.append(gizmo.getProperty(GizmoPropertyType.NAME)).append("\n");
+							.append(gizmoName).append("\n");
 				}
             }
 
             //Gizmo action
 			game.append("Action").append(" ")
+					.append(gizmoName).append(" ")
 					.append(gizmo.getActionType()).append("\n");
 
 			//Gizmo connections
