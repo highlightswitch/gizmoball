@@ -99,8 +99,8 @@ class ModelTest {
 
         m.deleteGizmo("Flipper");
 
-        assertEquals((c.size() - 1), collide.size());
-        assertEquals((d.size() - 1), draw.size());
+        assertEquals((c.size() - 1), m.getCollidable().size());
+        assertEquals((d.size() - 1), m.getDrawables().size());
         assertThrows(GizmoNotFoundException.class, () -> m.getGizmoByName("Flipper"));
     }
 

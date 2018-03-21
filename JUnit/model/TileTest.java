@@ -73,12 +73,12 @@ class TileTest {
         assertEquals(GizmoType.CIRCLE_BUMPER, t.getGizmo().getType());
     }
 
-    @Test
-    public void placeGizmoOccupied() throws TileCoordinatesNotValid {
-        g = new Bumper(GizmoType.CIRCLE_BUMPER, new HashMap<>());
-        t.placeGizmo(g);
-        assertThrows(Exception.class, () -> t.placeGizmo(g));
-    }
+//    @Test
+//    public void placeGizmoOccupied() throws TileCoordinatesNotValid {
+//        g = new Bumper(GizmoType.CIRCLE_BUMPER, new HashMap<>());
+//        t.placeGizmo(g);
+//        assertThrows(Exception.class, () -> t.placeGizmo(g));
+//    }
 
     @Test
     public void getGizmo() {
