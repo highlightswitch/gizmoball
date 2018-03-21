@@ -3,7 +3,6 @@ package controller;
 import model.*;
 import model.gizmo.GizmoNotRotatableException;
 import model.gizmo.GizmoPropertyException;
-import model.gizmo.GizmoPropertyType;
 import model.gizmo.TriggerType;
 import view.Board;
 import view.GameFrame;
@@ -103,8 +102,8 @@ public class MainController implements ActionListener {
         if(!buildModeSave.equals("")){
             try {
                 this.setModel(LoadingHandler.stringToModel(buildModeSave));
-            } catch (TileCoordinatesNotValid | MalformedGizmoballFileException | GizmoPropertyException | GizmoPlacementNotValidException | GizmoNotFoundException e) {
-            } catch (GizmoNotRotatableException e) {
+            } catch (TileCoordinatesNotValid | GizmoNotRotatableException| MalformedGizmoballFileException | GizmoPropertyException | GizmoPlacementNotValidException | GizmoNotFoundException e) {
+                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "An error occurred while switching modes");
             }
         }
         fr.switchToBuildView();

@@ -31,9 +31,7 @@ class LoadingHandler {
 
             return readFile(text.toString());
 
-        } catch (IOException e) {
-            return null;
-        } catch (GizmoNotRotatableException e) {
+        } catch (IOException | GizmoNotRotatableException e) {
             return null;
         }
     }
@@ -68,83 +66,38 @@ class LoadingHandler {
             case "Triangle":
             case "RightFlipper":
             case "LeftFlipper":
-                if(!model.checkName(command.get(1)) && stringIsInt(command.get(2)) && stringIsInt(command.get(3)) && command.size() == 4){
-                    return true;
-                } else {
-                    return false;
-                }
+                return !model.checkName(command.get(1)) && stringIsInt(command.get(2)) && stringIsInt(command.get(3)) && command.size() == 4;
             case "Absorber":
-                if(!model.checkName(command.get(1)) && stringIsInt(command.get(2)) && stringIsInt(command.get(3)) && stringIsInt(command.get(4)) && stringIsInt(command.get(5)) && Integer.parseInt(command.get(2)) < Integer.parseInt(command.get(4)) && Integer.parseInt(command.get(3)) < Integer.parseInt(command.get(5)) && command.size() == 6){
-                    return true;
-                } else {
-                    return false;
-                }
+                return !model.checkName(command.get(1)) && stringIsInt(command.get(2)) && stringIsInt(command.get(3)) && stringIsInt(command.get(4)) && stringIsInt(command.get(5)) && Integer.parseInt(command.get(2)) < Integer.parseInt(command.get(4)) && Integer.parseInt(command.get(3)) < Integer.parseInt(command.get(5)) && command.size() == 6;
             case "Ball":
-                if(!model.checkName(command.get(1)) && stringIsFloat(command.get(2)) && stringIsFloat(command.get(3)) && stringIsFloat(command.get(4)) && stringIsFloat(command.get(5)) && command.size() == 6){
-                    return true;
-                } else {
-                    return false;
-                }
+                return !model.checkName(command.get(1)) && stringIsFloat(command.get(2)) && stringIsFloat(command.get(3)) && stringIsFloat(command.get(4)) && stringIsFloat(command.get(5)) && command.size() == 6;
             case "Rotate":
-                if(model.checkName(command.get(1)) && command.size() == 2){
-                    return true;
-                } else {
-                    return false;
-                }
+                return model.checkName(command.get(1)) && command.size() == 2;
             case "Delete":
-                if(model.checkName(command.get(1)) && command.size() == 2){
-                    return true;
-                } else {
-                    return false;
-                }
+                return model.checkName(command.get(1)) && command.size() == 2;
             case "Move":
-                if(model.checkName(command.get(1)) && stringIsInt(command.get(2)) && stringIsInt(command.get(3)) && command.size() == 4){
-                    return true;
-                } else if(model.checkName(command.get(1)) && stringIsFloat(command.get(2)) && stringIsFloat(command.get(3)) && command.size() == 4) {
-                    return true;
-                }else{
-                    return false;
-                }
+                return model.checkName(command.get(1)) && stringIsInt(command.get(2)) && stringIsInt(command.get(3)) && command.size() == 4 || model.checkName(command.get(1)) && stringIsFloat(command.get(2)) && stringIsFloat(command.get(3)) && command.size() == 4;
             case "Connect":
-                if(model.checkName(command.get(1)) && model.checkName(command.get(2)) && command.size() == 3){
-                    return true;
-                } else {
-                    return false;
-                }
+                return model.checkName(command.get(1)) && model.checkName(command.get(2)) && command.size() == 3;
             case "KeyConnect":
-                if(command.get(1).equals("key") && stringIsInt(command.get(2)) && model.checkName(command.get(4)) && command.size() == 5){
-                    return true;
-                } else {
-                    return false;
-                }
+                return command.get(1).equals("key") && stringIsInt(command.get(2)) && model.checkName(command.get(4)) && command.size() == 5;
             case "Action":
-                if(model.checkName(command.get(1)) && ( command.get(2).equals("CHANGE_COLOUR") || command.get(2).equals("FLIP_FLIPPER") || command.get(2).equals("FIRE_FROM_ABSORBER")) && command.size() == 3){
-                    return true;
-                } else {
-                    return false;
-                }
+                return model.checkName(command.get(1)) && (command.get(2).equals("CHANGE_COLOUR") || command.get(2).equals("FLIP_FLIPPER") || command.get(2).equals("FIRE_FROM_ABSORBER")) && command.size() == 3;
             case "Colour":
-                if(model.checkName(command.get(1)) && command.size() == 11){
-                    for(int i = 2; i < command.size(); i++)
-                        if(!stringIsInt(command.get(i)))
+                if (model.checkName(command.get(1)) && command.size() == 11) {
+                    for (int i = 2; i < command.size(); i++)
+                        if (!stringIsInt(command.get(i)))
                             return false;
                     return true;
                 } else {
                     return false;
                 }
             case "Gravity":
-                if(stringIsFloat(command.get(1)) && command.size() == 2){
-                    return true;
-                } else {
-                    return false;
-                }
+                return stringIsFloat(command.get(1)) && command.size() == 2;
             case "Friction":
-                if(stringIsFloat(command.get(1)) && stringIsFloat(command.get(2)) && command.size() == 3){
-                   return true;
-               } else {
-                    return false;
-                }
-            default: return false;
+                return stringIsFloat(command.get(1)) && stringIsFloat(command.get(2)) && command.size() == 3;
+            default:
+                return false;
         }
     }
 
@@ -306,6 +259,7 @@ class LoadingHandler {
                         }
                 );
             } catch (ModelPropertyException e){
+                System.out.println("You cannot modify this property");
             }
                 break;
         }

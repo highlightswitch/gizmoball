@@ -7,24 +7,21 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ModelTest {
-    Model m;
-    ArrayList<Collidable> collide;
-    ArrayList<Drawable> draw;
-    ArrayList<Collidable> c = new ArrayList<>();
-    ArrayList<Drawable> d = new ArrayList<>();
-    Tile[][] tile;
-    Gizmo flipper;
-    Gizmo circle;
-    Gizmo ball;
-    String[] prop = {"Flipper", "90", "true", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=16,g=219,b=139]"};
-    String[] prop2 = null;
-    String[] prop3 = {"Ball", "0", "3", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=16,g=219,b=139]"};
-    private Object HashMap;
+    private Model m;
+    private ArrayList<Collidable> collide;
+    private ArrayList<Drawable> draw;
+    private ArrayList<Collidable> c = new ArrayList<>();
+    private ArrayList<Drawable> d = new ArrayList<>();
+    private Tile[][] tile;
+    private Gizmo flipper;
+    private Gizmo circle;
+    private Gizmo ball;
+    private String[] prop = {"Flipper", "90", "true", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=16,g=219,b=139]"};
+    private String[] prop2 = null;
+    private String[] prop3 = {"Ball", "0", "3", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=16,g=219,b=139]"};
 
     @BeforeEach
     void setUp() throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
@@ -68,10 +65,6 @@ class ModelTest {
         }
     }
 
-    @Test
-    void getGizmoByName() throws GizmoNotFoundException {
-        assertThrows(GizmoNotFoundException.class, () -> m.getGizmoByName("Blue"));
-    }
 
     @Test
     void getGizmoByName2() throws GizmoNotFoundException {
@@ -98,10 +91,10 @@ class ModelTest {
     @Test
     void deleteGizmo() throws GizmoNotFoundException, TileCoordinatesNotValid {
         for (Drawable dr : draw) {
-            d.add((Drawable) dr);
+            d.add(dr);
         }
         for (Collidable col : collide) {
-            c.add((Collidable) col);
+            c.add(col);
         }
 
         m.deleteGizmo("Flipper");
@@ -113,9 +106,6 @@ class ModelTest {
 
     @Test
     void moveGizmo() throws GizmoNotFoundException, TileCoordinatesNotValid, GizmoPlacementNotValidException {
-        double oldX = m.getGizmoByName("Ball").getPosition()[0];
-        double OldY = m.getGizmoByName("Ball").getPosition()[1];
-
         m.moveGizmo("Flipper", m.getTileAt(2, 5));
         double x = m.getGizmoByName("Flipper").getPosition()[0];
         double y = m.getGizmoByName("Flipper").getPosition()[1];
