@@ -18,6 +18,8 @@ public class DrawingData {
 	//The colour of the drawable object
 	private int[] rgb;
 
+	private boolean drawPolygonsDifferentColours;
+
 	public DrawingData(){
 		polygonsData = new ArrayList<>();
 		circlesData = new ArrayList<>();
@@ -35,6 +37,14 @@ public class DrawingData {
 			if(Arrays.equals(circle, c))
 				return;
 		circlesData.add(c);
+	}
+
+	public boolean drawPolygonsDifferentColours() {
+		return drawPolygonsDifferentColours;
+	}
+
+	public void setDrawPolygonsDifferentColours(boolean bool){
+		this.drawPolygonsDifferentColours = bool;
 	}
 
 	public void setColour(String rgbString){
