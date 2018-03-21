@@ -11,6 +11,11 @@ public class KeyTriggerPair {
 	}
 
 	@Override
+	public String toString() {
+		return "<"+keyCode+"_"+ triggerType +">";
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof KeyTriggerPair &&
 				this.keyCode == ((KeyTriggerPair) obj).keyCode &&

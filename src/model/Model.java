@@ -163,17 +163,18 @@ public class Model extends Observable implements IModel {
     public void keyEventTriggered(int keyCode, TriggerType trigger) {
 
 		KeyTriggerPair pair = new KeyTriggerPair(keyCode, trigger);
-		System.out.println("model.keyEventTriggered");
 		Set<Gizmo> connectedGizmos = keyEventTriggerMap.getV(pair);
 
-		for(Gizmo gizmo : connectedGizmos) {
-			switch (trigger) {
-				case KEY_DOWN:
-					gizmo.keyDown();
-					break;
-				case KEY_UP:
-					gizmo.keyUp();
-					break;
+		if(connectedGizmos != null) {
+			for (Gizmo gizmo : connectedGizmos) {
+				switch (trigger) {
+					case KEY_DOWN:
+						gizmo.keyDown();
+						break;
+					case KEY_UP:
+						gizmo.keyUp();
+						break;
+				}
 			}
 		}
 

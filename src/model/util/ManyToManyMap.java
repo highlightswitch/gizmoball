@@ -16,7 +16,7 @@ public class ManyToManyMap<K, V> {
 	}
 
 	public void put(K k, V v){
-		Set<V> kToVSet = kToV.getOrDefault(k, null);
+		Set<V> kToVSet = getV(k);
 		if(kToVSet == null) {
 			kToVSet = new HashSet<>();
 			kToVSet.add(v);
@@ -24,7 +24,8 @@ public class ManyToManyMap<K, V> {
 		} else
 			kToVSet.add(v);
 
-		Set<K> vToKSet = vToK.getOrDefault(v, null);
+
+		Set<K> vToKSet = getK(v);
 		if(vToKSet == null) {
 			vToKSet = new HashSet<>();
 			vToKSet.add(k);
@@ -35,11 +36,17 @@ public class ManyToManyMap<K, V> {
 	}
 
 	public Set<V> getV(K k) {
-		return kToV.get(k);
+		for(K k1 : kToV.keySet())
+			if(k1.equals(k))
+				return kToV.get(k1);
+		return null;
 	}
 
 	public Set<K> getK(V v){
-		return vToK.get(v);
+		for(V v1 : vToK.keySet())
+			if(v1.equals(v))
+				return vToK.get(v1);
+		return null;
 	}
 
 	public boolean containsK(K k){
