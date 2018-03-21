@@ -42,7 +42,7 @@ public class GravitySlider {
                 try {
                     new SetGravity(m, newGravity);
                 } catch (ModelPropertyException e1) {
-                    e1.printStackTrace();
+                    JOptionPane.showMessageDialog(f, "You cannot modify this property");
                 }
                 gravity.dispose();
             }

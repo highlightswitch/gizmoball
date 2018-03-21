@@ -6,12 +6,10 @@ import controller.PlaceAbsorberListener;
 import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
-import model.gizmo.Triggerable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class EditAbsorberDialogue {
 

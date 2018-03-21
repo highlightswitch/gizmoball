@@ -6,7 +6,6 @@ import controller.PlaceFlipperListener;
 import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
-import model.gizmo.Triggerable;
 
 import javax.swing.*;
 import java.awt.*;

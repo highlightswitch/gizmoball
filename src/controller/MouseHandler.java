@@ -299,7 +299,7 @@ public class MouseHandler {
             IModel model = controller.getIModel();
             model.connect(keyCode, TriggerType.KEY_DOWN,t.getGizmo().getProperty(GizmoPropertyType.NAME));
         } catch (GizmoNotFoundException e1) {
-            e1.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find Gizmo");
         }
     }
 }
