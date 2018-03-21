@@ -11,6 +11,7 @@ import model.util.GizmoUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class EditAbsorberDialogue {
 
@@ -49,7 +50,7 @@ public class EditAbsorberDialogue {
                     triggerModel.addElement(n.getProperty(GizmoPropertyType.NAME));
                 }
                 for (String k[] : controller.getIModel().getAllConnectedKeys(g.getProperty(GizmoPropertyType.NAME))){
-                    triggerModel.addElement(k[0] + "  -  " + k[1]);
+                    triggerModel.addElement(KeyEvent.getKeyText(Integer.valueOf(k[0])) + "  -  " + k[1]);
                 }
             } catch (GizmoNotFoundException e) {
                 JOptionPane.showMessageDialog(f, "Gizmo not found");
