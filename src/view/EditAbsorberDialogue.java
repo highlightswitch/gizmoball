@@ -37,8 +37,10 @@ public class EditAbsorberDialogue {
         }
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
+
         JList<Gizmo> triggers = new JList<>();
         DefaultListModel<Gizmo> triggerModel = new DefaultListModel<>();
+
         if(g != null) {
             try {
                 for(Gizmo n : controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME))){
@@ -96,8 +98,8 @@ public class EditAbsorberDialogue {
         panForm.add(h);
         panForm.add(height);
         panForm.add(lbtrig);
-        panForm.add(listScroller);
-        panForm.add(rmconnection);
+        //panForm.add(listScroller);
+       // panForm.add(rmconnection);
 
         panShape.add(panForm);
         panShape.add(shapeColour);

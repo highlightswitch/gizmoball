@@ -83,8 +83,8 @@ public class EditFlipperDialogue {
         panForm.add(label2);
         panForm.add(di);
         panForm.add(lbtrig);
-        panForm.add(listScroller);
-        panForm.add(rmconnection);
+        //panForm.add(listScroller);
+       // panForm.add(rmconnection);
 
         panShape.add(panForm);
         panShape.add(shapeColour);

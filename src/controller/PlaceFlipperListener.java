@@ -1,5 +1,6 @@
 package controller;
 
+import jdk.nashorn.internal.scripts.JO;
 import model.GizmoNotFoundException;
 import model.GizmoPlacementNotValidException;
 import model.IModel;
@@ -65,7 +66,7 @@ public class PlaceFlipperListener {
         } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (GizmoNotFoundException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo not found");
         }
     }
 }
