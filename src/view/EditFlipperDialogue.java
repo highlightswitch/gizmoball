@@ -10,8 +10,6 @@ import model.gizmo.TriggerType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EditFlipperDialogue {
     private JPanel panDI;
@@ -33,7 +31,7 @@ public class EditFlipperDialogue {
             Double y = g.getPosition()[1] ;
             position = new JTextField("(" + x.intValue() + "," + y.intValue() + ")");
         }else {
-            position = new JTextField("(" + (int)g.getPosition()[0] + "," + (int)g.getPosition()[1] + ")");
+            position = new JTextField("(0,0)");
         }
 
         JLabel label2 = new JLabel("Select flipper direction: ");

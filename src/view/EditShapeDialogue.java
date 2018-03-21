@@ -44,7 +44,7 @@ public class EditShapeDialogue {
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
         JComboBox<String> actionList = new JComboBox<>(actions);
-        actionList.setSelectedIndex(g.getActionType() == GizmoActionType.CHANGE_COLOUR ? 0 : 1);
+        actionList.setSelectedIndex( g != null && g.getActionType() == GizmoActionType.CHANGE_COLOUR ? 0 : 1);
 
         JLabel pos = new JLabel("Initial position: ");
         JTextField position;
@@ -54,7 +54,7 @@ public class EditShapeDialogue {
             Double y = g.getPosition()[1] ;
             position = new JTextField("(" + x.intValue() + "," + y.intValue() + ")");
         }else {
-            position = new JTextField("(" + (int)g.getPosition()[0] + "," + (int)g.getPosition()[1] + ")");
+            position = new JTextField("(0,0)");
         }
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");

@@ -87,8 +87,8 @@ public class EditAbsorberDialogue {
             width = new JTextField(g.getProperty(GizmoPropertyType.WIDTH));
             height = new JTextField(g.getProperty(GizmoPropertyType.HEIGHT));
         }else {
-            width = new JTextField();
-            height = new JTextField();
+            width = new JTextField( "1");
+            height = new JTextField("1");
         }
 
         JColorChooser shapeColour = new JColorChooser();
