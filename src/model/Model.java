@@ -584,6 +584,7 @@ public class Model extends Observable implements IModel {
 
 	private void deleteGizmo(Gizmo gizmo) throws TileCoordinatesNotValid {
         Tile tile = getTileAt((int) gizmo.getPosition()[0], (int) gizmo.getPosition()[1]);
+
         if(!(gizmo.getType() == GizmoType.BALL)){
             tile.removeGizmo();
         } else {
@@ -592,6 +593,15 @@ public class Model extends Observable implements IModel {
 			}
             ball = null;
         }
+
+        for(Gizmo g : gizmos){
+			try {
+				this.disconnect(g.getProperty(GizmoPropertyType.NAME), gizmo.getProperty(GizmoPropertyType.NAME));
+			} catch (GizmoNotFoundException e) {
+				//This should never happen
+			}
+		}
+
 		tickable.remove(gizmo);
 		collidable.remove(gizmo);
 		drawables.remove(gizmo);
