@@ -299,11 +299,11 @@ public class MouseHandler {
         mode = m;
     }
 
-    public void connectToKeyCode(int keyCode){
+    void connectToKeyCode(int keyCode, TriggerType type){
         try {
             IModel model = controller.getIModel();
             String gizmoName = t.getGizmo().getProperty(GizmoPropertyType.NAME);
-            model.connect(keyCode, TriggerType.KEY_DOWN, gizmoName);
+            model.connect(keyCode, type, gizmoName);
             controller.getView().setMessage("The " + KeyEvent.getKeyText(keyCode) + " key now activates " + gizmoName);
         } catch (GizmoNotFoundException e1) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find Gizmo");

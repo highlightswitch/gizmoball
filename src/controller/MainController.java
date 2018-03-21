@@ -9,10 +9,7 @@ import view.GameFrame;
 import view.GameView;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 public class MainController implements ActionListener {
 
@@ -117,7 +114,19 @@ public class MainController implements ActionListener {
 
     void keyEventTriggered(int keyCode, TriggerType trigger) {
         if(mode.equals("Build")){
-            mouseHandler.connectToKeyCode(keyCode);
+
+            int chosenOption = JOptionPane.showOptionDialog(
+                    fr.getFrame(),
+                    "Connect key down or key up?",
+                    "Key Connection",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new Object[]{"Key Down", "Key Up"},
+                    0
+            );
+
+            mouseHandler.connectToKeyCode(keyCode, chosenOption == 0 ? TriggerType.KEY_DOWN : TriggerType.KEY_UP);
         } else {
             model.keyEventTriggered(keyCode, trigger);
         }
