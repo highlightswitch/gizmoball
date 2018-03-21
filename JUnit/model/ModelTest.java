@@ -115,7 +115,7 @@ class ModelTest {
 
 
         m.moveGizmo("Ball", m.getTileAt(7, 10));
-        
+
         x = m.getGizmoByName("Ball").getPosition()[0];
         y = m.getGizmoByName("Ball").getPosition()[1];
 

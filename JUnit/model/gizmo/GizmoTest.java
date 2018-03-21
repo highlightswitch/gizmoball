@@ -119,17 +119,17 @@ class GizmoTest {
     void getPropertyDefaults() {
         List<String> usedNames = new ArrayList<String>();
 
-        usedNames.add("circleBumper_0");
+        usedNames.add("circle_0");
         usedNames.add("absorber_0");
 
         assertEquals(GizmoUtils.getPropertyDefaults(GizmoType.ABSORBER, usedNames)[0], "absorber_1");
-        assertEquals(GizmoUtils.getPropertyDefaults(GizmoType.CIRCLE_BUMPER, usedNames)[0], "circleBumper_1");
+        assertEquals(GizmoUtils.getPropertyDefaults(GizmoType.CIRCLE_BUMPER, usedNames)[0], "circle_1");
 
-        usedNames.add("circleBumper_1");
+        usedNames.add("circle_1");
         usedNames.add("absorber_1");
 
         assertEquals(GizmoUtils.getPropertyDefaults(GizmoType.ABSORBER, usedNames)[0], "absorber_2");
-        assertEquals(GizmoUtils.getPropertyDefaults(GizmoType.CIRCLE_BUMPER, usedNames)[0], "circleBumper_2");
+        assertEquals(GizmoUtils.getPropertyDefaults(GizmoType.CIRCLE_BUMPER, usedNames)[0], "circle_2");
     }
 
 }
