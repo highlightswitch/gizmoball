@@ -49,7 +49,7 @@ public class EditAbsorberDialogue {
                     triggerModel.addElement(n.getProperty(GizmoPropertyType.NAME));
                 }
                 for (String k[] : controller.getIModel().getAllConnectedKeys(g.getProperty(GizmoPropertyType.NAME))){
-                    triggerModel.addElement(k[0]);
+                    triggerModel.addElement(k[0] + "  -  " + k[1]);
                 }
             } catch (GizmoNotFoundException e) {
                 JOptionPane.showMessageDialog(f, "Gizmo not found");
