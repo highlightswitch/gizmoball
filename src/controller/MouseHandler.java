@@ -38,6 +38,7 @@ public class MouseHandler {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                // Get the tile eq. to the pixel point the user clicks
                 int x = e.getX();
                 int y = e.getY();
                 int[] xy = getXYNear(x, y);
@@ -50,6 +51,7 @@ public class MouseHandler {
                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
+                // if the user is looking to add something new, check that the tile is not already occupied, then add appropriate gizmo
                 if (getMode().equals("Add")) {
                     if (!t.isOccupied()) {
                         switch (getType()) {
@@ -115,6 +117,7 @@ public class MouseHandler {
                         }
                     }
                 } else {
+                    // if the user is looking to edit an existing gizmo check that the tile is occupied then call the appropriate action
                     if (t.isOccupied()) {
                         GizmoType g = t.getGizmo().getType();
                         switch (getType()) {
@@ -157,11 +160,12 @@ public class MouseHandler {
                                 }
                                 break;
                             case "Move":
+                                // to track two mouse events on the frame, once the user clicks on a gizmo to move switch out
+                                // current listener for move listener, run move listener events and return control
                                 controller.getView().setMessage("Drag and drop to move " + t.getGizmo().getProperty(GizmoPropertyType.NAME));
                                 frame.setCursor(new Cursor(Cursor.HAND_CURSOR));
                                 currentListener = moveListener;
                                 controller.updateMouseListener();
-
                                 break;
                             case "Key":
                                 if(t.getGizmo().getType() != GizmoType.BALL){

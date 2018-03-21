@@ -37,7 +37,6 @@ public class EditGizmoListener {
 
         color = c.toString();
         color = color.substring(color.indexOf("["));
-        System.out.println(color);
 
         if(colorChange){
             alt = altc.toString();

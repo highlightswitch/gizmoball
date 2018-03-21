@@ -25,6 +25,9 @@ public class MainController implements ActionListener {
 
     private MouseHandler mouseHandler;
 
+    /*  Initializing model, frame, actions listeners and key listeners
+        adds action listeners to all active menu items and buttons
+     */
     public MainController(){
 
         keyListener = new MagicKeyListener(this);
@@ -37,9 +40,7 @@ public class MainController implements ActionListener {
         button = new ButtonActionListener(this);
         fr.assignActionListeners();
         this.updateMouseListener();
-
         mode = "Build";
-
         switchToBuildView();
 
     }
@@ -73,6 +74,9 @@ public class MainController implements ActionListener {
         return mouseHandler;
     }
 
+    /*  Allows controller to switching between mouse listeners to handle so user can drag and drop or connect
+        two mouse events
+     */
     void updateMouseListener(){
         Board board = fr.getActualBoard();
         for(MouseListener m : board.getMouseListeners()){
@@ -95,6 +99,9 @@ public class MainController implements ActionListener {
         mode = "Run";
     }
 
+    /*  Changes the frame to use build mode elements,
+        if model is not empty, resets model to its initial state to ignore flipper and ball movement
+     */
     void switchToBuildView(){
         if(!buildModeSave.equals("")){
             try {
@@ -112,6 +119,8 @@ public class MainController implements ActionListener {
         return keyListener;
     }
 
+    /*Creates a dialogue pop up
+     */
     int sendQuestionDialog(String message, String title, Object[] answers){
         return JOptionPane.showOptionDialog(
                 fr.getFrame(),
@@ -125,6 +134,7 @@ public class MainController implements ActionListener {
         );
     }
 
+    /*  Is fired when key pressed, key down and key up */
     void keyEventTriggered(int keyCode, TriggerType trigger) {
         if(mode.equals("Build") && mouseHandler.getType().equals("Key")){
 

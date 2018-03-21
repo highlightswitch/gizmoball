@@ -24,7 +24,6 @@ public class EditShapeDialogue {
     public EditShapeDialogue(MainController controller, JFrame fr, String shape, String mode, Gizmo g){
         gizmo = shape;
 
-        //change to mapping from action
         JLabel action = new JLabel("When the ball collides with this gizmo the gizmo should: ");
         String[] actions = {"Change Colour", "Do Nothing"};
 
@@ -60,7 +59,6 @@ public class EditShapeDialogue {
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
 
-        //TODO: Should this not be a list of strings? -EB
         JList<String> triggers = new JList<>();
         DefaultListModel<String> triggerModel = new DefaultListModel<>();
 

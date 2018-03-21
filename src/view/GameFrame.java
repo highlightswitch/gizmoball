@@ -26,6 +26,9 @@ public class GameFrame {
     private JMenuItem runViewMenuItem;
     private JMenuItem buildViewMenuItem;
 
+    /*Creates frame which holds all Swing elements
+     */
+
     public GameFrame(MainController cont){
         controller = cont;
         frMain = new JFrame("Gizmoball");
@@ -136,16 +139,18 @@ public class GameFrame {
         top.add(mFile);
         top.add(mView);
 
-        //This is hacky but if we only run build view,
-        //the key listener doesn't work
         switchToRunView();
         switchToBuildView();
     }
 
+    /*Updates the model reference used in the board class
+     */
     public void setModel(IModel model){
         this.board.setModel(model);
     }
 
+    /*Assigns main panel to equal the running mode panel
+     */
     public void switchToRunView(){
         board.updateMode("Run");
         this.drawFrame(new RunView(frMain, controller, board));
@@ -166,6 +171,9 @@ public class GameFrame {
         frMain.repaint();
     }
 
+    /*Assigns main panel to equal building mode panel
+
+     */
     public void switchToBuildView(){
         board.updateMode("Build");
         this.drawFrame(new BuildView(frMain, controller, board));
@@ -183,6 +191,8 @@ public class GameFrame {
         frMain.repaint();
     }
 
+    /*Draws active panel
+     */
     private void drawFrame(GameView g){
         //open running view by default then user can change to build view
 
@@ -200,6 +210,9 @@ public class GameFrame {
         frMain.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    /*Changes menu when in build mode for more user options
+
+     */
     private void extendMenu(){
         mTools.add(add);
         mTools.add(rotate);
@@ -211,6 +224,9 @@ public class GameFrame {
         top.add(mTools);
     }
 
+    /*Changes menu for less options when in run mode
+
+     */
     private void compressMenu(){
         top.remove(mTools);
     }
@@ -219,7 +235,6 @@ public class GameFrame {
         return frMain;
     }
 
-    //I'm unsure why geActiveBoard exists. Left it in for now
     public Board getActualBoard(){
         return board;
     }
@@ -228,6 +243,9 @@ public class GameFrame {
         return view;
     }
 
+    /*Adds action listener to all buttons and menu items in the current frame
+
+     */
     public void assignActionListeners(){
         for(JMenuItem m: menuItems){
             if(m.getActionListeners().length == 0)

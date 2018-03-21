@@ -62,6 +62,7 @@ public  class Board extends JPanel implements Observer {
 
 			this.setBackground(new Color(Color.ORANGE.getRed(), Color.ORANGE.getGreen()-20, Color.ORANGE.getBlue()+20));
 
+			//draws grid-lines
             g2.setColor(Color.WHITE);
             g2.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{10.0f}, 0.0f));
 

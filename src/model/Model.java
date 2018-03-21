@@ -109,7 +109,6 @@ public class Model extends Observable implements IModel {
         	if(keyEventTriggerMap.containsK(pair)) {
 				values = keyEventTriggerMap.getV(pair);
 				for(Gizmo g : values){
-					System.out.println("test1");
         			game.append("KeyConnect").append(" ").append("key").append(" ").append(i).append(" ")
 							.append("down").append(" ").append(g.getProperty(GizmoPropertyType.NAME)).append("\n");
 				}
@@ -127,9 +126,6 @@ public class Model extends Observable implements IModel {
         //Gravity and friction
         game.append("Gravity ").append(gravityConstant).append("\n");
         game.append("Friction ").append(frictionConstants[0]).append(" ").append(frictionConstants[1]).append("\n");
-
-        System.out.println(game.toString());
-
         return game.toString();
         
     }

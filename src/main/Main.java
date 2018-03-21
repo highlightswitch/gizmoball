@@ -242,9 +242,7 @@ public class Main {
 			model.connect(32, TriggerType.KEY_DOWN, l2.getProperty(GizmoPropertyType.NAME));
 			model.connect(32, TriggerType.KEY_UP, l2.getProperty(GizmoPropertyType.NAME));
 
-
-			System.out.println(Arrays.deepToString(model.getAllConnectedKeys(l.getProperty(GizmoPropertyType.NAME))));
-		} catch (GizmoPlacementNotValidException e) {
+			} catch (GizmoPlacementNotValidException e) {
 			e.printStackTrace();
 		} catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
 			tileCoordinatesNotValid.printStackTrace();
