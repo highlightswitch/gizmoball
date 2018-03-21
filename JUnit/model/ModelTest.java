@@ -113,12 +113,12 @@ class ModelTest {
         assertEquals(2, x);
         assertEquals(5, y);
 
-        m.moveGizmo("Ball", 7, 10);
+        m.moveGizmo("Ball", m.getTileAt(7, 10));
         x = m.getGizmoByName("Ball").getPosition()[0];
         y = m.getGizmoByName("Ball").getPosition()[1];
 
-        assertEquals(6.5, x);
-        assertEquals(9.5, y);
+        assertEquals(7, x);
+        assertEquals(10, y);
     }
 
     @Test
