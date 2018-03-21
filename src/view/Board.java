@@ -28,8 +28,7 @@ public  class Board extends JPanel implements Observer {
 		width = w;
 		height = h;
 		iModel = m;
-		this.setOpaque(false);
-		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		this.setOpaque(true);
 	}
 
 	// Fix onscreen size
@@ -60,6 +59,9 @@ public  class Board extends JPanel implements Observer {
 		}
 
         if(getMode().equals("Build")) {
+
+			this.setBackground(new Color(Color.ORANGE.getRed(), Color.ORANGE.getGreen()-20, Color.ORANGE.getBlue()+20));
+
             g2.setColor(Color.WHITE);
             g2.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{10.0f}, 0.0f));
 
@@ -74,6 +76,8 @@ public  class Board extends JPanel implements Observer {
 			g2.drawLine(0, 20 * 25 -1, height, 20 * 25 -1);
 
 
+		} else {
+			this.setBackground(new Color(Color.PINK.getRed(), Color.PINK.getGreen()-20, Color.PINK.getBlue()-20));
 		}
 
 		//If debug mode is on, draw the GameObjects as well

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Main {
 
-	public static boolean debugMode = true;
+	public static boolean debugMode = false;
 
 	public static void main(String[] args) {
 		try {
