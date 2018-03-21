@@ -426,7 +426,6 @@ public class Model extends Observable implements IModel {
         this.ball = ball;
         tickable.add(ball);
         gizmos.add(ball);
-        drawables.add(ball);
 
         //Set tiles using this ball is placed in to be occupied
 		for(Tile t : ballTiles){
@@ -550,12 +549,15 @@ public class Model extends Observable implements IModel {
 	}
 
 	public void setGravityConstant(double val) {
-		//validateGravityValue(val);
 		this.gravityConstant = val;
 	}
 
 	public ArrayList<Drawable> getDrawables(){
-    	return drawables;
+		//This is done so that the ball is always drawn last
+		ArrayList<Drawable> newList = new ArrayList<>(drawables);
+    	if(ball != null)
+    		newList.add(ball);
+		return newList;
 	}
 
 	public ArrayList<Drawable> getDebugDrawables() {
