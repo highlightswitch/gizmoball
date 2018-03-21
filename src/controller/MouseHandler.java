@@ -164,13 +164,21 @@ public class MouseHandler {
 
                                 break;
                             case "Key":
-                                controller.getView().setMessage("Press key to connect that key to " + t.getGizmo().getProperty(GizmoPropertyType.NAME));
-                                frame.requestFocus();
+                                if(t.getGizmo().getType() != GizmoType.BALL){
+                                    controller.getView().setMessage("Press key to connect that key to " + t.getGizmo().getProperty(GizmoPropertyType.NAME));
+                                    frame.requestFocus();
+                                } else {
+                                    controller.getView().setMessage("You cannot add actions to the Ball!");
+                                }
                                 break;
                             case "Connect":
-                                controller.getView().setMessage("Connect " + t.getGizmo().getProperty(GizmoPropertyType.NAME) + " to...");
-                                currentListener = connectListener;
-                                controller.updateMouseListener();
+                                if(t.getGizmo().getType() != GizmoType.BALL){
+                                    controller.getView().setMessage("Connect " + t.getGizmo().getProperty(GizmoPropertyType.NAME) + " to...");
+                                    currentListener = connectListener;
+                                    controller.updateMouseListener();
+                                } else {
+                                    controller.getView().setMessage("You cannot add actions to the Ball!");
+                                }
                                 break;
                         }
                     }
@@ -247,8 +255,12 @@ public class MouseHandler {
                 try {
                     IModel m = controller.getIModel();
                     Tile t2 = m.getTileAt(xy[0], xy[1]);
-                    m.connect(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2.getGizmo().getProperty(GizmoPropertyType.NAME));
-                    controller.getView().setMessage("Connected to " + t2.getGizmo().getProperty(GizmoPropertyType.NAME));
+                    if(t.getGizmo().getType() != GizmoType.BALL){
+                        m.connect(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2.getGizmo().getProperty(GizmoPropertyType.NAME));
+                        controller.getView().setMessage("Connected to " + t2.getGizmo().getProperty(GizmoPropertyType.NAME));
+                    } else {
+                        controller.getView().setMessage("You cannot add actions to the Ball!");
+                    }
                     currentListener = defaultListener;
                     controller.updateMouseListener();
                 } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
