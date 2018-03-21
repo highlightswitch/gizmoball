@@ -532,7 +532,10 @@ public class Model extends Observable implements IModel {
 	}
 
 	public void disconnectAllTriggers(){
-			keyEventTriggerMap.clear();
+		keyEventTriggerMap.clear();
+		for(Gizmo gizmo : gizmos){
+			gizmo.removeAllActors();
+		}
 	}
 
 	public double[] getFrictionConstants(){

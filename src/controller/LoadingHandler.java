@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 class LoadingHandler {
@@ -41,9 +43,13 @@ class LoadingHandler {
         Model model = new Model();
 
         StringTokenizer fileTokenizer = new StringTokenizer(str, "\n");
-        String line;
+        Queue<String> queue = new LinkedList<>();
+        Queue<String> checkAgain = new LinkedList<>();
         while (fileTokenizer.hasMoreTokens()) {
-            line = fileTokenizer.nextToken();
+            queue.add(fileTokenizer.nextToken());
+        }
+        while(!queue.isEmpty()){
+            String line = queue.poll();
 			if (line.length() > 0) {
 				StringTokenizer lineTokenizer = new StringTokenizer(line);
 				ArrayList<String> tokens = new ArrayList<>();
@@ -52,38 +58,73 @@ class LoadingHandler {
 				}
 				if (checkLine(model, tokens)) {
 					model = command(model, tokens);
-				}
+				} else{
+				    checkAgain.add(line);
+                }
 			}
 		}
+        while(!checkAgain.isEmpty()){
+            String line = checkAgain.poll();
+            if (line.length() > 0) {
+                StringTokenizer lineTokenizer = new StringTokenizer(line);
+                ArrayList<String> tokens = new ArrayList<>();
+                while (lineTokenizer.hasMoreTokens()) {
+                    tokens.add(lineTokenizer.nextToken());
+                }
+                if (checkLine(model, tokens)) {
+                    model = command(model, tokens);
+                }
+            }
+        }
 
 		return model;
     }
 
-    private static boolean checkLine(Model model, ArrayList<String> command) {
+    private static boolean checkLine(Model model, ArrayList<String> command) throws MalformedGizmoballFileException {
         switch (command.get(0)) {
             case "Square":
             case "Circle":
             case "Triangle":
             case "RightFlipper":
             case "LeftFlipper":
+                if(command.size() != 4)
+                    throw new MalformedGizmoballFileException("");
                 return !model.checkName(command.get(1)) && stringIsInt(command.get(2)) && stringIsInt(command.get(3)) && command.size() == 4;
             case "Absorber":
+                if(command.size() != 6)
+                    throw new MalformedGizmoballFileException("");
                 return !model.checkName(command.get(1)) && stringIsInt(command.get(2)) && stringIsInt(command.get(3)) && stringIsInt(command.get(4)) && stringIsInt(command.get(5)) && Integer.parseInt(command.get(2)) < Integer.parseInt(command.get(4)) && Integer.parseInt(command.get(3)) < Integer.parseInt(command.get(5)) && command.size() == 6;
             case "Ball":
+                if(command.size() != 6)
+                    throw new MalformedGizmoballFileException("");
                 return !model.checkName(command.get(1)) && stringIsFloat(command.get(2)) && stringIsFloat(command.get(3)) && stringIsFloat(command.get(4)) && stringIsFloat(command.get(5)) && command.size() == 6;
             case "Rotate":
+                if(command.size() != 2)
+                    throw new MalformedGizmoballFileException("");
                 return model.checkName(command.get(1)) && command.size() == 2;
             case "Delete":
+                if(command.size() != 2)
+                    throw new MalformedGizmoballFileException("");
                 return model.checkName(command.get(1)) && command.size() == 2;
             case "Move":
+                if(command.size() != 4)
+                    throw new MalformedGizmoballFileException("");
                 return model.checkName(command.get(1)) && stringIsInt(command.get(2)) && stringIsInt(command.get(3)) && command.size() == 4 || model.checkName(command.get(1)) && stringIsFloat(command.get(2)) && stringIsFloat(command.get(3)) && command.size() == 4;
             case "Connect":
+                if(command.size() != 3)
+                    throw new MalformedGizmoballFileException("");
                 return model.checkName(command.get(1)) && model.checkName(command.get(2)) && command.size() == 3;
             case "KeyConnect":
+                if(command.size() != 5)
+                    throw new MalformedGizmoballFileException("");
                 return command.get(1).equals("key") && stringIsInt(command.get(2)) && model.checkName(command.get(4)) && command.size() == 5;
             case "Action":
+                if(command.size() != 3)
+                    throw new MalformedGizmoballFileException("");
                 return model.checkName(command.get(1)) && (command.get(2).equals("CHANGE_COLOUR") || command.get(2).equals("FLIP_FLIPPER") || command.get(2).equals("FIRE_FROM_ABSORBER")) && command.size() == 3;
             case "Colour":
+                if(command.size() != 11)
+                    throw new MalformedGizmoballFileException("");
                 if (model.checkName(command.get(1)) && command.size() == 11) {
                     for (int i = 2; i < command.size(); i++)
                         if (!stringIsInt(command.get(i)))
@@ -93,8 +134,12 @@ class LoadingHandler {
                     return false;
                 }
             case "Gravity":
+                if(command.size() != 2)
+                    throw new MalformedGizmoballFileException("");
                 return stringIsFloat(command.get(1)) && command.size() == 2;
             case "Friction":
+                if(command.size() != 3)
+                    throw new MalformedGizmoballFileException("");
                 return stringIsFloat(command.get(1)) && stringIsFloat(command.get(2)) && command.size() == 3;
             default:
                 return false;
