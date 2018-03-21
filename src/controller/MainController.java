@@ -117,8 +117,6 @@ public class MainController implements ActionListener {
 
     void keyEventTriggered(int keyCode, TriggerType trigger) {
         if(mode.equals("Build")){
-            System.out.println("you pressed a key");
-            JOptionPane.showMessageDialog(fr.getFrame(), "The key you are selecting is: " + keyCode, "Key Code", JOptionPane.INFORMATION_MESSAGE);
             mouseHandler.connectToKeyCode(keyCode);
         } else {
             model.keyEventTriggered(keyCode, trigger);
@@ -134,6 +132,10 @@ public class MainController implements ActionListener {
         }
 
         return (e -> System.out.println("Cannot find type"));
+    }
+
+    void focusOnFrame(){
+        fr.getFrame().requestFocus();
     }
 
     @Override

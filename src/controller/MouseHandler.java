@@ -2,10 +2,14 @@ package controller;
 
 import model.*;
 import model.gizmo.*;
-import view.*;
+import view.EditAbsorberDialogue;
+import view.EditBallDialogue;
+import view.EditFlipperDialogue;
+import view.EditShapeDialogue;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -159,7 +163,7 @@ public class MouseHandler {
                                 break;
                             case "Key":
                                 controller.getView().setMessage("Press key to connect that key to " + t.getGizmo().getProperty(GizmoPropertyType.NAME));
-                                frame.setFocusable(true);
+                                frame.requestFocus();
                                 break;
                             case "Connect":
                                 controller.getView().setMessage("Connect " + t.getGizmo().getProperty(GizmoPropertyType.NAME) + " to...");
@@ -298,7 +302,9 @@ public class MouseHandler {
     public void connectToKeyCode(int keyCode){
         try {
             IModel model = controller.getIModel();
-            model.connect(keyCode, TriggerType.KEY_DOWN,t.getGizmo().getProperty(GizmoPropertyType.NAME));
+            String gizmoName = t.getGizmo().getProperty(GizmoPropertyType.NAME);
+            model.connect(keyCode, TriggerType.KEY_DOWN, gizmoName);
+            controller.getView().setMessage("The " + KeyEvent.getKeyText(keyCode) + " key now activates " + gizmoName);
         } catch (GizmoNotFoundException e1) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find Gizmo");
         }
