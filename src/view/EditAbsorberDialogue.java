@@ -7,7 +7,7 @@ import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
 import model.gizmo.TriggerType;
-import model.util.GizmoMaths;
+import model.util.GizmoUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -96,7 +96,7 @@ public class EditAbsorberDialogue {
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
         shapeColour.setOpaque(false);
         if(g != null) {
-            int[] currentRGB = GizmoMaths.colourStringParser(g.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
+            int[] currentRGB = GizmoUtils.colourStringParser(g.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
             shapeColour.setColor(currentRGB[0], currentRGB[1], currentRGB[2]);
         }
 

@@ -1,6 +1,6 @@
 package model;
 
-import model.util.GizmoMaths;
+import model.util.GizmoUtils;
 
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class DrawingData {
 	}
 
 	public void setColour(String rgbString){
-		this.rgb = GizmoMaths.colourStringParser(rgbString);
+		this.rgb = GizmoUtils.colourStringParser(rgbString);
 	}
 
 	public ArrayList<ArrayList<Double[]>> getPolygonsData() {

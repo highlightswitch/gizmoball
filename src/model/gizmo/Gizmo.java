@@ -1,6 +1,7 @@
 package model.gizmo;
 
 import model.*;
+import model.util.GizmoUtils;
 import model.util.Procedure;
 import physics.Vect;
 
@@ -256,7 +257,7 @@ public abstract class Gizmo implements Collidable, Drawable {
         switch (type){
             case FLIPPER:
                 //Name, Rotation_Deg
-                propVals = new String[]{ "leftFlipper_0", "0", "true", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
+                propVals = new String[]{ "flipper_0", "0", "true", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
                 break;
             case BALL:
                 //Name, Vel_X, Vel_Y
@@ -280,21 +281,7 @@ public abstract class Gizmo implements Collidable, Drawable {
                 break;
         }
 
-        if(usedNames != null){
-            String newName = propVals[0];
-            while(usedNames.contains(newName)){
-                String[] arr = newName.split("_");
-                arr[arr.length -1] = String.valueOf(Integer.parseInt(arr[arr.length -1]) + 1);
-
-                StringBuilder sb = new StringBuilder();
-                for(int i = 0; i < arr.length-1; i++)
-                    sb.append(arr[i]);
-                sb.append("_");
-                sb.append(arr[arr.length-1]);
-                newName = sb.toString();
-            }
-            propVals[0] = newName;
-        }
+        propVals[0] = GizmoUtils.getUnusedName(usedNames, type);
 
         return propVals;
 

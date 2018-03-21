@@ -4,6 +4,7 @@ import model.GizmoPlacementNotValidException;
 import model.IModel;
 import model.TileCoordinatesNotValid;
 import model.gizmo.GizmoType;
+import model.util.GizmoUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,6 @@ public class PlaceBallListener {
     private MainController controller;
     private String color;
     private String name;
-    private int id;
     private int x;
     private int y;
     private String vx;
@@ -22,8 +22,8 @@ public class PlaceBallListener {
 
     public PlaceBallListener(MainController controller, String position, String velocity, Color c){
         this.controller = controller;
-        name = "Ball" + id;
-        id++;
+        name = GizmoUtils.getUnusedName(controller.getModel().getAllGizmoNames(), GizmoType.BALL);
+
         color = c.toString();
         color = color.substring(color.indexOf("["));
 

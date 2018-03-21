@@ -54,8 +54,6 @@ public class MouseHandler {
 
                 if (getMode().equals("Add")) {
                     if (!t.isOccupied()) {
-                        name = getType() + id;
-                        id++;
                         switch (getType()) {
                             case "Ball":
                                 try {
@@ -105,11 +103,6 @@ public class MouseHandler {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
-                        }
-                        try {
-                            t.getGizmo().setProperty(GizmoPropertyType.NAME, name);
-                        } catch (GizmoPropertyException e1) {
-                            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 } else {

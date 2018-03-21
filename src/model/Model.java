@@ -1,7 +1,7 @@
 package model;
 
 import model.gizmo.*;
-import model.util.GizmoMaths;
+import model.util.GizmoUtils;
 import model.util.ManyToManyMap;
 
 import java.awt.*;
@@ -89,9 +89,9 @@ public class Model extends Observable implements IModel {
 			}
 
 			//Gizmo colour
-			int[] c = GizmoMaths.colourStringParser(gizmo.getProperty(GizmoPropertyType.CURRENT_COLOUR));
-			int[] d = GizmoMaths.colourStringParser(gizmo.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
-			int[] a = GizmoMaths.colourStringParser(gizmo.getProperty(GizmoPropertyType.ALT_COLOUR));
+			int[] c = GizmoUtils.colourStringParser(gizmo.getProperty(GizmoPropertyType.CURRENT_COLOUR));
+			int[] d = GizmoUtils.colourStringParser(gizmo.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
+			int[] a = GizmoUtils.colourStringParser(gizmo.getProperty(GizmoPropertyType.ALT_COLOUR));
 			game.append("Colour").append(" ")
 					.append(gizmo.getProperty(GizmoPropertyType.NAME)).append(" ")
 					.append(c[0]).append(" ").append(c[1]).append(" ").append(c[2]).append(" ")
@@ -586,7 +586,7 @@ public class Model extends Observable implements IModel {
         this.notifyObservers();
 	}
 
-	private List<String> getAllGizmoNames(){
+	public List<String> getAllGizmoNames(){
 		List<String> names = new ArrayList<>(gizmos.size());
 		for(Gizmo g : gizmos){
 			names.add(g.getProperty(GizmoPropertyType.NAME));
