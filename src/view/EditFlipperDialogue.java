@@ -7,7 +7,7 @@ import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
 import model.gizmo.TriggerType;
-import model.util.GizmoMaths;
+import model.util.GizmoUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,6 +38,8 @@ public class EditFlipperDialogue {
         JLabel label2 = new JLabel("Select flipper direction: ");
         String[] direction = {"Left", "Right"};
         JComboBox<String> di = new JComboBox<>(direction);
+        if(g != null)
+            di.setSelectedIndex(Boolean.valueOf(g.getProperty(GizmoPropertyType.IS_LEFT_ORIENTATED)) ? 0 : 1);
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
         JList<String> triggers = new JList<>();
@@ -49,7 +51,7 @@ public class EditFlipperDialogue {
                     triggerModel.addElement(n.getProperty(GizmoPropertyType.NAME));
                 }
                 for (String k[] : controller.getIModel().getAllConnectedKeys(g.getProperty(GizmoPropertyType.NAME))){
-                    triggerModel.addElement(k[0]);
+                    triggerModel.addElement(k[0] + "  -  " + k[1]);
                 }
             } catch (GizmoNotFoundException e) {
                 JOptionPane.showMessageDialog(f, "Gizmo not found");
@@ -81,7 +83,7 @@ public class EditFlipperDialogue {
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
         shapeColour.setOpaque(false);
         if(g != null) {
-            int[] currentRGB = GizmoMaths.colourStringParser(g.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
+            int[] currentRGB = GizmoUtils.colourStringParser(g.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
             shapeColour.setColor(currentRGB[0], currentRGB[1], currentRGB[2]);
         }
 

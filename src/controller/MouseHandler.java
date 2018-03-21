@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.gizmo.*;
+import model.util.GizmoUtils;
 import view.EditAbsorberDialogue;
 import view.EditBallDialogue;
 import view.EditFlipperDialogue;
@@ -17,8 +18,6 @@ public class MouseHandler {
 
     private String listType;
     private String mode;
-    private String name;
-    private int id = 0;
     private Tile t = null;
 
     private MouseListener currentListener;
@@ -40,6 +39,7 @@ public class MouseHandler {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                // Get the tile eq. to the pixel point the user clicks
                 int x = e.getX();
                 int y = e.getY();
                 int[] xy = getXYNear(x, y);
@@ -52,10 +52,9 @@ public class MouseHandler {
                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tile coordinates are not valid", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
+                // if the user is looking to add something new, check that the tile is not already occupied, then add appropriate gizmo
                 if (getMode().equals("Add")) {
                     if (!t.isOccupied()) {
-                        name = getType() + id;
-                        id++;
                         switch (getType()) {
                             case "Ball":
                                 try {
@@ -73,10 +72,21 @@ public class MouseHandler {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
-                            case "Flipper":
+                            case "Left Flipper":
                                 try {
                                     IModel m = controller.getIModel();
                                     m.placeGizmo(GizmoType.FLIPPER, t, null);
+                                } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
+                                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                                break;
+                            case "Right Flipper":
+                                try {
+                                    IModel m = controller.getIModel();
+                                    //Hacky but theres 3 hours till the deadline so..
+                                    String[] props = GizmoUtils.getPropertyDefaults(GizmoType.FLIPPER, controller.getModel().getAllGizmoNames());
+                                    props[2] = "false";
+                                    m.placeGizmo(GizmoType.FLIPPER, t, props);
                                 } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
@@ -106,13 +116,9 @@ public class MouseHandler {
                                 }
                                 break;
                         }
-                        try {
-                            t.getGizmo().setProperty(GizmoPropertyType.NAME, name);
-                        } catch (GizmoPropertyException e1) {
-                            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
                     }
                 } else {
+                    // if the user is looking to edit an existing gizmo check that the tile is occupied then call the appropriate action
                     if (t.isOccupied()) {
                         GizmoType g = t.getGizmo().getType();
                         switch (getType()) {
@@ -152,23 +158,34 @@ public class MouseHandler {
                                 } catch (GizmoPropertyException e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
                                 } catch (GizmoNotRotatableException e1){
+                                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot rotate this gizmo", "Error", JOptionPane.ERROR_MESSAGE);
+
                                 }
                                 break;
                             case "Move":
+                                // to track two mouse events on the frame, once the user clicks on a gizmo to move switch out
+                                // current listener for move listener, run move listener events and return control
                                 controller.getView().setMessage("Drag and drop to move " + t.getGizmo().getProperty(GizmoPropertyType.NAME));
                                 frame.setCursor(new Cursor(Cursor.HAND_CURSOR));
                                 currentListener = moveListener;
                                 controller.updateMouseListener();
-
                                 break;
                             case "Key":
-                                controller.getView().setMessage("Press key to connect that key to " + t.getGizmo().getProperty(GizmoPropertyType.NAME));
-                                frame.requestFocus();
+                                if(t.getGizmo().getType() != GizmoType.BALL){
+                                    controller.getView().setMessage("Press key to connect that key to " + t.getGizmo().getProperty(GizmoPropertyType.NAME));
+                                    frame.requestFocus();
+                                } else {
+                                    controller.getView().setMessage("You cannot add actions to the Ball!");
+                                }
                                 break;
                             case "Connect":
-                                controller.getView().setMessage("Connect " + t.getGizmo().getProperty(GizmoPropertyType.NAME) + " to...");
-                                currentListener = connectListener;
-                                controller.updateMouseListener();
+                                if(t.getGizmo().getType() != GizmoType.BALL){
+                                    controller.getView().setMessage("Connect " + t.getGizmo().getProperty(GizmoPropertyType.NAME) + " to...");
+                                    currentListener = connectListener;
+                                    controller.updateMouseListener();
+                                } else {
+                                    controller.getView().setMessage("You cannot add actions to the Ball!");
+                                }
                                 break;
                         }
                     }
@@ -245,8 +262,12 @@ public class MouseHandler {
                 try {
                     IModel m = controller.getIModel();
                     Tile t2 = m.getTileAt(xy[0], xy[1]);
-                    m.connect(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2.getGizmo().getProperty(GizmoPropertyType.NAME));
-                    controller.getView().setMessage("Connected to " + t2.getGizmo().getProperty(GizmoPropertyType.NAME));
+                    if(t2.getGizmo().getType() != GizmoType.BALL){
+                        m.connect(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2.getGizmo().getProperty(GizmoPropertyType.NAME));
+                        controller.getView().setMessage("Connected to " + t2.getGizmo().getProperty(GizmoPropertyType.NAME));
+                    } else {
+                        controller.getView().setMessage("You cannot add actions to the Ball!");
+                    }
                     currentListener = defaultListener;
                     controller.updateMouseListener();
                 } catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
@@ -289,7 +310,7 @@ public class MouseHandler {
         listType = t;
     }
 
-    String getMode(){
+    private String getMode(){
         return mode;
     }
 

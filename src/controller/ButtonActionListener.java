@@ -65,7 +65,13 @@ public class ButtonActionListener implements ActionListener {
                 mouseHandler.setMode("Add");
                 break;
             case "Flipper":
-                controller.getView().setMessage("Click on tile to add Left Flipper");
+                int chosenOption = controller.sendQuestionDialog(
+                        "Left Flipper or Right Flipper?",
+                        "Place Flipper",
+                        new Object[]{"Left", "Right"}
+                );
+                mouseHandler.setType(chosenOption == 0 ? "Left Flipper" : "Right Flipper");
+                controller.getView().setMessage("Click on tile to add Flipper");
                 mouseHandler.setMode("Add");
                 break;
             case "Ball":

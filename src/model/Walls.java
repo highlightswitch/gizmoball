@@ -49,7 +49,7 @@ public class Walls implements Collidable {
 	public Object clone() {
 		try {
 			return super.clone();
-		} catch (CloneNotSupportedException e) {
+		} catch (CloneNotSupportedException ignored) {
 		}
 		return null;
 	}

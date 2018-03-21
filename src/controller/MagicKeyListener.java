@@ -62,7 +62,6 @@ public class MagicKeyListener implements KeyListener {
         MainController controller;
 
         KeyInputListener(MainController controller){
-            System.out.println("In magic key listerner");
             this.controller = controller;
         }
 
@@ -73,13 +72,11 @@ public class MagicKeyListener implements KeyListener {
         @Override
         public void keyPressed(KeyEvent e) {
             controller.keyEventTriggered(e.getKeyCode(), TriggerType.KEY_DOWN);
-            System.out.println(e.getKeyCode() + " DOWN");
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
             controller.keyEventTriggered(e.getKeyCode(), TriggerType.KEY_UP);
-            //System.out.println(e.getKeyCode() + " UP");
         }
 
     }

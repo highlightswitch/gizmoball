@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import model.gizmo.GizmoActionType;
 import model.gizmo.GizmoType;
+import model.util.GizmoUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,6 @@ public class PlaceGizmoListener{
 
     private GizmoType g;
     private String gname;
-    private int id = 0;
     private String color;
     private String alt;
     private GizmoActionType action;
@@ -55,8 +55,7 @@ public class PlaceGizmoListener{
                 break;
         }
 
-        gname = gizmoName + id;
-        id++;
+        gname = GizmoUtils.getUnusedName(controller.getModel().getAllGizmoNames(), g);
 
         if(Pattern.matches("\\p{Punct}\\d{1,2}\\p{Punct}\\d{1,2}\\p{Punct}", position)){
             String pos = position.replace("(", "");

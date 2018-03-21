@@ -1,12 +1,10 @@
 package model;
 
 import model.gizmo.*;
-import model.util.GizmoMaths;
+import model.util.GizmoUtils;
 import model.util.ManyToManyMap;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
@@ -55,6 +53,10 @@ public class Model extends Observable implements IModel {
 
 	}
 
+	Tile[][] getTiles(){
+    	return tiles;
+	}
+
 	public String toString(){
 
         StringBuilder game = new StringBuilder();
@@ -89,9 +91,9 @@ public class Model extends Observable implements IModel {
 			}
 
 			//Gizmo colour
-			int[] c = GizmoMaths.colourStringParser(gizmo.getProperty(GizmoPropertyType.CURRENT_COLOUR));
-			int[] d = GizmoMaths.colourStringParser(gizmo.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
-			int[] a = GizmoMaths.colourStringParser(gizmo.getProperty(GizmoPropertyType.ALT_COLOUR));
+			int[] c = GizmoUtils.colourStringParser(gizmo.getProperty(GizmoPropertyType.CURRENT_COLOUR));
+			int[] d = GizmoUtils.colourStringParser(gizmo.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
+			int[] a = GizmoUtils.colourStringParser(gizmo.getProperty(GizmoPropertyType.ALT_COLOUR));
 			game.append("Colour").append(" ")
 					.append(gizmo.getProperty(GizmoPropertyType.NAME)).append(" ")
 					.append(c[0]).append(" ").append(c[1]).append(" ").append(c[2]).append(" ")
@@ -109,7 +111,6 @@ public class Model extends Observable implements IModel {
         	if(keyEventTriggerMap.containsK(pair)) {
 				values = keyEventTriggerMap.getV(pair);
 				for(Gizmo g : values){
-					System.out.println("test1");
         			game.append("KeyConnect").append(" ").append("key").append(" ").append(i).append(" ")
 							.append("down").append(" ").append(g.getProperty(GizmoPropertyType.NAME)).append("\n");
 				}
@@ -127,9 +128,6 @@ public class Model extends Observable implements IModel {
         //Gravity and friction
         game.append("Gravity ").append(gravityConstant).append("\n");
         game.append("Friction ").append(frictionConstants[0]).append(" ").append(frictionConstants[1]).append("\n");
-
-        System.out.println(game.toString());
-
         return game.toString();
         
     }
@@ -141,10 +139,6 @@ public class Model extends Observable implements IModel {
 	public Ball getBall() {
 		return ball;
 	}
-
-	public Tile[][] getTiles(){
-        return tiles;
-    }
 
 	Gizmo getGizmoByName(String name) throws GizmoNotFoundException {
 		for (Gizmo gizmo : gizmos) {
@@ -238,10 +232,6 @@ public class Model extends Observable implements IModel {
 			throw new ModelPropertyException("Friction values cannot be set to " + Arrays.toString(arr));
 	}
 
-	/*private void validateGravityValue(double val) throws ModelPropertyException {
-		//Any gravity is fine...
-	}*/
-
 	private void validateColorString(String str){
 
 		if (str.length() >= 13 && str.length() <= 19) {
@@ -280,7 +270,7 @@ public class Model extends Observable implements IModel {
 		Gizmo gizmo = null;
 		switch(gizmoType){
 			case FLIPPER:
-				gizmo = new Flipper(null, properties);
+				gizmo = new Flipper(properties);
 				validateGizmoPlacement(gizmo, tile);
 				tile.placeGizmo(gizmo);
 				tickable.add((Flipper) gizmo);
@@ -291,10 +281,13 @@ public class Model extends Observable implements IModel {
 				this.connect(Boolean.valueOf(properties.get(GizmoPropertyType.IS_LEFT_ORIENTATED)) ? 70 : 71, TriggerType.KEY_UP, gizmo); //Default key trigger for left F, right G
 				break;
 			case BALL:
-			    gizmo = placeBall(tile.getX() + 0.5, tile.getY() + 0.5, propertyValues);
+				if(ball == null)
+					gizmo = placeBall(tile.getX() + 0.5, tile.getY() + 0.5, propertyValues);
+				else
+					throw new GizmoPlacementNotValidException("Cannot place multiple balls");
 				break;
 			case ABSORBER:
-				gizmo = new Absorber(Color.BLACK, properties);
+				gizmo = new Absorber(properties);
 				validateGizmoPlacement(gizmo, tile);
 				collidable.add(gizmo);
 				tile.placeGizmo(gizmo);
@@ -418,8 +411,13 @@ public class Model extends Observable implements IModel {
 	public Gizmo placeBall(double cx, double cy, String[] propertyValues) throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
 
 		Map<GizmoPropertyType, String> properties = getCorrectPropertiesMap(GizmoType.BALL, propertyValues);
-        Ball ball= new Ball(this, Color.black, cx, cy, properties);
-		Set<Tile> ballTiles = getBallTiles(ball);
+        Ball ball= new Ball(this, cx, cy, properties);
+		Set<Tile> ballTiles;
+        try{
+			ballTiles = getBallTiles(ball);
+		} catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+			throw new GizmoPlacementNotValidException("Ball is placed in position that is partially or fully off the board");
+		}
 
         for(Tile t : ballTiles) {
 			validateGizmoPlacement(ball, t);
@@ -443,7 +441,7 @@ public class Model extends Observable implements IModel {
     }
 
 	private Gizmo addBumper(GizmoType gizmoType, Tile tile, Map<GizmoPropertyType, String> properties) throws GizmoPlacementNotValidException, TileCoordinatesNotValid {
-		Bumper bumper = new Bumper(Color.black, gizmoType, properties);
+		Bumper bumper = new Bumper(gizmoType, properties);
 		validateGizmoPlacement(bumper, tile);
 		collidable.add(bumper);
 		tile.placeGizmo(bumper);
@@ -532,7 +530,10 @@ public class Model extends Observable implements IModel {
 	}
 
 	public void disconnectAllTriggers(){
-			keyEventTriggerMap.clear();
+		keyEventTriggerMap.clear();
+		for(Gizmo gizmo : gizmos){
+			gizmo.removeAllActors();
+		}
 	}
 
 	public double[] getFrictionConstants(){
@@ -573,11 +574,24 @@ public class Model extends Observable implements IModel {
 
 	private void deleteGizmo(Gizmo gizmo) throws TileCoordinatesNotValid {
         Tile tile = getTileAt((int) gizmo.getPosition()[0], (int) gizmo.getPosition()[1]);
+
         if(!(gizmo.getType() == GizmoType.BALL)){
             tile.removeGizmo();
         } else {
+			for(Tile t : getBallTiles(ball)){
+				t.setIsOccupiedByBall(null);
+			}
             ball = null;
         }
+
+        for(Gizmo g : gizmos){
+			try {
+				this.disconnect(g.getProperty(GizmoPropertyType.NAME), gizmo.getProperty(GizmoPropertyType.NAME));
+			} catch (GizmoNotFoundException e) {
+				//This should never happen
+			}
+		}
+
 		tickable.remove(gizmo);
 		collidable.remove(gizmo);
 		drawables.remove(gizmo);
@@ -586,7 +600,7 @@ public class Model extends Observable implements IModel {
         this.notifyObservers();
 	}
 
-	private List<String> getAllGizmoNames(){
+	public List<String> getAllGizmoNames(){
 		List<String> names = new ArrayList<>(gizmos.size());
 		for(Gizmo g : gizmos){
 			names.add(g.getProperty(GizmoPropertyType.NAME));
@@ -594,13 +608,12 @@ public class Model extends Observable implements IModel {
 		return names;
 	}
 
-	private Set<Tile> getBallTiles(Ball ball) throws GizmoPlacementNotValidException {
+	private Set<Tile> getBallTiles(Ball ball) throws TileCoordinatesNotValid {
 		Set<Tile> ballTiles = new HashSet<>();
 		double[] ballCentre = ball.getCentre();
 		double ballRadius = ball.getRadius();
 
 		//The below gets compass points from the centre on the circumference and gets the tile that point is in.
-		try {
 
 			ballTiles.add(getTileNear(ballCentre[0] - ballRadius, ballCentre[1])); //E
 			ballTiles.add(getTileNear(ballCentre[0] + ballRadius, ballCentre[1])); //W
@@ -617,17 +630,13 @@ public class Model extends Observable implements IModel {
 					ballCentre[1] + ballRadius * 1/Math.sqrt(2))); //SE
 
 			return ballTiles;
-
-		} catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
-			throw new GizmoPlacementNotValidException("Ball is placed in position that is partially or fully off the board");
-		}
 	}
 
 	private Map<GizmoPropertyType, String> getCorrectPropertiesMap(GizmoType gizmoType, String[] propertyValues){
 
 		//If propertyValues is null, set them to the default values
 		if(propertyValues == null){
-			propertyValues = Gizmo.getPropertyDefaults(gizmoType, getAllGizmoNames());
+			propertyValues = GizmoUtils.getPropertyDefaults(gizmoType, getAllGizmoNames());
 		}
 
 		//TODO: ensure this works

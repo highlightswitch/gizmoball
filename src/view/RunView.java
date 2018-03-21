@@ -8,15 +8,12 @@ import java.util.ArrayList;
 
 public class RunView implements GameView {
 
-    private JFrame frame;
     private JPanel panGame;
-    private JPanel panBoard;
     private MainController controller;
     private ArrayList<JButton> buttons;
 
-    RunView(JFrame frame, MainController controller, Board board){
+    RunView(MainController controller, Board board){
         this.controller = controller;
-        this.frame = frame;
 
         this.buttons  = new ArrayList<>();
 
@@ -54,8 +51,6 @@ public class RunView implements GameView {
         panGrid.add(board);
         panGrid.setOpaque(false);
 
-        panBoard = panGrid;
-
         panGame.setLayout(new BorderLayout());
         panGame.add(panGrid, BorderLayout.CENTER);
         panGame.add(panControls, BorderLayout.SOUTH);
@@ -63,11 +58,6 @@ public class RunView implements GameView {
 
     public JPanel getPanel() {
         return panGame;
-    }
-
-    @Override
-    public JPanel getBoard() {
-        return panBoard;
     }
 
     public void setAllButtonListeners(){

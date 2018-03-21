@@ -37,7 +37,6 @@ public class EditGizmoListener {
 
         color = c.toString();
         color = color.substring(color.indexOf("["));
-        System.out.println(color);
 
         if(colorChange){
             alt = altc.toString();
@@ -59,8 +58,7 @@ public class EditGizmoListener {
     public void edit(){
         try {
             IModel model = controller.getIModel();
-            if(gizmo.getPosition()[0] == x && gizmo.getPosition()[1] == y){
-            } else {
+            if (gizmo.getPosition()[0] != x || gizmo.getPosition()[1] != y) {
                 model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
             }
             properties.put(GizmoPropertyType.NAME, gizmo.getProperty(GizmoPropertyType.NAME));

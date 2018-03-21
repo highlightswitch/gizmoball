@@ -8,7 +8,7 @@ import model.gizmo.Gizmo;
 import model.gizmo.GizmoActionType;
 import model.gizmo.GizmoPropertyType;
 import model.gizmo.TriggerType;
-import model.util.GizmoMaths;
+import model.util.GizmoUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,6 @@ public class EditShapeDialogue {
     public EditShapeDialogue(MainController controller, JFrame fr, String shape, String mode, Gizmo g){
         gizmo = shape;
 
-        //change to mapping from action
         JLabel action = new JLabel("When the ball collides with this gizmo the gizmo should: ");
         String[] actions = {"Change Colour", "Do Nothing"};
 
@@ -60,7 +59,6 @@ public class EditShapeDialogue {
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
 
-        //TODO: Should this not be a list of strings? -EB
         JList<String> triggers = new JList<>();
         DefaultListModel<String> triggerModel = new DefaultListModel<>();
 
@@ -102,7 +100,7 @@ public class EditShapeDialogue {
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
         shapeColour.setOpaque(false);
         if(g != null) {
-            int[] currentRGB = GizmoMaths.colourStringParser(g.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
+            int[] currentRGB = GizmoUtils.colourStringParser(g.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
             shapeColour.setColor(currentRGB[0], currentRGB[1], currentRGB[2]);
         }
 
@@ -139,7 +137,7 @@ public class EditShapeDialogue {
                 if(cAction.equals("Change Colour")){
                     JColorChooser alt = new JColorChooser();
                     if(g != null) {
-                        int[] currentRGB = GizmoMaths.colourStringParser(g.getProperty(GizmoPropertyType.ALT_COLOUR));
+                        int[] currentRGB = GizmoUtils.colourStringParser(g.getProperty(GizmoPropertyType.ALT_COLOUR));
                         alt.setColor(currentRGB[0], currentRGB[1], currentRGB[2]);
                     }
                     alt.setPreviewPanel(new JPanel());

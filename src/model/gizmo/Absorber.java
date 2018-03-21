@@ -4,7 +4,6 @@ import model.*;
 import physics.Circle;
 import physics.LineSegment;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -12,8 +11,8 @@ public class Absorber extends Gizmo implements Collidable {
 
     private Ball absorbedBall;
 
-    public Absorber(Color colour, Map<GizmoPropertyType, String> properties){
-        super(colour, properties);
+    public Absorber(Map<GizmoPropertyType, String> properties){
+        super(properties);
         this.setAction(GizmoActionType.FIRE_FROM_ABSORBER);
         type = GizmoType.ABSORBER;
     }
@@ -95,10 +94,10 @@ public class Absorber extends Gizmo implements Collidable {
         data.addPolygon(squarePoly);
 
         ArrayList<Double[]> ballPositionPoly = new ArrayList<>();
-        ballPositionPoly.add(new Double[]{width - 0.9, height - 0.9}); //NE
-        ballPositionPoly.add(new Double[]{width - 0.1, height - 0.9}); //NW
-        ballPositionPoly.add(new Double[]{width - 0.1, height - 0.1}); //SW
-        ballPositionPoly.add(new Double[]{width - 0.9 , height - 0.1}); //SE
+        ballPositionPoly.add(new Double[]{width - 0.9, height/2 - 0.45}); //NE
+        ballPositionPoly.add(new Double[]{width - 0.1, height/2 - 0.45}); //NW
+        ballPositionPoly.add(new Double[]{width - 0.1, height/2 + 0.45}); //SW
+        ballPositionPoly.add(new Double[]{width - 0.9 , height/2 + 0.45}); //SE
         data.addPolygon(ballPositionPoly);
 
 

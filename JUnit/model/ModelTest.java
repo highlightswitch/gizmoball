@@ -113,7 +113,9 @@ class ModelTest {
         assertEquals(2, x);
         assertEquals(5, y);
 
+
         m.moveGizmo("Ball", m.getTileAt(7, 10));
+        
         x = m.getGizmoByName("Ball").getPosition()[0];
         y = m.getGizmoByName("Ball").getPosition()[1];
 
