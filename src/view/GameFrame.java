@@ -158,6 +158,9 @@ public class GameFrame {
         runViewMenuItem.setVisible(false);
         buildViewMenuItem.setVisible(true);
 
+        //Do this so that keyListener works
+        frMain.requestFocus();
+
         frMain.getJMenuBar().revalidate();
         frMain.getJMenuBar().repaint();
         frMain.validate();

@@ -50,7 +50,10 @@ public class ManyToManyMap<K, V> {
 	}
 
 	public boolean containsK(K k){
-		return kToV.containsKey(k);
+		for(K k1 : kToV.keySet())
+			if(k1.equals(k))
+				return true;
+		return false;
 	}
 
 	public void remove(K k, V v){

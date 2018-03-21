@@ -99,29 +99,33 @@ public class Model extends Observable implements IModel {
 
         //Key connections
 		//TODO: make less hacky :)
-//		Set<Gizmo> values;
-//        for(int i = 0; i < 223; i++){
-//        	if(keyEventTriggerMap.containsK(new KeyTriggerPair(i, TriggerType.KEY_UP))) {
-//				values = keyEventTriggerMap.get(i, TriggerType.KEY_DOWN);
-//				for(Gizmo val : values){
-//					Gizmo g = ((Gizmo) val);
-//        			game.append("KeyConnect").append(" ").append("key").append(i).append(" ")
-//							.append("down").append(" ").append(g.getProperty(GizmoPropertyType.NAME));
-//				}
-//        	}
-//			if(keyEventTriggerMap.containsK(new KeyTriggerPair(i, TriggerType.KEY_UP))) {
-//				values = keyEventTriggerMap.get(i, TriggerType.KEY_UP);
-//				for(Gizmo val : values){
-//					Gizmo g = ((Gizmo) val);
-//					game.append("KeyConnect").append(" ").append("key").append(i).append(" ")
-//							.append("up").append(" ").append(g.getProperty(GizmoPropertyType.NAME));
-//				}
-//			}
-//		}
+		Set<Gizmo> values;
+        KeyTriggerPair pair;
+        for(int i = 0; i < 223; i++){
+        	pair = new KeyTriggerPair(i, TriggerType.KEY_DOWN);
+        	if(keyEventTriggerMap.containsK(pair)) {
+				values = keyEventTriggerMap.getV(pair);
+				for(Gizmo g : values){
+					System.out.println("test1");
+        			game.append("KeyConnect").append(" ").append("key").append(" ").append(i).append(" ")
+							.append("down").append(" ").append(g.getProperty(GizmoPropertyType.NAME)).append("\n");
+				}
+        	}
+        	pair = new KeyTriggerPair(i, TriggerType.KEY_UP);
+			if(keyEventTriggerMap.containsK(pair)) {
+				values = keyEventTriggerMap.getV(pair);
+				for(Gizmo g : values){
+					game.append("KeyConnect").append(" ").append("key").append(" ").append(i).append(" ")
+							.append("up").append(" ").append(g.getProperty(GizmoPropertyType.NAME)).append("\n");
+				}
+			}
+		}
 
         //Gravity and friction
         game.append("Gravity ").append(gravityConstant).append("\n");
         game.append("Friction ").append(frictionConstants[0]).append(" ").append(frictionConstants[1]).append("\n");
+
+        System.out.println(game.toString());
 
         return game.toString();
         
@@ -280,6 +284,8 @@ public class Model extends Observable implements IModel {
 				collidable.add(gizmo);
 				gizmos.add(gizmo);
 				drawables.add(gizmo);
+				this.connect(Boolean.valueOf(properties.get(GizmoPropertyType.IS_LEFT_ORIENTATED)) ? 70 : 71, TriggerType.KEY_DOWN, gizmo); //Default key trigger for left F, right G
+				this.connect(Boolean.valueOf(properties.get(GizmoPropertyType.IS_LEFT_ORIENTATED)) ? 70 : 71, TriggerType.KEY_UP, gizmo); //Default key trigger for left F, right G
 				break;
 			case BALL:
 			    gizmo = placeBall(tile.getX() + 0.5, tile.getY() + 0.5, propertyValues);
@@ -291,6 +297,7 @@ public class Model extends Observable implements IModel {
 				tile.placeGizmo(gizmo);
 				gizmos.add(gizmo);
 				drawables.add(gizmo);
+				this.connect(32, TriggerType.KEY_DOWN, gizmo); //Default key trigger is space bar
 				break;
 			case CIRCLE_BUMPER:
 				gizmo = addBumper(GizmoType.CIRCLE_BUMPER, tile, properties);
@@ -475,7 +482,7 @@ public class Model extends Observable implements IModel {
 		Gizmo actor = getGizmoByName(actorName);
 		Set<KeyTriggerPair> set = keyEventTriggerMap.getK(actor);
 		ArrayList<String[]> list = new ArrayList<>();
-        if(set != null){
+        if(set != null && set.size() > 0){
             for(KeyTriggerPair pair : set){
                 String type = pair.triggerType == TriggerType.KEY_UP ? "Up" : "Down";
                 list.add(new String[]{String.valueOf(pair.keyCode), type});
@@ -634,5 +641,13 @@ public class Model extends Observable implements IModel {
 		}
 
 		return properties;
+	}
+
+	private void connect(int keyCode, TriggerType type, Gizmo gizmo){
+		try {
+			this.connect(keyCode, type, gizmo.getProperty(GizmoPropertyType.NAME));
+		} catch (GizmoNotFoundException ignored) {
+
+		}
 	}
 }
