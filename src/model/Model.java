@@ -646,7 +646,7 @@ public class Model extends Observable implements IModel {
 
 		//If propertyValues is null, set them to the default values
 		if(propertyValues == null){
-			propertyValues = Gizmo.getPropertyDefaults(gizmoType, getAllGizmoNames());
+			propertyValues = GizmoUtils.getPropertyDefaults(gizmoType, getAllGizmoNames());
 		}
 
 		//TODO: ensure this works

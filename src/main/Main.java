@@ -6,6 +6,7 @@ import model.GizmoPlacementNotValidException;
 import model.IModel;
 import model.TileCoordinatesNotValid;
 import model.gizmo.*;
+import model.util.GizmoUtils;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class Main {
 		try {
 			Gizmo ball = model.placeGizmo(GizmoType.BALL, model.getTileAt(15, 1), null);
 			Flipper leftFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(2, 10), null);
-			String[] rFProp = Gizmo.getPropertyDefaults(GizmoType.FLIPPER, null);
+			String[] rFProp = GizmoUtils.getPropertyDefaults(GizmoType.FLIPPER, null);
 			rFProp[0] = "rf_0";
 			rFProp[2] = "false";
 			Flipper rightFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(15, 3), rFProp);
@@ -103,7 +104,7 @@ public class Main {
 		try {
 			Gizmo ball = model.placeGizmo(GizmoType.BALL, model.getTileAt(15, 1), null);
 			Flipper leftFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(2, 10), null);
-			String[] rFProp = Gizmo.getPropertyDefaults(GizmoType.FLIPPER, null);
+			String[] rFProp = GizmoUtils.getPropertyDefaults(GizmoType.FLIPPER, null);
 			rFProp[0] = "rf_0";
 			rFProp[2] = "false";
 			Flipper rightFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(15, 3), rFProp);
@@ -164,7 +165,7 @@ public class Main {
 
 		try {
 
-			String[] rFProp = Gizmo.getPropertyDefaults(GizmoType.FLIPPER, null);
+			String[] rFProp = GizmoUtils.getPropertyDefaults(GizmoType.FLIPPER, null);
 
 			Flipper l1 = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(2, 5), null);
 			Flipper l2 = (Flipper) model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(4, 5), null);

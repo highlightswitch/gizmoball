@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.gizmo.*;
+import model.util.GizmoUtils;
 import view.EditAbsorberDialogue;
 import view.EditBallDialogue;
 import view.EditFlipperDialogue;
@@ -81,7 +82,7 @@ public class MouseHandler {
                                 try {
                                     IModel m = controller.getIModel();
                                     //Hacky but theres 3 hours till the deadline so..
-                                    String[] props = Gizmo.getPropertyDefaults(GizmoType.FLIPPER, controller.getModel().getAllGizmoNames());
+                                    String[] props = GizmoUtils.getPropertyDefaults(GizmoType.FLIPPER, controller.getModel().getAllGizmoNames());
                                     props[2] = "false";
                                     m.placeGizmo(GizmoType.FLIPPER, t, props);
                                 } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
