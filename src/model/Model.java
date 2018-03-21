@@ -291,7 +291,10 @@ public class Model extends Observable implements IModel {
 				this.connect(Boolean.valueOf(properties.get(GizmoPropertyType.IS_LEFT_ORIENTATED)) ? 70 : 71, TriggerType.KEY_UP, gizmo); //Default key trigger for left F, right G
 				break;
 			case BALL:
-			    gizmo = placeBall(tile.getX() + 0.5, tile.getY() + 0.5, propertyValues);
+				if(ball == null)
+					gizmo = placeBall(tile.getX() + 0.5, tile.getY() + 0.5, propertyValues);
+				else
+					throw new GizmoPlacementNotValidException("Cannot place multiple balls");
 				break;
 			case ABSORBER:
 				gizmo = new Absorber(Color.BLACK, properties);
@@ -419,7 +422,12 @@ public class Model extends Observable implements IModel {
 
 		Map<GizmoPropertyType, String> properties = getCorrectPropertiesMap(GizmoType.BALL, propertyValues);
         Ball ball= new Ball(this, Color.black, cx, cy, properties);
-		Set<Tile> ballTiles = getBallTiles(ball);
+		Set<Tile> ballTiles;
+        try{
+			ballTiles = getBallTiles(ball);
+		} catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+			throw new GizmoPlacementNotValidException("Ball is placed in position that is partially or fully off the board");
+		}
 
         for(Tile t : ballTiles) {
 			validateGizmoPlacement(ball, t);
@@ -579,6 +587,9 @@ public class Model extends Observable implements IModel {
         if(!(gizmo.getType() == GizmoType.BALL)){
             tile.removeGizmo();
         } else {
+			for(Tile t : getBallTiles(ball)){
+				t.setIsOccupiedByBall(null);
+			}
             ball = null;
         }
 		tickable.remove(gizmo);
@@ -597,13 +608,12 @@ public class Model extends Observable implements IModel {
 		return names;
 	}
 
-	private Set<Tile> getBallTiles(Ball ball) throws GizmoPlacementNotValidException {
+	private Set<Tile> getBallTiles(Ball ball) throws TileCoordinatesNotValid {
 		Set<Tile> ballTiles = new HashSet<>();
 		double[] ballCentre = ball.getCentre();
 		double ballRadius = ball.getRadius();
 
 		//The below gets compass points from the centre on the circumference and gets the tile that point is in.
-		try {
 
 			ballTiles.add(getTileNear(ballCentre[0] - ballRadius, ballCentre[1])); //E
 			ballTiles.add(getTileNear(ballCentre[0] + ballRadius, ballCentre[1])); //W
@@ -620,10 +630,6 @@ public class Model extends Observable implements IModel {
 					ballCentre[1] + ballRadius * 1/Math.sqrt(2))); //SE
 
 			return ballTiles;
-
-		} catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
-			throw new GizmoPlacementNotValidException("Ball is placed in position that is partially or fully off the board");
-		}
 	}
 
 	private Map<GizmoPropertyType, String> getCorrectPropertiesMap(GizmoType gizmoType, String[] propertyValues){
