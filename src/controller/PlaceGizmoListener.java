@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import model.gizmo.GizmoActionType;
 import model.gizmo.GizmoType;
+import model.util.GizmoUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +32,7 @@ public class PlaceGizmoListener{
                 action = GizmoActionType.CHANGE_COLOUR;
                 break;
             case "Do Nothing":
-                action = GizmoActionType.PRINT_TO_CONSOLE;
+                action = GizmoActionType.DO_NOTHING;
                 break;
         }
 
@@ -55,8 +56,7 @@ public class PlaceGizmoListener{
                 break;
         }
 
-        gname = gizmoName + id;
-        id++;
+        gname = GizmoUtils.getUnusedName(controller.getModel().getAllGizmoNames(), g);
 
         if(Pattern.matches("\\p{Punct}\\d{1,2}\\p{Punct}\\d{1,2}\\p{Punct}", position)){
             String pos = position.replace("(", "");
@@ -79,7 +79,6 @@ public class PlaceGizmoListener{
             IModel model = controller.getIModel();
             if(colorChange){
                 model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,alt});
-                model.connect(gname, gname);
             }else{
                 model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,color});
             }

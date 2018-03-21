@@ -1,5 +1,6 @@
 package model;
 
+import model.gizmo.Ball;
 import model.gizmo.Gizmo;
 
 public class Tile {
@@ -7,6 +8,7 @@ public class Tile {
     private Model model;
     private int x, y;
     private Gizmo gizmo;
+    private Ball ball;
     private boolean occupied;
 
     Tile(Model model, int x, int y){
@@ -40,6 +42,14 @@ public class Tile {
         occupied = gizmo != null;
     }
 
+    void setIsOccupiedByBall(Ball ball){
+        if(ball != null) {
+            this.ball = ball;
+            occupied = true;
+        } else
+            setOccupiedBy(this.gizmo);
+    }
+
     void placeGizmo(Gizmo gizmo) throws TileCoordinatesNotValid {
         this.gizmo = gizmo;
         this.gizmo.setAnchorTile(this);
@@ -55,7 +65,7 @@ public class Tile {
     }
 
     public Gizmo getGizmo() {
-        return gizmo;
+        return gizmo != null ? gizmo : ball;
     }
 
     @Override

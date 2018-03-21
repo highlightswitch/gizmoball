@@ -1,6 +1,6 @@
 package model;
 
-import model.util.GizmoMaths;
+import model.util.GizmoUtils;
 
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
@@ -17,6 +17,8 @@ public class DrawingData {
 
 	//The colour of the drawable object
 	private int[] rgb;
+
+	private boolean drawPolygonsDifferentColours;
 
 	public DrawingData(){
 		polygonsData = new ArrayList<>();
@@ -37,8 +39,16 @@ public class DrawingData {
 		circlesData.add(c);
 	}
 
+	public boolean drawPolygonsDifferentColours() {
+		return drawPolygonsDifferentColours;
+	}
+
+	public void setDrawPolygonsDifferentColours(boolean bool){
+		this.drawPolygonsDifferentColours = bool;
+	}
+
 	public void setColour(String rgbString){
-		this.rgb = GizmoMaths.colourStringParser(rgbString);
+		this.rgb = GizmoUtils.colourStringParser(rgbString);
 	}
 
 	public ArrayList<ArrayList<Double[]>> getPolygonsData() {

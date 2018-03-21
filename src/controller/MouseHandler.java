@@ -2,10 +2,14 @@ package controller;
 
 import model.*;
 import model.gizmo.*;
-import view.*;
+import view.EditAbsorberDialogue;
+import view.EditBallDialogue;
+import view.EditFlipperDialogue;
+import view.EditShapeDialogue;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -13,8 +17,6 @@ public class MouseHandler {
 
     private String listType;
     private String mode;
-    private String name;
-    private int id = 0;
     private Tile t = null;
 
     private MouseListener currentListener;
@@ -50,8 +52,6 @@ public class MouseHandler {
 
                 if (getMode().equals("Add")) {
                     if (!t.isOccupied()) {
-                        name = getType() + id;
-                        id++;
                         switch (getType()) {
                             case "Ball":
                                 try {
@@ -69,10 +69,21 @@ public class MouseHandler {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
-                            case "Flipper":
+                            case "Left Flipper":
                                 try {
                                     IModel m = controller.getIModel();
                                     m.placeGizmo(GizmoType.FLIPPER, t, null);
+                                } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
+                                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                                break;
+                            case "Right Flipper":
+                                try {
+                                    IModel m = controller.getIModel();
+                                    //Hacky but theres 3 hours till the deadline so..
+                                    String[] props = Gizmo.getPropertyDefaults(GizmoType.FLIPPER, controller.getModel().getAllGizmoNames());
+                                    props[2] = "false";
+                                    m.placeGizmo(GizmoType.FLIPPER, t, props);
                                 } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
@@ -101,11 +112,6 @@ public class MouseHandler {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
-                        }
-                        try {
-                            t.getGizmo().setProperty(GizmoPropertyType.NAME, name);
-                        } catch (GizmoPropertyException e1) {
-                            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 } else {
@@ -159,7 +165,7 @@ public class MouseHandler {
                                 break;
                             case "Key":
                                 controller.getView().setMessage("Press key to connect that key to " + t.getGizmo().getProperty(GizmoPropertyType.NAME));
-                                frame.setFocusable(true);
+                                frame.requestFocus();
                                 break;
                             case "Connect":
                                 controller.getView().setMessage("Connect " + t.getGizmo().getProperty(GizmoPropertyType.NAME) + " to...");
@@ -203,9 +209,7 @@ public class MouseHandler {
                 try {
                     IModel m = controller.getIModel();
                     Tile t2 = m.getTileAt(xy[0], xy[1]);
-                    if(t.equals(t2)){
-                        //
-                    } else{
+                    if (!t.equals(t2)) {
                         m.moveGizmo(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2);
                     }
                     frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -295,10 +299,12 @@ public class MouseHandler {
         mode = m;
     }
 
-    public void connectToKeyCode(int keyCode){
+    void connectToKeyCode(int keyCode, TriggerType type){
         try {
             IModel model = controller.getIModel();
-            model.connect(keyCode, TriggerType.KEY_DOWN,t.getGizmo().getProperty(GizmoPropertyType.NAME));
+            String gizmoName = t.getGizmo().getProperty(GizmoPropertyType.NAME);
+            model.connect(keyCode, type, gizmoName);
+            controller.getView().setMessage("The " + KeyEvent.getKeyText(keyCode) + " key now activates " + gizmoName);
         } catch (GizmoNotFoundException e1) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot find Gizmo");
         }

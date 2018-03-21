@@ -5,8 +5,10 @@ import controller.MainController;
 import controller.PlaceGizmoListener;
 import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
+import model.gizmo.GizmoActionType;
 import model.gizmo.GizmoPropertyType;
 import model.gizmo.TriggerType;
+import model.util.GizmoUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,6 +45,7 @@ public class EditShapeDialogue {
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
         JComboBox<String> actionList = new JComboBox<>(actions);
+        actionList.setSelectedIndex( g != null && g.getActionType() == GizmoActionType.CHANGE_COLOUR ? 0 : 1);
 
         JLabel pos = new JLabel("Initial position: ");
         JTextField position;
@@ -52,7 +55,7 @@ public class EditShapeDialogue {
             Double y = g.getPosition()[1] ;
             position = new JTextField("(" + x.intValue() + "," + y.intValue() + ")");
         }else {
-            position = new JTextField("(" + (int)g.getPosition()[0] + "," + (int)g.getPosition()[1] + ")");
+            position = new JTextField("(0,0)");
         }
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
@@ -67,7 +70,7 @@ public class EditShapeDialogue {
                     triggerModel.addElement(n.getProperty(GizmoPropertyType.NAME));
                 }
                 for (String k[] : controller.getIModel().getAllConnectedKeys(g.getProperty(GizmoPropertyType.NAME))){
-                    triggerModel.addElement(k[0]);
+                    triggerModel.addElement(k[0] + "  -  " + k[1]);
                 }
             } catch (GizmoNotFoundException e) {
                 JOptionPane.showMessageDialog(fr, "Gizmo not found");
@@ -98,6 +101,10 @@ public class EditShapeDialogue {
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
         shapeColour.setOpaque(false);
+        if(g != null) {
+            int[] currentRGB = GizmoUtils.colourStringParser(g.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
+            shapeColour.setColor(currentRGB[0], currentRGB[1], currentRGB[2]);
+        }
 
         JPanel panShape = new JPanel();
         panShape.setLayout(new GridLayout(0,2));
@@ -131,6 +138,10 @@ public class EditShapeDialogue {
 
                 if(cAction.equals("Change Colour")){
                     JColorChooser alt = new JColorChooser();
+                    if(g != null) {
+                        int[] currentRGB = GizmoUtils.colourStringParser(g.getProperty(GizmoPropertyType.ALT_COLOUR));
+                        alt.setColor(currentRGB[0], currentRGB[1], currentRGB[2]);
+                    }
                     alt.setPreviewPanel(new JPanel());
                     JOptionPane.showMessageDialog(fr, alt, "Alternative Color", JOptionPane.QUESTION_MESSAGE);
                     altc = alt.getColor();

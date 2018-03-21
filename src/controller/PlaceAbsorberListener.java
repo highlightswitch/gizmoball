@@ -4,9 +4,9 @@ import model.GizmoNotFoundException;
 import model.GizmoPlacementNotValidException;
 import model.IModel;
 import model.TileCoordinatesNotValid;
-import model.gizmo.GizmoPropertyType;
 import model.gizmo.GizmoType;
 import model.gizmo.TriggerType;
+import model.util.GizmoUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,15 +20,14 @@ public class PlaceAbsorberListener {
     private String width;
     private String height;
     private String name;
-    private int id = 0;
     private String color;
 
     public PlaceAbsorberListener(MainController controller, String start, String w, String h, Color c){
         this.controller = controller;
         color = c.toString();
         color = color.substring(color.indexOf("["));
-        name = "Absorber" + id;
-        id++;
+        name = GizmoUtils.getUnusedName(controller.getModel().getAllGizmoNames(), GizmoType.ABSORBER);
+
 
         width = w;
         height = h;

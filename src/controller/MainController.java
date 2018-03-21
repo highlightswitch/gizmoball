@@ -9,10 +9,7 @@ import view.GameFrame;
 import view.GameView;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 public class MainController implements ActionListener {
 
@@ -115,11 +112,29 @@ public class MainController implements ActionListener {
         return keyListener;
     }
 
+    int sendQuestionDialog(String message, String title, Object[] answers){
+        return JOptionPane.showOptionDialog(
+                fr.getFrame(),
+                message,
+                title,
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                answers,
+                0
+        );
+    }
+
     void keyEventTriggered(int keyCode, TriggerType trigger) {
-        if(mode.equals("Build")){
-            System.out.println("you pressed a key");
-            JOptionPane.showMessageDialog(fr.getFrame(), "The key you are selecting is: " + keyCode, "Key Code", JOptionPane.INFORMATION_MESSAGE);
-            mouseHandler.connectToKeyCode(keyCode);
+        if(mode.equals("Build") && mouseHandler.getType().equals("Key")){
+
+            int chosenOption = sendQuestionDialog(
+                    "Connect key down or key up?",
+                    "Key Connection",
+                    new Object[]{"Key Down", "Key Up"}
+            );
+
+            mouseHandler.connectToKeyCode(keyCode, chosenOption == 0 ? TriggerType.KEY_DOWN : TriggerType.KEY_UP);
         } else {
             model.keyEventTriggered(keyCode, trigger);
         }
@@ -134,6 +149,10 @@ public class MainController implements ActionListener {
         }
 
         return (e -> System.out.println("Cannot find type"));
+    }
+
+    void focusOnFrame(){
+        fr.getFrame().requestFocus();
     }
 
     @Override
