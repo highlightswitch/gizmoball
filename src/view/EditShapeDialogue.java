@@ -5,6 +5,7 @@ import controller.MainController;
 import controller.PlaceGizmoListener;
 import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
+import model.gizmo.GizmoActionType;
 import model.gizmo.GizmoPropertyType;
 import model.gizmo.TriggerType;
 
@@ -43,6 +44,7 @@ public class EditShapeDialogue {
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
         JComboBox<String> actionList = new JComboBox<>(actions);
+        actionList.setSelectedIndex(g.getActionType() == GizmoActionType.CHANGE_COLOUR ? 0 : 1);
 
         JLabel pos = new JLabel("Initial position: ");
         JTextField position;
@@ -67,7 +69,7 @@ public class EditShapeDialogue {
                     triggerModel.addElement(n.getProperty(GizmoPropertyType.NAME));
                 }
                 for (String k[] : controller.getIModel().getAllConnectedKeys(g.getProperty(GizmoPropertyType.NAME))){
-                    triggerModel.addElement(k[0]);
+                    triggerModel.addElement(k[0] + "  -  " + k[1]);
                 }
             } catch (GizmoNotFoundException e) {
                 JOptionPane.showMessageDialog(fr, "Gizmo not found");
