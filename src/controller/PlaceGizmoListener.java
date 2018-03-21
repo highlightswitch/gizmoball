@@ -79,7 +79,6 @@ public class PlaceGizmoListener{
             IModel model = controller.getIModel();
             if(colorChange){
                 model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,alt});
-                model.connect(gname, gname);
             }else{
                 model.placeGizmo(g,model.getTileAt(x,y), new String[]{gname, String.valueOf(0), color,color,color});
             }
