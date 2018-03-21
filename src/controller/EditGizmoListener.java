@@ -31,12 +31,13 @@ public class EditGizmoListener {
                 action = GizmoActionType.CHANGE_COLOUR;
                 break;
             case "Do Nothing":
-                action = GizmoActionType.PRINT_TO_CONSOLE;
+                action = GizmoActionType.DO_NOTHING;
                 break;
         }
 
         color = c.toString();
         color = color.substring(color.indexOf("["));
+        System.out.println(color);
 
         if(colorChange){
             alt = altc.toString();
@@ -68,7 +69,6 @@ public class EditGizmoListener {
             properties.put(GizmoPropertyType.DEFAULT_COLOUR, color);
             if(colorChange){
                 properties.put(GizmoPropertyType.ALT_COLOUR, alt);
-                model.connect(gizmo.getProperty(GizmoPropertyType.NAME), gizmo.getProperty(GizmoPropertyType.NAME));
             } else {
                 properties.put(GizmoPropertyType.ALT_COLOUR, color);
             }

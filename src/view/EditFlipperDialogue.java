@@ -7,11 +7,10 @@ import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
 import model.gizmo.TriggerType;
+import model.util.GizmoMaths;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EditFlipperDialogue {
     private JPanel panDI;
@@ -33,7 +32,7 @@ public class EditFlipperDialogue {
             Double y = g.getPosition()[1] ;
             position = new JTextField("(" + x.intValue() + "," + y.intValue() + ")");
         }else {
-            position = new JTextField("(" + (int)g.getPosition()[0] + "," + (int)g.getPosition()[1] + ")");
+            position = new JTextField("(0,0)");
         }
 
         JLabel label2 = new JLabel("Select flipper direction: ");
@@ -81,6 +80,10 @@ public class EditFlipperDialogue {
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
         shapeColour.setOpaque(false);
+        if(g != null) {
+            int[] currentRGB = GizmoMaths.colourStringParser(g.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
+            shapeColour.setColor(currentRGB[0], currentRGB[1], currentRGB[2]);
+        }
 
         JPanel panShape = new JPanel();
         panShape.setLayout(new GridLayout(0,2));

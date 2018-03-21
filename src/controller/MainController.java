@@ -113,7 +113,7 @@ public class MainController implements ActionListener {
     }
 
     void keyEventTriggered(int keyCode, TriggerType trigger) {
-        if(mode.equals("Build")){
+        if(mode.equals("Build") && mouseHandler.getType().equals("Key")){
 
             int chosenOption = JOptionPane.showOptionDialog(
                     fr.getFrame(),

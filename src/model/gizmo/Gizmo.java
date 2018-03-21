@@ -220,10 +220,10 @@ public abstract class Gizmo implements Collidable, Drawable {
 
     public void setAction(GizmoActionType type){
         this.actionType = type;
-        if(type == GizmoActionType.CHANGE_COLOUR){
+        if(type == GizmoActionType.CHANGE_COLOUR) {
             action = this::action_changeColour;
-        } else if(type == GizmoActionType.PRINT_TO_CONSOLE){
-            action = this::action_printToConsole;
+        } else if (type == GizmoActionType.DO_NOTHING){
+
         } else {
             action = this::action_printToConsole;
             throw new IllegalArgumentException();

@@ -3,14 +3,12 @@ package view;
 import controller.EditBallListener;
 import controller.MainController;
 import controller.PlaceBallListener;
-import model.Model;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
+import model.util.GizmoMaths;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EditBallDialogue {
     private JPanel panDI;
@@ -26,15 +24,26 @@ public class EditBallDialogue {
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel pos = new JLabel("Initial position: ");
-        JTextField position = new JTextField("(" + (int)g.getPosition()[0] + "," + (int)g.getPosition()[1] + ")");
+        JTextField position;
+        if(g != null)
+            position = new JTextField("(" + (int)g.getPosition()[0] + "," + (int)g.getPosition()[1] + ")");
+        else
+            position = new JTextField("(0,0)");
 
         JLabel vel = new JLabel("Initial velocity: ");
-        JTextField velocity = new JTextField("(" +  g.getProperty(GizmoPropertyType.VEL_X) + "," +  g.getProperty(GizmoPropertyType.VEL_Y) + ")");
-
+        JTextField velocity;
+        if(g != null)
+            velocity = new JTextField("(" +  g.getProperty(GizmoPropertyType.VEL_X) + "," +  g.getProperty(GizmoPropertyType.VEL_Y) + ")");
+        else
+            velocity = new JTextField("(0,0)");
 
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
         shapeColour.setOpaque(false);
+        if(g != null) {
+            int[] currentRGB = GizmoMaths.colourStringParser(g.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
+            shapeColour.setColor(currentRGB[0], currentRGB[1], currentRGB[2]);
+        }
 
         JPanel panShape = new JPanel();
         panShape.setLayout(new GridLayout(0,2));

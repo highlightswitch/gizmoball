@@ -61,6 +61,8 @@ public class Model extends Observable implements IModel {
 
         for (Gizmo gizmo: gizmos) {
 
+        	String gizmoName = gizmo.getProperty(GizmoPropertyType.NAME);
+
         	//Gizmo creation
             game.append(gizmo.toString()).append("\n");
 
@@ -70,12 +72,13 @@ public class Model extends Observable implements IModel {
 				rotation = rotation / 90;
 				for (int i = 0; i < rotation; i++) {
 					game.append("Rotate").append(" ")
-							.append(gizmo.getProperty(GizmoPropertyType.NAME)).append("\n");
+							.append(gizmoName).append("\n");
 				}
             }
 
             //Gizmo action
 			game.append("Action").append(" ")
+					.append(gizmoName).append(" ")
 					.append(gizmo.getActionType()).append("\n");
 
 			//Gizmo connections
@@ -333,7 +336,9 @@ public class Model extends Observable implements IModel {
 		Gizmo gizmo = getGizmoByName(gizmoName);
 		validateGizmoPlacement(gizmo, newTile);
 
-		if (gizmo.isTilePlacable()) {
+		if(gizmo.getType() == GizmoType.BALL){
+			moveBall(gizmoName, newTile.getX() + 0.5f, newTile.getY()+ 0.5f);
+		} else if (gizmo.isTilePlacable()) {
 
 		    Tile oldTile = getTileAt((int) gizmo.getPosition()[0], (int) gizmo.getPosition()[1]);
 		    oldTile.removeGizmo();
@@ -349,15 +354,23 @@ public class Model extends Observable implements IModel {
         this.notifyObservers();
 	}
 
-    public void moveGizmo(String name, float x, float y)  throws GizmoNotFoundException, GizmoPlacementNotValidException, TileCoordinatesNotValid {
-        Gizmo gizmo = getGizmoByName(name);
-        if(gizmo.getType() == GizmoType.BALL) {
-            Tile tile = getTileAt((int) x, (int) y);
-            validateGizmoPlacement(gizmo, tile);
-            Ball ball = (Ball) gizmo;
-            ball.setCx(x);
-            ball.setCy(y);
-        }
+    public void moveBall(String name, float x, float y)  throws GizmoNotFoundException, GizmoPlacementNotValidException, TileCoordinatesNotValid {
+        Ball ball = (Ball) getGizmoByName(name);
+
+        Set<Tile> oldTiles = getBallTiles(ball);
+        for(Tile tile : oldTiles){
+        	tile.setIsOccupiedByBall(null);
+		}
+
+		Tile newTile = getTileNear(x, y);
+		validateGizmoPlacement(ball, newTile);
+		ball.setCx(x);
+		ball.setCy(y);
+
+		Set<Tile> newTiles = getBallTiles(ball);
+		for(Tile tile : newTiles){
+			tile.setIsOccupiedByBall(ball);
+		}
     }
 
 	public void rotateGizmoBy_Deg(String gizmoName, double adjustment) throws GizmoNotFoundException, GizmoPropertyException, GizmoNotRotatableException {
@@ -419,7 +432,7 @@ public class Model extends Observable implements IModel {
 
         //Set tiles using this ball is placed in to be occupied
 		for(Tile t : ballTiles){
-			t.setOccupiedBy(ball);
+			t.setIsOccupiedByBall(ball);
 		}
 
         // Notify observers ... redraw updated view
