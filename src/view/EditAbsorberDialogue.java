@@ -82,14 +82,14 @@ public class EditAbsorberDialogue {
         JTextField width;
 
         JLabel h = new JLabel("Height: ");
-        JTextField height;
+        String[] heights = new String[]{"1", "2"};
+        JComboBox<String> height = new JComboBox<>(heights);
 
         if(g != null){
             width = new JTextField(g.getProperty(GizmoPropertyType.WIDTH));
-            height = new JTextField(g.getProperty(GizmoPropertyType.HEIGHT));
+            height.setSelectedIndex(g.getProperty(GizmoPropertyType.HEIGHT).equals("1") ? 0 : 1);
         }else {
             width = new JTextField( "1");
-            height = new JTextField("1");
         }
 
         JColorChooser shapeColour = new JColorChooser();
@@ -128,7 +128,7 @@ public class EditAbsorberDialogue {
         ok.addActionListener( e -> {
                 startPosition = sposition.getText();
                 widthS  = width.getText();
-                heightS = height.getText();
+                heightS = heights[height.getSelectedIndex()];
                 color = shapeColour.getColor();
                 if(mode.equals("Add")){
                     new PlaceAbsorberListener(controller, startPosition, widthS, heightS, color);
