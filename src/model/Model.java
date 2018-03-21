@@ -486,10 +486,10 @@ public class Model extends Observable implements IModel {
 			list.add(new String[]{String.valueOf(pair.keyCode), type});
 		}
 
-		String[][] arr = new String[2][list.size()];
+		String[][] arr = new String[list.size()][2];
 		for(int i = 0; i < list.size(); i++){
-			arr[0][i] = list.get(i)[0];
-			arr[1][i] = list.get(i)[1];
+			arr[i][0] = list.get(i)[0];
+			arr[i][1] = list.get(i)[1];
 		}
 
 		return arr;

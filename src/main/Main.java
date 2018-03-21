@@ -9,6 +9,7 @@ import model.gizmo.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -27,6 +28,8 @@ public class Main {
 		MainController cont = new MainController();
 
 		IModel model = cont.getIModel();
+
+		testKeys(model);
 
 	}
 
@@ -238,6 +241,9 @@ public class Main {
 
 			model.connect(32, TriggerType.KEY_DOWN, l2.getProperty(GizmoPropertyType.NAME));
 			model.connect(32, TriggerType.KEY_UP, l2.getProperty(GizmoPropertyType.NAME));
+
+
+			System.out.println(Arrays.deepToString(model.getAllConnectedKeys(l.getProperty(GizmoPropertyType.NAME))));
 		} catch (GizmoPlacementNotValidException e) {
 			e.printStackTrace();
 		} catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
