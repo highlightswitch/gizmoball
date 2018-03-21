@@ -188,7 +188,7 @@ class LoadingHandler {
                 if(stringIsInt(command.get(2))) {
                     model.moveGizmo(command.get(1), model.getTileAt(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(3))));
                 } else {
-                    model.moveGizmo(command.get(1), Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)));
+                    model.moveBall(command.get(1), Float.parseFloat(command.get(2)), Float.parseFloat(command.get(3)));
                 }
                 break;
             case "Connect":
