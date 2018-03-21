@@ -1,11 +1,9 @@
 package controller;
 
-import model.GizmoNotFoundException;
 import model.GizmoPlacementNotValidException;
 import model.IModel;
 import model.TileCoordinatesNotValid;
 import model.gizmo.GizmoType;
-import model.gizmo.TriggerType;
 import model.util.GizmoUtils;
 
 import javax.swing.*;

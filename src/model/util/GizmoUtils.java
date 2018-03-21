@@ -54,7 +54,7 @@ public class GizmoUtils {
 				break;
 			case ABSORBER:
 				//Name, width, height
-				propVals = new String[]{ "absorber_0", "20", "1", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
+				propVals = new String[]{ "absorber_0", "5", "1", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
 				break;
 		}
 

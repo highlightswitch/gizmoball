@@ -67,7 +67,7 @@ public class MouseHandler {
                             case "Absorber":
                                 try {
                                     IModel m = controller.getIModel();
-                                    m.placeGizmo(GizmoType.ABSORBER, t, new String[]{"Absorber", "5", "1", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]"});
+                                    m.placeGizmo(GizmoType.ABSORBER, t,null);
                                 } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
