@@ -277,8 +277,6 @@ public class Model extends Observable implements IModel {
 				collidable.add(gizmo);
 				gizmos.add(gizmo);
 				drawables.add(gizmo);
-				this.connect(Boolean.valueOf(properties.get(GizmoPropertyType.IS_LEFT_ORIENTATED)) ? 70 : 71, TriggerType.KEY_DOWN, gizmo); //Default key trigger for left F, right G
-				this.connect(Boolean.valueOf(properties.get(GizmoPropertyType.IS_LEFT_ORIENTATED)) ? 70 : 71, TriggerType.KEY_UP, gizmo); //Default key trigger for left F, right G
 				break;
 			case BALL:
 				if(ball == null)
@@ -293,7 +291,6 @@ public class Model extends Observable implements IModel {
 				tile.placeGizmo(gizmo);
 				gizmos.add(gizmo);
 				drawables.add(gizmo);
-				this.connect(32, TriggerType.KEY_DOWN, gizmo); //Default key trigger is space bar
 				break;
 			case CIRCLE_BUMPER:
 				gizmo = addBumper(GizmoType.CIRCLE_BUMPER, tile, properties);
