@@ -262,11 +262,15 @@ public class MouseHandler {
                 try {
                     IModel m = controller.getIModel();
                     Tile t2 = m.getTileAt(xy[0], xy[1]);
-                    if(t2.getGizmo().getType() != GizmoType.BALL){
-                        m.connect(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2.getGizmo().getProperty(GizmoPropertyType.NAME));
-                        controller.getView().setMessage("Connected to " + t2.getGizmo().getProperty(GizmoPropertyType.NAME));
+                    if(t2.getGizmo() != null) {
+                        if (t2.getGizmo().getType() != GizmoType.BALL) {
+                            m.connect(t.getGizmo().getProperty(GizmoPropertyType.NAME), t2.getGizmo().getProperty(GizmoPropertyType.NAME));
+                            controller.getView().setMessage("Connected to " + t2.getGizmo().getProperty(GizmoPropertyType.NAME));
+                        } else {
+                            controller.getView().setMessage("You cannot add actions to the Ball!");
+                        }
                     } else {
-                        controller.getView().setMessage("You cannot add actions to the Ball!");
+                        controller.getView().setMessage("No gizmo here! Try again.");
                     }
                     currentListener = defaultListener;
                     controller.updateMouseListener();
