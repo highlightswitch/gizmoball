@@ -68,6 +68,7 @@ public class EditGizmoListener {
             properties.put(GizmoPropertyType.DEFAULT_COLOUR, color);
             if(colorChange){
                 properties.put(GizmoPropertyType.ALT_COLOUR, alt);
+                model.connect(gizmo.getProperty(GizmoPropertyType.NAME), gizmo.getProperty(GizmoPropertyType.NAME));
             } else {
                 properties.put(GizmoPropertyType.ALT_COLOUR, color);
             }

@@ -98,8 +98,8 @@ public class EditAbsorberDialogue {
         panForm.add(h);
         panForm.add(height);
         panForm.add(lbtrig);
-        //panForm.add(listScroller);
-       // panForm.add(rmconnection);
+        panForm.add(listScroller);
+        panForm.add(rmconnection);
 
         panShape.add(panForm);
         panShape.add(shapeColour);

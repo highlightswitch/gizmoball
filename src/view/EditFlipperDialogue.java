@@ -40,7 +40,6 @@ public class EditFlipperDialogue {
         JComboBox<String> di = new JComboBox<>(direction);
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
-
         JList<Gizmo> triggers = new JList<>();
         DefaultListModel<Gizmo> triggerModel = new DefaultListModel<>();
         if(g != null) {
@@ -83,8 +82,8 @@ public class EditFlipperDialogue {
         panForm.add(label2);
         panForm.add(di);
         panForm.add(lbtrig);
-        //panForm.add(listScroller);
-       // panForm.add(rmconnection);
+        panForm.add(listScroller);
+        panForm.add(rmconnection);
 
         panShape.add(panForm);
         panShape.add(shapeColour);
@@ -94,9 +93,7 @@ public class EditFlipperDialogue {
         JButton ok = new JButton("OK");
 
 
-        ok.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        ok.addActionListener(e -> {
                 intPosition = position.getText();
                 orient = direction[di.getSelectedIndex()];
                 color = shapeColour.getColor();
@@ -106,7 +103,6 @@ public class EditFlipperDialogue {
                     new EditFlipperListener(controller, g, intPosition, orient, color);
                 }
                 edit.dispose();
-            }
         });
 
 
