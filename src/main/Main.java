@@ -29,7 +29,7 @@ public class Main {
 
 		IModel model = cont.getIModel();
 
-		testKeys(model);
+		//testKeys(model);
 
 	}
 

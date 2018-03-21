@@ -475,7 +475,7 @@ public class Model extends Observable implements IModel {
 		Gizmo actor = getGizmoByName(actorName);
 		Set<KeyTriggerPair> set = keyEventTriggerMap.getK(actor);
 		ArrayList<String[]> list = new ArrayList<>();
-        if(set.size() > 0){
+        if(set != null){
             for(KeyTriggerPair pair : set){
                 String type = pair.triggerType == TriggerType.KEY_UP ? "Up" : "Down";
                 list.add(new String[]{String.valueOf(pair.keyCode), type});
