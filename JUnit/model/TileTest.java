@@ -6,10 +6,10 @@ import model.gizmo.GizmoType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TileTest {
 
@@ -52,7 +52,7 @@ class TileTest {
 
     @Test
     public void setOccupied() throws TileCoordinatesNotValid {
-        g  = new Bumper(Color.WHITE, GizmoType.TRIANGLE_BUMPER, new HashMap<>());
+        g  = new Bumper(GizmoType.TRIANGLE_BUMPER, new HashMap<>());
         t.placeGizmo(g);
         assertEquals(true, t.isOccupied());
     }
@@ -60,7 +60,7 @@ class TileTest {
 
     @Test
     public void removeGizmo() throws TileCoordinatesNotValid {
-        g  = new Bumper(Color.WHITE, GizmoType.TRIANGLE_BUMPER, new HashMap<>());
+        g  = new Bumper(GizmoType.TRIANGLE_BUMPER, new HashMap<>());
         t.placeGizmo(g);
         t.removeGizmo();
         assertEquals(false,t.isOccupied());
@@ -68,14 +68,14 @@ class TileTest {
 
     @Test
     public void placeGizmo() throws TileCoordinatesNotValid {
-        g = new Bumper(Color.ORANGE, GizmoType.CIRCLE_BUMPER, new HashMap<>());
+        g = new Bumper(GizmoType.CIRCLE_BUMPER, new HashMap<>());
         t.placeGizmo(g);
         assertEquals(GizmoType.CIRCLE_BUMPER, t.getGizmo().getType());
     }
 
     @Test
     public void placeGizmoOccupied() throws TileCoordinatesNotValid {
-        g = new Bumper(Color.ORANGE, GizmoType.CIRCLE_BUMPER, new HashMap<>());
+        g = new Bumper(GizmoType.CIRCLE_BUMPER, new HashMap<>());
         t.placeGizmo(g);
         assertThrows(Exception.class, () -> t.placeGizmo(g));
     }

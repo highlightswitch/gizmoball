@@ -6,10 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import physics.Vect;
 
-import java.awt.*;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CollisionDetailsTest {
 
@@ -20,7 +19,7 @@ class CollisionDetailsTest {
     @BeforeEach
     void setUp() {
         v = new Vect(4,4);
-        a  = new Absorber(Color.black, new HashMap<GizmoPropertyType, String>());
+        a  = new Absorber(new HashMap<GizmoPropertyType, String>());
         cd = new CollisionDetails(0.5, v);
         cd.setAbsorber(a);
     }

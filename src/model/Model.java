@@ -4,9 +4,7 @@ import model.gizmo.*;
 import model.util.GizmoUtils;
 import model.util.ManyToManyMap;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
@@ -53,6 +51,10 @@ public class Model extends Observable implements IModel {
 		collidable = new ArrayList<>();
 		collidable.add(walls);
 
+	}
+
+	Tile[][] getTiles(){
+    	return tiles;
 	}
 
 	public String toString(){
@@ -142,7 +144,7 @@ public class Model extends Observable implements IModel {
 		return ball;
 	}
 
-	private Gizmo getGizmoByName(String name) throws GizmoNotFoundException {
+	Gizmo getGizmoByName(String name) throws GizmoNotFoundException {
 		for (Gizmo gizmo : gizmos) {
 			if (gizmo.getProperty(GizmoPropertyType.NAME).equals(name)) {
 				return gizmo;
