@@ -6,6 +6,7 @@ import controller.PlaceAbsorberListener;
 import model.GizmoNotFoundException;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
+import model.gizmo.TriggerType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,13 +39,16 @@ public class EditAbsorberDialogue {
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
 
-        JList<Gizmo> triggers = new JList<>();
-        DefaultListModel<Gizmo> triggerModel = new DefaultListModel<>();
+        JList<String> triggers = new JList<>();
+        DefaultListModel<String> triggerModel = new DefaultListModel<>();
 
         if(g != null) {
             try {
                 for(Gizmo n : controller.getIModel().getAllConnectedGizmos(g.getProperty(GizmoPropertyType.NAME))){
-                    triggerModel.addElement(n);
+                    triggerModel.addElement(n.getProperty(GizmoPropertyType.NAME));
+                }
+                for (String k[] : controller.getIModel().getAllConnectedKeys(g.getProperty(GizmoPropertyType.NAME))){
+                    triggerModel.addElement(k[0]);
                 }
             } catch (GizmoNotFoundException e) {
                 JOptionPane.showMessageDialog(f, "Gizmo not found");
@@ -59,7 +63,15 @@ public class EditAbsorberDialogue {
         JButton rmconnection = new JButton("Delete Connection");
         rmconnection.addActionListener(e-> {
             for(int i : triggers.getSelectedIndices()){
-                //controller.getIModel().disconnect(g.getProperty((GizmoPropertyType.NAME)), triggerModel.get(i));
+                try {
+                    if(triggerModel.get(i).matches("\\d")){
+                        controller.getIModel().disconnect(Integer.valueOf(triggerModel.get(i)), TriggerType.KEY_DOWN, g.getProperty((GizmoPropertyType.NAME)));
+                    } else{
+                        controller.getIModel().disconnect(g.getProperty((GizmoPropertyType.NAME)), triggerModel.get(i));
+                    }
+                } catch (GizmoNotFoundException e1) {
+                    JOptionPane.showMessageDialog(f, "Gizmo not found!");
+                }
                 triggerModel.remove(i);
             }
         });
