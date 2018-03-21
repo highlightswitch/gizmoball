@@ -17,8 +17,6 @@ public class MouseHandler {
 
     private String listType;
     private String mode;
-    private String name;
-    private int id = 0;
     private Tile t = null;
 
     private MouseListener currentListener;
@@ -71,10 +69,21 @@ public class MouseHandler {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                                 break;
-                            case "Flipper":
+                            case "Left Flipper":
                                 try {
                                     IModel m = controller.getIModel();
                                     m.placeGizmo(GizmoType.FLIPPER, t, null);
+                                } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
+                                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                                break;
+                            case "Right Flipper":
+                                try {
+                                    IModel m = controller.getIModel();
+                                    //Hacky but theres 3 hours till the deadline so..
+                                    String[] props = Gizmo.getPropertyDefaults(GizmoType.FLIPPER, controller.getModel().getAllGizmoNames());
+                                    props[2] = "false";
+                                    m.placeGizmo(GizmoType.FLIPPER, t, props);
                                 } catch (GizmoPlacementNotValidException|TileCoordinatesNotValid e1) {
                                     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
                                 }

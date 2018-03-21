@@ -112,18 +112,26 @@ public class MainController implements ActionListener {
         return keyListener;
     }
 
+    int sendQuestionDialog(String message, String title, Object[] answers){
+        return JOptionPane.showOptionDialog(
+                fr.getFrame(),
+                message,
+                title,
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                answers,
+                0
+        );
+    }
+
     void keyEventTriggered(int keyCode, TriggerType trigger) {
         if(mode.equals("Build") && mouseHandler.getType().equals("Key")){
 
-            int chosenOption = JOptionPane.showOptionDialog(
-                    fr.getFrame(),
+            int chosenOption = sendQuestionDialog(
                     "Connect key down or key up?",
                     "Key Connection",
-                    JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    new Object[]{"Key Down", "Key Up"},
-                    0
+                    new Object[]{"Key Down", "Key Up"}
             );
 
             mouseHandler.connectToKeyCode(keyCode, chosenOption == 0 ? TriggerType.KEY_DOWN : TriggerType.KEY_UP);
