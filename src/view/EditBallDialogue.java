@@ -5,6 +5,7 @@ import controller.MainController;
 import controller.PlaceBallListener;
 import model.gizmo.Gizmo;
 import model.gizmo.GizmoPropertyType;
+import model.util.GizmoMaths;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,6 +40,10 @@ public class EditBallDialogue {
         JColorChooser shapeColour = new JColorChooser();
         shapeColour.setPreviewPanel(new JPanel()); // removes preview pane;
         shapeColour.setOpaque(false);
+        if(g != null) {
+            int[] currentRGB = GizmoMaths.colourStringParser(g.getProperty(GizmoPropertyType.DEFAULT_COLOUR));
+            shapeColour.setColor(currentRGB[0], currentRGB[1], currentRGB[2]);
+        }
 
         JPanel panShape = new JPanel();
         panShape.setLayout(new GridLayout(0,2));
