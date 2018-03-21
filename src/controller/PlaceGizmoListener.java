@@ -69,7 +69,7 @@ public class PlaceGizmoListener{
             y = Integer.valueOf(posY);
             place();
         } else {
-            System.out.println("Illegal input format");
+            controller.getView().setMessage("Illegal input format");
         }
 
     }

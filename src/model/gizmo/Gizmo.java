@@ -251,10 +251,6 @@ public abstract class Gizmo implements Collidable, Drawable {
     }
 
 
-
-
-
-
     public static String[] getPropertyDefaults(GizmoType type, List<String> usedNames){
         String[] propVals = null;
         switch (type){

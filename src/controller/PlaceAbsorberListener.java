@@ -44,7 +44,7 @@ public class PlaceAbsorberListener {
             sy = Integer.valueOf(posYS);
             place();
         } else{
-            System.out.println("Illegal input format");
+            controller.getView().setMessage("Illegal input format");
         }
 
 
@@ -54,7 +54,7 @@ public class PlaceAbsorberListener {
         try {
             IModel model = controller.getIModel();
             model.placeGizmo(GizmoType.ABSORBER,model.getTileAt(sx,sy),new String[] {name, width, height, color, color, color});
-            model.connect(32, TriggerType.KEY_DOWN, name);
+            model.connect(32, TriggerType.KEY_DOWN, name); //space bar
         } catch (GizmoPlacementNotValidException | TileCoordinatesNotValid e) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Gizmo placement is not valid", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (GizmoNotFoundException e) {

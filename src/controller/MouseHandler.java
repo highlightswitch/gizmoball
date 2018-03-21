@@ -52,7 +52,6 @@ public class MouseHandler {
                     if (!t.isOccupied()) {
                         name = getType() + id;
                         id++;
-                        System.out.println("Adding " + getType());
                         switch (getType()) {
                             case "Ball":
                                 try {
@@ -108,8 +107,6 @@ public class MouseHandler {
                         } catch (GizmoPropertyException e1) {
                             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Wrong gizmo property", "Error", JOptionPane.ERROR_MESSAGE);
                         }
-                    } else {
-                        System.out.println("Gizmo occupied");
                     }
                 } else {
                     if (t.isOccupied()) {
@@ -201,7 +198,6 @@ public class MouseHandler {
                 int x = e.getX();
                 int y = e.getY();
                 int[] xy = getXYNear(x,y);
-                System.out.println(xy[0] + " " + xy[1]);
 
                 try {
                     IModel m = controller.getIModel();
