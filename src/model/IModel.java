@@ -34,7 +34,9 @@ public interface IModel {
 	void disconnect(int keyCode, TriggerType type, String actorName) throws GizmoNotFoundException;
 	void disconnectAll(int keyCode, TriggerType type) throws GizmoNotFoundException;
 	void disconnectAllTriggers();
-    Gizmo[] getAllTriggers(String triggerName) throws GizmoNotFoundException;
+
+    Gizmo[] getAllConnectedGizmos(String actorName) throws GizmoNotFoundException;
+    String[][] getAllConnectedKeys(String actorName) throws GizmoNotFoundException;
 
 	double[] getFrictionConstants();
 	double getGravityConstant();

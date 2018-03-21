@@ -45,7 +45,7 @@ public class EditFlipperDialogue {
         DefaultListModel<Gizmo> triggerModel = new DefaultListModel<>();
         if(g != null) {
             try {
-                for(Gizmo n : controller.getIModel().getAllTriggers(g.getProperty(GizmoPropertyType.NAME))){
+                for(Gizmo n : controller.getIModel().getAllConnectedGizmos(g.getProperty(GizmoPropertyType.NAME))){
                     triggerModel.addElement(n);
                 }
             } catch (GizmoNotFoundException e) {

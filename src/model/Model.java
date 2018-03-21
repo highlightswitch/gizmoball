@@ -466,8 +466,8 @@ public class Model extends Observable implements IModel {
 		trigger.removeAllActors();
 	}
 
-	public Gizmo[] getAllTriggers(String triggerName) throws GizmoNotFoundException{
-        Gizmo trigger = getGizmoByName(triggerName);
+	public Gizmo[] getAllConnectedGizmos(String actorName) throws GizmoNotFoundException{
+        Gizmo trigger = getGizmoByName(actorName);
 //        //Triggerable[] t =
 //        //keyEventTriggerMap.get(triggerName)
 //        for(Gizmo g : trigger.getAllActors()){
@@ -476,9 +476,24 @@ public class Model extends Observable implements IModel {
 	    return trigger.getAllActors();
     }
 
-    public Set<KeyTriggerPair> getConnectedKeys(String actorName) throws GizmoNotFoundException {
+    public String[][] getAllConnectedKeys(String actorName) throws GizmoNotFoundException {
 		Gizmo actor = getGizmoByName(actorName);
-		return keyEventTriggerMap.getK(actor);
+		Set<KeyTriggerPair> set = keyEventTriggerMap.getK(actor);
+		ArrayList<String[]> list = new ArrayList<>();
+
+		for(KeyTriggerPair pair : set){
+			String type = pair.triggerType == TriggerType.KEY_UP ? "Up" : "Down";
+			list.add(new String[]{String.valueOf(pair.keyCode), type});
+		}
+
+		String[][] arr = new String[2][list.size()];
+		for(int i = 0; i < list.size(); i++){
+			arr[0][i] = list.get(i)[0];
+			arr[1][i] = list.get(i)[1];
+		}
+
+		return arr;
+
 	}
 
 	//Stop key being connected to this gizmo and gizmo being connected to this key
