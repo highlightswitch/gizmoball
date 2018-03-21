@@ -40,8 +40,7 @@ public class EditFlipperDialogue {
         JComboBox<String> di = new JComboBox<>(direction);
 
         JLabel lbtrig = new JLabel("This gizmo is connected to the following gizmos: ");
-
-       JList<Gizmo> triggers = new JList<>();
+        JList<Gizmo> triggers = new JList<>();
         DefaultListModel<Gizmo> triggerModel = new DefaultListModel<>();
         if(g != null) {
             try {

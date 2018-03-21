@@ -27,6 +27,7 @@ public class Main {
 		MainController cont = new MainController();
 
 		IModel model = cont.getIModel();
+
 	}
 
 	@SuppressWarnings("Duplicates")
@@ -224,6 +225,26 @@ public class Main {
 		}
 
 
+	}
+
+	private static void testKeys(IModel model){
+		try {
+			Gizmo l = model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(5,5), null);
+			Gizmo l2 = model.placeGizmo(GizmoType.FLIPPER, model.getTileAt(7,5), null);
+			model.connect(32, TriggerType.KEY_DOWN, l.getProperty(GizmoPropertyType.NAME));
+			model.connect(32, TriggerType.KEY_UP, l.getProperty(GizmoPropertyType.NAME));
+			model.connect(70, TriggerType.KEY_DOWN, l.getProperty(GizmoPropertyType.NAME));
+			model.connect(71, TriggerType.KEY_UP, l.getProperty(GizmoPropertyType.NAME));
+
+			model.connect(32, TriggerType.KEY_DOWN, l2.getProperty(GizmoPropertyType.NAME));
+			model.connect(32, TriggerType.KEY_UP, l2.getProperty(GizmoPropertyType.NAME));
+		} catch (GizmoPlacementNotValidException e) {
+			e.printStackTrace();
+		} catch (TileCoordinatesNotValid tileCoordinatesNotValid) {
+			tileCoordinatesNotValid.printStackTrace();
+		} catch (GizmoNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 }
 

@@ -20,8 +20,6 @@ public class GameFrame {
      private JMenuItem clearBoard;
      private MainController controller;
      private Board board;
-     private JPanel activePanel;
-     private JPanel activeBoard;
      private ArrayList<JMenuItem> menuItems;
      private GameView view;
 
@@ -34,7 +32,7 @@ public class GameFrame {
         mTools = new JMenu("Tools");
         top = new JMenuBar();
         menuItems = new ArrayList<>();
-        board = new Board(500, 500, cont.getIModel(), "Build");
+        board = new Board(500, 500, cont.getIModel());
 
         JMenu mFile = new JMenu("File");
         JMenu mView = new JMenu("View");
@@ -138,11 +136,10 @@ public class GameFrame {
         top.add(mFile);
         top.add(mView);
 
-        view = new BuildView(frMain, controller, board);
-        activePanel = view.getPanel();
-        activeBoard = view.getBoard();
-
-        drawFrame(view);
+        //This is hacky but if we only run build view,
+        //the key listener doesn't work
+        switchToRunView();
+        switchToBuildView();
     }
 
     public void setModel(IModel model){
@@ -189,8 +186,7 @@ public class GameFrame {
 
         this.view = g;
 
-        activePanel = g.getPanel();
-        activeBoard = g.getBoard();
+        JPanel activePanel = g.getPanel();
 
         frMain.setContentPane(activePanel);
         frMain.setJMenuBar(top);
@@ -219,10 +215,6 @@ public class GameFrame {
 
     public JFrame getFrame() {
         return frMain;
-    }
-
-    public JPanel geActiveBoard(){
-        return activeBoard;
     }
 
     //I'm unsure why geActiveBoard exists. Left it in for now

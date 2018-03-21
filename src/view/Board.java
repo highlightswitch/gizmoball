@@ -22,13 +22,12 @@ public  class Board extends JPanel implements Observer {
 	private IModel iModel;
 	private String mode;
 
-	Board(int w, int h, IModel m, String mode) {
+	Board(int w, int h, IModel m) {
 		// Observe changes in Model
 		m.addObserver(this);
 		width = w;
 		height = h;
 		iModel = m;
-		this.mode = mode;
 		this.setOpaque(false);
 		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 	}
