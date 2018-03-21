@@ -1,7 +1,7 @@
 package model.gizmo;
 
 import model.*;
-import model.util.GizmoMaths;
+import model.util.GizmoUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import physics.Angle;
@@ -27,7 +27,7 @@ class FlipperTest {
         model = new Model();
         anchorTile1 = model.getTileAt(9, 10);
         leftFlipper = (Flipper) model.placeGizmo(GizmoType.FLIPPER, anchorTile1, null);
-        rFProp = Gizmo.getPropertyDefaults(GizmoType.FLIPPER, null);
+        rFProp = GizmoUtils.getPropertyDefaults(GizmoType.FLIPPER, null);
         rFProp[0] = "rf_0";
         rFProp[2] = "false";
         anchorTile2 = model.getTileAt(15, 3);

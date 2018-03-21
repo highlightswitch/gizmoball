@@ -4,7 +4,6 @@ import model.*;
 import physics.Circle;
 import physics.Vect;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -22,15 +21,10 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 
     private boolean isAbsorbed;
     private boolean justFired;
-    private boolean justStarted;
-    private boolean isStopped;
-
-  //  protected GizmoType type;
-
 
     // x, y coordinates and x,y velocity
-    public Ball(Model model, Color colour, double cx, double cy, Map<GizmoPropertyType, String> properties) {
-        super(colour, properties);
+    public Ball(Model model, double cx, double cy, Map<GizmoPropertyType, String> properties) {
+        super(properties);
         this.model = model;
 
         this.cx = cx;
@@ -38,8 +32,6 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
 
         justFired = false;
         isAbsorbed = false;
-        justStarted = true;
-        isStopped = false;
 
 		type = GizmoType.BALL;
 
@@ -59,7 +51,8 @@ public class Ball extends Gizmo implements Tickable, TileIndependentGizmo {
         try {
             setProperty(GizmoPropertyType.VEL_X, String.valueOf(xv));
             setProperty(GizmoPropertyType.VEL_Y, String.valueOf(yv));
-        } catch (GizmoPropertyException e) {
+        } catch (GizmoPropertyException ignored) {
+            //This should never happen
         }
     }
 

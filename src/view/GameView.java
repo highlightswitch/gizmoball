@@ -6,9 +6,6 @@ public interface GameView {
    /*Returns main panel containing board and other game panels*
     */
    JPanel getPanel();
-   /*Returns board panel
-    */
-   JPanel getBoard();
 
    /*Allows the controller to add all actions listeners during runtime
     */

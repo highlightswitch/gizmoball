@@ -1,19 +1,15 @@
 package model.gizmo;
 
 import model.*;
-import model.util.GizmoUtils;
 import model.util.Procedure;
 import physics.Vect;
 
-import java.awt.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public abstract class Gizmo implements Collidable, Drawable {
 
-    private Color colour;
     private Tile anchorTile;
     private Tile[] annexedTiles;
 
@@ -21,9 +17,8 @@ public abstract class Gizmo implements Collidable, Drawable {
 
     private Map<GizmoPropertyType, String> properties;
 
-    Gizmo(Color colour, Map<GizmoPropertyType, String> props){
+    Gizmo(Map<GizmoPropertyType, String> props){
         properties = props;
-        this.colour = colour;
 
         connectedGizmos = new HashSet<>();
         setAction(GizmoActionType.CHANGE_COLOUR);
@@ -141,7 +136,7 @@ public abstract class Gizmo implements Collidable, Drawable {
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException ignored) {
         }
         return null;
     }
@@ -181,7 +176,7 @@ public abstract class Gizmo implements Collidable, Drawable {
         return connectedGizmos;
     }
 
-    void trigger(){
+    private void trigger(){
         triggerAllConnected();
     }
 
@@ -223,10 +218,7 @@ public abstract class Gizmo implements Collidable, Drawable {
         this.actionType = type;
         if(type == GizmoActionType.CHANGE_COLOUR) {
             action = this::action_changeColour;
-        } else if (type == GizmoActionType.DO_NOTHING){
-
-        } else {
-            action = this::action_printToConsole;
+        } else if (type != GizmoActionType.DO_NOTHING) {
             throw new IllegalArgumentException();
         }
     }
@@ -245,46 +237,6 @@ public abstract class Gizmo implements Collidable, Drawable {
         } catch (GizmoPropertyException e) {
             //This should never happen
         }
-    }
-
-    private void action_printToConsole(){
-        System.out.println( this.getProperty(GizmoPropertyType.NAME) + " activated");
-    }
-
-
-    public static String[] getPropertyDefaults(GizmoType type, List<String> usedNames){
-        String[] propVals = null;
-        switch (type){
-            case FLIPPER:
-                //Name, Rotation_Deg
-                propVals = new String[]{ "flipper_0", "0", "true", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
-                break;
-            case BALL:
-                //Name, Vel_X, Vel_Y
-                propVals = new String[]{ "ball_0", "0", "0", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
-                break;
-            case CIRCLE_BUMPER:
-                //Name, Rotation_Deg
-                propVals = new String[]{ "circleBumper_0", "0", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
-                break;
-            case SQUARE_BUMPER:
-                //Name, Rotation_Deg
-                propVals = new String[]{ "squareBumper_0", "0", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
-                break;
-            case TRIANGLE_BUMPER:
-                //Name, Rotation_Deg
-                propVals = new String[]{ "triangleBumper_0", "0", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
-                break;
-            case ABSORBER:
-                //Name, width, height
-                propVals = new String[]{ "absorber_0", "20", "1", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
-                break;
-        }
-
-        propVals[0] = GizmoUtils.getUnusedName(usedNames, type);
-
-        return propVals;
-
     }
 
 }

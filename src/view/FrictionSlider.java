@@ -5,11 +5,7 @@ import model.IModel;
 import model.ModelPropertyException;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class FrictionSlider {
 
@@ -27,12 +23,7 @@ public class FrictionSlider {
         sx.setPaintLabels(true);
         sx.setOpaque(false);
 
-        sx.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                newXFriction = (sx.getValue()/100);
-            }
-        });
+        sx.addChangeListener(e -> newXFriction = (sx.getValue()/100));
 
         JLabel label2 = new JLabel("Drag slider to change friction on the y axis: ");
         JSlider sy = new JSlider(JSlider.HORIZONTAL, 0, 50, 25);
@@ -43,27 +34,19 @@ public class FrictionSlider {
         sy.setPaintLabels(true);
         sy.setOpaque(false);
 
-        sy.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                newYFriction = (sy.getValue()/100);
-            }
-        });
+        sy.addChangeListener(e -> newYFriction = (sy.getValue()/100));
 
         JPanel content = new JPanel();
         JPanel panControls = new JPanel();
         JButton ok = new JButton("OK");
 
-        ok.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new SetFriction(m, newXFriction, newYFriction);
-                    friction.dispose();
-                } catch (ModelPropertyException e1) {
-                }
-            }
-        });
+        ok.addActionListener(e -> {
+			try {
+				new SetFriction(m, newXFriction, newYFriction);
+				friction.dispose();
+			} catch (ModelPropertyException e1) {
+			}
+		});
 
         panControls.add(ok);
         panControls.setOpaque(false);

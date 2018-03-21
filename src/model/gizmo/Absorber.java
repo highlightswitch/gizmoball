@@ -4,7 +4,6 @@ import model.*;
 import physics.Circle;
 import physics.LineSegment;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -12,8 +11,8 @@ public class Absorber extends Gizmo implements Collidable {
 
     private Ball absorbedBall;
 
-    public Absorber(Color colour, Map<GizmoPropertyType, String> properties){
-        super(colour, properties);
+    public Absorber(Map<GizmoPropertyType, String> properties){
+        super(properties);
         this.setAction(GizmoActionType.FIRE_FROM_ABSORBER);
         type = GizmoType.ABSORBER;
     }

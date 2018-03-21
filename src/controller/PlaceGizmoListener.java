@@ -15,7 +15,6 @@ public class PlaceGizmoListener{
 
     private GizmoType g;
     private String gname;
-    private int id = 0;
     private String color;
     private String alt;
     private GizmoActionType action;

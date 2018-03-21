@@ -7,7 +7,6 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -21,10 +20,8 @@ public class Flipper extends Gizmo implements Tickable, Collidable {
     private double currentMovement;
     private double flipPos;
 
-   // protected GizmoType type;
-
-    public Flipper(Color colour, Map<GizmoPropertyType, String> properties){
-        super(colour, properties);
+    public Flipper(Map<GizmoPropertyType, String> properties){
+        super(properties);
         this.setAction(GizmoActionType.FLIP_FLIPPER);
 
         flipSpeed = 0.1;

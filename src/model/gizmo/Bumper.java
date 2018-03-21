@@ -6,14 +6,13 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
 public class Bumper extends Gizmo implements Collidable{
 
-    public Bumper(Color colour, GizmoType type, Map<GizmoPropertyType, String> properties){
-        super(colour, properties);
+    public Bumper(GizmoType type, Map<GizmoPropertyType, String> properties){
+        super(properties);
         this.type = type;
     }
 

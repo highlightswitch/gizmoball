@@ -29,6 +29,41 @@ public class GizmoUtils {
 		return new int[]{r,g,b};
 	}
 
+	public static String[] getPropertyDefaults(GizmoType type, List<String> usedNames){
+		String[] propVals = null;
+		switch (type){
+			case FLIPPER:
+				//Name, Rotation_Deg
+				propVals = new String[]{ "flipper_0", "0", "true", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
+				break;
+			case BALL:
+				//Name, Vel_X, Vel_Y
+				propVals = new String[]{ "ball_0", "0", "0", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
+				break;
+			case CIRCLE_BUMPER:
+				//Name, Rotation_Deg
+				propVals = new String[]{ "circleBumper_0", "0", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
+				break;
+			case SQUARE_BUMPER:
+				//Name, Rotation_Deg
+				propVals = new String[]{ "squareBumper_0", "0", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
+				break;
+			case TRIANGLE_BUMPER:
+				//Name, Rotation_Deg
+				propVals = new String[]{ "triangleBumper_0", "0", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
+				break;
+			case ABSORBER:
+				//Name, width, height
+				propVals = new String[]{ "absorber_0", "20", "1", "[r=255,g=255,b=255]", "[r=255,g=255,b=255]", "[r=255,g=0,b=0]" };
+				break;
+		}
+
+		propVals[0] = GizmoUtils.getUnusedName(usedNames, type);
+
+		return propVals;
+
+	}
+
 	public static String getUnusedName(List<String> usedNames, GizmoType type){
 
 		String newName = "gizmo_0";

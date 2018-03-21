@@ -1,15 +1,13 @@
 package model.gizmo;
 
 import model.*;
+import model.util.GizmoUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import physics.Vect;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -124,14 +122,14 @@ class GizmoTest {
         usedNames.add("circleBumper_0");
         usedNames.add("absorber_0");
 
-        assertEquals(gizmo.getPropertyDefaults(GizmoType.ABSORBER, usedNames)[0], "absorber_1");
-        assertEquals(gizmo1.getPropertyDefaults(GizmoType.CIRCLE_BUMPER, usedNames)[0], "circleBumper_1");
+        assertEquals(GizmoUtils.getPropertyDefaults(GizmoType.ABSORBER, usedNames)[0], "absorber_1");
+        assertEquals(GizmoUtils.getPropertyDefaults(GizmoType.CIRCLE_BUMPER, usedNames)[0], "circleBumper_1");
 
         usedNames.add("circleBumper_1");
         usedNames.add("absorber_1");
 
-        assertEquals(gizmo.getPropertyDefaults(GizmoType.ABSORBER, usedNames)[0], "absorber_2");
-        assertEquals(gizmo1.getPropertyDefaults(GizmoType.CIRCLE_BUMPER, usedNames)[0], "circleBumper_2");
+        assertEquals(GizmoUtils.getPropertyDefaults(GizmoType.ABSORBER, usedNames)[0], "absorber_2");
+        assertEquals(GizmoUtils.getPropertyDefaults(GizmoType.CIRCLE_BUMPER, usedNames)[0], "circleBumper_2");
     }
 
 }

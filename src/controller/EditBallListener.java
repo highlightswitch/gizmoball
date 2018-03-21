@@ -50,9 +50,7 @@ public class EditBallListener {
     private void edit() {
         try {
             IModel model = controller.getIModel();
-            if(gizmo.getPosition()[0] == x && gizmo.getPosition()[1] == y){
-                //
-            } else {
+            if (gizmo.getPosition()[0] != x || gizmo.getPosition()[1] != y) {
                 model.moveGizmo(gizmo.getProperty(GizmoPropertyType.NAME), model.getTileAt(x,y));
             }
             properties.put(GizmoPropertyType.NAME, gizmo.getProperty(GizmoPropertyType.NAME));
