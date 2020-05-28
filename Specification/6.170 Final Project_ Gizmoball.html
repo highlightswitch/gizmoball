@@ -1,0 +1,3916 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0074)https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm -->
+<html class=" idce_315 idc0_315"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+
+<title>6.170 Final Project: Gizmoball</title>
+
+
+
+
+
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <style>
+h3 { color: #333399 } 
+.resources { margin-left: 30px; }
+.emph { color: red; font-weight: bold; }
+dt { font-weight: bold; }
+  </style></head><body>
+
+
+
+<h2 style="font-family: Arial;">Gizmoball Requirements</h2>
+
+
+
+<span style="font-family: Arial;">These are the
+Gizmoball requirements for the <span style="font-weight: bold;">Building Software Systems</span> class at the
+University of Strathclyde. They are based on the original version taken
+from MIT's 6.170 Laboratory in Software Engineering.</span><span style="font-family: Arial;">
+
+</span>
+<ul style="font-family: Arial;">
+
+
+
+
+  <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#introduction">Introduction</a>
+  </li>
+
+
+
+  <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#overview">Gizmoball Overview</a></li>
+
+  <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#prelim_release">Preliminary Release</a></li>
+
+
+
+  <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#resources">Resources</a>
+    
+    
+    
+    
+    <ul>
+
+
+
+
+      <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#provided_code">Provided code</a>
+    </li>
+
+
+
+    
+    
+    
+    </ul>
+
+
+
+
+  </li>
+
+
+
+  <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#hints">Hints</a>
+    
+    
+    
+    
+    <ul>
+
+
+
+
+      <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#hints-general">General</a>
+      </li>
+
+
+
+      <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#hints-coding">Coding</a>
+      </li>
+
+
+
+      <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#hints-keypress">Keypress</a>
+        
+        
+        
+        
+        <ul>
+
+
+
+
+          <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#hints-keypress-event">Keyboard events</a>
+          </li>
+
+
+
+          <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#hints-keypress-windows">On Windows</a>
+          </li>
+
+
+
+          <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#hints-keypress-test-program">Test Program</a>
+          </li>
+
+
+
+          <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#hints-keypress-solutions">Solution</a>
+        </li>
+
+
+
+        
+        
+        
+        </ul>
+
+
+
+
+    </li>
+
+
+
+    
+    
+    
+    </ul>
+
+
+
+
+  </li>
+
+
+
+  <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#detailed-specs">Appendix 1: Detailed Requirements</a>
+    
+    
+    
+    
+    <ul>
+
+
+
+
+      <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#app1-general">General</a>
+      </li>
+
+
+
+      <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#app1-playing-area">Playing Area</a>
+      </li>
+
+
+
+      <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#app1-build">Building Mode</a>
+      </li>
+
+
+
+      <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#app1-run">Running Mode</a>
+      </li>
+
+
+
+      <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#standard-gizmos">Standard Gizmos</a>
+        
+        
+        
+        
+        <ul>
+
+
+
+
+          <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#square-bumper">Square Bumper</a>
+          </li>
+
+
+
+          <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#circular-bumper">Circular Bumper</a>
+          </li>
+
+
+
+          <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#triangular-bumper">Triangular Bumper</a>
+          </li>
+
+
+
+          <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#flipper">Flipper</a>
+          </li>
+
+
+
+          <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#absorber">Absorber</a>
+          </li>
+
+
+
+          <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#outer-walls">Outer Walls</a>
+        </li>
+
+
+
+        
+        
+        
+        </ul>
+
+
+
+
+    </li>
+
+
+
+    
+    
+    
+    </ul>
+
+
+
+
+  </li>
+
+
+
+  <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#file-format">Appendix 2: The Gizmoball File Format</a>
+    
+    
+    
+    
+    <ul>
+
+
+
+
+      <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#file-format-informal">Informal Description</a></li>
+
+      <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#formal_syntax">Formal Syntax</a></li>
+
+
+
+      <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#file-format-semantics">Semantics</a>
+    </li>
+
+
+
+    
+    
+    
+    </ul>
+
+
+
+
+  </li>
+
+
+
+  <li><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#physics">Appendix 3: The physics package</a>
+  </li>
+
+
+
+</ul>
+
+
+
+
+
+
+
+
+<h1 style="font-family: Arial;"><a name="introduction"></a>Introduction</h1>
+
+
+
+
+
+<p style="font-family: Arial;">The goal of the project is to design, document, build, and test a
+program that plays Gizmoball. Gizmoball is a version of pinball, an
+arcade game in which the object is to keep a ball moving around in the
+game, without falling off the bottom of the playing area. The player
+controls a set of flippers that can bat at the ball as it falls.
+
+</p>
+
+
+
+<p style="font-family: Arial;">The advantage of Gizmoball over a traditional pinball machine is
+that Gizmoball allows users to construct their own machine layout by
+placing gizmos (such as bumpers, flippers, and absorbers) on the
+playing field.  These machine layouts may also form complicated "Rube Goldberg" contraptions
+that are intended to be watched rather than played - see&nbsp;<a href="http://www.rube-goldberg.com/">http://www.rube-goldberg.com/</a>.
+As an optional extension (after you have designed, documented,
+implemented, and tested all required functionality), you may create
+new varieties of gizmos that can be placed on a playing field.
+</p>
+
+
+
+
+
+<h1 style="font-family: Arial;"><a name="overview"></a>Gizmoball Overview</h1>
+
+
+
+<span style="font-family: Arial;" id="Bodycopy1"><span>Because this project is in part a design exercise, the assignment
+specifies what the user should be able to do and leaves it up to you to
+figure out what classes and interfaces are appropriate. This section
+gives an overview of Gizmoball. A more detailed specification is given
+in <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#detailed-specs">Appendix 1</a>. Your implementation must support a specified file format (defined in <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#file-format">Appendix 2</a>), in addition to the loosely-specified graphical user interface.</span></span><span style="font-family: Arial;">
+</span>
+<p style="font-family: Arial;">Gizmoball has a graphical user interface with two modes, <b>building
+mode</b> and <b>running mode</b>.
+</p>
+
+
+
+
+
+<p style="font-family: Arial;">In building mode, a user can:
+</p>
+
+
+
+
+<ul style="font-family: Arial;">
+
+
+
+
+
+  <li>create and edit square, circular, and triangular <b>bumpers</b>
+  on the playing surface,</li>
+
+
+
+
+
+  <li>create and edit <b>flippers</b>,</li>
+
+
+
+
+  
+  <li> <b>connect</b> the action of flippers and bumpers to triggers,
+  such as a keyboard key being hit or one of the bumpers being bumped,
+  and</li>
+
+
+
+
+
+  <li> <b>save and load</b> the user's game configuration to and from
+  a file.</li>
+
+
+
+ 
+</ul>
+
+
+
+ 
+
+
+<p style="font-family: Arial;">In running mode, the user can <b>play</b> the game.
+
+</p>
+
+
+
+<p style="font-family: Arial;"><a name="example"></a></p>
+
+
+
+ 
+<center style="font-family: Arial;"> 
+<table color="#C3C3C3" bgcolor="#c3c3c3" border="0" cellpadding="0" cellspacing="0">
+
+
+
+ <tbody>
+
+
+
+
+    <tr>
+
+
+
+ <td colspan="2" height="24" width="529"><img src="./6.170 Final Project_ Gizmoball_files/gb-top.gif"></td>
+
+
+
+
+    </tr>
+
+
+
+ <tr>
+
+
+
+ <td height="422" width="107"><img src="./6.170 Final Project_ Gizmoball_files/gb-left.gif"></td>
+
+
+
+ <td height="422" width="422"><img src="./6.170 Final Project_ Gizmoball_files/gb-anim.gif"></td>
+
+
+
+ </tr>
+
+
+
+ <tr>
+
+
+
+ <td colspan="2" height="26" width="529"><img src="./6.170 Final Project_ Gizmoball_files/gb-bottom.gif"></td>
+
+
+
+ </tr>
+
+
+
+
+  
+  
+  
+  </tbody> 
+</table>
+
+
+
+ 
+
+<br>
+
+
+
+ A screenshot of one implementation of Gizmoball.  <br>
+
+
+
+ Your
+implementation will look different (depending on your choice of user
+interface), and your ball motion may not match the animation given
+exactly.  </center>
+
+
+
+
+
+<p style="font-family: Arial;">The picture above illustrates the most important features of
+Gizmoball.
+</p>
+
+
+
+
+
+<ul style="font-family: Arial;">
+
+
+
+
+  <li>The gizmo palette on the side provides the user with a variety
+  of operations (<b>square, circle, triangle, flipper</b>) for placing
+  gizmos in the playing area. </li>
+
+
+
+ 
+
+  <li> The "modifications" toolbar on the bottom provides the user
+  with a variety of operations (<b>move, delete, rotate</b>) for
+  editing the gizmos in the playing area. </li>
+
+
+
+ 
+
+  
+  <li>The modifications toolbar also provides a <b>connect</b> button
+  that connects the trigger of one gizmo to the action of another.
+  After this button is pressed the user can connect gizmos
+  together. For example, the user might press the connect button, then
+  click on one of the circular bumpers, and then click on one of the
+  flippers. As a result, every time the bumper's trigger is activated
+  (which occurs when a ball hits the bumper), the flipper's action (to
+  rotate around its pivot) will occur.  Alternatively, the user might
+  press the connect button, then press a key, then answer a question
+  about whether the up or down keypress is of interest, then click on
+  one of the flippers. As a result, every time the user depresses (or,
+  respectively, releases) that key, the flipper will move. Several
+  triggers may activate the same gizmo. </li>
+
+
+
+
+ 
+
+  <li>The purple bar across the bottom of the playing area is the
+  <b>absorber</b> gizmo. When a ball enters the absorber, the ball stops
+  moving and is held in the absorber's lower right-hand corner. The
+  absorber gizmo's action is to shoot a ball it is holding (if any)
+  straight up in the direction of the top of the playing area.
+  Connecting the absorber to itself allows the game to loop continually:
+  every time a ball enters the absorber, it is immediately shot out
+  again.</li>
+
+
+
+ 
+
+  <li>The menu at the top of the window allows the user to <b>save</b>
+  or <b>load</b> game configurations and to <b>run</b> or <b>stop</b>
+  the game. In the animation, a game is in progress: the ball is the
+  small blue circle which started in the lower right-hand corner. The
+  ball bounces off the red, green, and blue bumpers, and is hit by the
+  yellow flippers.</li>
+
+
+
+ 
+</ul>
+
+
+
+<h1 style="font-family: Arial;"><a name="prelim_release"></a>Preliminary Release Functionality</h1>
+
+
+
+<ul style="font-family: Arial;">
+
+
+
+</ul>
+
+
+
+<span style="font-family: Arial;" id="Bodycopy1"><span>
+<p>At the preliminary release deadline, you are required to demonstrate
+the following functionality. It is acceptable for you to run up to four
+separate Java programs to demonstrate the following four features:</p>
+
+
+
+
+
+
+
+
+
+<ol>
+
+
+
+  <li><a id="required-functionality-keypress" name="required-functionality-keypress"></a>Demonstrate
+key-press triggering of a flipper on the screen. When a key is pressed,
+the flipper should <span style="font-weight: bold;">slowly </span>rotate through 90 degrees; <span style="font-weight: bold;">after the key is released</span>, the
+flipper should <span style="font-weight: bold;">slowly </span>rotate back to its original position. You should be able
+to trigger it a second or third time by pressing the key again after it
+has returned to the original position. (You need not demonstrate
+connecting the key to the flipper in build mode.)</li>
+
+
+
+  <li>Demonstrate
+a working absorber, ball motion, gravity, and friction.
+In running mode, with no bumpers or flippers on the screen and the ball
+sitting still in the absorber, you should be able to press a key,
+observe the ball shoot up out of the absorber, slow down as it rises,
+fall back to the absorber, and return to its original position. Also
+demonstrate that you can shoot it out a second time. Ball should fire
+at standard velocity of 50L/s and slow down under standard friction and
+gravity formulae. <span style="font-weight: bold;">You should clearly display the ball speed as it moves in L/s. </span>(Note that you do
+not yet need to support <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#file-format-set-gravity-friction-intro">configurable gravity or friction constants</a>.)</li>
+
+
+
+  <li>Handle ball collisions with circle, square and triangle bumpers and the walls. Proper handling
+of ball-flipper collision is not required at this stage. During running
+mode, a ball must behave properly when it
+collides with bumpers or with the outer walls. <span style="font-weight: bold;">When
+a collision occurs, the ball should 'stick' to the bumper for a few
+ticks of the timer so that&nbsp; collisions can be observed clearly.</span><br>
+</li>
+
+
+
+  <li>Demonstrate <span style="font-weight: bold;">loading and saving</span> files in the standard format. Given a test
+file, your implementation should display the gizmos specified in that
+file at the specified locations on the screen. You should be able to
+load and display <span style="font-weight: bold;">all the </span><a style="font-weight: bold;" href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#standard-gizmos">standard gizmos</a> <span style="font-weight: bold;">plus the ball</span>, <span style="font-weight: bold;">and including any rotations</span>
+(but no connections required). You should be able save the on-screen
+configuration back out to a chosen file, edit the file, and load it
+back in.<br>
+</li>
+
+
+
+</ol>
+
+
+
+
+
+
+
+
+
+<p>Your animation in run mode should be smooth and adequate to demonstrate the features required above.</p>
+
+
+
+</span></span>
+<ul style="font-family: Arial;">
+
+
+
+</ul>
+
+
+
+
+
+<h1 style="font-family: Arial;"><a name="resources"></a>Resources</h1>
+
+
+
+
+
+<p style="font-family: Arial;">This section is full of information and links that will help you
+complete your final project.
+
+</p>
+
+
+
+<h2 style="font-family: Arial;"><a name="provided_code">Provided code</a></h2>
+
+
+
+<span style="font-family: Arial;">
+
+Animations in Java are quite challenging. You will use the
+</span><code style="font-family: Arial;">java.awt</code><span style="font-family: Arial;"> and </span><code style="font-family: Arial;">javax.swing</code><span style="font-family: Arial;"> packages to
+construct your graphical user interface (GUI). We have provided you
+with a demonstration program in </span><span style="font-family: Arial;"><a href="https://classes.myplace.strath.ac.uk/mod/resource/view.php?id=585078"><span style="font-weight: bold;">MIT Physics Demo</span></a> </span><span style="font-family: Arial;">that shows how to animate the
+movement of a ball bouncing around the window. It also demonstrates
+how to get your program to listen to user events, such as clicking on
+a toolbar button, pressing a key or dragging the mouse. All members of
+your group should be able to compile, execute and understand this demo GUI.
+</span>
+
+<p style="font-family: Arial;">We have also provided you with a library of physics routines (see <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#physics">Appendix
+3</a>) for calculating the dynamics of elastic collisions. You are advised to use this code as is.
+
+</p>
+
+
+
+<h1 style="font-family: Arial;"><a name="hints"></a>MIT Hints</h1>
+
+
+
+ 
+<h2 style="font-family: Arial;"><a name="hints-general"></a>General</h2>
+
+
+
+ 
+
+<ul style="font-family: Arial;">
+
+
+
+  <li><b>Design</b><br>
+
+
+
+ 
+
+    
+    
+    
+    <p>A careful design will save you a lot of time in the long run. It's
+well known that a small mistake made early in a project can become a
+big problem if it's not caught until much later. The preliminary
+design is a major part of the project (more so than its proportion of
+the grade might indicate). Do it very carefully, trying to anticipate
+problems that may arise. Then the rest of your project will be more
+straightforward and more fun.<br>
+
+
+
+  
+
+    </p>
+
+
+
+  </li>
+
+
+
+  <li><b>Prototype</b><br>
+
+
+
+
+
+    
+    
+    
+    <p>One of the largest challenges for this kind of design problem is
+figuring out where the "gotchas" are. If you are having difficulty
+imagining how to structure one part of the design it sometimes helps
+to build a small prototype. Plan to throw away your prototypes. Once
+you've figured out how to do design something correctly, it rarely
+makes sense to try to retrofit a hacked up, broken version.<br>
+
+
+
+
+ 
+
+    </p>
+
+
+
+  </li>
+
+
+
+  <li><b>Test early and often</b><br>
+
+
+
+ 
+
+    
+    
+    
+    <p>Testing shouldn't be an afterthought! You may choose a design
+because its implementation will be easier to test. Make sure you test your code as you implement.<br>
+
+
+
+  
+
+    </p>
+
+
+
+  </li>
+
+
+
+  <li><b>Document early and often</b><br>
+
+
+
+ 
+
+    
+    
+    
+    <p>Incomplete documentation is better than no documentation at all. If
+a potential problem or subtlety occurs to you, but you don't have time
+(or are unable) to formulate it properly, then just add a few
+sentences in your document describing the issue. Later, if you have
+time, you can go back and fix it.<br>
+
+
+
+  
+
+    </p>
+
+
+
+  </li>
+
+
+
+  <li><b>Don't overdocument</b><br>
+
+
+
+ 
+
+    
+    
+    
+    <p>Don't include any redundant material.&nbsp;There's no need to explain something from scratch when you can use
+standard terms and notions.<br>
+
+
+
+  
+
+    </p>
+
+
+
+  </li>
+
+
+
+  <li><b>Have fun being on a team</b><br>
+
+
+
+ 
+
+    
+    
+    
+    <p>Enjoy being part of a team. Run new ideas past your partners, and
+discuss problems with them. Read and discuss each others code. A good
+way to find a bug is to ask someone else to look at your code. Start
+early!<br>
+
+
+
+  
+
+    </p>
+
+
+
+  </li>
+
+
+
+  <li><b>Communicate effectively</b><br>
+
+
+
+ 
+
+    
+    
+    
+    <p>Each meeting you hold with your team members (or your TA) should
+have 
+
+   </p>
+
+
+
+    
+    
+    
+    <ul>
+
+
+
+      <li>An agenda. Don't get together unless you know the reason.
+   This will help you avoid wasting time. </li>
+
+
+
+ 
+
+   <li>A&nbsp;designated leader to facilitate the meeting. The leader
+   ensures that the meeting stays on track, encourages all group
+   members to participate, and helps to resolve problems. </li>
+
+
+
+ 
+
+   <li>A&nbsp;secretary who takes notes and distributes them to the
+   remainder of the group afterwards. These notes highlight the
+   important decisions made, issues resolved (and not resolved),
+   etc. They ensure that all decisions are agreed upon by everyone and
+   that everyone is aware of the issues raised at the meeting. </li>
+
+
+
+
+   
+    
+    
+    
+    </ul>
+
+
+
+ 
+
+    
+    
+    
+    <p>The roles should rotate among the group members; no one
+individual should perform any of the roles disproportionately
+often. <br>
+
+
+
+  
+
+    </p>
+
+
+
+  </li>
+
+
+
+  <li><b>Prioritize</b><br>
+
+
+
+ 
+
+    
+    
+    
+    <p>Make your implementation of Gizmoball as beautiful to
+watch, and as fun to play, as possible. That said, <b>make sure you get
+the basic functionality working</b> before you add bells and
+whistles. The best way to approach extensions to the project is to
+make your initial design flexible and extensible. <br>
+
+
+
+ 
+    </p>
+
+
+
+  </li>
+
+
+
+</ul>
+
+
+
+ 
+
+<h2 style="font-family: Arial;"><a name="hints-coding"></a>Coding</h2>
+
+
+
+<span style="font-family: Arial;" id="Bodycopy1"><span>The syntax of Gizmoball files is designed to be easy for a program to read. The <code>BufferedReader.readLine()</code> method can read a command. The <code>StringTokenizer</code> class can decompose a command into its constituent parts.</span></span>
+
+<p style="font-family: Arial;"><a name="gui-starter"></a>You should acquire background knowledge
+about Swing before attempting to code your GUI. Use Sun's <a href="http://java.sun.com/docs/books/tutorial/uiswing/">Swing
+tutorial</a>.
+</p>
+
+
+
+
+
+<p style="font-family: Arial;">Do not try to use the realtime clock in order to determine timing
+information. Instead, arrange to receive a timer event every
+1/framesPerSecond and proceed to do the simulation and screen updates
+in response to this event. If you get behind and time slows down, so
+be it. A simple way to set this up is do use the <code><a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/Timer.html">javax.swing.Timer</a></code>
+class, as in the <span style="font-weight: bold;">MIT Physics Demo</span> program. Using
+this approach will simplify the implementation of your code and will
+also avoid the need to deal with synchronization issues in a
+multi-threaded program.
+</p>
+
+
+
+
+
+<p style="font-family: Arial;">If you are using Swing and wish to paint your own component, as you
+will need to do in order to actually draw the board, gizmos, and ball,
+you should extend <code><a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/JComponent.html">javax.swing.JComponent</a></code>
+and implement your own paint routines.  In order to do this you will
+need to override the <code><a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/JComponent.html#paint%28java.awt.Graphics%29">paint</a></code>
+method of your <code>JComponent</code> to paint the board. The
+painting is done by calling methods on the supplied <code><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/Graphics.html">java.awt.Graphics</a></code>
+object. Unless you explicitly turn it off, Swing components are
+automatically double-buffered to reduce flicker. If you do not
+understand this, do not worry about it.  In addition to
+<code>Graphics</code> Java has an alternative graphics context
+<code><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/Graphics2D.html">java.awt.Graphics2D</a></code>
+which provides more sophisticated capabilities than the traditional
+<code>Graphics</code> object. Note that the calls your components
+receive to <code>paint(Graphics)</code> will always have a
+<code>Graphics2D</code> passed as the argument, so if you want to work
+with <code>Graphics2D</code>, you may simply cast the
+<code>Graphics</code> object. You may implement Gizmoball using either
+style of graphics, but here are some differences which you might want
+to consider: </p>
+
+
+
+ 
+<ul style="font-family: Arial;">
+
+
+
+
+  <li>The <code>Graphics</code> object works in terms of integer values
+for pixels allowing you to more directly control which pixels are
+updated. </li>
+
+
+
+ <li><code>Graphics2D</code>, on the other hand, accepts
+floating point values to define geometric shapes to be rendered and
+performs the rasterization itself. This is somewhat more automatic,
+but also makes it more difficult to directly set individual
+pixels. </li>
+
+
+
+ <li>The <code>Graphics2D</code> class also allows
+    <code>AffineTransform</code>s to be applied to it. (An affine
+transform is a geometric transform that preserves parallel lines.)
+  </li>
+
+
+
+ 
+</ul>
+
+
+
+
+
+<p style="font-family: Arial;">In order to respond to mouse and keyboard actions from the user you
+will want to create and install <code><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/event/MouseListener.html">MouseListener</a></code>,
+<code><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/event/MouseMotionListener.html">
+MouseMotionListener</a></code>, and <code><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/event/KeyListener.html">KeyListener</a></code>
+all of which can be found in the <code><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/event/package-summary.html">java.awt.event</a></code>
+package.  Information about Java keycodes can be found in the
+documentation for <code><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/event/KeyEvent.html">java.awt.event.KeyEvent</a></code>.
+</p>
+
+
+
+
+
+<h2 style="font-family: Arial;"><a name="hints-keypress"></a>Keypress</h2>
+
+
+
+
+
+<p style="font-family: Arial;">The specifications for handling keyboard input in Gizmoball require
+that an object connected to a key is triggered when that key is
+pressed <em>or</em> released. This provides behaviour similar to that
+of a real pinball game: hitting the button causes the flipper to swing
+upward and releasing the button causes the flipper to return to its
+rest position.
+</p>
+
+
+
+
+
+<h3 style="font-family: Arial;"><a name="hints-keypress-event"></a>Keyboard events</h3>
+
+
+
+
+
+<p style="font-family: Arial;">The Java specifications for <code><a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/event/KeyEvent.html">java.awt.event.KeyEvent</a></code>
+describe three types of key events, <code>KEY_PRESSED</code>,
+<code>KEY_TYPED</code>, and <code>KEY_RELEASED</code>. The
+documentation suggests that <code>KEY_PRESSED</code> events occur when
+a key is actually depressed by the user and <code>KEY_RELEASED</code>
+events occur when the key is released. It would therefore seem
+reasonable to trigger when receiving a <code>KEY_PRESSED</code> or
+<code>KEY_RELEASED</code> event for a given key bound to a gizmo.
+</p>
+
+
+
+
+
+<p style="font-family: Arial;">Unfortunately, most Java runtime environments fire multiple
+<code>KEY_PRESSED</code> and in some cases multiple
+<code>KEY_RELEASED</code> events when the user has only pressed the
+key once. Additionally, in some environments you may never receive the
+<code>KEY_RELEASED</code> events for an upstroke. This is because the
+behaviour of <code>KEY_PRESSED</code> and <code>KEY_RELEASED</code> is
+system dependent. The behaviour occurs through an interaction with the
+operating system's handling of key repeats that occur when you hold
+down a key for a period of time.
+</p>
+
+
+
+
+
+<h3 style="font-family: Arial;"><a name="hints-keypress-windows"></a>On Windows and MacOS</h3>
+
+
+
+
+
+<p style="font-family: Arial;">On Windows and MacOS, Java will produce multiple <code>KEY_PRESSED</code>
+events as the key is held down and only one <code>KEY_RELEASED</code>
+when the key is actually released. For example, holding down the 'A'
+key will generate these events:
+</p>
+
+
+
+
+
+<blockquote style="font-family: Arial;"><code>PRESSED 'A'<br>
+
+
+
+
+PRESSED 'A'<br>
+
+
+
+
+...<br>
+
+
+
+
+RELEASED 'A'<br>
+
+
+
+
+  </code></blockquote>
+
+
+
+
+<span style="font-family: Arial;" id="Bodycopy1"><span></span></span>
+<h3 style="font-family: Arial;"><a name="hints-keypress-foonix"></a>On Unix</h3>
+
+
+
+<span style="font-family: Arial;">
+On Unix, multiple pairs of </span><code style="font-family: Arial;">KEY_PRESSED</code><span style="font-family: Arial;"> and
+</span><code style="font-family: Arial;">KEY_RELEASED</code><span style="font-family: Arial;"> are received as the key is held down:
+</span>
+<blockquote style="font-family: Arial;"><code>PRESSED 'A'<br>
+
+
+
+
+RELEASED 'A'<br>
+
+
+
+
+PRESSED 'A'<br>
+
+
+
+
+RELEASED 'A'<br>
+
+
+
+
+...<br>
+
+
+
+
+PRESSED 'A'<br>
+
+
+
+
+RELEASED 'A'<br>
+
+
+
+
+  </code></blockquote>
+
+
+
+
+
+<h3 style="font-family: Arial;"><a name="hints-keypress-test-program"></a>Test Program</h3>
+
+
+
+
+<p style="font-family: Arial;">If you want to explore the behaviour of your in your environment,
+you can use the <code>KeypressTest</code>
+class provided by MIT. The application will dump all keyboard
+events to the console for inspection.
+</p>
+
+
+
+
+<p style="font-family: Arial;">The source code is available at
+<code><a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/KeypressTest.java">KeypressTest.java</a></code>
+</p>
+
+
+
+
+<h3 style="font-family: Arial;"><a name="hints-keypress-solutions"></a>Solution</h3>
+
+
+
+<span style="font-family: Arial;">A solution
+is to take advantage of a special key listener
+decorator provided by MIT. Refer to the
+</span><a style="font-family: Arial;" href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/MagicKeyListener.html">documentation for
+MagicKeyListener</a><span style="font-family: Arial;"> or use the
+</span><a style="font-family: Arial;" href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/MagicKeyListener.java">provided source
+code</a><span style="font-family: Arial;"> as your own starting point.</span><span style="font-weight: bold;"><br>
+
+
+</span><span id="Bodycopy1"><span></span></span>
+<h3><span id="Bodycopy1"><span><span class="subhead"><a id="tools-jar" name="tools-jar"></a>Java Archive (JAR) files</span></span></span></h3>
+
+
+<span id="Bodycopy1"><span> 
+
+<p style="font-family: Helvetica,Arial,sans-serif;">You will need to create jar files as a way of collecting all parts of your application for delivery to your TA. jar
+files are useful because they can store all of the source code,
+compiled code, and associated data files (such as images or sounds)
+into one centralized archive, which can then be easily distributed. <span style="font-weight: bold;">We'll show you how to create jar files using Eclipse.</span></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p style="font-family: Helvetica,Arial,sans-serif;">As a quick reference, here are a few sample uses of the jar command:</p>
+
+
+
+
+
+
+
+
+<p style="font-family: Helvetica,Arial,sans-serif;">To create gizmo.jar from classes in packages gizmo and ball:</p>
+
+
+
+
+
+
+
+
+<blockquote><code>jar cvf gizmo.jar gizmo ball</code></blockquote>
+
+
+
+
+
+
+
+
+<p style="font-family: Helvetica,Arial,sans-serif;">To list the contents of the jar file, use:</p>
+
+
+
+
+
+
+
+
+<blockquote><code>jar tf gizmo.jar</code></blockquote>
+
+
+
+
+
+
+
+
+<p style="font-family: Helvetica,Arial,sans-serif;">To create a runnable gizmo.jar</p>
+
+
+
+
+
+
+
+
+<blockquote><code>jar cvfm gizmo.jar JarMainManifest gizmo ball</code></blockquote>
+
+
+
+
+
+
+
+
+<p style="font-family: Helvetica,Arial,sans-serif;">In the example above, the file JarMainManifest should contain a single line which names the entry point:</p>
+
+
+
+
+
+
+
+
+<blockquote>Main-Class: gizmo.StartGizmoball</blockquote>
+
+
+
+
+
+
+
+
+<p style="font-family: Helvetica,Arial,sans-serif;">To run the application using the jar file, use:</p>
+
+
+
+
+
+
+
+
+<blockquote><code>java -jar gizmo.jar</code></blockquote>
+
+
+
+
+
+
+
+
+<p style="font-family: Helvetica,Arial,sans-serif;"><strong>Important</strong>: Note that, when using the -jar option to run an application, the CLASSPATH variable and the -cp command line switch are ignored. Therefore, to include the physics library in an application stored in a runnable jar, you will have to extract the .class files from the jar, and include them in your own. You can extract a jar file into the current directory this way:</p>
+
+
+
+
+
+
+
+
+<blockquote><code>jar xvf&nbsp;gb-lib.jar</code></blockquote>
+
+
+
+
+
+
+
+
+</span></span>
+
+
+
+<hr style="font-family: Arial;">
+<h1 style="font-family: Arial;"><a name="detailed-specs"></a>Appendix 1: Detailed Requirements</h1>
+
+
+
+
+<h2 style="font-family: Arial;"><a name="app1-general"></a>General</h2>
+
+
+
+
+
+<p style="font-family: Arial;">Your implementation must support two modes of execution:
+<i>building</i> and <i>running</i>. In building mode, the user can add
+gizmos to the playing area and can modify the existing ones. In
+running mode, a ball moves around the playing area and interacts with
+the gizmos.
+</p>
+
+
+
+
+
+<h2 style="font-family: Arial;"><a name="app1-playing-area"></a>Playing Area</h2>
+
+
+
+
+
+<p style="font-family: Arial;">To describe dimensions in the playing area, we define L be the
+basic distance unit, equal to the edge length of a square bumper.
+Corresponding to standard usage in the graphics community, the origin
+is in the UPPER left-hand corner with coordinates increasing to the
+right and DOWN.
+</p>
+
+
+
+
+
+<p style="font-family: Arial;">The playing area must be at least 20 L wide by 20 L high. That is,
+400 square bumpers could be placed on the playing area without
+overlapping.  The upper left corner is (0,0) and the lower right
+corner is (20,20).  When we say a gizmo is at a particular location,
+that means that the gizmo's origin is at that location. The origin of
+each of the standard gizmos is the upper left-hand corner of its
+bounding box, so the location furthest from the origin at which a
+gizmo may be placed is (19,19) on a 20L x 20L board. The origin of a
+ball is at its centre.
+</p>
+
+
+
+
+
+<p style="font-family: Arial;">During building mode, Gizmos should "snap" to a 1 L by 1 L grid.
+That is, a user may only place gizmos at locations (0,0), (0,1),
+(0,2), and so on.
+</p>
+
+
+
+
+
+<p style="font-family: Arial;">During running mode the animation grid may be no coarser than 0.05
+L by 0.05 L. Suppose that the ball is at (1,1) and is moving in the
+(2,1) direction -- that is, left to right -- at a rate of .05L per
+frame redraw.  Then the ball should be displayed at least in positions
+(1,1), (1.05,1), (1.10,1), and can be displayed at more positions if
+you wish the animation to be smoother. Rotating flippers can be
+animated somewhat more coarsely; see the precise description of <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#flipper">flippers</a> below.  If the ball is moving faster than
+the animation grid size per frame redraw, it need not be redrawn in
+each animation grid position.
+</p>
+
+
+
+
+
+<h2 style="font-family: Arial;"><a name="app1-build"></a>Building Mode</h2>
+
+
+
+
+
+<p style="font-family: Arial;">
+In building mode the user can:</p>
+
+
+
+
+<ul style="font-family: Arial;">
+
+
+
+
+
+  <li>Add any of the available types of gizmos to the playing area.</li>
+
+
+
+
+  
+  
+  
+  
+  <ul>
+
+
+
+
+
+    <li>An attempt to place a gizmo in such a way that it overlaps a
+    previously placed gizmo or the boundary of the playing area should
+    be rejected (i.e., it should have no effect).</li>
+
+
+
+ 
+  
+  
+  
+  </ul>
+
+
+
+ 
+
+  <li>Move a gizmo from one place to another on the playing area.</li>
+
+
+
+ 
+  
+  
+  
+  
+  <ul>
+
+
+
+
+
+    <li>An attempt to place a gizmo in such a way that it overlaps a
+    previously placed gizmo or the boundary of the playing area should
+    be rejected (i.e., it should have no effect).</li>
+
+
+
+ 
+  
+  
+  
+  </ul>
+
+
+
+ 
+
+  <li>Apply a 90 degree clockwise rotation to any gizmo.</li>
+
+
+
+ 
+  
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Rotation has no effect on gizmos with rotational symmetry. For
+    example, circular bumpers look and act the same, no matter how
+    many times they have been rotated by 90 degrees.</li>
+
+
+
+ 
+  
+  
+  
+  </ul>
+
+
+
+
+
+  <li>Connect a particular gizmo's trigger to a particular gizmo's
+  action.</li>
+
+
+
+
+  
+  
+  
+  
+  <ul>
+
+
+
+ 
+    
+    <li>The standard gizmos produce a <i>trigger</i> when hit by the
+    ball, and exhibit at most one <i>action</i> (for example, moving a
+    flipper, shooting the ball out of an absorber, or changing the
+    colour of a bumper). The trigger that a gizmo produces can be
+    connected to the actions of many gizmos. Likewise, a gizmo's
+    action can be activated by many triggers.  The <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#standard-gizmos">required triggers and actions</a> for the
+    basic gizmos are described below.</li>
+
+
+
+ 
+
+    <li>Note that triggers do not "chain". That is, when A is
+    connected to B and B is connected to C, a ball hitting A should
+    only cause the action of B to be triggered. </li>
+
+
+
+ 
+  
+  
+  
+  </ul>
+
+
+
+
+    
+  <li>Connect a key-press trigger to the action of a gizmo.</li>
+
+
+
+
+  
+  
+  
+  
+  <ul>
+
+
+
+ 
+
+    <li>Each keyboard key generates a unique trigger when pressed. As
+    with gizmo-generated triggers, key-press triggers can also be
+    connected to the actions of many gizmos.</li>
+
+
+
+ 
+  
+  
+  
+  </ul>
+
+
+
+ 
+
+  <li>Delete a gizmo from the playing area.</li>
+
+
+
+ 
+
+  <li>Add a ball to the playing area.</li>
+
+
+
+ 
+  
+  
+  
+  
+  <ul>
+
+
+
+ 
+
+    <li>The user should be able to specify a position and
+    velocity.</li>
+
+
+
+ 
+
+    <li>An attempt to place the ball in such a way that it overlaps a
+    previously placed gizmo or the boundary of the playing area should
+    be rejected (i.e., it should have no effect). There is one
+    exception in the <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#standard-gizmos">standard gizmo
+    set</a>: a stationary ball may be placed inside an absorber.</li>
+
+
+
+
+    
+  
+  
+  
+  </ul>
+
+
+
+ 
+
+  <li>Save to a file named by the user.</li>
+
+
+
+ 
+  
+  
+  
+  
+  <ul>
+
+
+
+ 
+
+    <li> You must be able to save to a file in the standard format given in <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#file-format">Appendix 2</a>. You may, if you wish, define
+    an extension to the standard format that handles special features
+    of your implementation. If you do so, the user must have the
+    choice of saving in the standard format or in your special
+    format.</li>
+
+
+
+ 
+
+    <li>The saved file must include information about all the gizmos
+    currently in the playing area, all of the connections between
+    triggers and actions, and the current position and velocity of the
+    ball.</li>
+
+
+
+ 
+  
+  
+  
+  </ul>
+
+
+
+ 
+
+  <li>Load from a file named by the user. You must be able to load a
+  game saved in the standard format.</li>
+
+
+
+ 
+
+  <li>Switch to running mode.</li>
+
+
+
+ 
+
+  <li>Quit the application.</li>
+
+
+
+</ul>
+
+
+
+ 
+
+<h2 style="font-family: Arial;"><a name="app1-run"></a>Running Mode</h2>
+
+
+
+
+<p style="font-family: Arial;">
+In running mode, the user can:
+</p>
+
+
+
+
+<ul style="font-family: Arial;">
+
+
+
+
+
+  <li>Press keys, thereby generating triggers that may be connected to
+  the actions of gizmos.</li>
+
+
+
+
+
+  <li>Switch to building mode at any time.</li>
+
+
+
+
+  
+  
+  
+  
+  <ul>
+
+
+
+
+    
+    <li>If the user requests to switch to building mode while a
+    flipper is in motion, it is acceptable to delay switching until
+    the flipper has reached the end of its trajectory.</li>
+
+
+
+
+    
+    <li>Similar short delays in order to finish transitional states of
+    gizmos you create are also acceptable.</li>
+
+
+
+ 
+  
+  
+  
+  </ul>
+
+
+
+ 
+
+  <li>Quit the application.</li>
+
+
+
+ 
+</ul>
+
+
+
+
+<p style="font-family: Arial;">
+In running mode, Gizmoball should:
+</p>
+
+
+
+
+<ul style="font-family: Arial;">
+
+
+
+
+  <li>Provide visually smooth animation of the motion of the ball.</li>
+
+
+
+
+  
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>The ball by default must have a diameter of approximately 0.5L.
+    </li>
+
+
+
+
+    <li>Ball velocities must range at least from 0.01 L/sec to 200
+L/sec and can
+cover a larger range if you wish. 0 L/sec (stationary) must also be
+supported.</li>
+
+
+
+
+    <li>An acceptable frame rate should be used to generate a smooth
+animation.
+We have found that 20 frames per second tends to work well across
+a reasonably wide range of platforms. </li>
+
+
+
+
+  
+  
+  
+  
+  </ul>
+
+
+
+
+  <li>Provide intuitively reasonable interactions between the ball and
+the
+gizmos
+in the playing area. That is, the ball should bounce in the direction
+and
+with the resulting velocity that you would expect it to bounce in a
+physical
+pinball game.</li>
+
+
+
+
+  <li>Continually modify the velocity of the ball to account for the
+effects
+of gravity.
+    
+    
+    
+    
+    <ul>
+
+
+
+
+      <li> <a name="gravity-default-value"></a>You should support the
+standard gravity value of 25 L/sec<sup>2</sup>, which resembles a
+pinball game with a slightly tilted playing surface. </li>
+
+
+
+
+    
+    
+    
+    
+    </ul>
+
+
+
+
+  </li>
+
+
+
+
+  <li>Continually modify the velocity of the ball to account for the
+effects
+of friction.
+    
+    
+    
+    
+    <ul>
+
+
+
+
+      <li> <a name="friction-formula"></a>You should model friction by
+scaling the velocity of the ball using the frictional constants <i>mu</i>
+and <i>mu</i><sub>2</sub>. For sufficiently small <i>delta_t</i>'s
+you can
+model friction as <i>V<sub>new</sub></i> = <i>V<sub>old</sub></i> *
+(1 - <i>mu</i> * <i>delta_t</i> - <i>mu</i><sub>2</sub> * |<i>V<sub>old</sub></i>|
+* <i>delta_t</i>). </li>
+
+
+
+
+      <li><a name="friction-default-values"></a>The default value of <i>mu</i>
+should be 0.025 per second. </li>
+
+
+
+
+      <li>The default value of <i>mu<sub>2</sub></i> should be 0.025
+per L. </li>
+
+
+
+
+    
+    
+    
+    
+    </ul>
+
+
+
+
+  </li>
+
+
+
+
+</ul>
+
+
+
+
+<h2 style="font-family: Arial;"><a name="standard-gizmos"></a>Standard Gizmos</h2>
+
+
+
+
+<p style="font-family: Arial;">
+There are seven standard gizmos that must be supported: bumpers
+(square,
+circular, and triangular), flippers (left and right), absorbers, and
+outer walls.
+</p>
+
+
+
+
+<p style="font-family: Arial;">A coefficient of reflection of 1.0 means that the energy of the ball
+leaving the bumper is equal to the energy with which it hit the bumper,
+but
+the ball is travelling in a different direction. As an extension, you
+may
+support bumpers with coefficients above or below 1.0 as well.
+</p>
+
+
+
+
+<h3 style="font-family: Arial;"><a name="square-bumper"></a>Square Bumper</h3>
+
+
+
+
+<p style="font-family: Arial;">
+A square shape with edge length 1L<br>
+
+
+
+
+Trigger: generated whenever the ball hits it<br>
+
+
+
+
+Action: none required<br>
+
+
+
+
+Coefficient of reflection: 1.0<br>
+
+
+
+
+</p>
+
+
+
+
+<h3 style="font-family: Arial;"><a name="circular-bumper"></a>Circular Bumper</h3>
+
+
+
+
+<p style="font-family: Arial;">
+A circular shape with diameter 1L<br>
+
+
+
+
+Trigger: generated whenever the ball hits it<br>
+
+
+
+
+Action: none required<br>
+
+
+
+
+Coefficient of reflection: 1.0<br>
+
+
+
+
+</p>
+
+
+
+
+<h3 style="font-family: Arial;"><a name="triangular-bumper"></a>Triangular Bumper</h3>
+
+
+
+
+<p style="font-family: Arial;">
+A right-triangular shape with sides of length 1L and hypotenuse of
+length Sqrt(2)L<br>
+
+
+
+
+Trigger: generated whenever the ball hits it<br>
+
+
+
+
+Action: none required<br>
+
+
+
+
+Coefficient of reflection: 1.0<br>
+
+
+
+
+</p>
+
+
+
+
+<h3 style="font-family: Arial;"><a name="flipper"></a>Flipper</h3>
+
+
+
+<span style="font-family: Arial;">
+A generally rectangular rotating shape with bounding box of size 2Lx2L</span><br style="font-family: Arial;">
+
+
+
+<span style="font-family: Arial;">
+Trigger: generated whenever the ball hits it</span><br style="font-family: Arial;">
+
+
+
+<span style="font-family: Arial;">
+Action: rotates 90 degrees (see below)</span><br style="font-family: Arial;">
+
+
+
+<span style="font-family: Arial;">
+Coefficient of reflection: 0.95 (but see below)</span><br style="font-family: Arial;">
+
+
+
+
+<p style="font-family: Arial;">
+Flippers are required to come in two different varieties, left
+flippers and right flippers. A left flipper begins its rotation in a
+counter-clockwise and a right flipper begins its rotation in a
+clockwise direction.
+</p>
+
+
+
+
+<p style="font-family: Arial;">During run mode, a flipper should never extend outside its bounding
+box.
+In edit mode the flipper should not be permitted to be placed in any
+way
+which would cause the flipper to extend outside of its bounding box
+during
+run mode, or would cause the flipper's bounding box to overlap with
+(the
+bounding box of) another gizmo.
+</p>
+
+
+
+
+<p style="font-family: Arial;"><a name="flipper-triggering"></a>The below pictures show flipper
+placements for various initial
+rotations. In run-mode, when a flipper is first triggered, it sweeps
+90° in the direction indicated by the arrows. If triggered
+again, the flipper sweeps back 90° to the initial position.
+</p>
+
+
+
+
+<p style="font-family: Arial;">In the pictures, the shape and design of the flippers are for
+illustrative
+purpose only -- your final design may differ. </p>
+
+
+
+
+<p style="font-family: Arial;" align="center"> <img src="./6.170 Final Project_ Gizmoball_files/flippers.gif"><br>
+
+
+
+
+<i>Flipper initial placements and initial directions of rotation.</i> </p>
+
+
+
+
+<p style="font-family: Arial;">
+As with the three standard bumpers, a flipper generates a <i>trigger</i>
+whenever the ball hits it.
+</p>
+
+
+
+
+<p style="font-family: Arial;">When a flipper's action is triggered, the flipper rotates at a
+constant
+angular velocity of 1080 degrees per second to a position 90 degrees
+away
+from its starting position. When its action is triggered a second time,
+the flipper rotates back to its original position at an angular
+velocity
+of 1080 degrees per second.
+</p>
+
+
+
+
+<p style="font-family: Arial;">If its action is triggered while the
+flipper is rotating, the exact behaviour is at your discretion. Here
+are some suggestions, but you
+are not limited to these options:
+</p>
+
+
+
+
+<ol style="font-family: Arial;">
+
+
+
+
+  <li>Ignore triggers while the flipper is in motion.
+This behaviour may be undesirable for the user because a single
+press and release of a key might not cause the flipper to return to its
+original position. </li>
+
+
+
+
+  <li>Wait until the flipper finishes rotating (and responding to any
+previously-received triggers) before responding to the action.
+This behaviour may be undesirable for the user because several
+quick keypresses in a row could cause the flipper to flip
+repeatedly for a long period of time. </li>
+
+
+
+
+  <li>Queue at most one trigger during the initial forward motion and
+have
+no queue during the return motion. With this model, a keypress which
+generated two triggers would cause the flipper to flip and return,
+but quick repeated keypresses would not tie up the flipper for
+a long time. </li>
+
+
+
+
+  <li>Respond to all triggers immediately. If a flipper is in a forward
+motion and is triggered, it will immediately switch to a backward
+motion. In this way, flippers with a key up and down as triggers
+will behave most like flippers in a real-world pinball game. </li>
+
+
+
+
+</ol>
+
+
+
+
+<p style="font-family: Arial;">
+The standard coefficient of reflection for a flipper is 0.95. However,
+when computing the behaviour of a ball bouncing off the flipper, you
+must
+account for the linear velocity of the part of the flipper that
+contacts
+the ball; therefore the ball may leave the flipper with a higher energy
+than it had when it reached it.
+</p>
+
+
+
+
+<h3 style="font-family: Arial;"><a name="absorber"></a>Absorber</h3>
+
+
+
+<span style="font-family: Arial;">
+A rectangle with integral-length sides</span><br style="font-family: Arial;">
+
+
+
+<span style="font-family: Arial;">
+Trigger: generated whenever the ball hits it</span><br style="font-family: Arial;">
+
+
+
+<span style="font-family: Arial;">
+Action: shoots out a stored ball (see below)</span><br style="font-family: Arial;">
+
+
+
+<span style="font-family: Arial;">
+Coefficient of reflection: not applicable; the ball is captured</span>
+<p style="font-family: Arial;">When a ball hits an absorber, the absorber stops the ball and holds
+it
+(unmoving) in the bottom right-hand corner of the absorber. The
+ball's centre is .25L from the bottom of the absorber and .25L from
+the right side of the absorber.
+</p>
+
+
+
+
+<p style="font-family: Arial;">If the absorber is holding a ball, then the <i>action</i> of an
+absorber, when it is triggered, is to shoot the ball straight upwards
+in the direction of the top of the playing area. By default, the
+initial velocity of the ball should be 50L/sec. (With the default
+gravity and the default values for friction, the value of 50L/sec
+gives the ball enough energy to lightly collide with the top wall, if
+the bottom of the absorber is at y=20L.) If the absorber is not
+holding the ball, or if the previously ejected ball has not yet left
+the absorber, then the absorber takes no action when it receives a
+trigger signal.
+</p>
+
+
+
+
+<p style="font-family: Arial;">Absorbers cannot be rotated.
+</p>
+
+
+
+
+<h3 style="font-family: Arial;"><a name="outer-walls"></a>Outer Walls</h3>
+
+
+
+<span style="font-family: Arial;">
+Impermeable barriers surrounding the playfield.</span><br style="font-family: Arial;">
+
+
+
+<span style="font-family: Arial;">
+Trigger: generated whenever the ball hits it</span><br style="font-family: Arial;">
+
+
+
+<span style="font-family: Arial;">
+Action: none required</span><br style="font-family: Arial;">
+
+
+
+<span style="font-family: Arial;">
+Coefficient of reflection: 1.0</span>
+<p style="font-family: Arial;">A Gizmoball game supports <i>exactly one</i> set of outer walls.
+The user
+cannot move, delete, or rotate the outer walls. The outer walls lie
+just
+outside the playing area:
+</p>
+
+
+
+
+<ul style="font-family: Arial;">
+
+
+
+
+  <li>There is one horizontal wall just above the y=0L coordinate. </li>
+
+
+
+
+  <li>There is one horizontal wall just below the y=20L coordinate. </li>
+
+
+
+
+  <li>There is one vertical wall just to the left of the x=0L
+coordinate. </li>
+
+
+
+
+  <li>There is one vertical wall just to the right of the x=20L
+coordinate. </li>
+
+
+
+
+</ul>
+
+
+
+
+<p style="font-family: Arial;">
+It is <em>not</em> required that the user be able to use the GUI to
+connect
+the trigger produced by the outer walls with any of the other gizmos.
+However, the standard file format <em>does</em>
+support this kind of connection.
+</p>
+
+
+
+
+<hr style="font-family: Arial;">
+<h1 style="font-family: Arial;"><a name="file-format"></a>Appendix 2: The Gizmoball File Format</h1>
+
+
+
+
+<h2 style="font-family: Arial;"><a name="file-format-informal"></a>Informal Description</h2>
+
+
+
+<span style="font-family: Arial;" id="Bodycopy1"><span>
+<p>Gizmoball files are <em>command scripts</em>. The syntax is,
+perhaps, somewhat richer than one might design for a simple game, but
+is also usable for debugging and testing the program independently of
+the GUI. That is, the file format specifies a standard interface, so
+that the TAs can test the functionality of your program. The files
+contain not just a list of gizmos and their positions, but rather
+commands for exercising all the Gizmoball functionality, including
+placing, deleting, and modifying gizmos.</p>
+
+
+
+
+
+
+
+
+
+<p>Each line of a Gizmoball file contains a command. Each command consists of an <strong>opcode</strong> and zero or more <strong>arguments</strong>; these components are separated by spaces and/or tabs. For example:</p>
+
+
+
+
+
+
+
+
+
+<blockquote><code>Triangle T1 0 7</code></blockquote>
+
+
+
+
+
+
+
+
+
+<p>This is a single command. Its opcode is "Triangle" and its arguments
+are "T1", "0", and "7". This command specifies that the program should
+create a new triangular bumper at the location (0,7), and that the
+triangle can later be referred to in the file by the name "T1". There
+are similar commands for creating square and circular bumpers and
+flippers.</p>
+
+
+
+
+
+
+
+
+
+<p>The Triangle command places the triangle at a default rotation. If
+you want the triangle at a different rotation, use the "Rotate" command:</p>
+
+
+
+
+
+
+
+
+
+<blockquote><code>Triangle T2 3 5<br>
+
+
+
+
+
+
+Rotate T2<br>
+
+
+
+
+
+
+Rotate T2</code></blockquote>
+
+
+
+
+
+
+
+
+
+<p>This creates a triangular bumper at position (3,5) and then rotates
+it twice by 90 degrees in the clockwise direction, for a total rotation
+of 180 degrees. Rotating a flipper does not change its bounding box but
+does change its pivot. Along with the Rotate command, there are also
+commands for moving gizmos and deleting gizmos. For example:</p>
+
+
+
+
+
+
+
+
+
+<blockquote><code>Square S1 10 2<br>
+
+
+
+
+
+
+Square S2 15 15<br>
+
+
+
+
+
+
+Move S1 19 17<br>
+
+
+
+
+
+
+Delete S2</code></blockquote>
+
+
+
+
+
+
+
+
+
+<p>This creates a square bumper at (10,2) and another at (15,15), moves
+first bumper to (19,17), and deletes the second, leaving one square
+bumper at (19,17).</p>
+
+
+
+
+
+
+
+
+
+<p>There are also commands for connecting triggers to actions. For example:</p>
+
+
+
+
+
+
+
+
+
+<blockquote><code>Square S3 13 13<br>
+
+
+
+
+
+
+LeftFlipper LF1 5 18<br>
+
+
+
+
+
+
+Connect S3 LF1</code></blockquote>
+
+
+
+
+
+
+
+
+
+<p>This creates a square bumper at (13,13) and a left-handed flipper at
+(5,18). The "Connect" command specifies that the flipper's action
+should be triggered whenever the ball hits the square bumper.</p>
+
+
+
+
+
+
+
+
+
+<p>The KeyConnect command specifies that the action of a gizmo is associated with a particular key being pressed or released:</p>
+
+
+
+
+
+
+
+
+
+<blockquote><code>RightFlipper RF1 9 18<br>
+
+
+
+
+
+
+KeyConnect key 32 down RF1<br>
+
+
+
+
+
+
+KeyConnect key 32 up RF1</code></blockquote>
+
+
+
+
+
+
+
+
+
+<p>This specifies that the right-handed flipper at (9,18) should be
+activated whenever the space bar key is pressed or released ("32" is
+the number that the Java AWT gives to the space bar).</p>
+
+
+
+
+
+
+
+
+
+<p>Because you might also want to allow the outer walls to trigger various actions, there is a special identifier reserved for it:</p>
+
+
+
+
+
+
+
+
+
+<blockquote><code>Connect OuterWalls GIZ</code></blockquote>
+
+
+
+
+
+
+
+
+
+<p>This command would cause the ball hitting any of the outer walls trigger the action of the gizmo named by "GIZ".</p>
+
+
+
+
+
+
+
+
+
+<p><a id="file-format-informal-ball" name="file-format-informal-ball"></a>The
+Ball command allows you to specify the position and velocity of the
+ball. Because the ball can be at intermediate points within a
+particular square, the coordinates are specified as floating point
+numbers:</p>
+
+
+
+
+
+
+
+
+
+<blockquote><code>Ball B1 14.2 4.5 -3.4 -2.3</code></blockquote>
+
+
+
+
+
+
+
+
+
+<p>This places a ball with its center at (14.2,4.5) and an initial
+velocity of 3.4L per second to the left and 2.3L per second upward.</p>
+
+
+
+
+
+
+
+
+
+<p><a id="file-format-set-gravity-friction-intro" name="file-format-set-gravity-friction-intro"></a>The
+Gravity and Friction commands can be used to set global properties of
+the game. Each takes floating point values as arguments such as:</p>
+
+
+
+
+
+
+
+
+
+<blockquote><code>Gravity 16.0 <br>
+
+Friction 0.0 0.0</code></blockquote>
+
+
+
+
+
+
+
+
+
+<p>This would reduce the gravity in the game to only 16L/sec<sup>2</sup> and remove any effects of friction. Only the last occurrence of each Gravity and Friction in the file should be used.</p>
+
+
+
+
+
+
+
+
+
+<p><a id="file-format-example-file" name="file-format-example-file"></a>Here is the Gizmoball file for the <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#example">example shown above</a>.
+It specifies a triangular bumper in the upper right-hand corner, a
+bunch of circular and square bumpers, and a few flippers. The action of
+the upper flippers is triggered by the "space" key, the action of the
+lower flippers are triggered by the "q" and "w" keys, and also by
+hitting some of the circular bumpers. The action of the absorber is
+triggered both by the "delete" key and <em>also by the absorber itself!</em>
+This allows the game to run continuously. Every time the ball hits the
+absorber, the absorber immediately shoots it back up towards the top
+again.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<blockquote>
+
+
+  
+  
+  
+  <p><code>Triangle T 19 0<br>
+
+
+Rotate T<br>
+
+
+
+
+
+
+  <br>
+
+
+
+
+
+
+Triangle T2 1 1<br>
+
+
+
+
+
+
+  <br>
+
+
+
+
+
+
+Square S02 0 2<br>
+
+
+
+
+
+
+Square S12 1 2<br>
+
+
+
+
+
+
+Square S22 2 2<br>
+
+
+
+
+
+
+Square S32 3 2<br>
+
+
+
+
+
+
+Square S42 4 2<br>
+
+
+
+
+
+
+Square S52 5 2<br>
+
+
+
+
+
+
+Square S62 6 2<br>
+
+
+
+
+
+
+Square S72 7 2<br>
+
+
+
+
+
+
+Square S82 8 2<br>
+
+
+
+
+
+
+Square S132 13 2<br>
+
+
+
+
+
+
+Square S142 14 2<br>
+
+
+
+
+
+
+Square S152 15 2<br>
+
+
+
+
+
+
+Square S162 16 2<br>
+
+
+
+
+
+
+Square S172 17 2<br>
+
+
+
+
+
+
+Square S182 18 2<br>
+
+
+
+
+
+
+  <br>
+
+
+
+
+
+
+Circle C43 4 3<br>
+
+
+
+
+
+
+Circle C54 5 4<br>
+
+
+
+
+
+
+Circle C65 6 5<br>
+
+
+
+
+
+
+Circle C76 7 6<br>
+
+
+
+
+
+
+Circle C99 9 9<br>
+
+
+
+
+
+
+Circle C109 10 9<br>
+
+
+
+
+
+
+Circle C1110 11 10<br>
+
+
+
+
+
+
+Circle C129 12 9<br>
+
+
+
+
+
+
+Circle C139 13 9<br>
+
+
+
+
+
+
+Circle C156 15 6<br>
+
+
+
+
+
+
+Circle C165 16 5<br>
+
+
+
+
+
+
+Circle C174 17 4<br>
+
+
+
+
+
+
+Circle C183 18 3<br>
+
+
+
+
+
+
+  <br>
+
+
+
+
+
+
+LeftFlipper LF92 9 2<br>
+
+
+
+
+
+
+KeyConnect key 32 down LF92<br>
+
+
+
+
+
+
+KeyConnect key 32 up LF92<br>
+
+RightFlipper RF112 11 2<br>
+
+
+
+
+
+
+KeyConnect key 32 down RF112<br>
+
+
+
+
+
+
+KeyConnect key 32 up RF112<br>
+
+
+
+
+
+
+LeftFlipper LF87 8 7<br>
+
+
+
+
+
+
+KeyConnect key 81 down LF87<br>
+
+
+
+
+
+
+KeyConnect key 81 up LF87<br>
+
+
+
+
+
+
+Connect C43 LF87<br>
+
+
+
+
+
+
+Connect C54 LF87<br>
+
+
+
+
+
+
+Connect C65 LF87<br>
+
+
+
+
+
+
+Connect C76 LF87<br>
+
+
+
+
+
+
+Connect C109 LF87<br>
+
+
+
+
+
+
+Connect C1110 LF87<br>
+
+
+
+
+
+
+Connect C139 LF87<br>
+
+
+
+
+
+
+  <br>
+
+
+
+
+
+
+RightFlipper RF137 13 7<br>
+
+
+
+
+
+
+KeyConnect key 87 down RF137<br>
+
+
+
+
+
+
+KeyConnect key 87 up RF137<br>
+
+
+
+
+
+
+Connect C99 RF137<br>
+
+
+
+
+
+
+Connect C1110 RF137<br>
+
+
+
+
+
+
+Connect C129 RF137<br>
+
+
+
+
+
+
+Connect C156 RF137<br>
+
+
+
+
+
+
+Connect C165 RF137<br>
+
+
+
+
+
+
+Connect C174 RF137<br>
+
+
+
+
+
+
+Connect C183 RF137<br>
+
+
+
+
+
+
+Absorber A 0 19 20 20<br>
+
+
+
+
+
+
+KeyConnect key 127 down A<br>
+
+
+
+
+
+
+Connect A A<br>
+
+
+
+
+
+
+Ball B 1.0 11.0 0.0 0.0</code></p>
+
+
+
+
+
+
+</blockquote>
+
+
+
+</span></span>
+<h2 style="font-family: Arial;"><a name="formal_syntax"></a>Formal Syntax</h2>
+
+
+
+<div style="font-family: Arial; margin-left: 0px; width: 977px;">
+<div style="margin-left: 40px;"><span id="Bodycopy1"><span><code>&lt;file&gt; ::= &lt;commandline&gt;*</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+&lt;commandline&gt; ::= &lt;command&gt;"\n" | "\n"</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+&lt;command&gt; ::= &lt;gizmoOp&gt; &lt;name&gt; &lt;int-pair&gt; |</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+Absorber &lt;name&gt; &lt;int-pair&gt; &lt;int-pair&gt; |</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+Ball &lt;name&gt; &lt;float-pair&gt; &lt;float-pair&gt; |</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+Rotate &lt;name&gt; |</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+Delete &lt;name&gt; |</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+Move &lt;name&gt; &lt;number-pair&gt; |</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+Connect &lt;name&gt; &lt;name&gt; |</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+KeyConnect &lt;keyid&gt; &lt;name&gt; |</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+Gravity FLOAT |</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+Friction FLOAT FLOAT</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+&lt;name&gt; ::= IDENTIFIER</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+&lt;gizmoOp&gt; ::= Square | Circle | Triangle | RightFlipper | LeftFlipper</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+&lt;number-pair&gt; ::= &lt;int-pair&gt; | &lt;float-pair&gt;</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+&lt;int-pair&gt; ::= INTEGER INTEGER</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+&lt;float-pair&gt; ::= FLOAT FLOAT</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+&lt;keyid&gt; ::= "key" KEYNUM "down" |</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+
+
+"key" KEYNUM "up"</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+</code></span></span><span id="Bodycopy1"><span><code></code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+IDENTIFIER&nbsp;&nbsp;&nbsp; represents any string composed only from
+the characters {'0'..'9','A'..'Z','a..z','_'}. The identifier "OuterWalls" is a special reserved word which refers to the outer
+walls; no other item may use this identifier. &nbsp;&nbsp; </code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+INTEGER&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; represents any integer number&nbsp;&nbsp;&nbsp; </code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+FLOAT&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;represents any floating point number&nbsp;&nbsp;&nbsp; </code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code>
+KEYNUM&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;represents any numeric key identifier (which are integers)</code></span></span><br>
+
+
+<span id="Bodycopy1"><span><code></code></span></span></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span id="Bodycopy1"><span><code>
+
+</code></span></span>
+<h2 style="margin-left: 0px; width: 1013px;"><a name="file-format-semantics"></a>Semantics</h2>
+
+
+
+<span id="Bodycopy1"><span>
+<dl>
+
+
+
+  <dd>
+
+
+    <code>"Square" (IDENTIFIER name) (INTEGER x) (INTEGER y)</code><br>
+
+
+    <code>
+
+
+
+"Circle" (IDENTIFIER name) (INTEGER x) (INTEGER y)</code><br>
+
+
+    <code>
+
+
+
+"Triangle" (IDENTIFIER name) (INTEGER x) (INTEGER y)</code><br>
+
+
+    <code>
+
+
+
+"RightFlipper" (IDENTIFIER name) (INTEGER x) (INTEGER y)</code><br>
+
+
+    <code>
+
+
+
+"LeftFlipper " (IDENTIFIER name) (INTEGER x) (INTEGER y)</code>
+
+
+
+  </dd>
+
+
+
+  <dd>Creates the given gizmo with its upper left-corner at (<tt>x</tt>,<tt>y</tt>), in the default orientation. Within the file, the <tt>name</tt> must be unique, and may be used later to refer to this specific gizmo. The default orientation for each gizmo is: 
+
+
+
+
+
+    
+    
+    
+    <dl>
+
+
+
+      <dt><em></em><br>
+</dt>
+
+
+
+      <dt><em>Square</em></dt>
+
+
+
+      <dd>none (all orientations are equivalent)</dd>
+
+
+
+      <dt><em></em><br>
+</dt>
+
+
+
+      <dt><em>Circle</em></dt>
+
+
+
+      <dd>none (all orientations are equivalent)</dd>
+
+
+
+      <dt><em></em><br>
+</dt>
+
+
+
+      <dt><em>Triangle</em></dt>
+
+
+
+      <dd>One
+corner in the north-east, one corner in the north-west, and the last
+corner in the south-west. The diagonal goes from the south-west corner
+to north-east corner.</dd>
+
+
+
+      <dt><em></em><br>
+</dt>
+
+
+
+      <dt><em>LeftFlipper</em></dt>
+
+
+
+      <dd>pivot in north-west corner, other end in south-west corner</dd>
+
+
+
+      <dt><em></em><br>
+</dt>
+
+
+
+      <dt><em>RightFlipper</em></dt>
+
+
+
+      <dd>pivot in north-east corner, other end in south-east corner</dd>
+
+
+
+    
+    
+    
+    </dl>
+
+
+
+
+
+
+  </dd>
+
+
+
+  <dt><a id="file-format-semantics-absorber" name="file-format-semantics-absorber"></a></dt>
+
+
+
+  <dd>
+
+
+    
+    
+    
+    <blockquote><code>"Absorber" (IDENTIFIER name) (INTEGER x1) (INTEGER y1) (INTEGER x2) (INTEGER y2)</code></blockquote>
+
+
+
+
+
+
+  </dd>
+
+
+
+  <dd>Creates an absorber with its upper left-hand corner at (<tt>x1</tt>,<tt>y1</tt>) and its lower right-hand corner at (<tt>x2</tt>,<tt>y2</tt>). The second position must be at least 1L to the right of and at least 1L below the first position. Within the file, the <tt>name</tt> must be unique, and may be used later to refer to this specific absorber.</dd>
+
+
+
+  <dt><a id="file-format-semantics-ball" name="file-format-semantics-ball"></a></dt>
+
+
+
+  <dd>
+
+
+    
+    
+    
+    <blockquote><code>"Ball" (IDENTIFIER name) (FLOAT x) (FLOAT y) (FLOAT vx) (FLOAT vy)</code></blockquote>
+
+
+
+
+
+
+  </dd>
+
+
+
+  <dd>Creates a ball whose center is (<tt>x</tt>,<tt>y</tt>) and whose velocity is (<tt>vx</tt>,<tt>vy</tt>). Within the file, the <tt>name</tt> must be unique, and may be used later to refer to this specific ball.</dd>
+
+
+
+  <dt><a id="file-format-semantics-rotate" name="file-format-semantics-rotate"></a></dt>
+
+
+
+  <dd>
+
+
+    
+    
+    
+    <blockquote><code>"Rotate" (IDENTIFIER name)</code></blockquote>
+
+
+
+
+
+
+  </dd>
+
+
+
+  <dd>Performs a 90 degree clockwise rotation on the item named <tt>name</tt>.
+Note that some items (like the absorber, outer walls, or balls) can not
+be rotated. Rotating a flipper does not change its bounding box but
+does change its pivot.</dd>
+
+
+
+  <dt><a id="file-format-semantics-delete" name="file-format-semantics-delete"></a></dt>
+
+
+
+  <dd>
+
+
+    
+    
+    
+    <blockquote><code>"Delete" (IDENTIFIER name)</code></blockquote>
+
+
+
+
+
+
+  </dd>
+
+
+
+  <dd>Deletes the item named <tt>name</tt>. After this operation, the item will no longer exist.</dd>
+
+
+
+  <dt><a id="file-format-semantics-move" name="file-format-semantics-move"></a></dt>
+
+
+
+  <dd>
+
+
+    
+    
+    
+    <blockquote><code>"Move" (IDENTIFIER name) (INTEGER x) (INTEGER y)<br>
+
+
+
+
+
+
+"Move" (IDENTIFIER name) (FLOAT x) (FLOAT y)</code></blockquote>
+
+
+
+
+
+
+  </dd>
+
+
+
+  <dd>In the first form, moves the gizmo with the given name so that its upper-left corner is at (<tt>x</tt>,<tt>y</tt>). In the second form, moves the ball with the given name so that its center is at (<tt>x</tt>,<tt>y</tt>).</dd>
+
+
+
+  <dt><a id="file-format-semantics-connect" name="file-format-semantics-connect"></a></dt>
+
+
+
+  <dd>
+
+
+    
+    
+    
+    <blockquote><code>"Connect" (IDENTIFIER producer) (IDENTIFIER consumer)</code></blockquote>
+
+
+
+
+
+
+  </dd>
+
+
+
+  <dd>Makes the gizmo named by <tt>consumer</tt> a consumer of the
+triggers produced by the gizmo described by producer. That is, every
+time a ball hits the producer, the consumer's action will happen.</dd>
+
+
+
+  <dt><a id="file-format-semantics-keyconnect" name="file-format-semantics-keyconnect"></a></dt>
+
+
+
+  <dd>
+
+
+    
+    
+    
+    <blockquote><code>"KeyConnect" "key" (KEYNUM num) "down" (IDENTIFIER consumer)<br>
+
+
+
+
+
+
+"KeyConnect" "key" (KEYNUM num) "up" (IDENTIFIER consumer)</code></blockquote>
+
+
+
+
+
+
+  </dd>
+
+
+
+  <dd>Makes the item named by <tt>consumer</tt> a consumer of the trigger produced when the key represented by <tt>num</tt> is pressed (or released, respectively).</dd>
+
+
+
+  <dt><a id="file-format-semantics-gravity" name="file-format-semantics-gravity"></a></dt>
+
+
+
+  <dd>
+
+
+    
+    
+    
+    <blockquote><code>"Gravity" (FLOAT g)</code></blockquote>
+
+
+
+
+
+
+  </dd>
+
+
+
+  <dd>Changes the gravity of the board to be <tt>g</tt>L/sec<sup>2</sup> in the downward direction. This command overrides any previous setting of gravity. If no <tt>Gravity</tt> command appears in the file the <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#gravity-default-value">default value</a> should be used.</dd>
+
+
+
+  <dt><a id="file-format-semantics-friction" name="file-format-semantics-friction"></a></dt>
+
+
+
+  <dd>
+
+
+    
+    
+    
+    <blockquote><code>"Friction" (FLOAT mu) (FLOAT mu2)</code></blockquote>
+
+
+
+
+
+
+  </dd>
+
+
+
+  <dd>Changes the global friction constants to be <tt>mu</tt> and <tt>mu2</tt> as described in the <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#friction-formula">friction formula</a>. This command overrides any previous setting of friction. If no <tt>Friction</tt> command appears in the file the <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/Gizmoball_spec.htm#friction-default-values">default values</a> should be use</dd>
+
+
+
+</dl>
+
+
+
+</span></span><span id="Bodycopy1"><span><code></code></span></span></div>
+
+
+
+<hr style="font-family: Arial;">
+
+<h1 style="font-family: Arial;"><a name="physics"></a>Appendix 3: The physics package</h1>
+
+
+
+
+<p style="font-family: Arial;">The provided physics library consists of
+immutable abstract data types such as
+<a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/physics/Angle.html"><code>Angle</code></a>, <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/physics/Vect.html"><code>Vect</code></a>, <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/physics/LineSegment.html"><code>LineSegment</code></a>,
+and
+<a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/physics/Circle.html"><code>Circle</code></a>,
+as well as a class
+<a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/physics/Geometry.html"><code>Geometry</code></a>
+that contains static
+methods to model the physics of elastic collisions between balls and
+other circles and line segments. You are advised to use this code.
+</p>
+
+
+
+
+<p style="font-family: Arial;">Documentation for the physics package can be found in
+<a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/physics/package-summary.html">here</a>.
+</p>
+
+
+
+
+<p style="font-family: Arial;">A zip file containing all the Java source code for the physics library can be found <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/physics.zip">here</a>.
+The jar file of the code is available <a href="https://personal.cis.strath.ac.uk/murray.wood/Gizmoball/gizmo.jar">here</a>.
+
+While this source is provided in the event that you wish to examine or
+modify it, we strongly discourage you from modifying it. In the past,
+students who have not used the physics library as-is have had poor
+results on their projects.
+</p>
+
+
+
+<hr style="width: 100%; height: 2px; font-family: Arial;"><small style="font-family: Arial;"><a href="http://web.mit.edu/" class="first">Massachusetts Institute of Technology © 2005 MIT</a><br>
+
+
+
+
+<a href="http://ocw.mit.edu/OcwWeb/Global/terms-of-use.htm">Legal Notices</a></small>
+
+
+</body></html>
